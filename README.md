@@ -1,4 +1,5 @@
 
+
 ## Property Management Portal
  
 Property management portal is a web-based java project where house owners, and customers can exchange information effectively and inexpensively. This system provides a user-friendly interface, satisfying the needs of the consumers. 
@@ -37,6 +38,8 @@ Dashboard Page for landlords:
 * Admin can manage tenants and landlords.
 *  Admin can Activate/Deactivate landlords and tenants.
 * Admin can reset passwords.
+* Tenants and landlords can rest their password.
+	* Users should follow a password reset link.
 * Create charts for followings:
 	* Total income per location. (Pie chart)
 	* Number of properties rented in a week per each day. (Line Chart)
@@ -52,7 +55,7 @@ You can pass with a Honor Grade by completing all extra features.
 |<font size="3">Use OAuth 2.0 and OpenId for authorization and authentication with KeyCloak.</font> |2 points|
 |<font size="3">Send notifications. Refer to notifications.</font> |1 point|
 |<font size="3">Create a deployment-ready docker image.</font> |1 point|
-|<font size="3">Allow users to reset thier passwords. Users should follow a password reset link. </font> |1 point|
+
 
 #### Notifications
 ---
@@ -61,6 +64,9 @@ You can pass with a Honor Grade by completing all extra features.
 
 #### Sample Domain Models
 ---
+
+Followings are the sample domain models. You might need to modify them and create more domain models.
+
 Property: 
 ``` 
 propertyName: String
@@ -90,23 +96,18 @@ LastLoggedInAt: Datetime
 active: Boolean
 ```
 
-Tenant:
-```
-rentedProperties: List<Property>
-```
-
-Landlord:
-```
-ownedProperties: List<Property>
-```
 
 
 #### Technical Details
 ---
+* Use Java and Spring Boot framework for the backend project.
+* Use React framework for the frontend project.
 * Use n-tier software architecture model.
 * Use DTOs.
 * PostgreSQL is recommended as a Relational Database system.
 * Populate your database with dummy data using `data.sql`.
+* If necessary, change isolation levels.
+* If necessary, change Fetch mode.
 
 
 #### Submission
