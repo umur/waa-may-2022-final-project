@@ -111,6 +111,7 @@ active: Boolean
 
 
 #### Submission
+---
 * Submit a detailed project plan for your daily performance (day/task/time) and submit it with your code.
 * Fork this repository and push your changes.
 * Once you finished your project, send a Pull Request. (Send only one Pull Request once you finish the assignment.)
