@@ -20,7 +20,7 @@ function App() {
     <AuthContext.Provider value={authContext}>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/:id" element={<PropertyDetail />} />
+        <Route path="/property/:id" element={<PropertyDetail />} />
         <Route
           path="/list"
           element={
