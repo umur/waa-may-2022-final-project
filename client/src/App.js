@@ -20,6 +20,7 @@ function App() {
   // FIXME: Use for testing purpose
   useEffect(() => {
     localStorage.setItem("token", "sample token");
+    setRole("admin")
   }, []);
 
   return (
