@@ -1,0 +1,1 @@
+INSERT INTO property_type(name) VALUES('Single-Family Homes'), ('Multifamily Homes'), ('Apartments'), ('Condominiums'), ('Tiny Home ');
