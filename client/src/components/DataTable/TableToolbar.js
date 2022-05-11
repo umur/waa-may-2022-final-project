@@ -4,6 +4,10 @@ import PropTypes from 'prop-types';
 const TableToolbar = (props) => {
   const { title } = props;
 
+  if (!title) {
+    return;
+  }
+  
   return (
     <Toolbar
       sx={{

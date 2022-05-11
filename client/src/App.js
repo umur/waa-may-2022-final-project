@@ -8,6 +8,8 @@ import AuthWrapper from "./auth/AuthWrapper";
 import ROLE from "./auth/Role";
 import PropertyDetail from "./pages/PropertyDetail";
 import Dashboard from './pages/admin/Dashboard';
+import Tenants from './pages/admin/tenant/Tenants';
+import NewTenant from './pages/admin/tenant/NewTenant';
 
 function App() {
   const [isSignedIn, setSignedIn] = useState(
@@ -41,6 +43,22 @@ function App() {
           element={
             <AuthWrapper role={[ROLE.Admin]}>
               <Dashboard />
+            </AuthWrapper>
+          }
+        />
+        <Route
+          path="/admin/tenants"
+          element={
+            <AuthWrapper role={[ROLE.Admin]}>
+              <Tenants />
+            </AuthWrapper>
+          }
+        />
+        <Route
+          path="/admin/tenants/new"
+          element={
+            <AuthWrapper role={[ROLE.Admin]}>
+              <NewTenant />
             </AuthWrapper>
           }
         />

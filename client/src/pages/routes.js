@@ -7,6 +7,7 @@ import AssignmentIcon from "@mui/icons-material/Assignment";
 import ContactMailIcon from "@mui/icons-material/ContactMail";
 import HouseIcon from "@mui/icons-material/House";
 import HistoryIcon from '@mui/icons-material/History';
+import ROLE from '../auth/Role';
 
 export const adminRoutes = [
   {
@@ -73,15 +74,15 @@ export const tenantRoutes = [
 ]
 
 export function getRoute(role) {
-  if (role === 'admin') {
+  if (role === ROLE.Admin) {
     return adminRoutes;
   }
 
-  if (role === 'landlord') {
+  if (role === ROLE.Landlord) {
     return landlordRoutes;
   }
 
-  if (role === 'tenant') {
+  if (role === ROLE.Tenant) {
     return tenantRoutes;
   }
 
