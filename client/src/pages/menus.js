@@ -11,12 +11,12 @@ import LayersIcon from "@mui/icons-material/Layers";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import ContactMailIcon from "@mui/icons-material/ContactMail";
 import HouseIcon from "@mui/icons-material/House";
-import { Link } from "@mui/material";
+import { Link } from 'react-router-dom';
 
 export const mainMenu = (routes) => {
   return <React.Fragment>
     {routes.map(r => (
-      <Link key={r.route} href={r.route} underline="none" color="inherit">
+      <Link key={r.route} to={r.route} style={{ textDecoration: 'none', color: 'inherit' }}>
         <ListItemButton>
           <ListItemIcon>
             {r.icon}
