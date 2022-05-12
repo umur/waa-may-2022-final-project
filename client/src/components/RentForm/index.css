@@ -1,0 +1,12 @@
+.rent-form {
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+.date-picker {
+  z-index: 1000;
+  margin-top: -50px;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+.rent-form .content {
+  display: flex;
+  flex-direction: row;
+}
