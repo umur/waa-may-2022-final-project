@@ -76,8 +76,7 @@ const StyledText = styled.p`
   min-width: 3rem;
 `;
 
-function StatusView(props) {
-  const { size, title, variant, ...rest } = props;
+function StatusView({ size, title, variant, ...rest }) {
 
   return (
     <StyledBox variant={variant} {...rest}>

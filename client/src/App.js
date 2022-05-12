@@ -12,6 +12,7 @@ import Tenants from "./pages/admin/tenant/Tenants";
 import NewTenant from "./pages/admin/tenant/NewTenant";
 import { ThemeProvider } from "@mui/material/styles";
 import { theme } from "./theme";
+import Tenant from './pages/admin/tenant/Tenant';
 
 function App() {
   const [isSignedIn, setSignedIn] = useState(
@@ -54,6 +55,14 @@ function App() {
             element={
               <AuthWrapper role={[ROLE.Admin]}>
                 <Tenants />
+              </AuthWrapper>
+            }
+          />
+          <Route
+            path="/admin/tenants/:id"
+            element={
+              <AuthWrapper role={[ROLE.Admin]}>
+                <Tenant />
               </AuthWrapper>
             }
           />

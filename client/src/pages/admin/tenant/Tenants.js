@@ -134,6 +134,8 @@ function Tenants(props) {
     setSelected(newSelected);
 
     console.log('click ', row)
+
+    navigate(`/admin/tenants/${row.id}`)
   };
 
   const handleChangePage = (event, newPage) => {
