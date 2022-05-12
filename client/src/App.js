@@ -7,9 +7,11 @@ import List from "./pages/List";
 import AuthWrapper from "./auth/AuthWrapper";
 import ROLE from "./auth/Role";
 import PropertyDetail from "./pages/PropertyDetail";
-import Dashboard from './pages/admin/Dashboard';
-import Tenants from './pages/admin/tenant/Tenants';
-import NewTenant from './pages/admin/tenant/NewTenant';
+import Dashboard from "./pages/admin/Dashboard";
+import Tenants from "./pages/admin/tenant/Tenants";
+import NewTenant from "./pages/admin/tenant/NewTenant";
+import { ThemeProvider } from "@mui/material/styles";
+import { theme } from "./theme";
 
 function App() {
   const [isSignedIn, setSignedIn] = useState(
@@ -22,48 +24,50 @@ function App() {
   // FIXME: Use for testing purpose
   useEffect(() => {
     localStorage.setItem("token", "sample token");
-    setRole(ROLE.Admin)
+    setRole(ROLE.Admin);
   }, []);
 
   return (
-    <AuthContext.Provider value={authContext}>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/property/:id" element={<PropertyDetail />} />
-        <Route
-          path="/list"
-          element={
-            <AuthWrapper role={[ROLE.User]}>
-              <List />
-            </AuthWrapper>
-          }
-        />
-        <Route
-          path="/admin"
-          element={
-            <AuthWrapper role={[ROLE.Admin]}>
-              <Dashboard />
-            </AuthWrapper>
-          }
-        />
-        <Route
-          path="/admin/tenants"
-          element={
-            <AuthWrapper role={[ROLE.Admin]}>
-              <Tenants />
-            </AuthWrapper>
-          }
-        />
-        <Route
-          path="/admin/tenants/new"
-          element={
-            <AuthWrapper role={[ROLE.Admin]}>
-              <NewTenant />
-            </AuthWrapper>
-          }
-        />
-      </Routes>
-    </AuthContext.Provider>
+    <ThemeProvider theme={theme}>
+      <AuthContext.Provider value={authContext}>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/property/:id" element={<PropertyDetail />} />
+          <Route
+            path="/list"
+            element={
+              <AuthWrapper role={[ROLE.User]}>
+                <List />
+              </AuthWrapper>
+            }
+          />
+          <Route
+            path="/admin"
+            element={
+              <AuthWrapper role={[ROLE.Admin]}>
+                <Dashboard />
+              </AuthWrapper>
+            }
+          />
+          <Route
+            path="/admin/tenants"
+            element={
+              <AuthWrapper role={[ROLE.Admin]}>
+                <Tenants />
+              </AuthWrapper>
+            }
+          />
+          <Route
+            path="/admin/tenants/new"
+            element={
+              <AuthWrapper role={[ROLE.Admin]}>
+                <NewTenant />
+              </AuthWrapper>
+            }
+          />
+        </Routes>
+      </AuthContext.Provider>
+    </ThemeProvider>
   );
 }
 

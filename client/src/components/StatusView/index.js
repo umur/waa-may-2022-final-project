@@ -45,8 +45,8 @@ const variants = {
     color: 'rgb(183, 33, 54)'
   },
   [StatusVariants.pending]: {
-    backgroundColor: '#dfdfe1',
-    color: '#9e9e9e'
+    backgroundColor: 'rgb(255, 248, 225)',
+    color: 'rgb(255, 193, 7)'
   },
 }
 

@@ -66,8 +66,6 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
   }),
 );
 
-const mdTheme = createTheme();
-
 function Layout(props) {
   const { title, children } = props;
 
@@ -79,7 +77,6 @@ function Layout(props) {
   };
 
   return (
-    <ThemeProvider theme={mdTheme}>
       <Box sx={{ display: 'flex' }}>
         <CssBaseline />
         <AppBar position="absolute" open={open}>
@@ -156,7 +153,6 @@ function Layout(props) {
           </Container>
         </Box>
       </Box>
-    </ThemeProvider>
   );
 }
 

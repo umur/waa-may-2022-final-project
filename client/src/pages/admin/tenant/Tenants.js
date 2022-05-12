@@ -8,6 +8,8 @@ import Layout from "../Layout";
 import { useNavigate } from "react-router-dom";
 import StatusView from '../../../components/StatusView';
 import AddIcon from '@mui/icons-material/Add';
+import { ColumnTypes, RowActions } from '../../../components/DataTable/RowActions';
+import Action from '../../../components/DataTable/Action';
 
 function generateRow(index) {
   return {
@@ -16,6 +18,7 @@ function generateRow(index) {
     date: `${faker.date.past()}`,
     streetName: faker.address.streetName(),
     status: faker.datatype.boolean(),
+    actions: [RowActions.activate, RowActions.deactivate],
   };
 }
 
@@ -62,10 +65,27 @@ function Tenants(props) {
         label: "Status",
         align: "left",
         renderCell: (data) => {
-          const status = data.value ? "active" : "inactive"
+          const status = data.value ? "active" : "pending"
           return <StatusView title={status} variant={status} />
         }
       },
+      {
+        id: "actions",
+        label: "Actions",
+        type: ColumnTypes.actions,
+        renderCell: (data) => {
+          const actions = data.value;
+          const row = data.row;
+          
+          const buttons = actions.map(a => {
+            return <Action onClick={() => onAction(a, row)} text={a} color={a} key={`${a}_${row.id}`} />
+          })
+
+          return <Grid container spacing={1}>
+            {buttons}
+          </Grid>
+        }
+      }
     ],
     []
   );
@@ -93,7 +113,8 @@ function Tenants(props) {
     setOrderBy(property);
   };
 
-  const handleClick = (event, name) => {
+  const handleClick = (event, row) => {
+    const name = row.name;
     const selectedIndex = selected.indexOf(name);
     let newSelected = [];
 
@@ -111,6 +132,8 @@ function Tenants(props) {
     }
 
     setSelected(newSelected);
+
+    console.log('click ', row)
   };
 
   const handleChangePage = (event, newPage) => {
@@ -129,10 +152,21 @@ function Tenants(props) {
     setKeywords(keywords);
   }
 
+  /* -------------------------------------------------------------------------- */
+  /*                                 New tenant                                 */
+  /* -------------------------------------------------------------------------- */
   const navigate = useNavigate();
 
   const addTenant = () => {
     navigate('/admin/tenants/new')
+  }
+
+  /* -------------------------------------------------------------------------- */
+  /*                                   Actions                                  */
+  /* -------------------------------------------------------------------------- */
+  const onAction = (action, row) => {
+    // TODO: handle action
+    console.log(action, row)
   }
 
   return (
