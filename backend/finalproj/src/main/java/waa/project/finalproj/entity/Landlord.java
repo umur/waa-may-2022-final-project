@@ -1,5 +1,6 @@
-package waa.project.finalproj.model;
+package waa.project.finalproj.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,12 +23,13 @@ public class Landlord {
     private String firstname;
     private String lastname;
     private boolean active;
-    private LocalDate deleted_at;
+    private LocalDate deletedAt;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private User user;
 
     @OneToMany(mappedBy = "landlord")
+    @JsonManagedReference(value = "houses")
     private List<House> house;
 }

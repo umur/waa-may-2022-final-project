@@ -1,4 +1,4 @@
-package waa.project.finalproj.model;
+package waa.project.finalproj.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -22,9 +22,9 @@ public class Tenant {
     private String firstname;
     private String lastname;
     private boolean active;
-    private LocalDate deleted_at;
+    private LocalDate deletedAt;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private User userId;
 

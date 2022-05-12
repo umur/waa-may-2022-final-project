@@ -1,5 +1,6 @@
-package waa.project.finalproj.model;
+package waa.project.finalproj.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,13 +13,13 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "photos")
-public class Photo {
+public class PropertyType {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
 
-    @ManyToOne
+    @OneToOne(mappedBy = "propertyType")
+    @JsonManagedReference
     private House house;
 }

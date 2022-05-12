@@ -1,5 +1,6 @@
-package waa.project.finalproj.model;
+package waa.project.finalproj.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,5 +30,6 @@ public class Rent {
     private List<Payment> payment;
 
     @ManyToOne
+    @JsonBackReference
     private House house;
 }

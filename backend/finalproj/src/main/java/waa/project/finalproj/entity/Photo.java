@@ -1,5 +1,6 @@
-package waa.project.finalproj.model;
+package waa.project.finalproj.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,12 +13,15 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class PropertyType {
+@Table(name = "photos")
+public class Photo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
+    private String path;
 
-    @OneToOne(mappedBy = "propertyType")
+    @ManyToOne
+    @JsonBackReference
     private House house;
 }

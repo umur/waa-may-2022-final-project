@@ -1,4 +1,4 @@
-package waa.project.finalproj.model;
+package waa.project.finalproj.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,16 +21,17 @@ public class User {
     private int id;
     private String email;
     private String password;
-    private boolean active;
-    private LocalDate deleted_at;
+    private boolean active = true;
+    private LocalDate deletedAt;
     private LocalDateTime LastLoggedInAt;
+    private String role;
 
-    @OneToOne(mappedBy = "user")
-    private Landlord landlord;
+//    @OneToOne(mappedBy = "user")
+//    private Landlord landlord;
 
-    @OneToOne(mappedBy = "user")
-    private Admin admin;
+//    @OneToOne(mappedBy = "user")
+//    private Admin admin;
 
-    @OneToOne(mappedBy = "userId")
-    private Tenant tenant;
+//    @OneToOne(mappedBy = "userId")
+//    private Tenant tenant;
 }

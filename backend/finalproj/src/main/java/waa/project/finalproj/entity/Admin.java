@@ -1,4 +1,4 @@
-package waa.project.finalproj.model;
+package waa.project.finalproj.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,16 +13,17 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "payments")
-public class Payment {
+@Table(name = "admins")
+public class Admin {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private double amount;
-    private LocalDate date;
-    private LocalDate referentDate;
+    private String firstname;
+    private String lastname;
+    private boolean active = true;
+    private LocalDate deletedAt;
 
-    @ManyToOne
-    @JoinColumn(name = "rent_id")
-    private Rent rent;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id")
+    private User user;
 }
