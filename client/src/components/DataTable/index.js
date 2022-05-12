@@ -44,7 +44,10 @@ const DataTable = function index(props) {
                       role="selection" 
                       tabIndex={-1} 
                       key={row.id}
-                      onClick={(event) => handleClick(event, row.name)}
+                      onClick={(event) => {
+                        event.stopPropagation()
+
+                        handleClick(event, row)}}
                       >
                     {columns.map((column) => {
                       const value = row[column.id];
@@ -52,7 +55,7 @@ const DataTable = function index(props) {
                       if (column.renderCell) {
                         return (
                           <TableCell key={column.id} align={column.align}>
-                            {column.renderCell({ value })}
+                            {column.renderCell({ value, row })}
                           </TableCell>
                         ); 
                       }
