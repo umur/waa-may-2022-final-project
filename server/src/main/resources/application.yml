@@ -1,0 +1,33 @@
+
+
+spring:
+  application:
+    name: spring-security
+  datasource:
+    password: postgres
+    url: jdbc:postgresql://localhost:5432/test
+    username: postgres
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+    show-sql: true
+    defer-datasource-initialization: true
+  sql:
+    init:
+      mode: always
+  mail:
+    host: smtp.gmail.com
+    username: pms.waa@gmail.com
+    password: pms.waa.password
+    port: 587
+    properties:
+      mail:
+        smtp:
+          starttls:
+            enable=true
+server:
+  port: 8080
