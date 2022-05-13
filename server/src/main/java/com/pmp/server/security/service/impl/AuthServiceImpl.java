@@ -2,6 +2,7 @@ package com.pmp.server.security.service.impl;
 
 import java.util.*;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.SecurityContext;
 
 import com.pmp.server.domain.User;
 import com.pmp.server.dto.LoginDTO;
@@ -12,6 +13,8 @@ import com.pmp.server.exceptionHandler.exceptions.CustomErrorException;
 import com.pmp.server.repo.UserRepo;
 import com.pmp.server.service.impl.UserServiceImpl;
 import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
+import org.keycloak.KeycloakPrincipal;
+import org.keycloak.KeycloakSecurityContext;
 import org.keycloak.OAuth2Constants;
 import org.keycloak.admin.client.CreatedResponseUtil;
 import org.keycloak.admin.client.Keycloak;
@@ -29,6 +32,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.pmp.server.dto.UserDTO;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import static com.pmp.server.utils.constants.ResponseMessageConstants.*;
@@ -82,7 +87,7 @@ public class AuthServiceImpl {
       userRS.setLastName(userDTO.getLastName());
       userRS.setGender(userDTO.getGender());
       userRS.setPassword(userDTO.getPassword());
-      userRS.setKeyCloakId(UUID.fromString(userId));
+      userRS.setId(UUID.fromString(userId));
       userRS.setActive(true);
 
       userService.saveUser(userRS);
@@ -142,6 +147,14 @@ public class AuthServiceImpl {
 
   public ResponseMessage updateUser(UUID id, UpdateUserDTO updateUserDTO) {
 
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    if(authentication != null){
+      if(authentication.getPrincipal() instanceof KeycloakPrincipal){
+        KeycloakPrincipal<KeycloakSecurityContext> kp = (KeycloakPrincipal<KeycloakSecurityContext>) authentication.getPrincipal();
+        String uuid = kp.getKeycloakSecurityContext().getToken().getId();
+      }
+    }
+
     Keycloak keycloak = getKeyCloak();
     Optional<User> user = userRepo.findById(id);
     if (user.isPresent()) {
@@ -150,7 +163,7 @@ public class AuthServiceImpl {
       u.setFirstName(updateUserDTO.getFirstName());
 
       try {
-        var userResource = keycloak.realm(realm).users().get(u.getKeyCloakId().toString());
+        var userResource = keycloak.realm(realm).users().get(u.getId().toString());
         var userPresentation = userResource.toRepresentation();
         userPresentation.setFirstName(updateUserDTO.getFirstName());
         userPresentation.setLastName(updateUserDTO.getLastName());
@@ -176,12 +189,15 @@ public class AuthServiceImpl {
     Optional<User> user = userRepo.findById(id);
     if (user.isPresent()) {
       try {
-        var userResource = keycloak.realm(realm).users().get(user.get().getKeyCloakId().toString());
+        var userResource = keycloak.realm(realm).users().get(id.toString());
         CredentialRepresentation cr = new CredentialRepresentation();
         cr.setType(CredentialRepresentation.PASSWORD);
         cr.setValue(resetPasswordDTO.getPassword());
         cr.setTemporary(false);
         userResource.resetPassword(cr);
+
+        user.get().setPassword(resetPasswordDTO.getPassword());
+        userService.saveUser(user.get());
         return new ResponseMessage(SUCCESSFULLY_UPDATED, HttpStatus.OK, "Password updated successfully");
       } catch (Exception e) {
         log.error(e.getMessage());

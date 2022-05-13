@@ -1,7 +1,7 @@
 
 keycloak:
-  realm: Pmp-realm
-  auth-server-url: http://localhost:8080/auth
+  realm: pmp-realm
+  auth-server-url: http://localhost:8080
   ssl-required: external
   #keycloak resource is the client ID
   resource: pmp-client
@@ -11,6 +11,7 @@ keycloak:
   bearer-only: true
   credentials:
     secret: Bhw120rFFBSVLciCuictWw5wOuSbJmu2
+  public-client: true
 
 
 #  securityConstraints:

@@ -37,9 +37,11 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
       sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests()
       .antMatchers("/api/auth/login").permitAll()
       .antMatchers("/api/auth/register").permitAll()
+      .antMatchers("/api/admin").hasAuthority("ROLE_ADMIN")
       .anyRequest().authenticated();
 
   }
+
 
   @Override
   protected SessionAuthenticationStrategy sessionAuthenticationStrategy() {

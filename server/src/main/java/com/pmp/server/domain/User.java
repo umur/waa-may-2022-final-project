@@ -37,8 +37,8 @@ public class User extends BaseEntity {
   @JoinColumn(name = "role_id")
   private Role role;
 
-  @Column(name = "keycloak_id")
-  private UUID keyCloakId;
+//  @Column(name = "keycloak_id")
+//  private UUID keyCloakId;
 
 }
 
