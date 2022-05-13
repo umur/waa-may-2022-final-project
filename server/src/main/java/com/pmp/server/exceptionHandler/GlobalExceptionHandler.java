@@ -1,6 +1,8 @@
 package com.pmp.server.exceptionHandler;
 
 import com.pmp.server.dto.common.ResponseMessage;
+import com.pmp.server.exception.ErrorResourceException;
+import com.pmp.server.exception.UserNotFoundException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -43,5 +45,11 @@ public class GlobalExceptionHandler {
     });
 
     return new ResponseEntity<>(new ResponseMessage(UNSUCCESSFUL_MESSAGE, HttpStatus.INTERNAL_SERVER_ERROR, errors), new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
+  }
+
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  @ExceptionHandler(UserNotFoundException.class)
+  ResponseEntity<Object> handleException(UserNotFoundException ex){
+    return new ResponseEntity<>(new ResponseMessage(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR, null), new HttpHeaders(), HttpStatus.BAD_REQUEST);
   }
 }

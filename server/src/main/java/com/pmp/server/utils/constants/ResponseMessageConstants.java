@@ -10,7 +10,10 @@ public class ResponseMessageConstants {
   public static final String CANCELLED_MESSAGE = "Reservation is already Cancelled you can't purchase!!!";
   public static final String DATA_NOT_FOUND_TO_UPDATE = "Data not found to update";
   public static final String DATA_NOT_FOUND_TO_DELETE = "Data not found to delete";
+  public static final String USER_NOT_FOUND_TO_UPDATE = "User not found to update";
+
   public static final String UNSUCCESSFUL_MESSAGE = "Opps!! Something went wrong. Please try again.";
+
 
   public ResponseMessageConstants() {
   }

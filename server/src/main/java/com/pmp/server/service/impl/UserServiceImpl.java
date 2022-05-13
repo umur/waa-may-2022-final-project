@@ -4,8 +4,11 @@ import com.pmp.server.domain.Role;
 import com.pmp.server.domain.User;
 import com.pmp.server.dto.common.PagingRequest;
 import com.pmp.server.dto.common.ResponseMessage;
+import com.pmp.server.exception.ErrorResourceException;
+import com.pmp.server.exception.UserNotFoundException;
 import com.pmp.server.repo.UserRepo;
 import com.pmp.server.service.UserService;
+import com.pmp.server.utils.constants.ResponseMessageConstants;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -16,6 +19,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.function.Supplier;
 
 import static com.pmp.server.utils.constants.ResponseMessageConstants.*;
 
@@ -64,5 +68,19 @@ public class UserServiceImpl implements UserService {
   @Override
   public Page<User> getAllByRoleIdAndKeywords(Pageable pageable, Role role, String keywords) {
     return userRepo.findAllWithJPQL(role.getId(), keywords, pageable);
+  }
+
+  @Override
+  public User updateUserStatus(UUID id, boolean isActive) throws Throwable {
+    var user = userRepo.findById(id).orElseThrow(new Supplier<Throwable>() {
+      @Override
+      public Throwable get() {
+        return new UserNotFoundException(USER_NOT_FOUND_TO_UPDATE);
+      }
+    });
+
+    user.setActive(isActive);
+    userRepo.save(user);
+    return user;
   }
 }

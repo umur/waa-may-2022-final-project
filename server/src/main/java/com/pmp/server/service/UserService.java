@@ -20,4 +20,6 @@ public interface UserService {
   Page<User> getAllUserByRole(Pageable pageable, Role role);
 
   Page<User> getAllByRoleIdAndKeywords(Pageable pageable, Role role, String keywords);
+
+  User updateUserStatus(UUID id, boolean isActive) throws Throwable;
 }

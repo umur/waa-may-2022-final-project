@@ -4,14 +4,17 @@ import com.google.common.base.CaseFormat;
 import com.pmp.server.domain.Role;
 import com.pmp.server.domain.User;
 import com.pmp.server.dto.APIResponse;
+import com.pmp.server.exception.UserNotFoundException;
 import com.pmp.server.service.RoleService;
 import com.pmp.server.service.UserService;
 import com.pmp.server.utils.enums.ERole;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @RestController
@@ -51,6 +54,20 @@ public class AdminController {
 
         var data = userService.getAllByRoleIdAndKeywords(daoPageable, role, keywords);
         return new APIResponse<>(data);
+    }
+
+    @PutMapping("/users/{id}/deactivate")
+    public ResponseEntity<User> deactivateUser(@PathVariable UUID id) throws Throwable {
+        var user = userService.updateUserStatus(id, false);
+
+        return ResponseEntity.ok(user);
+    }
+
+    @PutMapping("/users/{id}/activate")
+    public ResponseEntity<User> activateUser(@PathVariable UUID id) throws Throwable {
+        var user = userService.updateUserStatus(id, true);
+
+        return ResponseEntity.ok(user);
     }
 
     private Sort convertDtoSortToDaoSort(Sort dtoSort) {
