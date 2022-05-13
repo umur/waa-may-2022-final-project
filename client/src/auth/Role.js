@@ -1,7 +1,6 @@
 const ROLE = {
-  Admin: "Admin",
-  User: "User",
-  Landlord: "Landlord",
-  Tenant: "Tenant",
+  Admin: "ROLE_ADMIN",
+  Landlord: "ROLE_LANDLORD",
+  Tenant: "ROLE_TENANT",
 };
 export default ROLE;

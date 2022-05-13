@@ -12,7 +12,7 @@ import Tenants from "./pages/admin/tenant/Tenants";
 import NewTenant from "./pages/admin/tenant/NewTenant";
 import { ThemeProvider } from "@mui/material/styles";
 import { theme } from "./theme";
-import Tenant from './pages/admin/tenant/Tenant';
+import Tenant from "./pages/admin/tenant/Tenant";
 
 function App() {
   const [isSignedIn, setSignedIn] = useState(
@@ -20,13 +20,8 @@ function App() {
   );
   const [user, setUser] = useState(null);
   const [role, setRole] = useState("User");
-  const authContext = { isSignedIn, setSignedIn, user, setUser, role, setRole };
 
-  // FIXME: Use for testing purpose
-  useEffect(() => {
-    localStorage.setItem("token", "sample token");
-    setRole(ROLE.Admin);
-  }, []);
+  const authContext = { isSignedIn, setSignedIn, user, setUser, role, setRole };
 
   return (
     <ThemeProvider theme={theme}>
@@ -37,7 +32,7 @@ function App() {
           <Route
             path="/list"
             element={
-              <AuthWrapper role={[ROLE.User]}>
+              <AuthWrapper role={[ROLE.Tenant]}>
                 <List />
               </AuthWrapper>
             }

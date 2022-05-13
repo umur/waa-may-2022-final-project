@@ -6,18 +6,21 @@ import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import BedIcon from "@mui/icons-material/Bed";
+import ShowerIcon from "@mui/icons-material/Shower";
 
-const Facility = () => {
+const Facility = ({ type, count }) => {
   return (
     <React.Fragment>
       <Box sx={{ minWidth: 200, maxWidth: 200 }}>
         <Card variant="outlined">
           <CardContent>
-            <BedIcon />
+            {type === "bed" ? <BedIcon /> : <ShowerIcon />}
             <Typography sx={{ mb: 1.5 }} color="text.secondary">
-              Bedroom
+              {type === "bed" ? "Bedroom" : "Bathroom"}
             </Typography>
-            <Typography variant="body2">1 bedroom</Typography>
+            <Typography variant="body2">
+              {count} {type === "bed" ? "bedroom" : "bathroom"}
+            </Typography>
           </CardContent>
         </Card>
       </Box>
