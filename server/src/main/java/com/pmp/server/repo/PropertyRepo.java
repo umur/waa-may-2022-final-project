@@ -11,7 +11,6 @@ import java.util.UUID;
 
 @Repository
 public interface PropertyRepo extends PagingAndSortingRepository<Property, UUID> {
-//  List<Property> findAll(Pageable pageable);
 //  List<Property> findAllByPropertyNameLikeIgnoreCaseOrStateLikeIgnoreCaseOrPropertyType(String propertyName, String state, String propertyType, Pageable pageable);
   //SPage<Property> findAllByPropertyName(String name, Pageable pageable);
 }
