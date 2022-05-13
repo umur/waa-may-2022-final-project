@@ -2,6 +2,7 @@ package pro.manage.entity;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.SQLDelete;
 
 import javax.persistence.*;
 
@@ -9,6 +10,7 @@ import javax.persistence.*;
 @Setter
 @Getter
 @RequiredArgsConstructor
+@SQLDelete(sql = "UPDATE adress SET isdeleted = true WHERE id=?")
 public class Address extends  Audit{
 
     @Column(nullable = false)

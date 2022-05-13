@@ -1,12 +1,15 @@
 package pro.manage.entity;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.annotations.SQLDelete;
+
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Data
 @RequiredArgsConstructor
+@SQLDelete(sql = "UPDATE property SET isdeleted = true WHERE id=?")
 public class Property extends  Audit{
 
     private String name;
@@ -23,7 +26,7 @@ public class Property extends  Audit{
     private Address address;
 
     @ManyToOne
-    private Type type;
+    private PropertyType type;
 
     @ManyToOne(cascade = CascadeType.ALL)
     private  Landlord owner;
@@ -32,7 +35,7 @@ public class Property extends  Audit{
     private Tenant lastTenant; //last Tenant rent this property
 
     @OneToMany(mappedBy = "property")
-    private List<Picture> photos;
+    private List<PropertyPicture> photos;
 
 
 }
