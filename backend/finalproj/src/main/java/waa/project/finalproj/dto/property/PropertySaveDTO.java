@@ -4,10 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import waa.project.finalproj.dto.propertyType.PropertyTypeDTO;
-import waa.project.finalproj.dto.user.UserAttrOnlyDTO;
 import waa.project.finalproj.entity.Photo;
-import waa.project.finalproj.entity.Rent;
+import waa.project.finalproj.entity.PropertyType;
+import waa.project.finalproj.entity.User;
 
 import java.util.List;
 
@@ -15,7 +14,7 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class PropertyDTO {
+public class PropertySaveDTO {
     private int id;
     private String name;
     private String street;
@@ -30,10 +29,6 @@ public class PropertyDTO {
     private boolean listed;
 
     private List<Photo> photos;
-
-    private PropertyTypeDTO propertyType;
-
-    private UserAttrOnlyDTO user;
-
-    private List<Rent> rent;
+    private PropertyType propertyType;
+    private User user;
 }

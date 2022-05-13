@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import waa.project.finalproj.dto.property.PropertyDTO;
-import waa.project.finalproj.dto.property.propertySaveDTO;
+import waa.project.finalproj.dto.property.PropertySaveDTO;
 import waa.project.finalproj.entity.Property;
 import waa.project.finalproj.repository.HouseRepository;
 import waa.project.finalproj.service.PropertyService;
@@ -22,7 +22,7 @@ public class PropertyServiceImpl implements PropertyService {
     private final ModelMapper modelMapper;
 
     @Override
-    public void add(propertySaveDTO t) {
+    public void add(PropertySaveDTO t) {
         houseRepository.save(modelMapper.map(t, Property.class));
     }
 
@@ -67,7 +67,6 @@ public class PropertyServiceImpl implements PropertyService {
         var h = houseRepository.findById(id);
 
         return h.isPresent() && h.get().getDeletedAt() == null ? modelMapper.map(h.get(), PropertyDTO.class) : null;
-
     }
 
     @Override

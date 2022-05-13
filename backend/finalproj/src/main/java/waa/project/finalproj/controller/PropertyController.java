@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import waa.project.finalproj.dto.property.PropertyDTO;
-import waa.project.finalproj.dto.property.propertySaveDTO;
+import waa.project.finalproj.dto.property.PropertySaveDTO;
 import waa.project.finalproj.service.PropertyService;
 
 @RestController
@@ -16,7 +16,7 @@ public class PropertyController {
     private final PropertyService propertyService;
 
     @PostMapping
-    public void save(@RequestBody propertySaveDTO h){
+    public void save(@RequestBody PropertySaveDTO h){
         propertyService.add(h);
     }
 

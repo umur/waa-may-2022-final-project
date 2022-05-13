@@ -30,17 +30,13 @@ public class User {
     private LocalDateTime LastLoggedInAt;
     private String role;
 
-//    @OneToOne(mappedBy = "user")
-//    private Landlord landlord;
-
-//    @OneToOne(mappedBy = "user")
-//    private Admin admin;
-
-//    @OneToOne(mappedBy = "userId")
-//    private Tenant tenant;
+    @OneToMany(mappedBy = "user")
+    @JsonManagedReference(value = "rentsUser")
+    private List<Rent> rents;
 
     @OneToMany(mappedBy = "user")
-    private List<Rent> user;
+    @JsonManagedReference(value = "paymentsUser")
+    private List<Payment> payments;
 
     @OneToMany(mappedBy = "user")
     @JsonManagedReference(value = "property")

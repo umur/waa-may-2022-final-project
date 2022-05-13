@@ -23,10 +23,8 @@ public class Rent {
     private LocalDate startDate;
     private LocalDate endDate;
 
-//    @ManyToOne
-//    private Tenant tenantId;
-
     @ManyToOne
+    @JsonBackReference(value = "rentsUser")
     private User user;
 
     @OneToMany(mappedBy = "rent")

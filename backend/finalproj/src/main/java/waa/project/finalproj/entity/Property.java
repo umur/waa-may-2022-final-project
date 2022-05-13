@@ -46,10 +46,6 @@ public class Property {
     @JsonManagedReference(value = "rent")
     private List<Rent> rent;
 
-//    @ManyToOne
-//    @JsonBackReference(value = "houses")
-//    private Landlord landlord;
-
     @ManyToOne
     @JsonBackReference(value = "property")
     private User user;

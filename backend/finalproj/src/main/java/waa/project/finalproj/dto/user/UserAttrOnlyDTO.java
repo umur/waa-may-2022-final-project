@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserWithoutPropertyDTO {
+public class UserAttrOnlyDTO {
     private int id;
     private String email;
     private String password;

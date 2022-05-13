@@ -1,5 +1,6 @@
 package waa.project.finalproj.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,4 +26,8 @@ public class Payment {
     @ManyToOne
     @JoinColumn(name = "rent_id")
     private Rent rent;
+
+    @ManyToOne
+    @JsonBackReference(value = "paymentsUser")
+    private User user;
 }

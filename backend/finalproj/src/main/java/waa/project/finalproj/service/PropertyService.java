@@ -1,12 +1,12 @@
 package waa.project.finalproj.service;
 
 import waa.project.finalproj.dto.property.PropertyDTO;
-import waa.project.finalproj.dto.property.propertySaveDTO;
+import waa.project.finalproj.dto.property.PropertySaveDTO;
 
 import java.util.List;
 
 public interface PropertyService {
-    void add(propertySaveDTO t);
+    void add(PropertySaveDTO t);
     void delete(int id);
     void update(int id, PropertyDTO t);
     List<PropertyDTO> findAll();
