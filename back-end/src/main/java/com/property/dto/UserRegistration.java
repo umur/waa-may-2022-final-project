@@ -1,5 +1,6 @@
 package com.property.dto;
 
+import com.property.domain.Role;
 import lombok.Data;
 
 @Data
@@ -9,7 +10,7 @@ public class UserRegistration {
 
     private String lastName;
 
-    private String role;
+    private Role role;
 
     private String email;
 
