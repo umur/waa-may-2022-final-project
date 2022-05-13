@@ -13,11 +13,14 @@ public class APIResponse<T> {
   long total;
   int pageSize;
   int current;
+
+  int totalPage;
   List<T> data;
   public APIResponse(Page page){
     this.total = page.getTotalElements();
     this.pageSize = page.getPageable().getPageSize();
     this.current = page.getPageable().getPageNumber();
     this.data = page.getContent();
+    this.totalPage = page.getTotalPages();
   }
 }
