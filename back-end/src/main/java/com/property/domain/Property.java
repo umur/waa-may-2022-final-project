@@ -31,10 +31,10 @@ public class Property {
     private List<Photo> photos;
 
     @ManyToOne
-    private LandLord landLord;
+    private User landLord;
 
     @ManyToOne
-    private Tenant tenant;
+    private User tenant;
 
 
 

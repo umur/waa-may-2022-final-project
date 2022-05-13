@@ -6,12 +6,12 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Getter @Setter
 @NoArgsConstructor
 @Table(name="users")
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class User {
 
     @Id
@@ -29,5 +29,20 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @OneToMany(mappedBy = "landLord")
+    private List<Property> properties;
+
+    public void addProperty(Property property){
+        this.properties.add(property);
+    }
+
+    @OneToMany(mappedBy = "tenant")
+    private List<Property> rentedProperties;
+
+    public void addRentedProperties(Property property){
+        this.rentedProperties.add(property);
+    }
+
 
 }
