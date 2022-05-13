@@ -30,7 +30,7 @@ public class AuthController {
     return authService.login(loginDTO);
   }
 
-  @PostMapping("update")
+  @PostMapping("update/{id}")
   public ResponseMessage update(@PathVariable UUID id, @RequestBody UpdateUserDTO updateUserDTO) {
     return authService.updateUser(id, updateUserDTO);
   }
