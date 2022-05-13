@@ -7,15 +7,16 @@ import Button from "@mui/material/Button";
 import "./index.css";
 
 const PropertyItem = ({ property }) => {
-  //   let {
-  //     numberOfBedrooms,
-  //     numberOfBathrooms,
-  //     photos,
-  //     propertyName,
-  //     streetAddress,
-  //     city,
-  //     state,
-  //   } = property;
+  console.log(property);
+  let {
+    numberOfBedrooms,
+    numberOfBathrooms,
+    photos,
+    propertyName,
+    streetAddress,
+    city,
+    state,
+  } = property;
   return (
     <>
       <Card sx={{ maxWidth: 300, minWidth: 300 }} className="card-item">
