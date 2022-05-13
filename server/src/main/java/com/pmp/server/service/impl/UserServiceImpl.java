@@ -6,6 +6,7 @@ import com.pmp.server.dto.common.PagingRequest;
 import com.pmp.server.dto.common.ResponseMessage;
 import com.pmp.server.exception.ErrorResourceException;
 import com.pmp.server.exception.UserNotFoundException;
+import com.pmp.server.exceptionHandler.exceptions.CustomErrorException;
 import com.pmp.server.repo.UserRepo;
 import com.pmp.server.service.UserService;
 import com.pmp.server.utils.constants.ResponseMessageConstants;
@@ -75,7 +76,7 @@ public class UserServiceImpl implements UserService {
     var user = userRepo.findById(id).orElseThrow(new Supplier<Throwable>() {
       @Override
       public Throwable get() {
-        return new UserNotFoundException(USER_NOT_FOUND_TO_UPDATE);
+        return new CustomErrorException(HttpStatus.BAD_REQUEST, null, USER_NOT_FOUND_TO_UPDATE);
       }
     });
 
