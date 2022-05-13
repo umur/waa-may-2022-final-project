@@ -4,6 +4,7 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import { DateRange } from "react-date-range";
 import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
 import moment from "moment";
 import "./index.css";
 import "react-date-range/dist/styles.css";
@@ -24,20 +25,31 @@ const RentForm = () => {
       <Box sx={{ minWidth: 300, maxWidth: 300 }} className="rent-form">
         <Card variant="outlined">
           <CardContent className="content">
-            {!open && (
-              <>
-                <TextField
-                  label="Outlined"
-                  color="primary"
-                  onFocus={() => setOpen(true)}
-                />
-                <TextField
-                  label="Outlined"
-                  color="primary"
-                  onFocus={() => setOpen(true)}
-                />
-              </>
-            )}
+            <div className="date-input">
+              {!open && (
+                <>
+                  <TextField
+                    label="Outlined"
+                    color="primary"
+                    onFocus={() => setOpen(true)}
+                  />
+                  <TextField
+                    label="Outlined"
+                    color="primary"
+                    onFocus={() => setOpen(true)}
+                  />
+                </>
+              )}
+            </div>
+            <div className="price">
+              <div>
+                <span>Security Deposit</span>
+                <span>$10</span>
+              </div>
+            </div>
+            <Button variant="contained" className="button">
+              Rent
+            </Button>
           </CardContent>
         </Card>
       </Box>
