@@ -27,8 +27,9 @@ public class PropertyController {
   }
 
   @GetMapping
-  private Page<Property> getProducts(Pageable pageable) {
-    return propertyService.findAll(pageable);
+  private APIResponse<Property> getProperty(Pageable pageable) {
+    Page<Property> data = propertyService.findAll(pageable);
+    return new APIResponse<Property>(data);
   }
 //
 //  @GetMapping
