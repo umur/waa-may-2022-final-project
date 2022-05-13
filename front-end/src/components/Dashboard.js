@@ -13,7 +13,6 @@ const Dashboard = () => {
                         <div className="col-sm-6">
                             <ol className="breadcrumb float-sm-right">
                                 <li className="breadcrumb-item"><a href="#">Home</a></li>
-                                <li className="breadcrumb-item active">Dashboard v1</li>
                             </ol>
                         </div>{/* /.col */}
                     </div>{/* /.row */}
