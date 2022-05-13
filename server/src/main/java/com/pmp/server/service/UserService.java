@@ -16,5 +16,5 @@ public interface UserService {
 
   Page<User> getAllUserPaginated(PagingRequest pagingRequest);
 
-  Page<User> getAllUserByRole(Pageable pagingRequest, Role role);
+  Page<User> getAllUserByRole(Pageable pageable, Role role);
 }

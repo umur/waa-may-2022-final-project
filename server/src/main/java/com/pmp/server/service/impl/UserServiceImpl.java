@@ -57,7 +57,7 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public Page<User> getAllUserByRole(Pageable pagingRequest, Role role) {
-    return userRepo.findAllByRoleId(pagingRequest, role.getId());
+  public Page<User> getAllUserByRole(Pageable pageable, Role role) {
+    return userRepo.findAllByRoleId(pageable, role.getId());
   }
 }
