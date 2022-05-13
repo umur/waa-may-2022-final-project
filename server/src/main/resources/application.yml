@@ -1,4 +1,27 @@
 
+keycloak:
+  realm: Pmp-realm
+  auth-server-url: http://localhost:8080/auth
+  ssl-required: external
+  #keycloak resource is the client ID
+  resource: pmp-client
+  use-resource-role-mappings: true
+  #The line below will prevent redirect to login page
+
+  bearer-only: true
+  credentials:
+    secret: Bhw120rFFBSVLciCuictWw5wOuSbJmu2
+
+
+#  securityConstraints:
+#    - authRoles: [ user, admin ]
+#      securityCollections:
+#        - name: API Private Data
+#          patterns: [ '/todos/search/my-todos/*' ]
+#    - authRoles: [ admin ]
+#      securityCollections:
+#        - name: API
+#          patterns: [ '/todos/*' ]
 
 spring:
   application:
@@ -30,4 +53,6 @@ spring:
           starttls:
             enable=true
 server:
-  port: 8080
+  port: 8081
+  netty:
+    connection-timeout: 6000
