@@ -13,7 +13,6 @@ public class APIResponse<T> {
   long total;
   int pageSize;
   int current;
-
   int totalPage;
   List<T> data;
   public APIResponse(Page page){

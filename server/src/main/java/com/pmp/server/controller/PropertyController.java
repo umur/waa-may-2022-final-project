@@ -15,9 +15,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/properties")
+@CrossOrigin
 public class PropertyController {
 
   private final PropertyServiceImpl propertyService;
@@ -31,7 +33,12 @@ public class PropertyController {
     Page<Property> data = propertyService.findAll(pageable);
     return new APIResponse<Property>(data);
   }
-//
+  @GetMapping("/{id}")
+  private ResponseEntity<Property> getByID(@PathVariable UUID id){
+    Property data = propertyService.getById(id);
+    return ResponseEntity.ok(data);
+  }
+
 //  @GetMapping
 //  private APIResponse<List<Property>> getProducts() {
 //    List<Property> allProperties = propertyService.findAllProperties();
