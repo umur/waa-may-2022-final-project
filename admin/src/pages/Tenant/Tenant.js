@@ -1,9 +1,9 @@
 import faker from '@faker-js/faker';
 import { Box, Divider, Grid, Paper, Typography } from '@mui/material';
+import StatusView, { StatusVariants } from 'components/StatusView';
+import Layout from 'pages/Layout';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import StatusView, { StatusVariants } from '../../../components/StatusView';
-import Layout from '../Layout';
 
 function Tenant({}) {
   const params = useParams();

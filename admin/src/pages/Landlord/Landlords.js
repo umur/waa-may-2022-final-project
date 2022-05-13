@@ -1,15 +1,15 @@
 import faker from "@faker-js/faker";
-import { Button, Grid, Input, InputAdornment, Paper } from "@mui/material";
+import { Button, Grid } from "@mui/material";
 import dayjs from "dayjs";
 import React, { useMemo, useState } from "react";
-import DataTable from "../../../components/DataTable";
-import SearchForm from '../../../components/SearchForm';
-import Layout from "../Layout";
 import { useNavigate } from "react-router-dom";
-import StatusView from '../../../components/StatusView';
 import AddIcon from '@mui/icons-material/Add';
-import { ColumnTypes, RowActions } from '../../../components/DataTable/RowActions';
-import Action from '../../../components/DataTable/Action';
+import { ColumnTypes, RowActions } from 'components/DataTable/RowActions';
+import StatusView from 'components/StatusView';
+import Layout from 'pages/Layout';
+import SearchForm from 'components/SearchForm';
+import DataTable from 'components/DataTable';
+import Action from 'components/DataTable/Action';
 
 function generateRow(index) {
   return {

@@ -2,7 +2,7 @@ import { faker } from "@faker-js/faker";
 import * as React from "react";
 import dayjs from "dayjs";
 import { Box, Grid, Paper } from "@mui/material";
-import DataTable from "../../components/DataTable";
+import DataTable from "../components/DataTable";
 import Layout from "./Layout";
 import ReactECharts from 'echarts-for-react';
 
