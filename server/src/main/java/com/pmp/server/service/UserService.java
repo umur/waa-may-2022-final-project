@@ -6,6 +6,7 @@ import com.pmp.server.dto.common.PagingRequest;
 import com.pmp.server.dto.common.ResponseMessage;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.query.Param;
 
 import java.util.UUID;
 
@@ -17,4 +18,6 @@ public interface UserService {
   Page<User> getAllUserPaginated(PagingRequest pagingRequest);
 
   Page<User> getAllUserByRole(Pageable pageable, Role role);
+
+  Page<User> getAllByRoleIdAndKeywords(Pageable pageable, Role role, String keywords);
 }

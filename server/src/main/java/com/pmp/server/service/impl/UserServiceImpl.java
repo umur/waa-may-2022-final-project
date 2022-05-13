@@ -60,4 +60,9 @@ public class UserServiceImpl implements UserService {
   public Page<User> getAllUserByRole(Pageable pageable, Role role) {
     return userRepo.findAllByRoleId(pageable, role.getId());
   }
+
+  @Override
+  public Page<User> getAllByRoleIdAndKeywords(Pageable pageable, Role role, String keywords) {
+    return userRepo.findAllWithJPQL(role.getId(), keywords, pageable);
+  }
 }

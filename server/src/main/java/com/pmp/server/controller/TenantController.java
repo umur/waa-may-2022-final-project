@@ -9,6 +9,7 @@ import com.pmp.server.utils.enums.ERole;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -23,9 +24,16 @@ public class TenantController {
     }
 
     @GetMapping
-    public APIResponse<User> getTenants(Pageable pageable) {
+    public APIResponse<User> getTenants(Pageable pagingRequest, @RequestParam(required = false) String keywords) {
         Role role = roleService.findByName(ERole.ROLE_TENANT.getRole());
-        var data = userService.getAllUserByRole(pageable, role);
-        return new APIResponse<>(data);
+
+        if (keywords == null) {
+            var data = userService.getAllUserByRole(pagingRequest, role);
+
+            return new APIResponse<User>(data);
+        } else {
+            var data = userService.getAllByRoleIdAndKeywords(pagingRequest, role, keywords);
+            return new APIResponse<>(data);
+        }
     }
 }

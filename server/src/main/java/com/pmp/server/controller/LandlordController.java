@@ -8,6 +8,7 @@ import com.pmp.server.service.RoleService;
 import com.pmp.server.service.UserService;
 import com.pmp.server.utils.enums.ERole;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,10 +28,18 @@ public class LandlordController {
     }
 
     @GetMapping
-    public APIResponse<User> getLandlords(Pageable pagingRequest) {
+    public APIResponse<User> getLandlords(Pageable pagingRequest, @RequestParam(required = false) String keywords) {
         Role role = roleService.findByName(ERole.ROLE_LANDLORD.getRole());
-        var data = userService.getAllUserByRole(pagingRequest, role);
+//        var pageable = PageRequest.of(pagingRequest.getPageNumber(), pagingRequest.getPageSize(),);
+        var pageable = pagingRequest;
 
-        return new APIResponse<User>(data);
+//        if (keywords == null) {
+//            var data = userService.getAllUserByRole(pageable, role);
+//
+//            return new APIResponse<User>(data);
+//        } else {
+            var data = userService.getAllByRoleIdAndKeywords(pageable, role, keywords != null ? keywords : "");
+            return new APIResponse<>(data);
+//        }
     }
 }
