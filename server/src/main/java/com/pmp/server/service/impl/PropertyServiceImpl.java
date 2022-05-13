@@ -25,6 +25,15 @@ public class PropertyServiceImpl implements PropertyService {
     return propertyRepo.findAll(pageable);
   }
 
+  @Override
+  public Property getById(UUID id) {
+    Optional<Property> data = propertyRepo.findById(id);
+    if(!data.isPresent()){
+      return null;
+    }
+    return data.get();
+  }
+
 
 //  public List<Property>
 //  getAllProperties(Integer pageNo, Integer pageSize, String sortBy){
