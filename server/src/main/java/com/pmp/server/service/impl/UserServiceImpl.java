@@ -51,7 +51,6 @@ public class UserServiceImpl implements UserService {
     var request = PageRequest
       .of(pagingRequest.getPage(), pagingRequest.getPageSize(), direction,pagingRequest.getSortBy());
 
-
     return userRepo.findAll(request);
   }
 }

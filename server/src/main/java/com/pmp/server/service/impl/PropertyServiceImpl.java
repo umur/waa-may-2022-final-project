@@ -1,6 +1,7 @@
 package com.pmp.server.service.impl;
 
 import com.pmp.server.domain.Property;
+import com.pmp.server.dto.common.PagingRequest;
 import com.pmp.server.repo.PropertyRepo;
 import com.pmp.server.service.PropertyService;
 import org.springframework.data.domain.Page;
@@ -8,9 +9,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.awt.print.Pageable;
-import java.util.ArrayList;
-import java.util.List;
+import org.springframework.data.domain.Pageable;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @Service
 public class PropertyServiceImpl implements PropertyService {
@@ -19,6 +21,10 @@ public class PropertyServiceImpl implements PropertyService {
   public PropertyServiceImpl(PropertyRepo propertyRepo) {
     this.propertyRepo = propertyRepo;
   }
+  public Page<Property> findAll(Pageable pageable){
+    return propertyRepo.findAll(pageable);
+  }
+
 
 //  public List<Property>
 //  getAllProperties(Integer pageNo, Integer pageSize, String sortBy){
