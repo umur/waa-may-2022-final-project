@@ -1,6 +1,6 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import "./assets/css/app/index.css";
-import { Routes, Route, Navigate, useLocation } from "react-router-dom";
+import { Routes, Route, } from "react-router-dom";
 import Home from "./pages/Home";
 import { AuthContext } from "./context/AuthContext";
 import List from "./pages/List";
@@ -8,11 +8,12 @@ import AuthWrapper from "./auth/AuthWrapper";
 import ROLE from "./auth/Role";
 import PropertyDetail from "./pages/PropertyDetail";
 import Dashboard from "./pages/admin/Dashboard";
-import Tenants from "./pages/admin/tenant/Tenants";
-import NewTenant from "./pages/admin/tenant/NewTenant";
+import Tenants from "./pages/admin/Tenant/Tenants";
+import NewTenant from "./pages/admin/Tenant/NewTenant";
 import { ThemeProvider } from "@mui/material/styles";
 import { theme } from "./theme";
-import Tenant from './pages/admin/tenant/Tenant';
+import Tenant from './pages/admin/Tenant/Tenant';
+import Landlords from './pages/admin/Landlord/Landlords';
 
 function App() {
   const [isSignedIn, setSignedIn] = useState(
@@ -68,6 +69,30 @@ function App() {
           />
           <Route
             path="/admin/tenants/new"
+            element={
+              <AuthWrapper role={[ROLE.Admin]}>
+                <NewTenant />
+              </AuthWrapper>
+            }
+          />
+          <Route
+            path="/admin/landlords"
+            element={
+              <AuthWrapper role={[ROLE.Admin]}>
+                <Landlords />
+              </AuthWrapper>
+            }
+          />
+          <Route
+            path="/admin/landlords/:id"
+            element={
+              <AuthWrapper role={[ROLE.Admin]}>
+                <Tenant />
+              </AuthWrapper>
+            }
+          />
+          <Route
+            path="/admin/landlords/new"
             element={
               <AuthWrapper role={[ROLE.Admin]}>
                 <NewTenant />

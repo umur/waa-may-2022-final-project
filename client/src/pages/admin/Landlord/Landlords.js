@@ -1,5 +1,5 @@
 import faker from "@faker-js/faker";
-import { Button, Grid, } from "@mui/material";
+import { Button, Grid, Input, InputAdornment, Paper } from "@mui/material";
 import dayjs from "dayjs";
 import React, { useMemo, useState } from "react";
 import DataTable from "../../../components/DataTable";
@@ -43,7 +43,7 @@ function generateData(page, perPage, rowCount, orderBy, orderDirection, keywords
   return data;
 }
 
-function Tenants(props) {
+function Landlords(props) {
   const columns = useMemo(
     () => [
       { id: "id", label: "Id" },
@@ -133,9 +133,7 @@ function Tenants(props) {
 
     setSelected(newSelected);
 
-    console.log('click ', row)
-
-    navigate(`/admin/tenants/${row.id}`)
+    navigate(`/admin/landlords/${row.id}`)
   };
 
   const handleChangePage = (event, newPage) => {
@@ -148,19 +146,19 @@ function Tenants(props) {
   };
 
   /* -------------------------------------------------------------------------- */
-  /*                               Search tenants                               */
+  /*                              Search landlord                               */
   /* -------------------------------------------------------------------------- */
-  const searchTenants = (keywords) => {
+  const searchLandlords = (keywords) => {
     setKeywords(keywords);
   }
 
   /* -------------------------------------------------------------------------- */
-  /*                                 New tenant                                 */
+  /*                               New landlord                                 */
   /* -------------------------------------------------------------------------- */
   const navigate = useNavigate();
 
-  const addTenant = () => {
-    navigate('/admin/tenants/new')
+  const addLandlord = () => {
+    navigate('/admin/landlords/new')
   }
 
   /* -------------------------------------------------------------------------- */
@@ -172,14 +170,14 @@ function Tenants(props) {
   }
 
   return (
-    <Layout title="Tenants">
+    <Layout title="Landlords">
       <Grid container spacing={1}>
         <Grid item xs={4}>
-          <SearchForm onSubmit={searchTenants} />
+          <SearchForm onSubmit={searchLandlords} />
         </Grid>
 
         <Grid item xs={4}>
-          <Button variant="contained" onClick={addTenant}><AddIcon />  New Tenant</Button>
+          <Button variant="contained" onClick={addLandlord}><AddIcon />  New Landlord</Button>
         </Grid>
         
         
@@ -204,4 +202,4 @@ function Tenants(props) {
   );
 }
 
-export default Tenants;
+export default Landlords;
