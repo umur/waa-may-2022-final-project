@@ -8,6 +8,7 @@ import com.pmp.server.repo.UserRepo;
 import com.pmp.server.service.UserService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -56,13 +57,7 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public Page<User> getAllUserByRole(PagingRequest pagingRequest, Role role) {
-    var direction = (pagingRequest.isAscending()) ? Sort.Direction.ASC : Sort.Direction.DESC;
-
-    var request = PageRequest
-            .of(pagingRequest.getPage(), pagingRequest.getPageSize(), direction,pagingRequest.getSortBy());
-
-
-    return userRepo.findAllByRoleId(request, role.getId());
+  public Page<User> getAllUserByRole(Pageable pagingRequest, Role role) {
+    return userRepo.findAllByRoleId(pagingRequest, role.getId());
   }
 }
