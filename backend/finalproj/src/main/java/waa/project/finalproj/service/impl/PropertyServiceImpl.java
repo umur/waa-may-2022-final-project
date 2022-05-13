@@ -3,11 +3,11 @@ package waa.project.finalproj.service.impl;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
-import waa.project.finalproj.dto.house.HouseDTO;
-import waa.project.finalproj.dto.house.HouseSaveDTO;
-import waa.project.finalproj.entity.House;
+import waa.project.finalproj.dto.property.PropertyDTO;
+import waa.project.finalproj.dto.property.propertySaveDTO;
+import waa.project.finalproj.entity.Property;
 import waa.project.finalproj.repository.HouseRepository;
-import waa.project.finalproj.service.HouseService;
+import waa.project.finalproj.service.PropertyService;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -16,14 +16,14 @@ import java.util.stream.StreamSupport;
 
 @Service
 @AllArgsConstructor
-public class HouseServiceImpl implements HouseService {
+public class PropertyServiceImpl implements PropertyService {
 
     private final HouseRepository houseRepository;
     private final ModelMapper modelMapper;
 
     @Override
-    public void add(HouseSaveDTO t) {
-        houseRepository.save(modelMapper.map(t, House.class));
+    public void add(propertySaveDTO t) {
+        houseRepository.save(modelMapper.map(t, Property.class));
     }
 
     @Override
@@ -36,7 +36,7 @@ public class HouseServiceImpl implements HouseService {
     }
 
     @Override
-    public void update(int id, HouseDTO t) {
+    public void update(int id, PropertyDTO t) {
         var j = houseRepository.findById(id);
         if (j.isPresent()){
             j.get().setName(t.getName());
@@ -55,26 +55,26 @@ public class HouseServiceImpl implements HouseService {
     }
 
     @Override
-    public List<HouseDTO> findAll() {
+    public List<PropertyDTO> findAll() {
         return StreamSupport
                 .stream(houseRepository.findAll().spliterator(), false)
-                .map(u -> modelMapper.map(u, HouseDTO.class))
+                .map(u -> modelMapper.map(u, PropertyDTO.class))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public HouseDTO findById(int id) {
+    public PropertyDTO findById(int id) {
         var h = houseRepository.findById(id);
 
-        return h.isPresent() && h.get().getDeletedAt() == null ? modelMapper.map(h.get(), HouseDTO.class) : null;
+        return h.isPresent() && h.get().getDeletedAt() == null ? modelMapper.map(h.get(), PropertyDTO.class) : null;
 
     }
 
     @Override
-    public List<HouseDTO> findAllWhereDeletedAtNotNull() {
+    public List<PropertyDTO> findAllWhereDeletedAtNotNull() {
         return StreamSupport
                 .stream(houseRepository.findAllByDeletedAtIsNull().spliterator(), false)
-                .map(u -> modelMapper.map(u, HouseDTO.class))
+                .map(u -> modelMapper.map(u, PropertyDTO.class))
                 .collect(Collectors.toList());
     }
 }

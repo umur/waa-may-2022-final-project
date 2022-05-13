@@ -1,19 +1,23 @@
-package waa.project.finalproj.dto.admin;
+package waa.project.finalproj.dto.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import waa.project.finalproj.dto.user.UserDTO;
+
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class AdminDTO {
+public class UserWithoutPropertyDTO {
     private int id;
+    private String email;
+    private String password;
     private String firstname;
     private String lastname;
     private boolean active;
-    private UserDTO user;
+    private LocalDateTime LastLoggedInAt;
+    private String role;
 }

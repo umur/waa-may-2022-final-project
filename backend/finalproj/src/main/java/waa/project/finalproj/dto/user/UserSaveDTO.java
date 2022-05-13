@@ -14,4 +14,6 @@ public class UserSaveDTO {
     private String email;
     private String password;
     private String role;
+    private String firstname;
+    private String lastname;
 }

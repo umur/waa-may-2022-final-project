@@ -23,5 +23,5 @@ public class Photo {
 
     @ManyToOne
     @JsonBackReference
-    private House house;
+    private Property house;
 }

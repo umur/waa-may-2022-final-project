@@ -21,5 +21,5 @@ public class PropertyType {
 
     @OneToOne(mappedBy = "propertyType")
     @JsonManagedReference
-    private House house;
+    private Property house;
 }

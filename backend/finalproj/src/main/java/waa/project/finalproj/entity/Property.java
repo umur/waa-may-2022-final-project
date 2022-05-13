@@ -16,8 +16,8 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "houses")
-public class House {
+@Table(name = "properties")
+public class Property {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -42,11 +42,15 @@ public class House {
     @JsonBackReference
     private PropertyType propertyType;
 
-    @OneToMany(mappedBy = "house")
-    @JsonManagedReference
+    @OneToMany(mappedBy = "property")
+    @JsonManagedReference(value = "rent")
     private List<Rent> rent;
 
+//    @ManyToOne
+//    @JsonBackReference(value = "houses")
+//    private Landlord landlord;
+
     @ManyToOne
-    @JsonBackReference(value = "houses")
-    private Landlord landlord;
+    @JsonBackReference(value = "property")
+    private User user;
 }
