@@ -1,13 +1,15 @@
 package com.pmp.server.controller;
 
 import com.pmp.server.dto.LoginDTO;
+import com.pmp.server.dto.ResetPasswordDTO;
+import com.pmp.server.dto.UpdateUserDTO;
 import com.pmp.server.dto.UserDTO;
+import com.pmp.server.dto.common.ResponseMessage;
 import com.pmp.server.security.service.impl.AuthServiceImpl;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 @RestController
 @RequestMapping("api/auth")
@@ -19,13 +21,22 @@ public class AuthController {
   }
 
   @PostMapping("register")
-  public ResponseEntity<?> registerUser(@RequestBody UserDTO userDTO){
-    UserDTO user = authService.registerUser(userDTO);
-    return ResponseEntity.ok(user);
+  public ResponseMessage registerUser(@RequestBody UserDTO userDTO){
+    return authService.registerUser(userDTO);
   }
 
   @PostMapping("login")
-  public ResponseEntity<?> login(@RequestBody LoginDTO loginDTO) {
-    return ResponseEntity.ok(authService.login(loginDTO));
+  public ResponseMessage login(@RequestBody LoginDTO loginDTO) {
+    return authService.login(loginDTO);
+  }
+
+  @PostMapping("update/{id}")
+  public ResponseMessage update(@PathVariable UUID id, @RequestBody UpdateUserDTO updateUserDTO) {
+    return authService.updateUser(id, updateUserDTO);
+  }
+
+  @PostMapping("reset")
+  public ResponseMessage reset(@PathVariable UUID id, @RequestBody ResetPasswordDTO resetPasswordDTO) {
+    return authService.resetPassword(id,resetPasswordDTO );
   }
 }
