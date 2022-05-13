@@ -5,8 +5,7 @@ import PropertyItem from "../components/PropertyItem";
 import { useAxios } from "../api/useAxios";
 
 const Home = () => {
-  const { isSignedIn } = useContext(AuthContext);
-  const { data, error, loading, execute } = useAxios("post", "/properties");
+  const { data, error, loading } = useAxios("get", "/properties");
 
   if (loading) {
     return <h1>loading</h1>;
@@ -15,12 +14,10 @@ const Home = () => {
   return (
     <>
       <Header />
-      <div
-        onClick={() => {
-          execute({ test: "test" });
-        }}
-      >
-        click here
+      <div className="container card-list">
+        {data.data.map((item) => (
+          <PropertyItem key={item.id} property={item} />
+        ))}
       </div>
     </>
   );
