@@ -8,6 +8,7 @@ import org.hibernate.annotations.Where;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import java.util.UUID;
 
 @Entity
 @Data
@@ -35,6 +36,9 @@ public class User extends BaseEntity {
   @OneToOne
   @JoinColumn(name = "role_id")
   private Role role;
+
+  @Column(name = "keycloak_id")
+  private UUID keyCloakId;
 
 }
 

@@ -1,6 +1,7 @@
 package com.pmp.server.exceptionHandler;
 
 import com.pmp.server.dto.common.ResponseMessage;
+import com.pmp.server.exceptionHandler.exceptions.CustomErrorException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -44,4 +45,16 @@ public class GlobalExceptionHandler {
 
     return new ResponseEntity<>(new ResponseMessage(UNSUCCESSFUL_MESSAGE, HttpStatus.INTERNAL_SERVER_ERROR, errors), new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
   }
+
+
+  @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+  @ExceptionHandler(CustomErrorException.class)
+  public ResponseEntity<?> handleCustomException(CustomErrorException ex) {
+    ResponseMessage rm = new ResponseMessage();
+    rm.setStatus(ex.getStatus());
+    rm.setMessage(ex.getMessage());
+    rm.setMessage((String) ex.getData());
+    return new ResponseEntity<>(rm, new HttpHeaders(), ex.getStatus());
+  }
 }
+

@@ -54,3 +54,5 @@ Go to realmsettings:
 click on OpenID Endpoint Configuration
 
 https://codersee.com/how-to-set-up-keycloak-admin-client-with-spring-boot-and-kotlin/
+
+https://www.tutorialsbuddy.com/keycloak-secure-spring-boot-rest-api
