@@ -1,5 +1,6 @@
 package com.pmp.server.service.impl;
 
+import com.pmp.server.domain.Role;
 import com.pmp.server.domain.User;
 import com.pmp.server.dto.common.PagingRequest;
 import com.pmp.server.dto.common.ResponseMessage;
@@ -53,5 +54,16 @@ public class UserServiceImpl implements UserService {
 
 
     return userRepo.findAll(request);
+  }
+
+  @Override
+  public Page<User> getAllUserByRole(PagingRequest pagingRequest, Role role) {
+    var direction = (pagingRequest.isAscending()) ? Sort.Direction.ASC : Sort.Direction.DESC;
+
+    var request = PageRequest
+            .of(pagingRequest.getPage(), pagingRequest.getPageSize(), direction,pagingRequest.getSortBy());
+
+
+    return userRepo.findAllByRoleId(request, role.getId());
   }
 }

@@ -2,7 +2,7 @@ spring:
   application:
     name: spring-security
   datasource:
-    password: postgres
+    password: 1
     url: jdbc:postgresql://localhost:5432/test
     username: postgres
   jpa:
