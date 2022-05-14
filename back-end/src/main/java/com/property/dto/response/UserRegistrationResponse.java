@@ -1,10 +1,10 @@
-package com.property.dto;
+package com.property.dto.response;
 
 import com.property.domain.Role;
 import lombok.Data;
 
 @Data
-public class UserRegistration {
+public class UserRegistrationResponse {
 
     private String firstName;
 
@@ -14,5 +14,4 @@ public class UserRegistration {
 
     private String email;
 
-    private String password;
 }

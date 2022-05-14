@@ -1,4 +1,4 @@
-package com.property.dto;
+package com.property.dto.request;
 
 import lombok.Data;
 

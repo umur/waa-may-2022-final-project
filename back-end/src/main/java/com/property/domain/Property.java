@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -27,7 +28,7 @@ public class Property {
 
     private Double securityDepositAmount;
 
-    @OneToMany(mappedBy = "property")
+    @OneToMany(mappedBy = "property", cascade = CascadeType.ALL)
     private List<Photo> photos;
 
     @ManyToOne
@@ -35,6 +36,16 @@ public class Property {
 
     @ManyToOne
     private User tenant;
+
+    public void addPhoto(Photo photo){
+        this.photos.add(photo);
+    }
+
+    public void addPhotos(List<Photo> photos){
+        photos.forEach(photo -> photo.setProperty(this));
+        this.photos = new ArrayList<>();
+        this.photos.addAll(photos);
+    }
 
 
 

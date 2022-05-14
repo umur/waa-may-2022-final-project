@@ -18,8 +18,16 @@ public class Photo {
 
     private String url;
 
+    private String keyName;
+
     private boolean isDeleted;
 
     @ManyToOne
     private Property property;
+
+    public Photo(String url, String keyName) {
+        this.url = url;
+        this.keyName = keyName;
+        this.isDeleted = false;
+    }
 }

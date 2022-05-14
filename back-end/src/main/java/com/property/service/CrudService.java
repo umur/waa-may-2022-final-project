@@ -2,15 +2,15 @@ package com.property.service;
 
 import java.util.List;
 
-public interface CrudService<T,ID> {
+public interface CrudService<T,R,ID> {
 
-    T save(T t);
+    R save(T t);
 
-    List<T> findAll();
+    List<R> findAll();
 
-    T findById(ID id);
+    R findById(ID id);
 
-    T update(T t, ID id);
+    R update(T t, ID id);
 
     void deleteById(ID id);
 

@@ -1,6 +1,7 @@
 package com.property.exception;
 
 import com.property.exception.custom.ApiError;
+import com.property.exception.custom.ResourceNotFoundException;
 import com.property.exception.custom.UserNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.Ordered;
@@ -20,7 +21,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     private final String INTERNAL_SERVER_ERROR = "Something went wrong!";
 
-    @ExceptionHandler(UserNotFoundException.class)
+    @ExceptionHandler({UserNotFoundException.class, ResourceNotFoundException.class})
     protected ResponseEntity<Object> handleUserNotFound(
             RuntimeException ex, WebRequest request) {
         logger.error(ex.getMessage());

@@ -1,7 +1,8 @@
 package com.property.controller;
 
-import com.property.dto.LoginRequest;
-import com.property.dto.UserRegistration;
+import com.property.dto.request.LoginRequest;
+import com.property.dto.request.UserRegistrationRequest;
+import com.property.dto.response.UserRegistrationResponse;
 import com.property.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -24,8 +25,8 @@ public class UaaController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<UserRegistration> signup(@RequestBody UserRegistration userRegistration){
-        UserRegistration registration = userService.save(userRegistration);
+    public ResponseEntity<UserRegistrationResponse> signup(@RequestBody UserRegistrationRequest userRegistration){
+        UserRegistrationResponse registration = userService.save(userRegistration);
         return ResponseEntity.ok(registration);
     }
 }
