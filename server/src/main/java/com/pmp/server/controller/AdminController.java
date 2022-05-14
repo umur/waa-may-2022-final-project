@@ -20,6 +20,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("api/admin")
+@CrossOrigin
 public class AdminController {
 
     private final UserService userService;

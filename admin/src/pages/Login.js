@@ -18,12 +18,13 @@ import "react-toastify/dist/ReactToastify.css";
 import useAxios from "axios-hooks";
 import Loading from "components/Loading";
 import ROLE from "auth/Role";
+import axios from 'axios';
 
 const Login = () => {
   const notify = (msg) => toast.error(msg);
   const { isSignedIn, setSignedIn, setRole } = useContext(AuthContext);
 
-  const [{ data, loading: loginLoading, error: loginError }, executeLogin] =
+  const [{ data, loading: loginLoading, error }, executeLogin] =
     useAxios(
       {
         url: "/auth/login",
@@ -46,29 +47,35 @@ const Login = () => {
     if (isSignedIn) navigate("/");
   }, [isSignedIn, navigate]);
 
-  if (loginError) {
-    notify(loginError);
-  }
-
-  if (data) {
-    const {
-      user: { role },
-    } = data.data;
-
-    if (role.roleName === ROLE.Admin) {
-      setRole(role.roleName);
-      setSignedIn(true);
-
-      localStorage.setItem("token", data.data.tokenResponse.access_token);
-      localStorage.setItem("user", JSON.stringify(data.data.user));
-
-      navigate("/");
-    } else {
-      localStorage.removeItem("token");
-      localStorage.removeItem("user");
-      notify("You don't have permission to access the website");
+  useEffect(() => {
+    if (error?.message) {
+      notify(error?.message)
     }
-  }
+  }, [error?.message, notify]);
+
+  useEffect(() => {
+    if (data) {
+      const {
+        tokenResponse: { access_token },
+        user: { role },
+      } = data.data;
+  
+      if (role.roleName === ROLE.Admin) {
+        // console.log('roleName', role.roleName)
+        setRole(role.roleName);
+        setSignedIn(true);
+        axios.defaults.headers.common['Authorization'] = `Bearer ${access_token}`;
+        localStorage.setItem("token", access_token);
+        localStorage.setItem("user", JSON.stringify(data.data.user));
+  
+        navigate("/");
+      } else {
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+        notify("You don't have permission to access the website");
+      }
+    }
+  }, [data, navigate, setRole, setSignedIn])
 
   return (
     <Container component="main" maxWidth="xs">
@@ -127,11 +134,11 @@ const Login = () => {
                 Forgot password?
               </Link>
             </Grid>
-            <Grid item>
+            {/* <Grid item>
               <Link to="/register" component={RouteLink} variant="body2">
                 {"Don't have an account? Sign Up"}
               </Link>
-            </Grid>
+            </Grid> */}
           </Grid>
         </Box>
       </Box>

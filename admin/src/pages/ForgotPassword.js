@@ -11,6 +11,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import useAxios from 'axios-hooks';
 import Loading from 'components/Loading';
+import { useEffect } from 'react';
 
 const ForgotPassword = () => {
   const notify = (msg) => toast.error(msg);
@@ -39,14 +40,20 @@ const ForgotPassword = () => {
     });
   };
 
-  if (error) {
-    notify(error);
-  }
+  useEffect(() => {
+    if (error?.message) {
+      notify(error?.message)
+    }
+  }, [error?.message, notify]);
 
-  if (data) {
-    alert("Mail has been sent to you.")
-    navigate("/login")
-  }
+  useEffect(() => {
+    if (data) { 
+      alert("Mail has been sent to you.")
+      setTimeout(() => {
+        navigate("/login")
+      }, 2000);
+    }
+  }, [data, navigate])
 
   return (
     <Container component="main" maxWidth="sm" sx={{ mb: 4 }}>

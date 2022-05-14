@@ -70,7 +70,7 @@ function Layout(props) {
   const { title, children } = props;
 
   const { role, setSignedIn, setRole, setUser } = React.useContext(AuthContext);
-
+  
   const [open, setOpen] = React.useState(true);
   const toggleDrawer = () => {
     setOpen(!open);
