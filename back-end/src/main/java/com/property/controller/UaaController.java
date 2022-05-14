@@ -1,15 +1,15 @@
 package com.property.controller;
 
+import com.property.domain.User;
 import com.property.dto.request.LoginRequest;
 import com.property.dto.request.UserRegistrationRequest;
 import com.property.dto.response.UserRegistrationResponse;
 import com.property.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequiredArgsConstructor
@@ -29,4 +29,17 @@ public class UaaController {
         UserRegistrationResponse registration = userService.save(userRegistration);
         return ResponseEntity.ok(registration);
     }
+
+    @PostMapping("/user/resetPassword")
+    public ResponseEntity<?> resetPassword(@RequestParam("email") String userEmail) {
+        UserRegistrationResponse res = userService.resetPassword(userEmail);
+        return ResponseEntity.ok(res);
+    }
+
+    @PostMapping("/change-password/{id}")
+    public ResponseEntity<?> changePassword(@RequestBody UserRegistrationRequest user, @PathVariable long id) {
+        UserRegistrationResponse res = userService.update(user, id);
+        return ResponseEntity.ok(res);
+    }
+
 }

@@ -37,6 +37,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/api/v1/uaa/*").permitAll()
                 .antMatchers("/api/v1/properties/*").hasAuthority("LANDLORD")
+                .antMatchers("/api/v1/uaa/change-password").hasAuthority("ADMIN")
                 .anyRequest()
                 .authenticated()
                 .and()

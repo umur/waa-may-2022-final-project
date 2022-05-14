@@ -8,4 +8,6 @@ import com.property.dto.response.UserRegistrationResponse;
 public interface UserService extends CrudService<UserRegistrationRequest, UserRegistrationResponse, Long>{
 
     LoginResponse login(LoginRequest loginRequest);
+
+    UserRegistrationResponse resetPassword(String email);
 }
