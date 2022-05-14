@@ -9,6 +9,7 @@ import com.pmp.server.domain.Role;
 import com.pmp.server.domain.User;
 import com.pmp.server.dto.*;
 import com.pmp.server.dto.common.ResponseMessage;
+import com.pmp.server.dto.common.TokenWithUserDTO;
 import com.pmp.server.exceptionHandler.exceptions.CustomErrorException;
 import com.pmp.server.repo.PasswordResetTokenRepo;
 import com.pmp.server.repo.RoleRepo;
@@ -56,7 +57,6 @@ public class AuthServiceImpl {
   private static String authServerUrl = "http://localhost:8080";
   private static String realm = "pmp-realm";
   private static String clientId = "pmp-client";
-  private String role = "ROLE_LANDLORD";
   //Get client secret from the Keycloak admin console (in the credential tab)
   private static String clientSecret = "Bhw120rFFBSVLciCuictWw5wOuSbJmu2";
 
@@ -151,7 +151,14 @@ public class AuthServiceImpl {
       AccessTokenResponse response =
         authzClient.obtainAccessToken(loginDTO.getEmail(), loginDTO.getPassword());
 
-      return new ResponseMessage(SUCCESSFUL_MESSAGE, HttpStatus.OK, response);
+      User user = userRepo.findByEmail(loginDTO.getEmail());
+      if(user == null){
+        throw new CustomErrorException(HttpStatus.UNAUTHORIZED, null, "Invalid user credentials");
+      }
+
+      TokenWithUserDTO userWithToken = new TokenWithUserDTO(user, response);
+
+      return new ResponseMessage(SUCCESSFUL_MESSAGE, HttpStatus.OK, userWithToken);
 
     } catch (Exception ex) {
       log.error(ex.getMessage());
@@ -289,7 +296,7 @@ public class AuthServiceImpl {
     String link = "";
     emailData.setMsgBody("Hello, \n " +
       "To reset your passoword, please click this link: \n "
-      + link +
+      + "http://localhost:3000/resetpassword/" + token +
       " \n This link will be expired in 24 hours. Please change your password before it expires. " +
       "\n Regards, \n PMP Team");
     emailService.sendSimpleMail(emailData);

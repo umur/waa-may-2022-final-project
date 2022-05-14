@@ -39,6 +39,7 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
       .antMatchers("/api/mail/sendMail").permitAll()
       .antMatchers("/api/auth/login").permitAll()
       .antMatchers("/api/auth/register").permitAll()
+      .antMatchers("/api/auth/reset-password-by-user").permitAll()
       .antMatchers("/api/properties").permitAll()
       .antMatchers("/api/properties/*").permitAll()
       .antMatchers("/api/properties/rent/*").permitAll()

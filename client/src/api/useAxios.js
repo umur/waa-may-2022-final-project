@@ -17,8 +17,9 @@ export const useAxios = (method, url) => {
           { ...postData }
         );
         setData(response.data);
+
       } catch (e) {
-        setError(e.message);
+        setError(e.response.data.message);
       } finally {
         setLoading(false);
       }

@@ -9,6 +9,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.Objects;
 import java.util.UUID;
 
 @Data
@@ -16,11 +17,11 @@ import java.util.UUID;
 @EntityListeners(AuditingEntityListener.class)
 public abstract class BaseEntity{
   @Id
-  @GeneratedValue(generator = "UUID")
-  @GenericGenerator(
-    name = "UUID",
-    strategy = "org.hibernate.id.UUIDGenerator"
-  )
+//  @GeneratedValue(generator = "UUID")
+//  @GenericGenerator(
+//    name = "UUID",
+//    strategy = "org.hibernate.id.UUIDGenerator"
+//  )
   @Column(name = "id", updatable = false, nullable = false)
   private UUID id;
 
@@ -34,6 +35,13 @@ public abstract class BaseEntity{
 
   @Column(name = "is_deleted")
   private boolean isDeleted= Boolean.FALSE;
+
+  @PrePersist
+  protected void onCreate(){
+    if(Objects.isNull(this.id)){
+      this.id = UUID.randomUUID();
+    }
+  }
 }
 
 //TODO: transcation table while integrating stripe
