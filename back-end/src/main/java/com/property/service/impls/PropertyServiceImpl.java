@@ -1,9 +1,13 @@
 package com.property.service.impls;
 
-import com.amazonaws.services.sns.model.ResourceNotFoundException;
 import com.property.domain.Photo;
 import com.property.domain.Property;
+import com.property.domain.PropertyRent;
 import com.property.dto.PropertyDto;
+import com.property.dto.request.Rent;
+import com.property.exception.custom.PropertyAlreadyRented;
+import com.property.exception.custom.ResourceNotFoundException;
+import com.property.respository.PropertyRentRepository;
 import com.property.respository.PropertyRepository;
 import com.property.respository.UserRepository;
 import com.property.service.PropertyService;
@@ -19,7 +23,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.lang.reflect.Type;
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -28,6 +34,8 @@ import java.util.List;
 public class PropertyServiceImpl implements PropertyService {
 
     private final PropertyRepository propertyRepository;
+
+    private final PropertyRentRepository propertyRentRepository;
 
     private final S3BucketStorageService s3BucketStorageService;
 
@@ -56,6 +64,21 @@ public class PropertyServiceImpl implements PropertyService {
         }
         property = propertyRepository.save(property);
         return modelMapper.map(property,PropertyDto.class);
+    }
+
+    @Override
+    public void rent(Long propertyId, Rent rent) {
+        Property property = propertyRepository.findById(propertyId).orElseThrow(() -> new ResourceNotFoundException(String.format("Property with id: %s not found",propertyId)));
+        Optional<PropertyRent> mayBePropertyRent = propertyRentRepository.findByPropertyIdAndRentEndDateIsAfter(propertyId, LocalDate.now());
+        if(mayBePropertyRent.isPresent()){
+            throw new PropertyAlreadyRented(String.format("Property with id:%s already rented",propertyId));
+        }
+        var username = SecurityContextHolder.getContext().getAuthentication().getName();
+        log.info("Login with user: {}",username);
+        var user = userRepository.findByEmail(username);
+        PropertyRent propertyRent = new PropertyRent(property,user, rent.getRentEndDate(), rent.getAmount());
+        user.addTenantRent(propertyRent);
+        userRepository.save(user);
     }
 
     @Override
