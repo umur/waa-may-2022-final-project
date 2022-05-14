@@ -36,6 +36,7 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
     http.cors().and().csrf().disable().sessionManagement().
 
       sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests()
+      .antMatchers("/api/mail/sendMail").permitAll()
       .antMatchers("/api/auth/login").permitAll()
       .antMatchers("/api/auth/register").permitAll()
       .antMatchers("/api/admin").hasAuthority(ERole.ROLE_ADMIN.getRole())

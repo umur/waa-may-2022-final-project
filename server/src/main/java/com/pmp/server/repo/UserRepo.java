@@ -13,6 +13,7 @@ import java.util.UUID;
 @Repository
 public interface UserRepo extends PagingAndSortingRepository<User, UUID> {
     Page<User> findAllByRoleId(Pageable pageable, @Param("role_id") UUID roleId);
+    User findByEmail(String email);
 
     @Query(value = "SELECT * FROM USERS u WHERE (u.first_name like %:keywords% OR u.last_name like %:keywords%) AND u.role_id = :roleId",
             countQuery = "SELECT count(u) FROM USERS u WHERE (u.first_name like %:keywords% OR u.last_name like %:keywords%) AND u.role_id = :roleId",

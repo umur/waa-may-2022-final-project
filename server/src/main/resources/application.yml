@@ -46,13 +46,14 @@ spring:
   mail:
     host: smtp.gmail.com
     username: pms.waa@gmail.com
-    password: pms.waa.password
+    password: ndljtyuetxexsbjv   #after 2 step verification, app->generate password
     port: 587
     properties:
       mail:
         smtp:
+          auth: true
           starttls:
-            enable=true
+            enable: true
 server:
   port: 8081
   netty:
