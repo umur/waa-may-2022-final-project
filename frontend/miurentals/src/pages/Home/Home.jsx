@@ -4,7 +4,7 @@ import Nav from "../../components/Nav/Nav";
 const Home = () => {
   return (
     <ContainerHome>
-      <Nav role="landlord"></Nav>
+      <Nav role="admin"></Nav>
     </ContainerHome>
   );
 };

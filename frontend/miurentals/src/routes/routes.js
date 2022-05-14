@@ -7,6 +7,8 @@ import AddProperties from "../pages/AddProperties/AddProperties";
 import LandProfile from "../pages/LandProfile/LandProfile";
 import ListUser from "../pages/User/ListUser";
 import CreateUser from "../pages/User/CreateUser";
+import UserDetails from "../pages/User/UserDetails";
+
 const Router = () => {
   return (
     <Routes>
@@ -17,6 +19,7 @@ const Router = () => {
       <Route exact path="/landprofile" element={<LandProfile />} />
       <Route exact path="/listusers" element={<ListUser />} />
       <Route exact path="/createuser" element={<CreateUser />} />
+      <Route exact path="/userdetails" element={<UserDetails />} />
       {/* <Route exact path="/erro" render={() => <ErrorPage />} /> */}
     </Routes>
   );

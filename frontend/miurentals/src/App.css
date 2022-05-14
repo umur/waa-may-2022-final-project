@@ -38,6 +38,7 @@
   }
 }
 body{
-  background-image:url('./keys.jpg');
+  /*background-image:url('./fundo.jpg');*/
+  background-color: #57B1D6;
   
 }
