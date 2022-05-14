@@ -65,7 +65,7 @@ function Tenants(props) {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   // const [rows, setRows] = React.useState([]);
-  const [rowCount, setRowCount] = React.useState(34);
+  // const [rowCount, setRowCount] = React.useState(34);
   const [keywords, setKeywords] = useState("");
 
   const [{ data, loading, error }, refetch] = useAxios(
@@ -87,6 +87,8 @@ function Tenants(props) {
   const rows = data?.data.map((i) => {
     return { ...i, actions: [RowActions.activate, RowActions.deactivate] };
   });
+
+  const rowCount = data?.total
 
   console.log(rows);
 
