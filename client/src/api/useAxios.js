@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 
-export const useAxios = (method, url, postData = null) => {
+export const useAxios = (method, url) => {
   const [data, setData] = useState(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(method === "get" ? true : false);
@@ -14,8 +14,8 @@ export const useAxios = (method, url, postData = null) => {
       try {
         let response = await axios[method](url, { ...postData });
         setData(response.data);
-      } catch (error) {
-        setError(error.message);
+      } catch (e) {
+        setError(e.message);
       } finally {
         setLoading(false);
       }
