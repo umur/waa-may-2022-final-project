@@ -23,6 +23,7 @@ public class User {
     private int id;
     private String firstname;
     private String lastname;
+    @Column(unique=true)
     private String email;
     private String password;
     private boolean active = true;

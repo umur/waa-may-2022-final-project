@@ -2,6 +2,7 @@ package waa.project.finalproj.controller;
 
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import waa.project.finalproj.dto.user.UserDTO;
@@ -10,14 +11,21 @@ import waa.project.finalproj.service.UserService;
 
 @RestController
 @RequestMapping("/api/v1/users")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "*")
 @RequiredArgsConstructor
 public class UserController {
 
     private final UserService userService;
 
     @PostMapping
-    public void save(@RequestBody UserSaveDTO h){
+    public ResponseEntity<?> save(@RequestBody UserSaveDTO h) throws Exception {
+        if ("ADMIN".equals(h.getRole())) return new ResponseEntity<>("Unauthorized", HttpStatus.UNAUTHORIZED);
+        userService.add(h);
+        return ResponseEntity.ok().body("");
+    }
+
+    @PostMapping("/admin")
+    public void saveAdmin(@RequestBody UserSaveDTO h) throws Exception {
         userService.add(h);
     }
 

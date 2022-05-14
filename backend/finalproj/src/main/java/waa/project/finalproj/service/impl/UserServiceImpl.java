@@ -2,7 +2,9 @@ package waa.project.finalproj.service.impl;
 
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 import waa.project.finalproj.dto.user.UserDTO;
 import waa.project.finalproj.dto.user.UserSaveDTO;
 import waa.project.finalproj.entity.User;
@@ -23,6 +25,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void add(UserSaveDTO t) {
+        t.setPassword(new BCryptPasswordEncoder().encode(t.getPassword()));
         userRepository.save(modelMapper.map(t, User.class));
     }
 
@@ -42,7 +45,6 @@ public class UserServiceImpl implements UserService {
             l.get().setActive(t.isActive());
             l.get().setFirstname(t.getFirstname());
             l.get().setLastname(t.getLastname());
-            l.get().setPassword(t.getPassword());
             l.get().setEmail(t.getEmail());
             l.get().setRole(t.getRole());
             userRepository.save(l.get());
