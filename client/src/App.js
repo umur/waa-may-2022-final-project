@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "./assets/css/app/index.css";
 import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
@@ -7,12 +7,7 @@ import List from "./pages/List";
 import AuthWrapper from "./auth/AuthWrapper";
 import ROLE from "./auth/Role";
 import PropertyDetail from "./pages/PropertyDetail";
-import Dashboard from "./pages/admin/Dashboard";
-import Tenants from "./pages/admin/tenant/Tenants";
-import NewTenant from "./pages/admin/tenant/NewTenant";
-import { ThemeProvider } from "@mui/material/styles";
-import { theme } from "./theme";
-import Tenant from "./pages/admin/tenant/Tenant";
+
 
 function App() {
   const [isSignedIn, setSignedIn] = useState(

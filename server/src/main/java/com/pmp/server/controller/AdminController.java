@@ -4,6 +4,7 @@ import com.google.common.base.CaseFormat;
 import com.pmp.server.domain.Role;
 import com.pmp.server.domain.User;
 import com.pmp.server.dto.APIResponse;
+import com.pmp.server.dto.UserDTO;
 import com.pmp.server.dto.common.ResponseMessage;
 import com.pmp.server.security.service.AuthService;
 import com.pmp.server.security.service.impl.AuthServiceImpl;
@@ -21,6 +22,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("api/admin")
+@CrossOrigin
 public class AdminController {
 
     private final UserService userService;
@@ -35,7 +37,7 @@ public class AdminController {
     }
 
     @GetMapping("/landlords")
-    public APIResponse<User> getLandlords(Pageable pagingRequest, @RequestParam(required = false) String keywords) {
+    public APIResponse<UserDTO> getLandlords(Pageable pagingRequest, @RequestParam(required = false) String keywords) {
         Role role = roleService.findByName(ERole.ROLE_LANDLORD.getRole());
         PageRequest daoPageable = PageRequest.of(
                 pagingRequest.getPageNumber(),
@@ -48,7 +50,7 @@ public class AdminController {
     }
 
     @GetMapping("/tenants")
-    public APIResponse<User> getTenants(Pageable pagingRequest, @RequestParam(required = false) String keywords) {
+    public APIResponse<UserDTO> getTenants(Pageable pagingRequest, @RequestParam(required = false) String keywords) {
         Role role = roleService.findByName(ERole.ROLE_TENANT.getRole());
 
         PageRequest daoPageable = PageRequest.of(

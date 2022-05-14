@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./assets/css/app/index.css";
-import { Routes, Route, } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import { AuthContext } from "./context/AuthContext";
 import AuthWrapper from "./auth/AuthWrapper";
 import ROLE from "./auth/Role";
@@ -9,27 +9,29 @@ import Tenants from "./pages/Tenant/Tenants";
 import NewTenant from "./pages/Tenant/NewTenant";
 import { ThemeProvider } from "@mui/material/styles";
 import { theme } from "./theme";
-import Tenant from './pages/Tenant/Tenant';
-import Landlords from './pages/Landlord/Landlords';
+import Tenant from "./pages/Tenant/Tenant";
+import Landlords from "./pages/Landlord/Landlords";
+import SignIn from "pages/SignIn";
 
 function App() {
   const [isSignedIn, setSignedIn] = useState(
     localStorage.getItem("token") ? true : false
   );
   const [user, setUser] = useState(null);
-  const [role, setRole] = useState("User");
+  const [role, setRole] = useState(ROLE.Admin);
   const authContext = { isSignedIn, setSignedIn, user, setUser, role, setRole };
 
-  // FIXME: Use for testing purpose
-  useEffect(() => {
-    localStorage.setItem("token", "sample token");
-    setRole(ROLE.Admin);
-  }, []);
+  // // FIXME: Use for testing purpose
+  // useEffect(() => {
+  //   localStorage.setItem("token", "sample token");
+  //   setRole(ROLE.Admin);
+  // }, []);
 
   return (
     <ThemeProvider theme={theme}>
       <AuthContext.Provider value={authContext}>
         <Routes>
+          <Route path="/signin" element={<SignIn />} />
           <Route
             path="/"
             element={
