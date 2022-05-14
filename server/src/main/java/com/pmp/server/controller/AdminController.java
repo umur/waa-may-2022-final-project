@@ -3,7 +3,7 @@ package com.pmp.server.controller;
 import com.google.common.base.CaseFormat;
 import com.pmp.server.domain.Role;
 import com.pmp.server.domain.User;
-import com.pmp.server.dto.APIResponse;
+import com.pmp.server.dto.common.PagingResponse;
 import com.pmp.server.dto.common.ResponseMessage;
 import com.pmp.server.security.service.AuthService;
 import com.pmp.server.security.service.impl.AuthServiceImpl;
@@ -35,7 +35,7 @@ public class AdminController {
     }
 
     @GetMapping("/landlords")
-    public APIResponse<User> getLandlords(Pageable pagingRequest, @RequestParam(required = false) String keywords) {
+    public PagingResponse<User> getLandlords(Pageable pagingRequest, @RequestParam(required = false) String keywords) {
         Role role = roleService.findByName(ERole.ROLE_LANDLORD.getRole());
         PageRequest daoPageable = PageRequest.of(
                 pagingRequest.getPageNumber(),
@@ -44,11 +44,11 @@ public class AdminController {
         );
 
         var data = userService.getAllByRoleIdAndKeywords(daoPageable, role, keywords != null ? keywords : "");
-        return new APIResponse<>(data);
+        return new PagingResponse<>(data);
     }
 
     @GetMapping("/tenants")
-    public APIResponse<User> getTenants(Pageable pagingRequest, @RequestParam(required = false) String keywords) {
+    public PagingResponse<User> getTenants(Pageable pagingRequest, @RequestParam(required = false) String keywords) {
         Role role = roleService.findByName(ERole.ROLE_TENANT.getRole());
 
         PageRequest daoPageable = PageRequest.of(
@@ -56,9 +56,9 @@ public class AdminController {
                 pagingRequest.getPageSize(),
                 convertDtoSortToDaoSort(pagingRequest.getSort())
         );
+        var data = userService.getAllByRoleIdAndKeywords(daoPageable, role, keywords);
+        return new PagingResponse<>(data);
 
-        var data = userService.getAllByRoleIdAndKeywords(daoPageable, role, keywords != null ? keywords : "");
-        return new APIResponse<>(data);
     }
 
     @PutMapping("/users/{id}/deactivate")

@@ -18,7 +18,7 @@ public class PropertyRentalHistory extends BaseEntity{
   private User rentedBy;
 
   @ManyToOne
-  @JoinColumn(name="user_id")
+  @JoinColumn(name="property_id")
   private Property property;
 
   @Column(name="start_date")

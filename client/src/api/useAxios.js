@@ -12,7 +12,10 @@ export const useAxios = (method, url) => {
         setLoading(true);
       }
       try {
-        let response = await axios[method](url, { ...postData });
+        let response = await axios[method](
+          method === "get" ? url + (postData ? postData : "") : url,
+          { ...postData }
+        );
         setData(response.data);
       } catch (e) {
         setError(e.message);
@@ -29,5 +32,13 @@ export const useAxios = (method, url) => {
     }
   }, [data, executeRequest, method]);
 
-  return { data, error, loading, execute: executeRequest };
+  const queryParam = (list) => {
+    let query = "?";
+    list.map((item, index, list) => {
+      query += item.key + "=" + item.value + (list.length > 0 ? "&" : "");
+    });
+    return query;
+  };
+
+  return { data, error, loading, execute: executeRequest, queryParam };
 };
