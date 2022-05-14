@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,8 +35,10 @@ public class Property {
     @ManyToOne
     private User landLord;
 
-    @ManyToOne
-    private User tenant;
+    @OneToMany(mappedBy = "property")
+    private List<PropertyRent> tenantProperties;
+
+    private LocalDate rentEndDate;
 
     public void addPhoto(Photo photo){
         this.photos.add(photo);
