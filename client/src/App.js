@@ -10,6 +10,7 @@ import PropertyDetail from "./pages/PropertyDetail";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import ForgotPassword from "./pages/ForgotPassword";
+import Checkout from 'pages/Checkout';
 
 
 function App() {
@@ -37,6 +38,8 @@ function App() {
             </AuthWrapper>
           }
         />
+        
+        <Route path="/checkout/:id" element={<Checkout order={{amount: 1999, name:"Tenant Fullname", email: "tenant@gmail.com"}} />} />
 
       </Routes>
     </AuthContext.Provider>

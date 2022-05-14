@@ -50,6 +50,4 @@ public class PropertyController {
     return new ResponseMessage("success", HttpStatus.CREATED);
   }
 
-
-
 }
