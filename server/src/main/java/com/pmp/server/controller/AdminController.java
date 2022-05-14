@@ -4,6 +4,9 @@ import com.google.common.base.CaseFormat;
 import com.pmp.server.domain.Role;
 import com.pmp.server.domain.User;
 import com.pmp.server.dto.common.PagingResponse;
+import com.pmp.server.dto.common.ResponseMessage;
+import com.pmp.server.security.service.AuthService;
+import com.pmp.server.security.service.impl.AuthServiceImpl;
 import com.pmp.server.service.RoleService;
 import com.pmp.server.service.UserService;
 import com.pmp.server.utils.enums.ERole;
@@ -23,9 +26,12 @@ public class AdminController {
     private final UserService userService;
     private final RoleService roleService;
 
-    public AdminController(UserService userService, RoleService roleService) {
+    private final AuthServiceImpl authService;
+
+    public AdminController(UserService userService, RoleService roleService, AuthServiceImpl authService) {
         this.userService = userService;
         this.roleService = roleService;
+        this.authService = authService;
     }
 
     @GetMapping("/landlords")
@@ -50,16 +56,15 @@ public class AdminController {
                 pagingRequest.getPageSize(),
                 convertDtoSortToDaoSort(pagingRequest.getSort())
         );
-
         var data = userService.getAllByRoleIdAndKeywords(daoPageable, role, keywords);
         return new PagingResponse<>(data);
+
     }
 
     @PutMapping("/users/{id}/deactivate")
-    public ResponseEntity<User> deactivateUser(@PathVariable UUID id) throws Throwable {
-        var user = userService.updateUserStatus(id, false);
-
-        return ResponseEntity.ok(user);
+    public ResponseEntity<ResponseMessage> deactivateUser(@PathVariable UUID id) throws Throwable {
+        var responseMessage = authService.activateUser(id, false);
+        return ResponseEntity.ok(responseMessage);
     }
 
     @PutMapping("/users/{id}/activate")

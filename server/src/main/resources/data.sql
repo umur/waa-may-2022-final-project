@@ -1,7 +1,7 @@
 --  password is 123456
-INSERT INTO roles (id, created_at, is_deleted, updated_at, role_name) VALUES ('a22fcad6-a812-4d9d-b436-fbf5cc366b66', '2022-05-10 15:45:29.000000', false, '2022-05-10 15:45:37.000000', 'ADMIN');
-INSERT INTO roles (id, created_at, is_deleted, updated_at, role_name) VALUES ('0dae5989-1119-440c-bc0e-301d05401438', '2022-05-10 15:47:31.000000', false, '2022-05-10 15:47:27.000000', 'TENANT');
-INSERT INTO roles (id, created_at, is_deleted, updated_at, role_name) VALUES ('9dcfb3c6-9878-445c-984a-a94e75727efb', '2022-05-10 15:47:32.000000', false, '2022-05-10 15:47:29.000000', 'LANDLORD');
+INSERT INTO roles (id, created_at, is_deleted, updated_at, role_name) VALUES ('a22fcad6-a812-4d9d-b436-fbf5cc366b66', '2022-05-10 15:45:29.000000', false, '2022-05-10 15:45:37.000000', 'ROLE_ADMIN');
+INSERT INTO roles (id, created_at, is_deleted, updated_at, role_name) VALUES ('0dae5989-1119-440c-bc0e-301d05401438', '2022-05-10 15:47:31.000000', false, '2022-05-10 15:47:27.000000', 'ROLE_TENANT');
+INSERT INTO roles (id, created_at, is_deleted, updated_at, role_name) VALUES ('9dcfb3c6-9878-445c-984a-a94e75727efb', '2022-05-10 15:47:32.000000', false, '2022-05-10 15:47:29.000000', 'ROLE_LANDLORD');
 
 INSERT INTO users (id, created_at, is_deleted, updated_at, active, email, first_name, last_name, password, role_id, gender) VALUES ('b7051283-22ad-4e4f-8f74-9e71bcb32b83', '2022-05-10 15:55:35.000000', false, '2022-05-10 15:55:40.000000', true, 'pprajapati@miu.edu', 'puru', 'prajapati', '123456', 'a22fcad6-a812-4d9d-b436-fbf5cc366b66', 'MALE');
 INSERT INTO users (id, created_at, is_deleted, updated_at, active, email, first_name, last_name, password, role_id, gender) VALUES ('d181c777-7dbe-4785-9bd5-ac0ed0fadb17', '2022-05-10 15:57:20.000000', false, '2022-05-10 15:57:42.000000', true, 'kkant@miu.edu', 'sai', 'kant', '123456', '0dae5989-1119-440c-bc0e-301d05401438', 'MALE');

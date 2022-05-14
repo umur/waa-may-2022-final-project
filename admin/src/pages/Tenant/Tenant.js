@@ -5,7 +5,7 @@ import Layout from 'pages/Layout';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
-function Tenant({}) {
+function Tenant({ }) {
   const params = useParams();
 
   const [tenant, setTenant] = useState({

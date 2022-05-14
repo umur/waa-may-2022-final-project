@@ -2,14 +2,13 @@ package com.pmp.server.security.service.impl;
 
 import java.util.*;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.SecurityContext;
 
+import com.pmp.server.domain.Role;
 import com.pmp.server.domain.User;
-import com.pmp.server.dto.LoginDTO;
-import com.pmp.server.dto.ResetPasswordDTO;
-import com.pmp.server.dto.UpdateUserDTO;
+import com.pmp.server.dto.*;
 import com.pmp.server.dto.common.ResponseMessage;
 import com.pmp.server.exceptionHandler.exceptions.CustomErrorException;
+import com.pmp.server.repo.RoleRepo;
 import com.pmp.server.repo.UserRepo;
 import com.pmp.server.service.impl.UserServiceImpl;
 import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
@@ -30,7 +29,6 @@ import org.keycloak.representations.idm.RoleRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.pmp.server.dto.UserDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -43,6 +41,7 @@ public class AuthServiceImpl {
 
   private final UserServiceImpl userService;
   private final UserRepo userRepo;
+  private final RoleRepo roleRepo;
   private static final Logger log = LoggerFactory.getLogger(AuthServiceImpl.class);
 
   private static String authServerUrl = "http://localhost:8080";
@@ -52,9 +51,10 @@ public class AuthServiceImpl {
   //Get client secret from the Keycloak admin console (in the credential tab)
   private static String clientSecret = "Bhw120rFFBSVLciCuictWw5wOuSbJmu2";
 
-  public AuthServiceImpl(UserServiceImpl userService, UserRepo userRepo) {
+  public AuthServiceImpl(UserServiceImpl userService, UserRepo userRepo, RoleRepo roleRepo) {
     this.userService = userService;
     this.userRepo = userRepo;
+    this.roleRepo = roleRepo;
   }
 
   public ResponseMessage registerUser(UserDTO userDTO) {
@@ -90,6 +90,10 @@ public class AuthServiceImpl {
       userRS.setId(UUID.fromString(userId));
       userRS.setActive(true);
 
+      // set user role in resource server
+      Role roleRS = roleRepo.findByRoleName(userDTO.getRole());
+      userRS.setRole(roleRS);
+
       userService.saveUser(userRS);
 
 
@@ -105,7 +109,7 @@ public class AuthServiceImpl {
       userResource.resetPassword(passwordCred);
 
       // Get realm role student
-      RoleRepresentation realmRoleUser = realmResource.roles().get(role).toRepresentation();
+      RoleRepresentation realmRoleUser = realmResource.roles().get(userDTO.getRole()).toRepresentation();
 
       // Assign realm role student to user
       userResource.roles().realmLevel().add(Arrays.asList(realmRoleUser));
@@ -171,6 +175,49 @@ public class AuthServiceImpl {
 
         userService.saveUser(u);
         return new ResponseMessage(SUCCESSFUL_MESSAGE, HttpStatus.OK, updateUserDTO);
+
+      } catch (Exception ex) {
+        log.error(ex.getMessage());
+        throw new CustomErrorException(HttpStatus.BAD_REQUEST, null, UNSUCCESSFUL_MESSAGE);
+      }
+
+    }
+    log.error(DATA_NOT_FOUND_TO_UPDATE);
+    throw new CustomErrorException(HttpStatus.BAD_REQUEST, null, DATA_NOT_FOUND_TO_UPDATE);
+
+
+  }
+
+  /**
+   * Activate user
+   * @param id user id
+   * @param isActive activate user dto
+   * @return
+   */
+  public ResponseMessage activateUser(UUID id, boolean isActive) {
+
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    if(authentication != null){
+      if(authentication.getPrincipal() instanceof KeycloakPrincipal){
+        KeycloakPrincipal<KeycloakSecurityContext> kp = (KeycloakPrincipal<KeycloakSecurityContext>) authentication.getPrincipal();
+        String uuid = kp.getKeycloakSecurityContext().getToken().getId();
+      }
+    }
+
+    Keycloak keycloak = getKeyCloak();
+    Optional<User> user = userRepo.findById(id);
+    if (user.isPresent()) {
+      User u = user.get();
+      u.setActive(isActive);
+
+      try {
+        var userResource = keycloak.realm(realm).users().get(u.getId().toString());
+        var userPresentation = userResource.toRepresentation();
+        userPresentation.setEnabled(isActive);
+        userResource.update(userPresentation);
+
+        userService.saveUser(u);
+        return new ResponseMessage(SUCCESSFUL_MESSAGE, HttpStatus.OK, u);
 
       } catch (Exception ex) {
         log.error(ex.getMessage());
