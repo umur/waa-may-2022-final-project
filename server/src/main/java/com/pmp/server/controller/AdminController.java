@@ -3,8 +3,7 @@ package com.pmp.server.controller;
 import com.google.common.base.CaseFormat;
 import com.pmp.server.domain.Role;
 import com.pmp.server.domain.User;
-import com.pmp.server.dto.APIResponse;
-import com.pmp.server.dto.UserDTO;
+import com.pmp.server.dto.common.PagingResponse;
 import com.pmp.server.dto.common.ResponseMessage;
 import com.pmp.server.security.service.AuthService;
 import com.pmp.server.security.service.impl.AuthServiceImpl;
@@ -22,7 +21,6 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("api/admin")
-@CrossOrigin
 public class AdminController {
 
     private final UserService userService;
@@ -37,7 +35,7 @@ public class AdminController {
     }
 
     @GetMapping("/landlords")
-    public APIResponse<UserDTO> getLandlords(Pageable pagingRequest, @RequestParam(required = false) String keywords) {
+    public PagingResponse<User> getLandlords(Pageable pagingRequest, @RequestParam(required = false) String keywords) {
         Role role = roleService.findByName(ERole.ROLE_LANDLORD.getRole());
         PageRequest daoPageable = PageRequest.of(
                 pagingRequest.getPageNumber(),
@@ -46,11 +44,11 @@ public class AdminController {
         );
 
         var data = userService.getAllByRoleIdAndKeywords(daoPageable, role, keywords != null ? keywords : "");
-        return new APIResponse<>(data);
+        return new PagingResponse<>(data);
     }
 
     @GetMapping("/tenants")
-    public APIResponse<UserDTO> getTenants(Pageable pagingRequest, @RequestParam(required = false) String keywords) {
+    public PagingResponse<User> getTenants(Pageable pagingRequest, @RequestParam(required = false) String keywords) {
         Role role = roleService.findByName(ERole.ROLE_TENANT.getRole());
 
         PageRequest daoPageable = PageRequest.of(
@@ -58,9 +56,9 @@ public class AdminController {
                 pagingRequest.getPageSize(),
                 convertDtoSortToDaoSort(pagingRequest.getSort())
         );
+        var data = userService.getAllByRoleIdAndKeywords(daoPageable, role, keywords);
+        return new PagingResponse<>(data);
 
-        var data = userService.getAllByRoleIdAndKeywords(daoPageable, role, keywords != null ? keywords : "");
-        return new APIResponse<>(data);
     }
 
     @PutMapping("/users/{id}/deactivate")
@@ -70,10 +68,10 @@ public class AdminController {
     }
 
     @PutMapping("/users/{id}/activate")
-    public ResponseEntity<ResponseMessage> activateUser(@PathVariable UUID id) throws Throwable {
-        var responseMessage = authService.activateUser(id, true);
+    public ResponseEntity<User> activateUser(@PathVariable UUID id) throws Throwable {
+        var user = userService.updateUserStatus(id, true);
 
-        return ResponseEntity.ok(responseMessage);
+        return ResponseEntity.ok(user);
     }
 
     private Sort convertDtoSortToDaoSort(Sort dtoSort) {

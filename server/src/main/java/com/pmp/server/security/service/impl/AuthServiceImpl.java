@@ -1,16 +1,21 @@
 package com.pmp.server.security.service.impl;
 
+import java.time.LocalDateTime;
 import java.util.*;
 import javax.ws.rs.core.Response;
 
+import com.pmp.server.domain.PasswordResetToken;
 import com.pmp.server.domain.Role;
 import com.pmp.server.domain.User;
 import com.pmp.server.dto.*;
 import com.pmp.server.dto.common.ResponseMessage;
 import com.pmp.server.exceptionHandler.exceptions.CustomErrorException;
+import com.pmp.server.repo.PasswordResetTokenRepo;
 import com.pmp.server.repo.RoleRepo;
 import com.pmp.server.repo.UserRepo;
 import com.pmp.server.service.impl.UserServiceImpl;
+import com.pmp.server.utils.mail.EmailDetails;
+import com.pmp.server.utils.mail.service.EmailService;
 import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.keycloak.KeycloakPrincipal;
 import org.keycloak.KeycloakSecurityContext;
@@ -42,6 +47,10 @@ public class AuthServiceImpl {
   private final UserServiceImpl userService;
   private final UserRepo userRepo;
   private final RoleRepo roleRepo;
+
+  private final EmailService emailService;
+
+  private final PasswordResetTokenRepo passwordResetTokenRepo;
   private static final Logger log = LoggerFactory.getLogger(AuthServiceImpl.class);
 
   private static String authServerUrl = "http://localhost:8080";
@@ -51,10 +60,12 @@ public class AuthServiceImpl {
   //Get client secret from the Keycloak admin console (in the credential tab)
   private static String clientSecret = "Bhw120rFFBSVLciCuictWw5wOuSbJmu2";
 
-  public AuthServiceImpl(UserServiceImpl userService, UserRepo userRepo, RoleRepo roleRepo) {
+  public AuthServiceImpl(UserServiceImpl userService, UserRepo userRepo, RoleRepo roleRepo, EmailService emailService, PasswordResetTokenRepo passwordResetTokenRepo) {
     this.userService = userService;
     this.userRepo = userRepo;
     this.roleRepo = roleRepo;
+    this.emailService = emailService;
+    this.passwordResetTokenRepo = passwordResetTokenRepo;
   }
 
   public ResponseMessage registerUser(UserDTO userDTO) {
@@ -152,8 +163,8 @@ public class AuthServiceImpl {
   public ResponseMessage updateUser(UUID id, UpdateUserDTO updateUserDTO) {
 
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-    if(authentication != null){
-      if(authentication.getPrincipal() instanceof KeycloakPrincipal){
+    if (authentication != null) {
+      if (authentication.getPrincipal() instanceof KeycloakPrincipal) {
         KeycloakPrincipal<KeycloakSecurityContext> kp = (KeycloakPrincipal<KeycloakSecurityContext>) authentication.getPrincipal();
         String uuid = kp.getKeycloakSecurityContext().getToken().getId();
       }
@@ -190,19 +201,20 @@ public class AuthServiceImpl {
 
   /**
    * Activate user
-   * @param id user id
+   *
+   * @param id       user id
    * @param isActive activate user dto
    * @return
    */
   public ResponseMessage activateUser(UUID id, boolean isActive) {
 
-//    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//    if(authentication != null){
-//      if(authentication.getPrincipal() instanceof KeycloakPrincipal){
-//        KeycloakPrincipal<KeycloakSecurityContext> kp = (KeycloakPrincipal<KeycloakSecurityContext>) authentication.getPrincipal();
-//        String uuid = kp.getKeycloakSecurityContext().getToken().getId();
-//      }
-//    }
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    if (authentication != null) {
+      if (authentication.getPrincipal() instanceof KeycloakPrincipal) {
+        KeycloakPrincipal<KeycloakSecurityContext> kp = (KeycloakPrincipal<KeycloakSecurityContext>) authentication.getPrincipal();
+        String uuid = kp.getKeycloakSecurityContext().getToken().getId();
+      }
+    }
 
     Keycloak keycloak = getKeyCloak();
     Optional<User> user = userRepo.findById(id);
@@ -258,6 +270,66 @@ public class AuthServiceImpl {
 
   }
 
+  public ResponseMessage resetPasswordByUser(String email) {
+    User user = userRepo.findByEmail(email);
+    if (user == null) {
+      throw new CustomErrorException(HttpStatus.UNAUTHORIZED, USER_NOT_FOUND);
+    }
+    String token = UUID.randomUUID().toString();
+    PasswordResetToken pst = new PasswordResetToken();
+    pst.setUser(user);
+    pst.setToken(token);
+    pst.setExpiryDateTime(LocalDateTime.now().plusDays(1));
+    passwordResetTokenRepo.save(pst);
+
+    // send Email
+    EmailDetails emailData = new EmailDetails();
+    emailData.setRecipient(user.getEmail());
+    emailData.setSubject("Reset Password");
+    String link = "";
+    emailData.setMsgBody("Hello, \n " +
+      "To reset your passoword, please click this link: \n "
+      + link +
+      " \n This link will be expired in 24 hours. Please change your password before it expires. " +
+      "\n Regards, \n PMP Team");
+    emailService.sendSimpleMail(emailData);
+
+    return new ResponseMessage(SUCCESSFUL_MESSAGE, HttpStatus.OK, "Mail Sent");
+
+  }
+
+  public ResponseMessage validateTokenUpdatePassword(String token, String password) {
+    PasswordResetToken pst = passwordResetTokenRepo.findByToken(token);
+    if (pst == null || pst.getExpiryDateTime().isAfter(LocalDateTime.now())) {
+      throw new CustomErrorException(HttpStatus.UNAUTHORIZED, USER_NOT_FOUND);
+    }
+
+    Keycloak keycloak = getKeyCloak();
+
+    Optional<User> user = userRepo.findById(pst.getUser().getId());
+    if (user.isPresent()) {
+      try {
+        var userResource = keycloak.realm(realm).users().get(user.get().getId().toString());
+        CredentialRepresentation cr = new CredentialRepresentation();
+        cr.setType(CredentialRepresentation.PASSWORD);
+        cr.setValue(password);
+        cr.setTemporary(false);
+        userResource.resetPassword(cr);
+
+        user.get().setPassword(password);
+        userService.saveUser(user.get());
+        return new ResponseMessage(SUCCESSFULLY_UPDATED, HttpStatus.OK, "Password updated successfully");
+      } catch (Exception e) {
+        log.error(e.getMessage());
+        throw new CustomErrorException(HttpStatus.BAD_REQUEST, null, UNSUCCESSFUL_MESSAGE);
+      }
+
+    }
+    log.error(DATA_NOT_FOUND_TO_UPDATE);
+    throw new CustomErrorException(HttpStatus.BAD_REQUEST, null, DATA_NOT_FOUND_TO_UPDATE);
+
+  }
+
   public static Keycloak getKeyCloak() {
     Keycloak keycloak = KeycloakBuilder.builder()
       .serverUrl(authServerUrl)
@@ -275,6 +347,7 @@ public class AuthServiceImpl {
     return keycloak;
 
   }
+
 
 
 }

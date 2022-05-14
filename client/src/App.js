@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./assets/css/app/index.css";
 import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
@@ -7,6 +7,8 @@ import List from "./pages/List";
 import AuthWrapper from "./auth/AuthWrapper";
 import ROLE from "./auth/Role";
 import PropertyDetail from "./pages/PropertyDetail";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
 
 
 function App() {
@@ -22,6 +24,8 @@ function App() {
     <AuthContext.Provider value={authContext}>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
         <Route path="/property/:id" element={<PropertyDetail />} />
         <Route
           path="/list"
@@ -31,6 +35,7 @@ function App() {
             </AuthWrapper>
           }
         />
+
       </Routes>
     </AuthContext.Provider>
   );

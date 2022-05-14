@@ -5,20 +5,25 @@ import Facility from "../components/Facility";
 import RentForm from "../components/RentForm";
 import { useAxios } from "../api/useAxios";
 import { useParams } from "react-router-dom";
+import Loading from "../components/Loading";
 
 const PropertyDetail = () => {
-  console.log("property");
   const { id } = useParams();
   const { data, error, loading } = useAxios("get", "/properties/" + id);
 
   if (loading) {
-    return <h1>loading</h1>;
+    return (
+      <>
+        <Header />
+        <Loading />
+      </>
+    );
   }
   console.log(data);
   return (
     <>
       <Header />
-      <Carousel />
+      <Carousel list={data?.photos} />
       <div className="detail-description">
         <div style={{ marginBottom: "20px" }}>
           <h4 className="title">
@@ -47,7 +52,11 @@ const PropertyDetail = () => {
           </div>
         </div>
         <div className="rent-form-container">
-          <RentForm />
+          <RentForm
+            amount={data?.rentAmount}
+            security={data?.securityDepositAmount}
+            id={data?.id}
+          />
         </div>
       </div>
     </>
