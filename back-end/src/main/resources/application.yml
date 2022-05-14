@@ -1,9 +1,13 @@
+application:
+  bucket:
+    name: property-management-system
+
 spring:
   application:
     name: pms
   datasource:
-    password: 1
-    url: jdbc:postgresql://localhost:5432/pms
+    password: maharishi
+    url: jdbc:postgresql://mydbinstance.cn12czf9gk5c.us-east-1.rds.amazonaws.com:5432/pms
     username: postgres
   jpa:
     hibernate:
@@ -22,3 +26,14 @@ spring:
       mode: always
 server:
   port: 8080
+
+cloud:
+  aws:
+    region:
+      static: us-east-1
+    stack:
+      auto: false
+    credentials:
+      accessKey: AKIAQZ7VG5YW67KAIDMZ
+      secretKey: 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
+
