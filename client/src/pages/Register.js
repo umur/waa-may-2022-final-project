@@ -1,5 +1,5 @@
 
-import * as React from 'react';
+import React, { useContext, useEffect } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -19,22 +19,57 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 
+import { useAxios } from "../api/useAxios";
+import Loading from '../components/Loading';
+import { useNavigate, Link as RouteLink } from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+
 const Register = () => {
+  const notify = (msg) => toast.error(msg);
+  const alert = (msg) => toast.info(msg);
+
+  const { data, error, loading, execute } = useAxios("post", "/auth/register");
+
+  const navigate = useNavigate();
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-      firstName: data.get('firstName'),
-      lastName: data.get('lastName'),
-      test: data
-    });
+    const formData = new FormData(event.currentTarget);
+
+    const registerRequest = {
+      email: formData.get('email'),
+      password: formData.get('password'),
+      firstName: formData.get('firstName'),
+      lastName: formData.get('lastName'),
+      gender: formData.get("gender"),
+      role: formData.get("role")
+    };
+    execute(registerRequest);
   };
+
+  if (loading) {
+    return (
+      <>
+        <Loading />
+      </>
+    );
+  }
+
+  if (error) {
+    notify(error);
+  }
+
+  if (data) {
+    alert("User created successfully!!")
+    navigate("/login");
+  }
 
   return (
 
     <Container component="main" maxWidth="xs">
+      <ToastContainer />
       <CssBaseline />
       <Box
         sx={{
@@ -98,8 +133,9 @@ const Register = () => {
               <FormLabel id="demo-controlled-radio-buttons-group">Gender</FormLabel>
               <RadioGroup
                 aria-labelledby="demo-controlled-radio-buttons-group"
-                name="controlled-radio-buttons-group"
+                name="gender"
                 row
+
               >
                 <FormControlLabel value="FEMALE" control={<Radio />} label="Female" />
                 <FormControlLabel value="MALE" control={<Radio />} label="Male" />
@@ -110,9 +146,11 @@ const Register = () => {
               <InputLabel id="demo-simple-select-label">Role</InputLabel>
               <Select
                 labelId="demo-simple-select-label"
+                name="role"
                 id="demo-simple-select"
-                // value={age}
+                defaultValue={""}
                 label="Age"
+                className="register-role"
               // onChange={handleChange}
               >
                 <MenuItem value="ROLE_LANDLORD">Landlord</MenuItem>
@@ -136,7 +174,7 @@ const Register = () => {
           </Button>
           <Grid container justifyContent="flex-end">
             <Grid item>
-              <Link href="#" variant="body2">
+              <Link to="/login" component={RouteLink} variant="body2">
                 Already have an account? Sign in
               </Link>
             </Grid>

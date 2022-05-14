@@ -1,9 +1,6 @@
 package com.pmp.server.controller;
 
-import com.pmp.server.dto.LoginDTO;
-import com.pmp.server.dto.ResetPasswordDTO;
-import com.pmp.server.dto.UpdateUserDTO;
-import com.pmp.server.dto.UserDTO;
+import com.pmp.server.dto.*;
 import com.pmp.server.dto.common.ResponseMessage;
 import com.pmp.server.security.service.impl.AuthServiceImpl;
 import org.springframework.http.ResponseEntity;
@@ -40,4 +37,10 @@ public class AuthController {
   public ResponseMessage reset(@PathVariable UUID id, @RequestBody ResetPasswordDTO resetPasswordDTO) {
     return authService.resetPassword(id,resetPasswordDTO );
   }
+
+  @PostMapping("reset-password-by-user")
+  public ResponseMessage resetPasswordByUser(@RequestBody ResetPasswordByUserDTO resetPasswordByUserDTO) {
+    return authService.resetPasswordByUser(resetPasswordByUserDTO.getEmail() );
+  }
+
 }

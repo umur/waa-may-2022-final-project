@@ -9,6 +9,7 @@ import ROLE from "./auth/Role";
 import PropertyDetail from "./pages/PropertyDetail";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import ForgotPassword from "./pages/ForgotPassword";
 
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/forgotpassword" element={<ForgotPassword />} />
         <Route path="/property/:id" element={<PropertyDetail />} />
         <Route
           path="/list"

@@ -10,6 +10,10 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 
 axios.defaults.baseURL = process.env.REACT_APP_API_URL;
 
+// if (localStorage.getItem("token")) {
+//   axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem("token");
+// }
+
 root.render(
   <BrowserRouter>
     <App />

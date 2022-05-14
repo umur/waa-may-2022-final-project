@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useContext, useEffect } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -11,29 +11,58 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
+
 import { useAxios } from "../api/useAxios";
+import Loading from '../components/Loading';
+import { AuthContext } from 'context/AuthContext';
+import { useNavigate, Link as RouteLink } from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 const Login = () => {
+
+  const notify = (msg) => toast.error(msg);
+  const { isSignedIn, setSignedIn } = useContext(AuthContext);
+
   const { data, error, loading, execute } = useAxios("post", "/auth/login");
 
+  const navigate = useNavigate();
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
-    execute({ email: data.get('email'), password: data.get("password") })
+    const form = new FormData(event.currentTarget);
+    execute({ email: form.get('email'), password: form.get("password") })
+
   };
 
+  useEffect(() => {
+    if (isSignedIn) navigate("/");
+  }, [isSignedIn, navigate]);
+
+
   if (loading) {
-    return <h1>loading</h1>
+    return (
+      <>
+        <Loading />
+      </>
+    );
+  }
+
+  if (error) {
+    notify(error);
+  }
+
+  if (data) {
+    localStorage.setItem("token", data.data.tokenResponse.access_token);
+    localStorage.setItem("user", JSON.stringify(data.data.user))
+    setSignedIn(true);
+    navigate("/");
   }
 
   return (
     <Container component="main" maxWidth="xs">
+      <ToastContainer />
       <CssBaseline />
       <Box
         sx={{
@@ -85,12 +114,12 @@ const Login = () => {
           </Button>
           <Grid container>
             <Grid item xs>
-              <Link href="#" variant="body2">
+              <Link to="/forgotpassword" component={RouteLink} variant="body2">
                 Forgot password?
               </Link>
             </Grid>
             <Grid item>
-              <Link href="#" variant="body2">
+              <Link to="/register" component={RouteLink} variant="body2">
                 {"Don't have an account? Sign Up"}
               </Link>
             </Grid>
