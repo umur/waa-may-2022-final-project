@@ -5,7 +5,6 @@ import com.pmp.server.domain.Role;
 import com.pmp.server.domain.User;
 import com.pmp.server.dto.common.PagingResponse;
 import com.pmp.server.dto.common.ResponseMessage;
-import com.pmp.server.security.service.AuthService;
 import com.pmp.server.security.service.impl.AuthServiceImpl;
 import com.pmp.server.service.RoleService;
 import com.pmp.server.service.UserService;

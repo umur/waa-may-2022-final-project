@@ -8,7 +8,7 @@ const AuthWrapper = (props) => {
   const location = useLocation();
   console.log(props.role, role);
   if (!isSignedIn || !_.includes(props.role, role)) {
-    return <Navigate to="/signin" state={{ from: location }} replace />;
+    return <Navigate to="/login" state={{ from: location }} replace />;
   }
   return props.children;
 };

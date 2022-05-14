@@ -14,9 +14,11 @@ import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import PropTypes from 'prop-types';
 import { AuthContext } from 'context/AuthContext';
-import { mainMenu, reportsMenu } from './menus';
+import { mainMenu } from './menus';
 import { getRoute } from './routes';
 import Copyright from 'components/Copyright';
+import LogoutIcon from '@mui/icons-material/Logout';
+import { Button } from '@mui/material';
 
 const drawerWidth = 240;
 
@@ -67,12 +69,20 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 function Layout(props) {
   const { title, children } = props;
 
-  const { role } = React.useContext(AuthContext);
+  const { role, setSignedIn, setRole, setUser } = React.useContext(AuthContext);
 
   const [open, setOpen] = React.useState(true);
   const toggleDrawer = () => {
     setOpen(!open);
   };
+
+  const logout = () => {
+    setSignedIn(false)
+    setRole(null)
+    setUser(null)
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+  }
 
   return (
       <Box sx={{ display: 'flex' }}>
@@ -104,12 +114,13 @@ function Layout(props) {
             >
               {title}
             </Typography>
-            {/* TODO: Notification badge */}
-            {/* <IconButton color="inherit">
-              <Badge badgeContent={4} color="secondary">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton> */}
+            
+            <Button color="inherit" onClickCapture={logout}>
+              <LogoutIcon />
+              <Typography ml={1}>
+              Logout
+              </Typography>
+            </Button>
           </Toolbar>
         </AppBar>
         <Drawer variant="permanent" open={open}>

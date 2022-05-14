@@ -11,14 +11,18 @@ import { ThemeProvider } from "@mui/material/styles";
 import { theme } from "./theme";
 import Tenant from "./pages/Tenant/Tenant";
 import Landlords from "./pages/Landlord/Landlords";
-import SignIn from "pages/SignIn";
+import Login from 'pages/Login';
+import Register from 'pages/Register';
+import ForgotPassword from 'pages/ForgotPassword';
+import { SignalWifiStatusbarNullSharp } from '@mui/icons-material';
 
 function App() {
   const [isSignedIn, setSignedIn] = useState(
     localStorage.getItem("token") ? true : false
   );
+
   const [user, setUser] = useState(null);
-  const [role, setRole] = useState(ROLE.Admin);
+  const [role, setRole] = useState(null);
   const authContext = { isSignedIn, setSignedIn, user, setUser, role, setRole };
 
   // // FIXME: Use for testing purpose
@@ -31,7 +35,9 @@ function App() {
     <ThemeProvider theme={theme}>
       <AuthContext.Provider value={authContext}>
         <Routes>
-          <Route path="/signin" element={<SignIn />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/forgotpassword" element={<ForgotPassword />} />
           <Route
             path="/"
             element={
