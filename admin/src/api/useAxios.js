@@ -1,13 +1,33 @@
-import { useContext } from "react";
+import { useState, useEffect, useCallback } from "react";
 import axios from "axios";
-import "firebase/database";
-import { AuthContext } from "../context/AuthContext";
 
-const useAxios = async (method, url, data = null) => {
-  const { isSignedIn } = useContext(AuthContext);
-  let response = await axios[method](process.env.API_URL + url, { data });
-  let result = await response.json();
-  return result;
+export const useAxios = (method, url, postData = null) => {
+  const [data, setData] = useState(null);
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(method === "get" ? true : false);
+
+  const executeRequest = useCallback(
+    async (postData = null) => {
+      if (method !== "get") {
+        setLoading(true);
+      }
+      try {
+        let response = await axios[method](url, { ...postData });
+        setData(response.data);
+      } catch (error) {
+        setError(error.message);
+      } finally {
+        setLoading(false);
+      }
+    },
+    [method, url]
+  );
+
+  useEffect(() => {
+    if (data === null && method === "get") {
+      executeRequest();
+    }
+  }, [data, executeRequest, method]);
+
+  return { data, error, loading, execute: executeRequest };
 };
-
-export default useAxios;

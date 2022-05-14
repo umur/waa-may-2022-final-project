@@ -1,9 +1,9 @@
 package com.pmp.server.utils.enums;
 
 public enum ERole {
-  ROLE_ADMIN("ADMIN"),
-  ROLE_TENANT("TENANT"),
-  ROLE_LANDLORD("LANDLORD"),
+  ROLE_ADMIN("ROLE_ADMIN"),
+  ROLE_TENANT("ROLE_TENANT"),
+  ROLE_LANDLORD("ROLE_LANDLORD"),
   ;
 
   private String role;

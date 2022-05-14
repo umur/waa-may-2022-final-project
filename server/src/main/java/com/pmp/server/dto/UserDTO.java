@@ -14,4 +14,5 @@ public class UserDTO {
   private String lastName;
   private boolean active;
   private String gender;
+  private String role;
 }

@@ -1,5 +1,6 @@
 package com.pmp.server.security;
 
+import com.pmp.server.utils.enums.ERole;
 import org.keycloak.adapters.springsecurity.KeycloakSecurityComponents;
 import org.keycloak.adapters.springsecurity.authentication.KeycloakAuthenticationProvider;
 import org.keycloak.adapters.springsecurity.config.KeycloakWebSecurityConfigurerAdapter;
@@ -37,7 +38,7 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
       sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests()
       .antMatchers("/api/auth/login").permitAll()
       .antMatchers("/api/auth/register").permitAll()
-      .antMatchers("/api/admin").hasAuthority("ROLE_ADMIN")
+      .antMatchers("/api/admin").hasAuthority(ERole.ROLE_ADMIN.getRole())
       .anyRequest().authenticated();
 
   }
