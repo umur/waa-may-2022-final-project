@@ -7,7 +7,7 @@ spring:
     name: pms
   datasource:
     password: maharishi
-    url: jdbc:postgresql://mydbinstance.cn12czf9gk5c.us-east-1.rds.amazonaws.com:5432/pms
+    url:
     username: postgres
   jpa:
     hibernate:
@@ -34,6 +34,6 @@ cloud:
     stack:
       auto: false
     credentials:
-      accessKey: AKIAQZ7VG5YW67KAIDMZ
-      secretKey: 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
+      accessKey: XXX
+      secretKey: XXX
 
