@@ -3,7 +3,7 @@ import { createContext } from "react";
 export const AuthContext = createContext({
   isSignedIn: false,
   setSignedIn: () => {},
-  role: "User",
+  role: null,
   setRole: () => {},
   user: {},
   setUser: () => {},

@@ -95,6 +95,10 @@ const DataTable = function index(props) {
   );
 }
 
+DataTable.defaultProps = {
+  rows: [],
+}
+
 DataTable.propTypes = {
   title: PropTypes.string,
 }

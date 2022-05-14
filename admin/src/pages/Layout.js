@@ -128,8 +128,6 @@ function Layout(props) {
           <Divider />
           <List component="nav">
             {mainMenu(getRoute(role))}
-            <Divider sx={{ my: 1 }} />
-            {reportsMenu}
           </List>
         </Drawer>
         <Box

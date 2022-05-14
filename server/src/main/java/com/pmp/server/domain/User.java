@@ -1,5 +1,6 @@
 package com.pmp.server.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pmp.server.annotation.Gender;
 import lombok.Data;
 import org.hibernate.annotations.SQLDelete;
@@ -25,8 +26,11 @@ public class User extends BaseEntity {
   @NotEmpty(message = "Last name is required")
   @Column(name="last_name")
   private String lastName;
-  @NotEmpty(message = "Last name is required")
+
+  @NotEmpty(message = "Password is required")
+  @JsonIgnore
   private String password;
+
   private boolean active;
 
   @NotEmpty(message = "Gender is required")

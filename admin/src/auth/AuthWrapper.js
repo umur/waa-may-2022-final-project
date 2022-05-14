@@ -1,13 +1,14 @@
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { useLocation, Navigate } from "react-router-dom";
+import _ from 'lodash';
 
 const AuthWrapper = (props) => {
   const { isSignedIn, role } = useContext(AuthContext);
   const location = useLocation();
-  console.log(props.role);
-  if (!isSignedIn) {
-    return <Navigate to="/" state={{ from: location }} replace />;
+  console.log(props.role, role);
+  if (!isSignedIn || !_.includes(props.role, role)) {
+    return <Navigate to="/signin" state={{ from: location }} replace />;
   }
   return props.children;
 };

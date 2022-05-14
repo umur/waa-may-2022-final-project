@@ -68,10 +68,10 @@ public class AdminController {
     }
 
     @PutMapping("/users/{id}/activate")
-    public ResponseEntity<User> activateUser(@PathVariable UUID id) throws Throwable {
-        var user = userService.updateUserStatus(id, true);
+    public ResponseEntity<ResponseMessage> activateUser(@PathVariable UUID id) throws Throwable {
+        var responseMessage = authService.activateUser(id, true);
 
-        return ResponseEntity.ok(user);
+        return ResponseEntity.ok(responseMessage);
     }
 
     private Sort convertDtoSortToDaoSort(Sort dtoSort) {

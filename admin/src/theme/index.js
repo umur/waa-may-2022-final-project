@@ -14,8 +14,8 @@ export const theme = createTheme({
       contrastText: '#229a16',
     },
     deactivate: {
-      main: 'rgb(183, 33, 54)',
-      contrastText: 'rgb(183, 33, 54)',
+      main: '#b72136',
+      contrastText: '#b72136',
     },
   },
 });

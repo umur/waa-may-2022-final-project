@@ -1,73 +1,33 @@
-import faker from "@faker-js/faker";
-import { Button, Grid, } from "@mui/material";
-import dayjs from "dayjs";
-import React, { useMemo, useState } from "react";
+import { Button, Grid } from "@mui/material";
+import React, { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import AddIcon from '@mui/icons-material/Add';
-import { ColumnTypes, RowActions } from 'components/DataTable/RowActions';
-import StatusView from 'components/StatusView';
-import Action from 'components/DataTable/Action';
-import Layout from 'pages/Layout';
-import SearchForm from 'components/SearchForm';
-import DataTable from 'components/DataTable';
-
-function generateRow(index) {
-  return {
-    id: `${index}`,
-    name: faker.name.findName(),
-    date: `${faker.date.past()}`,
-    streetName: faker.address.streetName(),
-    status: faker.datatype.boolean(),
-    actions: [RowActions.activate, RowActions.deactivate],
-  };
-}
-
-function generateData(page, perPage, rowCount, orderBy, orderDirection, keywords) {
-  console.log(page, orderBy, orderDirection, keywords);
-
-  let noOfItems = perPage;
-  let nextPage = page + 1;
-
-  if (nextPage * perPage > rowCount) {
-    noOfItems = rowCount - page * perPage;
-  }
-
-  const data = [];
-
-  for (let index = 1; index <= noOfItems; index++) {
-    const id = index + page * perPage;
-
-    data.push(generateRow(id));
-  }
-
-  return data;
-}
+import AddIcon from "@mui/icons-material/Add";
+import { ColumnTypes, RowActions } from "components/DataTable/RowActions";
+import StatusView from "components/StatusView";
+import Action from "components/DataTable/Action";
+import Layout from "pages/Layout";
+import SearchForm from "components/SearchForm";
+import DataTable from "components/DataTable";
+import { UserStatus } from "common/constant";
+import useAxios from "axios-hooks";
 
 function Tenants(props) {
   const columns = useMemo(
     () => [
       { id: "id", label: "Id" },
-      { id: "name", label: "Name" },
+      { id: "firstName", label: "First Name" },
+      { id: "lastName", label: "Last Name" },
+      { id: "email", label: "Email" },
+      { id: "gender", label: "Gender" },
+
       {
-        id: "date",
-        label: "Date of birth",
-        align: "left",
-        format: (value) => dayjs(value).format("MMM DD YYYY"),
-      },
-      {
-        id: "streetName",
-        label: "Address",
-        align: "left",
-        format: (value) => value,
-      },
-      {
-        id: "status",
-        label: "Status",
+        id: "active",
+        label: "Active",
         align: "left",
         renderCell: (data) => {
-          const status = data.value ? "active" : "pending"
-          return <StatusView title={status} variant={status} />
-        }
+          const status = data.value ? UserStatus.active : UserStatus.deactivate;
+          return <StatusView title={status} variant={status} />;
+        },
       },
       {
         id: "actions",
@@ -76,36 +36,61 @@ function Tenants(props) {
         renderCell: (data) => {
           const actions = data.value;
           const row = data.row;
-          
-          const buttons = actions.map(a => {
-            return <Action onClick={() => onAction(a, row)} text={a} color={a} key={`${a}_${row.id}`} />
-          })
 
-          return <Grid container spacing={1}>
-            {buttons}
-          </Grid>
-        }
-      }
+          const buttons = actions.map((a) => {
+            return (
+              <Action
+                onClick={() => onAction(a, row)}
+                text={a}
+                color={a}
+                key={`${a}_${row.id}`}
+              />
+            );
+          });
+
+          return (
+            <Grid container spacing={1}>
+              {buttons}
+            </Grid>
+          );
+        },
+      },
     ],
     []
   );
 
   const [order, setOrder] = React.useState("desc");
-  const [orderBy, setOrderBy] = React.useState("name");
+  const [orderBy, setOrderBy] = React.useState("firstName");
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  const [rows, setRows] = React.useState([]);
-  const [rowCount, setRowCount] = React.useState(34);
+  // const [rows, setRows] = React.useState([]);
+  // const [rowCount, setRowCount] = React.useState(34);
   const [keywords, setKeywords] = useState("");
 
-  const fetchData = React.useCallback(() => {
-    setRows(generateData(page, rowsPerPage, rowCount, orderBy, order, keywords));
-  }, [order, orderBy, page, rowsPerPage, rowCount, keywords]);
+  const [{ data, loading, error }, refetch] = useAxios(
+    {
+      url: "/admin/tenants",
+      method: "get",
+      params: {
+        page,
+        size: rowsPerPage,
+        sort: orderBy ? orderBy + "," + order : undefined,
+        keywords,
+      },
+    },
+    {
+      useCache: false,
+    }
+  );
 
-  React.useEffect(() => {
-    fetchData();
-  }, [fetchData]);
+  const rows = data?.data.map((i) => {
+    return { ...i, actions: [RowActions.activate, RowActions.deactivate] };
+  });
+
+  const rowCount = data?.total
+
+  console.log(rows);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -133,9 +118,9 @@ function Tenants(props) {
 
     setSelected(newSelected);
 
-    console.log('click ', row)
+    console.log("click ", row);
 
-    navigate(`/admin/tenants/${row.id}`)
+    navigate(`/admin/tenants/${row.id}`);
   };
 
   const handleChangePage = (event, newPage) => {
@@ -152,7 +137,7 @@ function Tenants(props) {
   /* -------------------------------------------------------------------------- */
   const searchTenants = (keywords) => {
     setKeywords(keywords);
-  }
+  };
 
   /* -------------------------------------------------------------------------- */
   /*                                 New tenant                                 */
@@ -160,16 +145,35 @@ function Tenants(props) {
   const navigate = useNavigate();
 
   const addTenant = () => {
-    navigate('/admin/tenants/new')
-  }
+    navigate("/admin/tenants/new");
+  };
 
   /* -------------------------------------------------------------------------- */
   /*                                   Actions                                  */
   /* -------------------------------------------------------------------------- */
+  const [
+    { data: userUpdated, loading: putLoading, error: putError },
+    executePut,
+  ] = useAxios(
+    {
+      url: "/admin/users/{{user_id}}/activate",
+      method: "PUT",
+    },
+    { manual: true }
+  );
+
+  useEffect(() => {
+    refetch();
+  }, [refetch, userUpdated]);
+
   const onAction = (action, row) => {
     // TODO: handle action
-    console.log(action, row)
-  }
+    console.log(action, row);
+    executePut({
+      url: `/admin/users/${row.id}/${action}`,
+      method: "PUT",
+    });
+  };
 
   return (
     <Layout title="Tenants">
@@ -179,10 +183,11 @@ function Tenants(props) {
         </Grid>
 
         <Grid item xs={4}>
-          <Button variant="contained" onClick={addTenant}><AddIcon />  New Tenant</Button>
+          <Button variant="contained" onClick={addTenant}>
+            <AddIcon /> New Tenant
+          </Button>
         </Grid>
-        
-        
+
         <Grid item xs={12}>
           <DataTable
             order={order}
