@@ -10,7 +10,7 @@ import waa.project.finalproj.service.UserService;
 
 @RestController
 @RequestMapping("/api/v1/users")
-@CrossOrigin
+@CrossOrigin(origins = "*")
 @RequiredArgsConstructor
 public class UserController {
 

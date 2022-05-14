@@ -9,7 +9,7 @@ import waa.project.finalproj.service.PropertyService;
 
 @RestController
 @RequestMapping("/api/v1/properties")
-@CrossOrigin
+@CrossOrigin(origins = "*")
 @RequiredArgsConstructor
 public class PropertyController {
 

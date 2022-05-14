@@ -9,7 +9,7 @@ import waa.project.finalproj.service.RentService;
 
 @RestController
 @RequestMapping("/api/v1/rents")
-@CrossOrigin
+@CrossOrigin(origins = "*")
 @RequiredArgsConstructor
 public class RentController {
 

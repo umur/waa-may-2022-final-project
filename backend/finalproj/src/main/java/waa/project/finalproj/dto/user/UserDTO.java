@@ -4,8 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import waa.project.finalproj.entity.Property;
-import waa.project.finalproj.entity.Rent;
+import waa.project.finalproj.dto.Rent.RentOnlyAttrDTO;
+import waa.project.finalproj.dto.property.PropertyAttrOnly;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -24,6 +24,6 @@ public class UserDTO {
     private LocalDateTime LastLoggedInAt;
     private String role;
 
-    private List<Rent> user;
-    private List<Property> property;
+    private List<RentOnlyAttrDTO> rents;
+    private List<PropertyAttrOnly> property;
 }

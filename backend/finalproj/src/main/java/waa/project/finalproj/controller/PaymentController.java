@@ -9,7 +9,7 @@ import waa.project.finalproj.service.PaymentService;
 
 @RestController
 @RequestMapping("/api/v1/payments")
-@CrossOrigin
+@CrossOrigin(origins = "*")
 @RequiredArgsConstructor
 public class PaymentController {
 

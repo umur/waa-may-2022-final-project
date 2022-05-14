@@ -4,10 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import waa.project.finalproj.dto.Rent.RentBasicDTO;
 import waa.project.finalproj.dto.propertyType.PropertyTypeDTO;
 import waa.project.finalproj.dto.user.UserAttrOnlyDTO;
 import waa.project.finalproj.entity.Photo;
-import waa.project.finalproj.entity.Rent;
 
 import java.util.List;
 
@@ -35,5 +35,5 @@ public class PropertyDTO {
 
     private UserAttrOnlyDTO user;
 
-    private List<Rent> rent;
+    private List<RentBasicDTO> rent;
 }
