@@ -8,7 +8,7 @@ There are three roles in this system- Landlord, Admin, and Tenant.
  - Tenant is the one who is looking for a rental house. She/He can search the house according to the requirements and get the results accordingly.
 
 Dashboard Page for admins:
-- Display the last 10 properties rented.
+- Display the last 10 properties rented. fd
 - Display 10 most recent tenants.
 - Display total income per location. 
 - Add more features as you see fit.
