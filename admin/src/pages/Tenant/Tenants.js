@@ -1,5 +1,5 @@
 import { Button, Grid } from "@mui/material";
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AddIcon from "@mui/icons-material/Add";
 import { ColumnTypes, RowActions } from "components/DataTable/RowActions";
@@ -68,43 +68,27 @@ function Tenants(props) {
   const [rowCount, setRowCount] = React.useState(34);
   const [keywords, setKeywords] = useState("");
 
-  // const {
-  //   error,
-  //   loading,
-  //   execute: getTenants,
-  //   data,
-  // } = useAxios("get", "/admin/tenants");
-
-  const [{ data, loading, error }, refetch] = useAxios({
-    url: "/admin/tenants",
-    method: "get",
-    params: {
-      page,
-      size: rowsPerPage,
-      sort: orderBy ? orderBy + "," + order : undefined,
-      keywords,
+  const [{ data, loading, error }, refetch] = useAxios(
+    {
+      url: "/admin/tenants",
+      method: "get",
+      params: {
+        page,
+        size: rowsPerPage,
+        sort: orderBy ? orderBy + "," + order : undefined,
+        keywords,
+      },
     },
-  });
+    {
+      useCache: false,
+    }
+  );
 
   const rows = data?.data.map((i) => {
     return { ...i, actions: [RowActions.activate, RowActions.deactivate] };
   });
 
   console.log(rows);
-
-  // const fetchData = React.useCallback(() => {
-  //   // setRows(generateData(page, rowsPerPage, rowCount, orderBy, order, keywords));
-  //   getTenants({
-  //     page,
-  //     size: rowsPerPage,
-  //     sort: orderBy ? orderBy + "," + order : undefined,
-  //     keywords,
-  //   });
-  // }, [getTenants, page, rowsPerPage, orderBy, order, keywords]);
-
-  // React.useEffect(() => {
-  //   fetchData();
-  // }, [fetchData]);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -165,9 +149,28 @@ function Tenants(props) {
   /* -------------------------------------------------------------------------- */
   /*                                   Actions                                  */
   /* -------------------------------------------------------------------------- */
+  const [
+    { data: userUpdated, loading: putLoading, error: putError },
+    executePut,
+  ] = useAxios(
+    {
+      url: "/admin/users/{{user_id}}/activate",
+      method: "PUT",
+    },
+    { manual: true }
+  );
+
+  useEffect(() => {
+    refetch();
+  }, [refetch, userUpdated]);
+
   const onAction = (action, row) => {
     // TODO: handle action
     console.log(action, row);
+    executePut({
+      url: `/admin/users/${row.id}/${action}`,
+      method: "PUT",
+    });
   };
 
   return (

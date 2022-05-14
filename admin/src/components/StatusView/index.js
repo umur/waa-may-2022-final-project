@@ -30,7 +30,7 @@ const sizes = {
 
 export const StatusVariants = {
   active: 'active',
-  inactive: 'inactive',
+  deactivate: 'deactivate',
   pending: 'pending',
 }
 
@@ -40,7 +40,7 @@ const variants = {
     color: '#229a16',
     
   },
-  [StatusVariants.inactive]: {
+  [StatusVariants.deactivate]: {
     backgroundColor: 'rgba(255, 72, 66, 0.16)',
     color: 'rgb(183, 33, 54)'
   },

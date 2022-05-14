@@ -196,13 +196,13 @@ public class AuthServiceImpl {
    */
   public ResponseMessage activateUser(UUID id, boolean isActive) {
 
-    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-    if(authentication != null){
-      if(authentication.getPrincipal() instanceof KeycloakPrincipal){
-        KeycloakPrincipal<KeycloakSecurityContext> kp = (KeycloakPrincipal<KeycloakSecurityContext>) authentication.getPrincipal();
-        String uuid = kp.getKeycloakSecurityContext().getToken().getId();
-      }
-    }
+//    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//    if(authentication != null){
+//      if(authentication.getPrincipal() instanceof KeycloakPrincipal){
+//        KeycloakPrincipal<KeycloakSecurityContext> kp = (KeycloakPrincipal<KeycloakSecurityContext>) authentication.getPrincipal();
+//        String uuid = kp.getKeycloakSecurityContext().getToken().getId();
+//      }
+//    }
 
     Keycloak keycloak = getKeyCloak();
     Optional<User> user = userRepo.findById(id);

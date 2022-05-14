@@ -70,18 +70,4 @@ public class UserServiceImpl implements UserService {
   public Page<User> getAllByRoleIdAndKeywords(Pageable pageable, Role role, String keywords) {
     return userRepo.findAllWithJPQL(role.getId(), keywords, pageable);
   }
-
-  @Override
-  public User updateUserStatus(UUID id, boolean isActive) throws Throwable {
-    var user = userRepo.findById(id).orElseThrow(new Supplier<Throwable>() {
-      @Override
-      public Throwable get() {
-        return new CustomErrorException(HttpStatus.BAD_REQUEST, null, USER_NOT_FOUND_TO_UPDATE);
-      }
-    });
-
-    user.setActive(isActive);
-    userRepo.save(user);
-    return user;
-  }
 }
