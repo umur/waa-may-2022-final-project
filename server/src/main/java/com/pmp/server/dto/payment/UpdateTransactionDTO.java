@@ -9,8 +9,12 @@ import java.util.UUID;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CheckoutSessionDTO {
-    private UUID propertyRentalHistoryId;
-    private UUID propertyId;
-    private Long numberOfDays;
+public class UpdateTransactionDTO {
+    private UUID id;
+
+    private String transactionId;
+
+    private String status;
+
+    private String receiptUrl;
 }

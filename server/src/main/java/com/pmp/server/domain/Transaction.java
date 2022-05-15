@@ -1,5 +1,6 @@
 package com.pmp.server.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
@@ -24,6 +25,9 @@ public class Transaction extends BaseEntity {
 
     private String status;
 
+    private String receiptUrl;
+
     @OneToOne
+    @JsonIgnore
     private PropertyRentalHistory propertyRentalHistory;
 }

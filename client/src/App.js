@@ -42,8 +42,6 @@ function App() {
             </AuthWrapper>
           }
         />
-        
-        <Route path="/checkout/:id" element={<Checkout order={{amount: 1999, name:"Tenant Fullname", email: "tenant@gmail.com"}} />} />
 
         <Route path="/payment/:id" element={<Payment />} />
 

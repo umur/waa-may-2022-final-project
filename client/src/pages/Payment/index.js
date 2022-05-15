@@ -4,11 +4,16 @@ import { useParams } from 'react-router-dom';
 import "./index.css"
 
 const Payment = () => {
-  const { id: propertyId } = useParams();
+  const { id: propertyRentalHistoryId } = useParams();
 
   const {
-    data: property,
-  } = useAxios("get", `/property-rental-histories/${propertyId}`);
+    data: propertyRentalHistory,
+    execute: getRentalHistory,
+  } = useAxios("get", `/property-rental-histories/${propertyRentalHistoryId}`);
+
+  // useEffect(() => {
+  //   getRentalHistory()
+  // }, [getRentalHistory, propertyRentalHistoryId]);
 
   const {
     data,
@@ -21,10 +26,20 @@ const Payment = () => {
     event.preventDefault()
 
     execute({
-      propertyId: property.id,
+      propertyId: propertyRentalHistory.property.id,
       numberOfDays: 2,
+      propertyRentalHistoryId: propertyRentalHistory.id,
     })
   }
+
+  /* -------------------------------------------------------------------------- */
+  /*                          Open stripe checkout link                         */
+  /* -------------------------------------------------------------------------- */
+  useEffect(() => {
+    if (data) {
+      window.location.replace(data?.url)
+    }
+  }, [data]);
 
   return (
     <section>
@@ -54,28 +69,3 @@ const Message = ({ message }) => (
     <p>{message}</p>
   </section>
 );
-
-// export default function App() {
-//   const [message, setMessage] = useState("");
-
-//   useEffect(() => {
-//     // Check to see if this is a redirect back from Checkout
-//     const query = new URLSearchParams(window.location.search);
-
-//     if (query.get("success")) {
-//       setMessage("Order placed! You will receive an email confirmation.");
-//     }
-
-//     if (query.get("canceled")) {
-//       setMessage(
-//         "Order canceled -- continue to shop around and checkout when you're ready."
-//       );
-//     }
-//   }, []);
-
-//   return message ? (
-//     <Message message={message} />
-//   ) : (
-//     <ProductDisplay />
-//   );
-// }
