@@ -11,5 +11,9 @@ public interface PropertyRepository extends CrudRepository<Property, Long> {
 
     List<Property> findAllByNoOfBedRoom(int noOfBedRoom);
 
-    //Where is the connection between address and property.
+    List<Property> findAllByAddress_StateAndAddress_City(String state, String city);
+
+    List<Property> findAllByAddress_State(String state);
+
+    List<Property> findAllByAddress_City(String city);
 }

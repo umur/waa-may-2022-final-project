@@ -24,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.lang.reflect.Type;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -122,5 +123,20 @@ public class PropertyServiceImpl implements PropertyService {
         var properties = propertyRepository.findAllByNoOfBedRoom(noOfBedRoom);
         Type listType = new TypeToken<List<PropertyDto>>(){}.getType();
         return modelMapper.map(properties,listType);
+    }
+
+    @Override
+    public List<PropertyDto> findAllByAddress_StateAndAddress_City(String state, String city){
+        List<Property> properties = new ArrayList<Property>();
+        if(state != null && city != null) {
+             properties = propertyRepository.findAllByAddress_StateAndAddress_City(state, city);
+        } else if (city == null){
+             properties = propertyRepository.findAllByAddress_State(state);
+        } else if (state == null){
+             properties = propertyRepository.findAllByAddress_City(city);
+        }
+
+        Type listType = new TypeToken<List<PropertyDto>>(){}.getType();
+        return modelMapper.map(properties, listType);
     }
 }

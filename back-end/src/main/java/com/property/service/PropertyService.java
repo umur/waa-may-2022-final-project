@@ -15,4 +15,6 @@ public interface PropertyService extends CrudService<PropertyDto,PropertyDto,Lon
     List<PropertyDto> findAllByPropertyTypeContains(String type);
 
     List<PropertyDto> findAllByNoOfBedRoom(int noOfBedRoom);
+
+    List<PropertyDto> findAllByAddress_StateAndAddress_City(String state, String city);
 }

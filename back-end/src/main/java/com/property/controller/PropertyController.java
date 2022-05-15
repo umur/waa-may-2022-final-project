@@ -48,4 +48,11 @@ public class PropertyController {
         return ResponseEntity.ok(propertyDtos);
     }
 
+    @GetMapping("/filter-property-by-address")
+    public ResponseEntity<List<PropertyDto>> findAllByAddress_StateAndAddress_City(@RequestParam(required = false) String state,
+                                                                                                 @RequestParam(required = false) String city){
+        List<PropertyDto> properties = propertyService.findAllByAddress_StateAndAddress_City(state, city);
+        return ResponseEntity.ok(properties);
+    }
+
 }
