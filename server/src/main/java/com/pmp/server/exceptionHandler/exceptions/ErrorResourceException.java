@@ -1,4 +1,4 @@
-package com.pmp.server.exception;
+package com.pmp.server.exceptionHandler.exceptions;
 
 public class ErrorResourceException extends RuntimeException {
     public ErrorResourceException(String message){

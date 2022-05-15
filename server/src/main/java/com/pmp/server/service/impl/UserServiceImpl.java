@@ -5,13 +5,9 @@ import com.pmp.server.domain.Role;
 import com.pmp.server.domain.User;
 import com.pmp.server.dto.common.PagingRequest;
 import com.pmp.server.dto.common.ResponseMessage;
-import com.pmp.server.exception.ErrorResourceException;
-import com.pmp.server.exception.UserNotFoundException;
-import com.pmp.server.exceptionHandler.exceptions.CustomErrorException;
 import com.pmp.server.repo.PropertyRentalHistoryRepo;
 import com.pmp.server.repo.UserRepo;
 import com.pmp.server.service.UserService;
-import com.pmp.server.utils.constants.ResponseMessageConstants;
 import org.keycloak.KeycloakPrincipal;
 import org.keycloak.KeycloakSecurityContext;
 import org.springframework.data.domain.Page;
@@ -26,7 +22,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.function.Supplier;
 
 import static com.pmp.server.utils.constants.ResponseMessageConstants.*;
 
