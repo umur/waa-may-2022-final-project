@@ -30,6 +30,9 @@ function getMenu(role) {
                 <Menu.Item>
                     <Link to='/login'>Login</Link>
                 </Menu.Item>
+                <Menu.Item >
+                    <Link to='/properties'>properties</Link>
+                </Menu.Item>
                 
                 
             </>
@@ -48,6 +51,10 @@ function getMenu(role) {
                 <Menu.Item>
                     <Link to='/users'>Logout</Link>
                 </Menu.Item>
+                <Menu.Item >
+                    <Link to='/properties'>properties</Link>
+                </Menu.Item>
+                
             </>
         )
     }
@@ -64,6 +71,10 @@ function getMenu(role) {
                 <Menu.Item>
                     <Link to='/users'>Logout</Link>
                 </Menu.Item>
+                <Menu.Item >
+                    <Link to='/properties'>properties</Link>
+                </Menu.Item>
+                
             </>
         )
     }
