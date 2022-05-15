@@ -14,21 +14,28 @@ import Properties from './pages/properties/index';
 import Login from './pages/login/login';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import DashboarAdmin from './pages/dashbord/dashboard-admin';
+import { useSelector } from 'react-redux';
+
 const { Header, Content, Sider } = Layout;
 
 function App() {
-    
-    const sessionVal = JSON.parse(window.sessionStorage.getItem('token')).jwtToken ;
-    let userRole
-    if(sessionVal){
-        const decodedString = atob(sessionVal.split('.')[1]);
-        userRole = JSON.parse(decodedString).role[0].authority;
-        const userName = JSON.parse(decodedString).sub;
-    }else{
-        userRole='';
-    }
-    
 
+    let userRole='';
+    let userName='';
+
+    if(window.sessionStorage.getItem('userRole')){
+        userRole=window.sessionStorage.getItem('userRole');
+        userName=window.sessionStorage.getItem('userName');
+    }
+
+    //const sessionVal = JSON.parse(window.sessionStorage.getItem('token')).jwtToken ;
+
+    {
+        const user =useSelector((state)=>state.user.value);
+    
+        userRole=user.role;
+    }
+        
     const [isAdmin, setIsAdmin] = useState(false);
     const [isTenant, setIsTenant] = useState(false);
     const [isLandLord, setIsLandLord] = useState(false);
@@ -39,6 +46,7 @@ function App() {
             <Layout>
                 {/* <Nav role="ADMIN"></Nav> */}
                 <Nav role={userRole}></Nav>
+                {/* <Nav role='admin'></Nav> */}
                 <Layout style={{ padding: '0 24px 24px', }}>
                     {/* <Breadcrumb></Breadcrumb> */}
                     <Content
