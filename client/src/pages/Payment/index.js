@@ -1,19 +1,30 @@
+import { Grid, useMediaQuery } from '@mui/material';
 import { useAxios } from 'api/useAxios';
+import AlertDialog from 'components/AlertDialog';
+import Header from 'components/Header';
 import React, { useState, useEffect } from "react";
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import useQuery from 'useQuery';
 import "./index.css"
+import Item from './Item';
 
 const Payment = () => {
   const { id: propertyRentalHistoryId } = useParams();
 
+  const navigate = useNavigate();
+  const query = useQuery();
+  const [openDialog, setOpenDialog] = useState(false);
+
+  useEffect(() => {
+    if (query.get("success") === 'true') {
+      setOpenDialog(true)
+    }
+  }, [query]);
+
   const {
     data: propertyRentalHistory,
-    execute: getRentalHistory,
+    // execute: getRentalHistory,
   } = useAxios("get", `/property-rental-histories/${propertyRentalHistoryId}`);
-
-  // useEffect(() => {
-  //   getRentalHistory()
-  // }, [getRentalHistory, propertyRentalHistoryId]);
 
   const {
     data,
@@ -42,30 +53,28 @@ const Payment = () => {
   }, [data]);
 
   return (
-    <section>
-      <div className="product">
-        <img
-          src="https://i.imgur.com/EHyR2nP.png"
-          alt="The cover of Stubborn Attachments"
-        />
-        <div className="description">
-        <h3>Stubborn Attachments</h3>
-        <h5>$20.00</h5>
-        </div>
-      </div>
-      <form onSubmit={handleSubmit} method="POST">
-        <button type="submit">
-          Checkout
-        </button>
-      </form>
-    </section>
+    <Grid container spacing={2}>
+      <Header />
+      <Grid item xs={6}>
+        <Item propertyRentalHistory={propertyRentalHistory} />
+        <section>
+          <form onSubmit={handleSubmit} method="POST">
+            <button type="submit">
+              Checkout
+            </button>
+          </form>
+        </section>
+      </Grid>
+
+      <AlertDialog open={openDialog} handleClose={() => {
+        setOpenDialog(false)
+        navigate("/")
+      }} 
+        title={"Your order success"}
+        content={""}
+      />
+    </Grid>
   );
 };
 
 export default Payment;
-
-const Message = ({ message }) => (
-  <section>
-    <p>{message}</p>
-  </section>
-);

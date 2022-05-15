@@ -10,7 +10,6 @@ import PropertyDetail from "./pages/PropertyDetail";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import ForgotPassword from "./pages/ForgotPassword";
-import Checkout from 'pages/Checkout';
 import Payment from 'pages/Payment';
 import CreateNewPassword from "pages/CreateNewPassword";
 import { ToastContainer } from 'react-toastify';

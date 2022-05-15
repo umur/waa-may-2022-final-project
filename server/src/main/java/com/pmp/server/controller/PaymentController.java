@@ -98,8 +98,8 @@ public class PaymentController {
                 SessionCreateParams.builder()
                         .setMode(SessionCreateParams.Mode.PAYMENT)
                         .putAllMetadata(initialMetadata)
-                        .setSuccessUrl(paymentURL + "/success=true?session_id={CHECKOUT_SESSION_ID}")
-                        .setCancelUrl(paymentURL + "/canceled")
+                        .setSuccessUrl(paymentURL + "?success=true&session_id={CHECKOUT_SESSION_ID}")
+                        .setCancelUrl(paymentURL + "?canceled=true")
                         .addLineItem(
                                 SessionCreateParams.LineItem.builder()
                                         .setQuantity(body.getNumberOfDays())
