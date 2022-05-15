@@ -71,6 +71,7 @@ import {
   CanvasRenderer,
   // SVGRenderer,
 } from "echarts/renderers";
+import DisplayTopTenData from "components/DisplayTopTenData";
 
 // Register the required components
 echarts.use([
@@ -132,15 +133,15 @@ const lineChartOption = {
     text: 'Number of properties rented'
   },
   toolbox: {
-      feature: {
-          saveAsImage: {},
-          dataZoom: {},
-          restore: {}
-      }
+    feature: {
+      saveAsImage: {},
+      dataZoom: {},
+      restore: {}
+    }
   },
   tooltip: {},
   legend: {
-    data:['Properties']
+    data: ['Properties']
   },
   xAxis: {
     data: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'Day 7']
@@ -183,55 +184,59 @@ function generateData(page, perPage, rowCount, orderBy, orderDirection) {
 }
 
 function Dashboard(props) {
-  const columns = [
-    { id: "id", label: "Id", minWidth: 170 },
-    { id: "name", label: "Name", minWidth: 170 },
-    {
-      id: "date",
-      label: "Date",
-      minWidth: 170,
-      align: "right",
-      format: (value) => dayjs(value).format("MMM DD YYYY"),
-    },
-    {
-      id: "streetName",
-      label: "Address",
-      minWidth: 170,
-      align: "right",
-      format: (value) => value,
-    },
-    // {
-    //   id: "image",
-    //   label: "Photo",
-    //   minWidth: 170,
-    //   align: "right",
-    //   renderCell: (params) => (
-    //     <img width={170} src={params.value} alt="property" />
-    //   ),
-    // },
-  ];
 
-  const [order, setOrder] = React.useState("desc");
-  const [orderBy, setOrderBy] = React.useState("name");
-  const [selected, setSelected] = React.useState([]);
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  const [rows, setRows] = React.useState([]);
-  const [rowCount, setRowCount] = React.useState(34);
+  /* -------------------------------------------------------------------------- */
+  /*                                    Recent Property Table                                   */
+  /* -------------------------------------------------------------------------- */
+  // const columns = [
+  //   { id: "id", label: "Id", minWidth: 170 },
+  //   { id: "name", label: "Name", minWidth: 170 },
+  //   {
+  //     id: "date",
+  //     label: "Date",
+  //     minWidth: 170,
+  //     align: "right",
+  //     format: (value) => dayjs(value).format("MMM DD YYYY"),
+  //   },
+  //   {
+  //     id: "streetName",
+  //     label: "Address",
+  //     minWidth: 170,
+  //     align: "right",
+  //     format: (value) => value,
+  //   },
+  //   // {
+  //   //   id: "image",
+  //   //   label: "Photo",
+  //   //   minWidth: 170,
+  //   //   align: "right",
+  //   //   renderCell: (params) => (
+  //   //     <img width={170} src={params.value} alt="property" />
+  //   //   ),
+  //   // },
+  // ];
 
-  const fetchData = React.useCallback(() => {
-    setRows(generateData(page, rowsPerPage, rowCount, orderBy, order));
-  }, [order, orderBy, page, rowsPerPage, rowCount]);
+  // const [order, setOrder] = React.useState("desc");
+  // const [orderBy, setOrderBy] = React.useState("name");
+  // const [selected, setSelected] = React.useState([]);
+  // const [page, setPage] = React.useState(0);
+  // const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  // const [rows, setRows] = React.useState([]);
+  // const [rowCount, setRowCount] = React.useState(34);
 
-  React.useEffect(() => {
-    fetchData();
-  }, [fetchData]);
+  // const fetchData = React.useCallback(() => {
+  //   setRows(generateData(page, rowsPerPage, rowCount, orderBy, order));
+  // }, [order, orderBy, page, rowsPerPage, rowCount]);
 
-  const handleRequestSort = (event, property) => {
-    const isAsc = orderBy === property && order === "asc";
-    setOrder(isAsc ? "desc" : "asc");
-    setOrderBy(property);
-  };
+  // React.useEffect(() => {
+  //   fetchData();
+  // }, [fetchData]);
+
+  // const handleRequestSort = (event, property) => {
+  //   const isAsc = orderBy === property && order === "asc";
+  //   setOrder(isAsc ? "desc" : "asc");
+  //   setOrderBy(property);
+  // };
 
   // const handleSelectAllClick = (event) => {
   //   if (event.target.checked) {
@@ -242,34 +247,45 @@ function Dashboard(props) {
   //   setSelected([]);
   // };
 
-  const handleClick = (event, name) => {
-    const selectedIndex = selected.indexOf(name);
-    let newSelected = [];
+  // const handleClick = (event, name) => {
+  //   const selectedIndex = selected.indexOf(name);
+  //   let newSelected = [];
 
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1)
-      );
-    }
+  //   if (selectedIndex === -1) {
+  //     newSelected = newSelected.concat(selected, name);
+  //   } else if (selectedIndex === 0) {
+  //     newSelected = newSelected.concat(selected.slice(1));
+  //   } else if (selectedIndex === selected.length - 1) {
+  //     newSelected = newSelected.concat(selected.slice(0, -1));
+  //   } else if (selectedIndex > 0) {
+  //     newSelected = newSelected.concat(
+  //       selected.slice(0, selectedIndex),
+  //       selected.slice(selectedIndex + 1)
+  //     );
+  //   }
 
-    setSelected(newSelected);
-  };
+  //   setSelected(newSelected);
+  // };
 
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
+  // const handleChangePage = (event, newPage) => {
+  //   setPage(newPage);
+  // };
 
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
+  // const handleChangeRowsPerPage = (event) => {
+  //   setRowsPerPage(parseInt(event.target.value, 10));
+  //   setPage(0);
+  // };
+
+
+  /* -------------------------------------------------------------------------- */
+  /*                                    Newly added tenants                                   */
+  /* -------------------------------------------------------------------------- */
+
+
+
+
+
+
 
   /* -------------------------------------------------------------------------- */
   /*                                    Chart                                   */
@@ -298,7 +314,7 @@ function Dashboard(props) {
     <Layout title="Dashboard">
       <Grid container spacing={1}>
         {/* Recent Properties */}
-        <Grid item xs={6}>
+        {/* <Grid item xs={6}>
           <DataTable
             title={"Recent Properties"}
             order={order}
@@ -314,18 +330,23 @@ function Dashboard(props) {
             handleChangePage={handleChangePage}
             handleChangeRowsPerPage={handleChangeRowsPerPage}
           />
-        </Grid>
+        </Grid> */}
+
+
+        <DisplayTopTenData title="Newly added tenants" />
+
+
         <Grid item xs={6} rowSpacing={1}>
           <Paper>
-              <ReactECharts
-                option={getOption()}
-                style={{ height: 400 }}
-                onChartReady={onChartReady}
-                onEvents={{
-                  click: onChartClick,
-                  legendselectchanged: onChartLegendselectchanged,
-                }}
-              />
+            <ReactECharts
+              option={getOption()}
+              style={{ height: 400 }}
+              onChartReady={onChartReady}
+              onEvents={{
+                click: onChartClick,
+                legendselectchanged: onChartLegendselectchanged,
+              }}
+            />
           </Paper>
           <Box margin={1} />
           <Paper>

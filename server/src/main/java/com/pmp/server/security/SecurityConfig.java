@@ -44,8 +44,11 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
       .antMatchers("/api/properties").permitAll()
       .antMatchers("/api/properties/*").permitAll()
       .antMatchers("/api/properties/rent/*").permitAll()
-      .antMatchers("/api/admin").hasAuthority(ERole.ROLE_ADMIN.getRole()).antMatchers("/api/payment/*").permitAll()
+      .antMatchers("/api/admin").hasAuthority(ERole.ROLE_ADMIN.getRole())
+      .antMatchers("/api/payment/*").permitAll()
       .antMatchers("/api/property-rental-histories/*").permitAll()
+
+      .antMatchers("/api/users/*").permitAll() //pprajapati: need to pass bearer token from admin
       .anyRequest().authenticated();
 
   }
