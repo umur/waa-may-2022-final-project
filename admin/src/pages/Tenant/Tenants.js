@@ -182,11 +182,11 @@ function Tenants(props) {
           <SearchForm onSubmit={searchTenants} />
         </Grid>
 
-        <Grid item xs={4}>
+        {/* <Grid item xs={4}>
           <Button variant="contained" onClick={addTenant}>
             <AddIcon /> New Tenant
           </Button>
-        </Grid>
+        </Grid> */}
 
         <Grid item xs={12}>
           <DataTable

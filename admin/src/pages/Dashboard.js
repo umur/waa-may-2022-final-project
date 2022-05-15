@@ -164,126 +164,8 @@ function generateRow(index) {
   };
 }
 
-function generateData(page, perPage, rowCount, orderBy, orderDirection) {
-  let noOfItems = perPage;
-  let nextPage = page + 1;
-
-  if (nextPage * perPage > rowCount) {
-    noOfItems = rowCount - page * perPage;
-  }
-
-  const data = [];
-
-  for (let index = 1; index <= noOfItems; index++) {
-    const id = index + page * perPage;
-
-    data.push(generateRow(id));
-  }
-
-  return data;
-}
 
 function Dashboard(props) {
-
-  /* -------------------------------------------------------------------------- */
-  /*                                    Recent Property Table                                   */
-  /* -------------------------------------------------------------------------- */
-  // const columns = [
-  //   { id: "id", label: "Id", minWidth: 170 },
-  //   { id: "name", label: "Name", minWidth: 170 },
-  //   {
-  //     id: "date",
-  //     label: "Date",
-  //     minWidth: 170,
-  //     align: "right",
-  //     format: (value) => dayjs(value).format("MMM DD YYYY"),
-  //   },
-  //   {
-  //     id: "streetName",
-  //     label: "Address",
-  //     minWidth: 170,
-  //     align: "right",
-  //     format: (value) => value,
-  //   },
-  //   // {
-  //   //   id: "image",
-  //   //   label: "Photo",
-  //   //   minWidth: 170,
-  //   //   align: "right",
-  //   //   renderCell: (params) => (
-  //   //     <img width={170} src={params.value} alt="property" />
-  //   //   ),
-  //   // },
-  // ];
-
-  // const [order, setOrder] = React.useState("desc");
-  // const [orderBy, setOrderBy] = React.useState("name");
-  // const [selected, setSelected] = React.useState([]);
-  // const [page, setPage] = React.useState(0);
-  // const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  // const [rows, setRows] = React.useState([]);
-  // const [rowCount, setRowCount] = React.useState(34);
-
-  // const fetchData = React.useCallback(() => {
-  //   setRows(generateData(page, rowsPerPage, rowCount, orderBy, order));
-  // }, [order, orderBy, page, rowsPerPage, rowCount]);
-
-  // React.useEffect(() => {
-  //   fetchData();
-  // }, [fetchData]);
-
-  // const handleRequestSort = (event, property) => {
-  //   const isAsc = orderBy === property && order === "asc";
-  //   setOrder(isAsc ? "desc" : "asc");
-  //   setOrderBy(property);
-  // };
-
-  // const handleSelectAllClick = (event) => {
-  //   if (event.target.checked) {
-  //     const newSelecteds = rows.map((n) => n.name);
-  //     setSelected(newSelecteds);
-  //     return;
-  //   }
-  //   setSelected([]);
-  // };
-
-  // const handleClick = (event, name) => {
-  //   const selectedIndex = selected.indexOf(name);
-  //   let newSelected = [];
-
-  //   if (selectedIndex === -1) {
-  //     newSelected = newSelected.concat(selected, name);
-  //   } else if (selectedIndex === 0) {
-  //     newSelected = newSelected.concat(selected.slice(1));
-  //   } else if (selectedIndex === selected.length - 1) {
-  //     newSelected = newSelected.concat(selected.slice(0, -1));
-  //   } else if (selectedIndex > 0) {
-  //     newSelected = newSelected.concat(
-  //       selected.slice(0, selectedIndex),
-  //       selected.slice(selectedIndex + 1)
-  //     );
-  //   }
-
-  //   setSelected(newSelected);
-  // };
-
-  // const handleChangePage = (event, newPage) => {
-  //   setPage(newPage);
-  // };
-
-  // const handleChangeRowsPerPage = (event) => {
-  //   setRowsPerPage(parseInt(event.target.value, 10));
-  //   setPage(0);
-  // };
-
-
-  /* -------------------------------------------------------------------------- */
-  /*                                    Newly added tenants                                   */
-  /* -------------------------------------------------------------------------- */
-
-
-
-
 
 
 
@@ -306,6 +188,46 @@ function Dashboard(props) {
     console.log(param, echarts);
   };
 
+  const tenantColumn = [
+    { id: "id", label: "Id", minWidth: 10 },
+    { id: "firstName", label: "First Name", minWidth: 170 },
+    { id: "lastName", label: "Last Name", minWidth: 170 },
+    {
+      id: "created_at",
+      label: "Date",
+      minWidth: 170,
+      align: "right",
+      format: (value) => dayjs(value).format("MMM DD YYYY"),
+    },
+    {
+      id: "gender",
+      label: "Gender",
+      minWidth: 170,
+      align: "right",
+      format: (value) => value,
+    },
+  ];
+
+  const propertyColumn = [
+    { id: "id", label: "Id", minWidth: 10 },
+    { id: "firstName", label: "First Name", minWidth: 170 },
+    { id: "lastName", label: "Last Name", minWidth: 170 },
+    {
+      id: "created_at",
+      label: "Date",
+      minWidth: 170,
+      align: "right",
+      format: (value) => dayjs(value).format("MMM DD YYYY"),
+    },
+    {
+      id: "gender",
+      label: "Gender",
+      minWidth: 170,
+      align: "right",
+      format: (value) => value,
+    },
+  ];
+
   /* -------------------------------------------------------------------------- */
   /*                                  End Chart                                 */
   /* -------------------------------------------------------------------------- */
@@ -313,28 +235,9 @@ function Dashboard(props) {
   return (
     <Layout title="Dashboard">
       <Grid container spacing={1}>
-        {/* Recent Properties */}
-        {/* <Grid item xs={6}>
-          <DataTable
-            title={"Recent Properties"}
-            order={order}
-            orderBy={orderBy}
-            selected={selected}
-            rows={rows}
-            columns={columns}
-            handleRequestSort={handleRequestSort}
-            handleClick={handleClick}
-            rowCount={rowCount}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            handleChangePage={handleChangePage}
-            handleChangeRowsPerPage={handleChangeRowsPerPage}
-          />
-        </Grid> */}
+        <DisplayTopTenData title="Newly added tenants" url="/admin/tenants" columns={tenantColumn} />
 
-
-        <DisplayTopTenData title="Newly added tenants" />
-
+        <DisplayTopTenData title="Recently rented properties" url="/admin/tenants" columns={propertyColumn} />
 
         <Grid item xs={6} rowSpacing={1}>
           <Paper>

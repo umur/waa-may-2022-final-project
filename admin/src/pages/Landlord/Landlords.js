@@ -180,11 +180,11 @@ function Landlords(props) {
           <SearchForm onSubmit={searchLandlords} />
         </Grid>
 
-        <Grid item xs={4}>
+        {/* <Grid item xs={4}>
           <Button variant="contained" onClick={addLandlord}><AddIcon />  New Landlord</Button>
-        </Grid>
-        
-        
+        </Grid> */}
+
+
         <Grid item xs={12}>
           <DataTable
             order={order}
