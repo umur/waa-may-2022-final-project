@@ -6,6 +6,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import waa.project.finalproj.entity.User;
 
 import javax.crypto.SecretKey;
 import java.util.Date;
@@ -40,9 +41,12 @@ public class JwtUtil {
         return extractExpiration(token).before(new Date());
     }
 
-    public String generateToken(UserDetails userDetails) {
+    public String generateToken(UserDetails userDetails, User user) {
         Map<String, Object> claims = new HashMap<>();
         claims.put("role", userDetails.getAuthorities());
+        claims.put("id", user.getId());
+        claims.put("firstname", user.getFirstname());
+        claims.put("lastname", user.getLastname());
         return createToken(claims, userDetails.getUsername());
     }
 

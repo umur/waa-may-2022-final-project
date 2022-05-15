@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException;
 import waa.project.finalproj.dto.user.UserDTO;
 import waa.project.finalproj.dto.user.UserSaveDTO;
 import waa.project.finalproj.entity.User;

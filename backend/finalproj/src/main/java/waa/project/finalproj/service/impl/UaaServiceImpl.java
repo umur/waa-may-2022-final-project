@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 import waa.project.finalproj.model.LoginRequest;
 import waa.project.finalproj.model.LoginResponse;
+import waa.project.finalproj.repository.UserRepository;
 import waa.project.finalproj.security.Jwt.JwtUtil;
 import waa.project.finalproj.service.UaaService;
 
@@ -18,6 +19,7 @@ public class UaaServiceImpl implements UaaService {
     private final AuthenticationManager authenticationManager;
     private final UserDetailsService userDetailsService;
     private final JwtUtil jwtUtil;
+    private final UserRepository userRepository;
 
     @Override
     public LoginResponse login(LoginRequest loginRequest) throws Exception {
@@ -29,7 +31,7 @@ public class UaaServiceImpl implements UaaService {
 
         final UserDetails userDetails = userDetailsService.loadUserByUsername(loginRequest.getEmail());
 
-        final String jwt = jwtUtil.generateToken(userDetails);
+        final String jwt = jwtUtil.generateToken(userDetails, userRepository.findByEmail(loginRequest.getEmail()).get());
         return new LoginResponse(jwt);
     }
 }
