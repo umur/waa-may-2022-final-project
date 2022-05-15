@@ -4,7 +4,7 @@ import Header from "../components/Header";
 import PropertyItem from "../components/PropertyItem";
 import { useAxios } from "../api/useAxios";
 import Loading from "../components/Loading";
-
+import MapsHomeWorkIcon from "@mui/icons-material/MapsHomeWork";
 const Home = () => {
   const { data, error, loading, execute, queryParam } = useAxios(
     "get",
@@ -29,9 +29,20 @@ const Home = () => {
         }}
       />
       <div className="container card-list">
-        {data.data.map((item) => (
-          <PropertyItem key={item.id} property={item} />
-        ))}
+        {data.data.length > 0 ? (
+          data.data.map((item) => (
+            <PropertyItem key={item.id} property={item} />
+          ))
+        ) : (
+          <>
+            <div className="empty-list">
+              <MapsHomeWorkIcon
+                style={{ fontSize: "35px", marginBottom: "10px" }}
+              />
+              <h3> Sorry! We could not find any properties.</h3>
+            </div>
+          </>
+        )}
       </div>
     </>
   );

@@ -1,7 +1,9 @@
 import { useState, useEffect, useCallback } from "react";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 export const useAxios = (method, url) => {
+  const notify = (msg, method = "error") => toast[method](msg);
   const [data, setData] = useState(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(method === "get" ? true : false);
@@ -17,8 +19,8 @@ export const useAxios = (method, url) => {
           { ...postData }
         );
         setData(response.data);
-
       } catch (e) {
+        notify(e.response.data.message);
         setError(e.response.data.message);
       } finally {
         setLoading(false);
