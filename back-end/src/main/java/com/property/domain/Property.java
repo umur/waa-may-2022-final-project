@@ -29,6 +29,10 @@ public class Property {
 
     private Double securityDepositAmount;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "address_id")
+    private Address address;
+
     @OneToMany(mappedBy = "property", cascade = CascadeType.ALL)
     private List<Photo> photos;
 
@@ -37,8 +41,6 @@ public class Property {
 
     @OneToMany(mappedBy = "property")
     private List<PropertyRent> tenantProperties;
-
-    private LocalDate rentEndDate;
 
     public void addPhoto(Photo photo){
         this.photos.add(photo);

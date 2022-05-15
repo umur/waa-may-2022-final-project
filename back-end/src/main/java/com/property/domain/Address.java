@@ -24,4 +24,7 @@ public class Address {
 
     private String state;
 
+    @OneToOne(mappedBy = "address")
+    private Property property;
+
 }
