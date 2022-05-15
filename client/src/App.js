@@ -11,6 +11,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import ForgotPassword from "./pages/ForgotPassword";
 import Checkout from 'pages/Checkout';
+import Payment from 'pages/Payment';
 
 
 function App() {
@@ -40,6 +41,8 @@ function App() {
         />
         
         <Route path="/checkout/:id" element={<Checkout order={{amount: 1999, name:"Tenant Fullname", email: "tenant@gmail.com"}} />} />
+
+        <Route path="/payment/:id" element={<Payment />} />
 
       </Routes>
     </AuthContext.Provider>

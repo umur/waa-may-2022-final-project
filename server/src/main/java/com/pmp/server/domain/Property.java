@@ -50,6 +50,4 @@ public class Property extends BaseEntity {
   @JoinColumn(name = "property_rental_history_id")
   private PropertyRentalHistory propertyRentalHistory;
 
-
-
 }

@@ -1,0 +1,29 @@
+package com.pmp.server.domain;
+
+import lombok.Data;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
+
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
+@Entity
+@Data
+@Table(name = "transactions")
+@SQLDelete(sql = "UPDATE products SET is_deleted = true WHERE id=?")
+@Where(clause = "is_deleted=false")
+public class Transaction extends BaseEntity {
+
+    private String productId;
+
+    private String priceId;
+
+    private String transactionId;
+
+    private String status;
+
+    @OneToOne
+    private PropertyRentalHistory propertyRentalHistory;
+}
