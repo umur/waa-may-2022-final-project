@@ -69,7 +69,6 @@ const Register = () => {
   return (
 
     <Container component="main" maxWidth="xs">
-      <ToastContainer />
       <CssBaseline />
       <Box
         sx={{

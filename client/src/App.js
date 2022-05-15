@@ -10,7 +10,8 @@ import PropertyDetail from "./pages/PropertyDetail";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import ForgotPassword from "./pages/ForgotPassword";
-
+import CreateNewPassword from "pages/CreateNewPassword";
+import { ToastContainer } from 'react-toastify';
 
 function App() {
   const [isSignedIn, setSignedIn] = useState(
@@ -23,11 +24,13 @@ function App() {
 
   return (
     <AuthContext.Provider value={authContext}>
+      <ToastContainer />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/forgotpassword" element={<ForgotPassword />} />
+        <Route path="/create-new-password/:token" element={<CreateNewPassword />} />
         <Route path="/property/:id" element={<PropertyDetail />} />
         <Route
           path="/list"
