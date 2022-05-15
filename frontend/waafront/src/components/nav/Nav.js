@@ -4,9 +4,6 @@ import { Link } from "react-router-dom";
 
 const { Header } = Layout;
 
-
-
-
 const navWithoutLogin = [
     {key: 1, label: `Login`},
     {key: 2, label: `Register`},
@@ -17,18 +14,24 @@ function getMenu(role) {
         return (
             <>
                 {/* <Menu.Item><a href="/#" className='hide-element'>Random</a></Menu.Item> */}
+                 <Menu.Item >
+                    <Link to='/properties'>About</Link>
+                </Menu.Item>
                 <Menu.Item >
-                    <Link to='/properties'>Properties</Link>
+                    <Link to='/properties'>Support</Link>
                 </Menu.Item>
                 <Menu.Item>
-                    <Link to='/users'>Users</Link>
-                </Menu.Item>
-                <Menu.Item>
+                    <Link to='/users'>Help</Link>
+                </Menu.Item> 
+                
+                 <Menu.Item>
                     <Link to='/users'>Logout</Link>
                 </Menu.Item>
                 <Menu.Item>
                     <Link to='/login'>Login</Link>
                 </Menu.Item>
+                
+                
             </>
         )
     }
@@ -72,14 +75,14 @@ function getMenu(role) {
                     <Link to='/properties'>Properties</Link>
                 </Menu.Item>
                 <Menu.Item>
-                    <Link to='/users'>Users</Link>
+                    <Link to='/users'>Userss</Link>
                 </Menu.Item>
-                <Menu.Item>
+                {/* <Menu.Item>
                     <Link to='/register'>Register</Link>
-                </Menu.Item>
-                <Menu.Item>
+                </Menu.Item> */}
+                {/* <Menu.Item>
                     <Link to='/login'>Login</Link>
-                </Menu.Item>
+                </Menu.Item> */}
             </>
         )
     }
