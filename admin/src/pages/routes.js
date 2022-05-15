@@ -5,7 +5,7 @@ import ContactMailIcon from "@mui/icons-material/ContactMail";
 import HouseIcon from "@mui/icons-material/House";
 import ROLE from '../auth/Role';
 
-export const adminRoutes = [
+const adminRoutes = [
   {
     route: "/",
     menu: "Dashboard",
@@ -33,9 +33,26 @@ export const adminRoutes = [
   // },
 ];
 
+const landlordRoutes = [
+  {
+    route: "/",
+    menu: "Dashboard",
+    icon: <DashboardIcon />
+  },
+  {
+    route: "/properties",
+    menu: "Properties",
+    icon: <HouseIcon />
+  },
+]
+
 export function getRoute(role) {
   if (role === ROLE.Admin) {
     return adminRoutes;
+  }
+
+  if (role === ROLE.Landlord) {
+    return landlordRoutes;
   }
 
   return [];
