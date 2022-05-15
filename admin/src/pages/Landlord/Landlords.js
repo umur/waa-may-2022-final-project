@@ -1,7 +1,7 @@
 import faker from "@faker-js/faker";
 import { Button, Grid } from "@mui/material";
 import dayjs from "dayjs";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AddIcon from '@mui/icons-material/Add';
 import { ColumnTypes, RowActions } from 'components/DataTable/RowActions';
@@ -12,6 +12,8 @@ import DataTable from 'components/DataTable';
 import Action from 'components/DataTable/Action';
 import { UserStatus } from 'common/constant';
 import useAxios from 'axios-hooks';
+import { AuthContext } from "context/AuthContext";
+import { defaultHeaders } from "api/defaultHeaders";
 
 function Landlords(props) {
   const columns = useMemo(
@@ -69,6 +71,7 @@ function Landlords(props) {
   // const [rows, setRows] = React.useState([]);
   // const [rowCount, setRowCount] = React.useState(34);
   const [keywords, setKeywords] = useState("");
+  const { isSignedIn } = useContext(AuthContext);
 
   const [{ data, loading, error }, refetch] = useAxios(
     {
@@ -80,6 +83,7 @@ function Landlords(props) {
         sort: orderBy ? orderBy + "," + order : undefined,
         keywords,
       },
+      headers: defaultHeaders(isSignedIn)
     },
     {
       useCache: false,
@@ -156,6 +160,7 @@ function Landlords(props) {
     {
       url: "/admin/users/{{user_id}}/activate",
       method: "PUT",
+
     },
     { manual: true }
   );
