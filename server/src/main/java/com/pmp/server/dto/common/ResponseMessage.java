@@ -22,4 +22,6 @@ public class ResponseMessage {
     this.message = message;
     this.status = status;
   }
+
+
 }

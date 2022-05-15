@@ -1,5 +1,6 @@
 package com.pmp.server.service;
 
+import com.pmp.server.domain.PropertyRentalHistory;
 import com.pmp.server.domain.Role;
 import com.pmp.server.domain.User;
 import com.pmp.server.dto.common.PagingRequest;
@@ -8,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
 import java.util.UUID;
 
 public interface UserService {
@@ -21,4 +23,5 @@ public interface UserService {
 
   Page<User> getAllByRoleIdAndKeywords(Pageable pageable, Role role, String keywords);
 
+  List<PropertyRentalHistory> getRental();
 }

@@ -36,6 +36,8 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
     http.cors().and().csrf().disable().sessionManagement().
 
       sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests()
+            .antMatchers("/api/properties/rental-history").hasAuthority("ROLE_TENANT")
+       .antMatchers("/api/landlord/*").permitAll()
       .antMatchers("/api/mail/sendMail").permitAll()
       .antMatchers("/api/auth/login").permitAll()
       .antMatchers("/api/auth/register").permitAll()
@@ -43,7 +45,9 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
       .antMatchers("/api/auth/create-new-password").permitAll()
       .antMatchers("/api/properties").permitAll()
       .antMatchers("/api/properties/*").permitAll()
-      .antMatchers("/api/properties/rent/*").permitAll()
+
+      .antMatchers("/api/properties/rent/*").hasAuthority("ROLE_TENANT")
+
       .antMatchers("/api/admin").hasAuthority(ERole.ROLE_ADMIN.getRole())
       .anyRequest().authenticated();
 

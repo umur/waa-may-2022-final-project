@@ -11,14 +11,17 @@ import DataTable from "components/DataTable";
 import { UserStatus } from "common/constant";
 import useAxios from "axios-hooks";
 
-function Tenants(props) {
+function Properties(props) {
   const columns = useMemo(
     () => [
-      { id: "id", label: "Id" },
-      { id: "firstName", label: "First Name" },
-      { id: "lastName", label: "Last Name" },
-      { id: "email", label: "Email" },
-      { id: "gender", label: "Gender" },
+      { name: "id", label: "ID" },
+      { name: "propertyName", label: "Property Name" },
+      { name: "city", label: "Address" },
+      { name: "propertyType", label: "Type" },
+      { name: "rentAmount", label: "Amount" },
+      { name: "securityDepositAmount", label: "Secrurity Deposit" },
+      { name: "isOccupied", label: "isOccupied" },
+      { name: "lastRentedBy", label: "Rented By" },
 
       {
         id: "active",
@@ -135,7 +138,7 @@ function Tenants(props) {
   /* -------------------------------------------------------------------------- */
   /*                               Search tenants                               */
   /* -------------------------------------------------------------------------- */
-  const searchTenants = (keywords) => {
+  const search = (keywords) => {
     setKeywords(keywords);
   };
 
@@ -176,15 +179,15 @@ function Tenants(props) {
   };
 
   return (
-    <Layout title="Tenants">
+    <Layout title="Properties">
       <Grid container spacing={1}>
         <Grid item xs={4}>
-          <SearchForm onSubmit={searchTenants} />
+          <SearchForm onSubmit={search} />
         </Grid>
 
         <Grid item xs={4}>
           <Button variant="contained" onClick={addTenant}>
-            <AddIcon /> New Tenant
+            <AddIcon /> New Property
           </Button>
         </Grid>
 
@@ -209,4 +212,4 @@ function Tenants(props) {
   );
 }
 
-export default Tenants;
+export default Properties;
