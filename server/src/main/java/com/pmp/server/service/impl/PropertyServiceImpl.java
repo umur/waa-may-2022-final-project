@@ -56,7 +56,7 @@ public class PropertyServiceImpl implements PropertyService {
   public Property getById(UUID id) {
     Optional<Property> data = propertyRepo.findById(id);
     if(!data.isPresent()){
-      return null;
+      throw new CustomErrorException(HttpStatus.NOT_FOUND,"Property Not found");
     }
     return data.get();
   }
@@ -157,6 +157,47 @@ public class PropertyServiceImpl implements PropertyService {
     Optional<Property> p = propertyRepo.findById(s);
     if(p.isPresent()){
       propertyRepo.delete(p.get());
+    }else{
+      throw new CustomErrorException(HttpStatus.NOT_FOUND,"Property not found");
+    }
+
+  }
+
+  @Override
+  public void update(PropertyDTO pty, UUID s) {
+    UUID owner = UUID.fromString("655cb8f5-80c9-43af-830c-f8b309d9e508");
+//    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//    if (authentication != null) {
+//      if (authentication.getPrincipal() instanceof KeycloakPrincipal) {
+//        KeycloakPrincipal<KeycloakSecurityContext> kp = (KeycloakPrincipal<KeycloakSecurityContext>) authentication.getPrincipal();
+//        uuid = UUID.fromString(kp.getKeycloakSecurityContext().getToken().getId());
+//      }
+//    }
+    User user = userRepo.findById(owner).get();
+    List<PropertyImage> image = pty.getPhotos();
+    List<PropertyImage> imgs = image.stream().map(item->{
+      var img = new PropertyImage();
+      img.setImageUrl(item.getImageUrl());
+      imageRepo.save(img);
+      return img;
+    }).collect(Collectors.toList());
+
+    if(propertyRepo.findById(s).isPresent()){
+      Property p = propertyRepo.findById(s).get();
+      p.setCity(pty.getCity());
+      p.setDescription(pty.getDescription());
+      p.setPropertyName(pty.getPropertyName());
+      p.setPropertyType(pty.getPropertyType());
+      p.setPhotos(imgs);
+      p.setNumberOfBathrooms(p.getNumberOfBathrooms());
+      p.setNumberOfBedrooms(p.getNumberOfBedrooms());
+      p.setState(p.getState());
+      p.setZipCode(p.getZipCode());
+      p.setStreetAddress(p.getStreetAddress());
+      p.setRentAmount(p.getRentAmount());
+      p.setOwnedBy(user);
+      p.setSecurityDepositAmount(p.getSecurityDepositAmount());
+      propertyRepo.save(p);
     }else{
       throw new CustomErrorException(HttpStatus.NOT_FOUND,"Property not found");
     }

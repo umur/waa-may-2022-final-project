@@ -33,10 +33,21 @@ public class LandlordController {
         Page<Property> list = propertyService.findAllByOwner(page);
         return new PagingResponse<Property>(list);
     }
+
+    @GetMapping("/properties/{id}")
+    public ResponseMessage getProperties(@PathVariable UUID id) {
+        Property data = propertyService.getById(id);
+        return new ResponseMessage("success", HttpStatus.OK,data);
+    }
     @PostMapping("/properties")
     public ResponseMessage addProperties(@RequestBody PropertyDTO data) {
        propertyService.save(data);
         return new ResponseMessage("success", HttpStatus.CREATED);
+    }
+    @PutMapping("/properties/{id}")
+    public ResponseMessage addProperties(@RequestBody PropertyDTO data,@PathVariable UUID id) {
+        propertyService.update(data,id);
+        return new ResponseMessage("success", HttpStatus.OK);
     }
     @DeleteMapping("/properties/{id}")
     public ResponseMessage delete(@PathVariable UUID id) {
