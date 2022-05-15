@@ -62,7 +62,7 @@ public class PropertyServiceImpl implements PropertyService {
   }
 
   @Override
-  public void rent(UUID id,RentDTO rentdto) {
+  public PropertyRentalHistory rent(UUID id,RentDTO rentdto) {
     PropertyRentalHistory hist = new PropertyRentalHistory();
     Optional<Property> p = propertyRepo.findById(id);
     if(p.isPresent()){
@@ -85,6 +85,7 @@ public class PropertyServiceImpl implements PropertyService {
 
       pty.setLastRentedBy(user);
       propertyRepo.save(pty);
+      return hist;
     }else{
       throw new CustomErrorException(HttpStatus.NOT_FOUND,"Property not found!");
     }

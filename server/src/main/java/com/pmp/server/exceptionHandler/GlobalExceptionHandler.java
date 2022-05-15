@@ -4,6 +4,7 @@ import com.pmp.server.dto.common.ResponseMessage;
 import com.pmp.server.exception.ErrorResourceException;
 import com.pmp.server.exception.UserNotFoundException;
 import com.pmp.server.exceptionHandler.exceptions.CustomErrorException;
+import com.stripe.exception.StripeException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -61,6 +62,12 @@ public class GlobalExceptionHandler {
     rm.setMessage(ex.getMessage());
     rm.setMessage((String) ex.getData());
     return new ResponseEntity<>(rm, new HttpHeaders(), ex.getStatus());
+  }
+
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  @ExceptionHandler(StripeException.class)
+  public ResponseEntity<?> handleStripeException(StripeException ex) {
+    return new ResponseEntity<>(new ResponseMessage(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR, null), new HttpHeaders(), HttpStatus.BAD_REQUEST);
   }
 }
 

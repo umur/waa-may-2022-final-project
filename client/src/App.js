@@ -11,6 +11,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import ForgotPassword from "./pages/ForgotPassword";
 import NotFound from "./pages/404";
+import Payment from "pages/Payment";
 import CreateNewPassword from "pages/CreateNewPassword";
 import { ToastContainer } from "react-toastify";
 
@@ -45,6 +46,8 @@ function App() {
             </AuthWrapper>
           }
         />
+
+        <Route path="/payment/:id" element={<Payment />} />
       </Routes>
     </AuthContext.Provider>
   );

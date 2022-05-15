@@ -6,7 +6,7 @@ import AuthWrapper from "./auth/AuthWrapper";
 import ROLE from "./auth/Role";
 import Dashboard from "./pages/Dashboard";
 import Tenants from "./pages/Tenant/Tenants";
-import NewTenant from "./pages/Tenant/NewTenant";
+import EditTenant from "./pages/Tenant/EditTenant";
 import { ThemeProvider } from "@mui/material/styles";
 import { theme } from "./theme";
 import Tenant from "./pages/Tenant/Tenant";
@@ -64,7 +64,7 @@ function App() {
             }
           />
           <Route
-            path="/tenants/:id"
+            path="admin/tenants/:id"
             element={
               <AuthWrapper role={[ROLE.Admin]}>
                 <Tenant />
@@ -75,7 +75,7 @@ function App() {
             path="/tenants/new"
             element={
               <AuthWrapper role={[ROLE.Admin]}>
-                <NewTenant />
+                <EditTenant />
               </AuthWrapper>
             }
           />
@@ -99,7 +99,7 @@ function App() {
             path="/landlords/new"
             element={
               <AuthWrapper role={[ROLE.Admin]}>
-                <NewTenant />
+                <EditTenant />
               </AuthWrapper>
             }
           />

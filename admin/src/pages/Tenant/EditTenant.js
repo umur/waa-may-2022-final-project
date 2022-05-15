@@ -1,12 +1,12 @@
 import Layout from 'pages/Layout';
 import React from 'react';
 
-function NewTenant(props) {
+function EditTenant(props) {
   return (
     <Layout title="New Tenant">
-      
+
     </Layout>
   );
 }
 
-export default NewTenant;
+export default EditTenant;

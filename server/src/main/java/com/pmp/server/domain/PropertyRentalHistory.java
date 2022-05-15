@@ -23,6 +23,10 @@ public class PropertyRentalHistory extends BaseEntity{
 
   @Column(name="start_date")
   private LocalDate startDate;
+
   @Column(name="end_date")
   private LocalDate endDate;
+
+  @OneToOne(cascade = CascadeType.PERSIST)
+  private Transaction transaction;
 }

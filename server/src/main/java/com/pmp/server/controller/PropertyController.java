@@ -53,10 +53,8 @@ public class PropertyController {
 
   @PostMapping("/rent/{id}")
   public ResponseMessage getByID(@PathVariable UUID id, @RequestBody RentDTO body){
-    propertyService.rent(id,body);
-    return new ResponseMessage("success", HttpStatus.CREATED);
+    PropertyRentalHistory hist = propertyService.rent(id,body);
+    return new ResponseMessage("success", HttpStatus.CREATED,hist);
   }
-
-
 
 }

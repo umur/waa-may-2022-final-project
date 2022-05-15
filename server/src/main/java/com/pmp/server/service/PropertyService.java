@@ -1,6 +1,7 @@
 package com.pmp.server.service;
 
 import com.pmp.server.domain.Property;
+import com.pmp.server.domain.PropertyRentalHistory;
 import com.pmp.server.dto.PropertyDTO;
 import com.pmp.server.dto.RentDTO;
 import com.pmp.server.dto.common.PagingRequest;
@@ -16,7 +17,7 @@ public interface PropertyService {
 
  Property getById(UUID id);
 
- void rent(UUID id,RentDTO rentdto);
+ PropertyRentalHistory rent(UUID id, RentDTO rentdto);
 
  Page<Property> findAllwithFilter(Pageable page, String loc, int r);
 
