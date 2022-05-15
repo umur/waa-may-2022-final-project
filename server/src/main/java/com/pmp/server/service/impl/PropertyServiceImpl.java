@@ -7,6 +7,7 @@ import com.pmp.server.domain.User;
 import com.pmp.server.dto.PropertyDTO;
 import com.pmp.server.dto.RentDTO;
 import com.pmp.server.dto.common.PagingRequest;
+import com.pmp.server.dto.common.ResponseMessage;
 import com.pmp.server.exceptionHandler.exceptions.CustomErrorException;
 import com.pmp.server.repo.PropertyImageRepo;
 import com.pmp.server.repo.PropertyRentalHistoryRepo;
@@ -93,8 +94,8 @@ public class PropertyServiceImpl implements PropertyService {
   }
 
   @Override
-  public Page<Property> findAllwithFilter(Pageable page,String loc, int r) {
-    return propertyRepo.findAllByCityIsLikeIgnoreCaseAndAndNumberOfBedroomsGreaterThanEqual(page,loc,r);
+  public Page<Property> findAllwithFilter(Pageable page, String loc, int r) {
+    return propertyRepo.findAllByCityIsLikeIgnoreCaseAndAndNumberOfBedroomsGreaterThanEqualAndActiveIsTrue(page,loc,r);
   }
 
   @Override
@@ -205,5 +206,16 @@ public class PropertyServiceImpl implements PropertyService {
 
   }
 
-
+  @Override
+  public ResponseMessage activate(UUID id, Boolean isActive) {
+    Optional<Property> p = propertyRepo.findById(id);
+    if (p.isPresent()) {
+      Property property = p.get();
+      property.setActive(isActive);
+      propertyRepo.save(property);
+      return new ResponseMessage("Success", HttpStatus.OK, property);
+    } else {
+      throw new CustomErrorException(HttpStatus.NOT_FOUND, "Property not found");
+    }
+  }
 }

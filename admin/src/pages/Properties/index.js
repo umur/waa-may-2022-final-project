@@ -26,11 +26,11 @@ function Properties(props) {
       { id: "lastRentedBy", label: "Rented By" },
 
       {
-        id: "deleted",
+        id: "active",
         label: "Active",
         align: "left",
         renderCell: (data) => {
-          const status = !data.value ? UserStatus.active : UserStatus.deactivate;
+          const status = data.value ? UserStatus.active : UserStatus.deactivate;
           return <StatusView title={status} variant={status} />;
         },
       },
@@ -128,7 +128,7 @@ function Properties(props) {
 
     console.log("click ", row);
 
-    navigate(`/admin/tenants/${row.id}`);
+    // navigate(`/admin/tenants/${row.id}`);
   };
 
   const handleChangePage = (event, newPage) => {
@@ -152,8 +152,9 @@ function Properties(props) {
   /* -------------------------------------------------------------------------- */
   const navigate = useNavigate();
 
-  const addTenant = () => {
-    navigate("/admin/tenants/new");
+  const newProperty = () => {
+    // TODO: New property
+    // navigate("/admin/tenants/new");
   };
 
   /* -------------------------------------------------------------------------- */
@@ -164,8 +165,9 @@ function Properties(props) {
     executePut,
   ] = useAxios(
     {
-      url: "/admin/users/{{user_id}}/activate",
+      url: "/landlord/properties/{{user_id}}/activate",
       method: "PUT",
+      headers: defaultHeaders(isSignedIn),
     },
     { manual: true }
   );
@@ -175,11 +177,10 @@ function Properties(props) {
   }, [refetch, userUpdated]);
 
   const onAction = (action, row) => {
-    // TODO: handle action
-    console.log(action, row);
     executePut({
-      url: `/admin/users/${row.id}/${action}`,
+      url: `/landlord/properties/${row.id}/${action}`,
       method: "PUT",
+      headers: defaultHeaders(isSignedIn),
     });
   };
 
@@ -191,7 +192,7 @@ function Properties(props) {
         </Grid>
 
         <Grid item xs={4}>
-          <Button variant="contained" onClick={addTenant}>
+          <Button variant="contained" onClick={newProperty}>
             <AddIcon /> New Property
           </Button>
         </Grid>
