@@ -40,10 +40,10 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
       .antMatchers("/api/auth/login").permitAll()
       .antMatchers("/api/auth/register").permitAll()
       .antMatchers("/api/auth/reset-password-by-user").permitAll()
+      .antMatchers("/api/auth/create-new-password").permitAll()
       .antMatchers("/api/properties").permitAll()
       .antMatchers("/api/properties/*").permitAll()
       .antMatchers("/api/properties/rent/*").permitAll()
-      .antMatchers("/api/admin").hasAuthority("ROLE_ADMIN")
       .antMatchers("/api/admin").hasAuthority(ERole.ROLE_ADMIN.getRole())
       .anyRequest().authenticated();
 

@@ -1,5 +1,5 @@
 
-import React, { useContext, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -18,23 +18,29 @@ import Radio from '@mui/material/Radio';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
-
-import { useAxios } from "../api/useAxios";
-import Loading from '../components/Loading';
 import { useNavigate, Link as RouteLink } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import useAxios from 'axios-hooks';
+import Loading from 'components/Loading';
 
 
 const Register = () => {
   const notify = (msg) => toast.error(msg);
-  const alert = (msg) => toast.info(msg);
+  const alert = (msg, onClose) => toast.info(msg, { onClose });
 
-  const { data, error, loading, execute } = useAxios("post", "/auth/register");
+  const [{ data, loading, error }, execute] =
+  useAxios(
+    {
+      url: "/auth/register",
+      method: "POST",
+    },
+    { manual: true }
+  );
 
   const navigate = useNavigate();
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
 
@@ -46,29 +52,35 @@ const Register = () => {
       gender: formData.get("gender"),
       role: formData.get("role")
     };
-    execute(registerRequest);
+    
+    try {
+      await execute({
+        data: registerRequest
+      });
+    } catch (error) {
+      // console.log('error', error)
+      // notify(error.message)
+    }
   };
 
-  if (loading) {
-    return (
-      <>
-        <Loading />
-      </>
-    );
-  }
+  useEffect(() => {
+    if (error?.message) {
+      notify(error?.message)
+    }
+  }, [error?.message, notify]);
 
-  if (error) {
-    notify(error);
-  }
-
-  if (data) {
-    alert("User created successfully!!")
-    navigate("/login");
-  }
+  useEffect(() => {
+    if (data) { 
+      alert("User created successfully!!")
+      setTimeout(() => {
+        navigate("/login")
+      }, 2000);
+    }
+  }, [data, navigate])
 
   return (
-
     <Container component="main" maxWidth="xs">
+      <ToastContainer />
       <CssBaseline />
       <Box
         sx={{
@@ -180,7 +192,7 @@ const Register = () => {
           </Grid>
         </Box>
       </Box>
-
+      <Loading loading={loading} />
     </Container>
 
   );

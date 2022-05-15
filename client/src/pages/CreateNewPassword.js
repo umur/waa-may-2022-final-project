@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -17,25 +17,39 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useAxios } from "../api/useAxios";
 import Loading from '../components/Loading';
 import { AuthContext } from 'context/AuthContext';
-import { useNavigate, Link as RouteLink } from "react-router-dom";
+import { useNavigate, Link as RouteLink, useParams } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const ForgotPassword = () => {
+const CreateNewPassword = () => {
+  const { token } = useParams();
   const notify = (msg, method = "error") => toast[method](msg);
 
-  const { data, error, loading, execute } = useAxios("post", "/auth/reset-password-by-user");
+
+  const { data, error, loading, execute } = useAxios("post", "/auth/create-new-password");
 
   const navigate = useNavigate();
 
   const handleSubmit = (event) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
+    const password = formData.get('password');
+    const confirmPassword = formData.get('confirmPassword');
 
-    const registerRequest = {
-      email: formData.get('email')
+    const createNewPassword = {
+      password,
+      token
     };
-    execute(registerRequest);
+
+
+    console.log('1', password);
+    console.log('2', confirmPassword);
+    if (password !== confirmPassword) {
+      notify("Password doesn't match", "error");
+    } else {
+      execute(createNewPassword);
+    }
+
   };
 
   if (loading) {
@@ -51,7 +65,7 @@ const ForgotPassword = () => {
   }
 
   if (data) {
-    notify("Mail has been sent to you.", "success");
+    notify("Password changed successfully!", "info")
     navigate("/login");
   }
 
@@ -62,19 +76,33 @@ const ForgotPassword = () => {
       <CssBaseline />
       <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
         <Typography component="h1" variant="h4" align="center">
-          Forgot Password
+          Create new password
         </Typography>
         <br></br>
-        Enter the email associated with your account and we'll send an email with instructions to reset your password.
+        Your new password must be different from previous used passwords.
         <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
           <TextField
             margin="normal"
             required
             fullWidth
-            id="email"
-            label="Email Address"
-            name="email"
-            autoComplete="email"
+            id="password"
+            label="Password"
+            name="password"
+            type="password"
+            autoComplete="password"
+            autoFocus
+
+          />
+
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            id="confirmPassword"
+            label="Confirm Password"
+            name="confirmPassword"
+            type="password"
+            autoComplete="password"
             autoFocus
 
           />
@@ -84,7 +112,7 @@ const ForgotPassword = () => {
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
           >
-            Send Instructions
+            Reset Password
           </Button>
         </Box>
       </Paper>
@@ -94,4 +122,4 @@ const ForgotPassword = () => {
   );
 }
 
-export default ForgotPassword;
+export default CreateNewPassword;

@@ -11,27 +11,41 @@ import { ThemeProvider } from "@mui/material/styles";
 import { theme } from "./theme";
 import Tenant from "./pages/Tenant/Tenant";
 import Landlords from "./pages/Landlord/Landlords";
-import SignIn from "pages/SignIn";
+import Login from 'pages/Login';
+import Register from 'pages/Register';
+import ForgotPassword from 'pages/ForgotPassword';
+import { SignalWifiStatusbarNullSharp } from '@mui/icons-material';
 
 function App() {
   const [isSignedIn, setSignedIn] = useState(
     localStorage.getItem("token") ? true : false
   );
-  const [user, setUser] = useState(null);
-  const [role, setRole] = useState(ROLE.Admin);
-  const authContext = { isSignedIn, setSignedIn, user, setUser, role, setRole };
 
-  // // FIXME: Use for testing purpose
-  // useEffect(() => {
-  //   localStorage.setItem("token", "sample token");
-  //   setRole(ROLE.Admin);
-  // }, []);
+  const [user, setUser] = useState(null);
+  const [role, setRole] = useState(null);
+
+  const fetchData = async () => {
+    const data = await localStorage.getItem("user")
+    const json = JSON.parse(data)
+    if (json) {
+      setUser(json)
+      setRole(json.role.roleName)
+    }
+  }
+
+  useEffect(() => {
+    fetchData()
+  }, []);
+
+  const authContext = { isSignedIn, setSignedIn, user, setUser, role, setRole };
 
   return (
     <ThemeProvider theme={theme}>
       <AuthContext.Provider value={authContext}>
         <Routes>
-          <Route path="/signin" element={<SignIn />} />
+          <Route path="/login" element={<Login />} />
+          {/* <Route path="/register" element={<Register />} /> */}
+          <Route path="/forgotpassword" element={<ForgotPassword />} />
           <Route
             path="/"
             element={

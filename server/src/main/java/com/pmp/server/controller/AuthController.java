@@ -43,4 +43,9 @@ public class AuthController {
     return authService.resetPasswordByUser(resetPasswordByUserDTO.getEmail() );
   }
 
+  @PostMapping("create-new-password")
+  public ResponseMessage createNewPassword(@RequestBody CreateNewPasswordDTO createNewPasswordDTO) {
+    return authService.createNewPassword(createNewPasswordDTO );
+  }
+
 }

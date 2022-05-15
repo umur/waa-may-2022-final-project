@@ -1,30 +1,30 @@
 import * as React from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
-import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
-import Toolbar from '@mui/material/Toolbar';
 import Paper from '@mui/material/Paper';
-import Stepper from '@mui/material/Stepper';
-import Step from '@mui/material/Step';
-import StepLabel from '@mui/material/StepLabel';
 import Button from '@mui/material/Button';
-import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-
-import { useAxios } from "../api/useAxios";
-import Loading from '../components/Loading';
-import { AuthContext } from 'context/AuthContext';
-import { useNavigate, Link as RouteLink } from "react-router-dom";
+import { useNavigate, } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import useAxios from 'axios-hooks';
+import Loading from 'components/Loading';
+import { useEffect } from 'react';
 
 const ForgotPassword = () => {
-  const notify = (msg, method = "error") => toast[method](msg);
+  const notify = (msg) => toast.error(msg);
+  const alert = (msg, onClose) => toast.info(msg, onClose);
 
-  const { data, error, loading, execute } = useAxios("post", "/auth/reset-password-by-user");
+  const [{ data, loading, error }, execute] =
+    useAxios(
+      {
+        url: "/auth/reset-password-by-user",
+        method: "POST",
+      },
+      { manual: true }
+    );
 
   const navigate = useNavigate();
 
@@ -35,30 +35,29 @@ const ForgotPassword = () => {
     const registerRequest = {
       email: formData.get('email')
     };
-    execute(registerRequest);
+    execute({
+      data: registerRequest
+    });
   };
 
-  if (loading) {
-    return (
-      <>
-        <Loading />
-      </>
-    );
-  }
+  useEffect(() => {
+    if (error?.message) {
+      notify(error?.message)
+    }
+  }, [error?.message, notify]);
 
-  if (error) {
-    alert(error);
-  }
-
-  if (data) {
-    notify("Mail has been sent to you.", "success");
-    navigate("/login");
-  }
+  useEffect(() => {
+    if (data) { 
+      alert("Mail has been sent to you.")
+      setTimeout(() => {
+        navigate("/login")
+      }, 2000);
+    }
+  }, [data, navigate])
 
   return (
-
-
     <Container component="main" maxWidth="sm" sx={{ mb: 4 }}>
+      <ToastContainer /> 
       <CssBaseline />
       <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
         <Typography component="h1" variant="h4" align="center">
@@ -88,7 +87,7 @@ const ForgotPassword = () => {
           </Button>
         </Box>
       </Paper>
-
+      <Loading loading={loading} />
     </Container>
 
   );
