@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -24,7 +25,11 @@ public class LandlordController {
     }
 
     @GetMapping("/properties")
-    public PagingResponse getProperties(Pageable page,@RequestParam String search) {
+    public PagingResponse getProperties(Pageable page,@RequestParam Optional<String> search) {
+        if(search.isPresent()){
+            Page<Property> list = propertyService.search(page,search.get());
+            return new PagingResponse<Property>(list);
+        }
         Page<Property> list = propertyService.findAllByOwner(page);
         return new PagingResponse<Property>(list);
     }

@@ -147,6 +147,10 @@ public class PropertyServiceImpl implements PropertyService {
     propertyRepo.save(p);
   }
 
+  @Override
+  public Page<Property> search(Pageable page,String s) {
+    return propertyRepo.customSearch(page,"%"+s.toLowerCase()+"%");
+  }
 
 
 }

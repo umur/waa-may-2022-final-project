@@ -4,6 +4,7 @@ import com.pmp.server.domain.Property;
 import com.pmp.server.domain.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
@@ -14,7 +15,9 @@ import java.util.UUID;
 public interface PropertyRepo extends PagingAndSortingRepository<Property, UUID> {
     Page<Property> findAllByCityIsLikeIgnoreCaseAndAndNumberOfBedroomsGreaterThanEqual(Pageable page, String loc, int room);
     Page<Property> findAllByOwnedBy(Pageable page, User u);
-//  List<Property> findAllByPropertyNameLikeIgnoreCaseOrStateLikeIgnoreCaseOrPropertyType(String propertyName, String state, String propertyType, Pageable pageable);
-  //SPage<Property> findAllByPropertyName(String name, Pageable pageable);
+
+    @Query(value = "SELECT * FROM Properties p WHERE lower(p.property_name) LIKE ?1 or lower(p.state) LIKE ?1 or lower(p.property_type) LIKE ?1 or lower(p.city) LIKE ?1 or lower(p.description) LIKE ?1 or lower(p.property_type) LIKE ?1 or lower(p.street_address) LIKE ?1  ",
+            nativeQuery = true)
+    Page<Property> customSearch(Pageable page,String s);
 
 }

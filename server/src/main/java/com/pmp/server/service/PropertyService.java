@@ -23,6 +23,8 @@ public interface PropertyService {
  Page<Property> findAllByOwner(Pageable page);
 
  void save(PropertyDTO p);
+
+ Page<Property> search(Pageable page, String s);
 //  List<Property> findPropertiesWithSorting(String field);
 //  Page<Property> findPropertiesWithPagination(int offset, int pageSize);
 //  Page<Property> findPropertiesWithPaginationAndSorting(int offset,int pageSize,String field);
