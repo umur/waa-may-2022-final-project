@@ -61,6 +61,7 @@ public class AdminController {
 
     }
 
+
     @PutMapping("/users/{id}/deactivate")
     public ResponseEntity<ResponseMessage> deactivateUser(@PathVariable UUID id) throws Throwable {
         var responseMessage = authService.activateUser(id, false);
