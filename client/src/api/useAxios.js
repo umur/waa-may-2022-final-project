@@ -1,10 +1,15 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useContext } from "react";
 import axios from "axios";
+import { AuthContext } from "context/AuthContext";
 
 export const useAxios = (method, url) => {
+  const { isSignedIn } = useContext(AuthContext);
   const [data, setData] = useState(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(method === "get" ? true : false);
+  let headers = isSignedIn
+    ? { Authorization: "Bearer " + localStorage.getItem("token") }
+    : {};
 
   const executeRequest = useCallback(
     async (postData = null) => {
@@ -14,10 +19,12 @@ export const useAxios = (method, url) => {
       try {
         let response = await axios[method](
           method === "get" ? url + (postData ? postData : "") : url,
-          { ...postData }
+          { ...postData },
+          {
+            headers: { ...headers },
+          }
         );
         setData(response.data);
-
       } catch (e) {
         setError(e.response.data.message);
       } finally {
