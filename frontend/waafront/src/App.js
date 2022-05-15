@@ -18,7 +18,7 @@ const { Header, Content, Sider } = Layout;
 
 function App() {
     
-    const sessionVal = JSON.parse(window.sessionStorage.getItem('token')).jwtToken ;
+    const sessionVal = JSON.parse(window.sessionStorage.getItem('token'))?.jwtToken ;
     let userRole
     if(sessionVal){
         const decodedString = atob(sessionVal.split('.')[1]);
