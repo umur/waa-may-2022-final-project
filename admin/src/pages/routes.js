@@ -5,7 +5,7 @@ import ContactMailIcon from "@mui/icons-material/ContactMail";
 import HouseIcon from "@mui/icons-material/House";
 import ROLE from "../auth/Role";
 
-export const adminRoutes = [
+const adminRoutes = [
   {
     route: "/",
     menu: "Dashboard",
@@ -39,15 +39,10 @@ export const landlordRoute = [
     menu: "Dashboard",
     icon: <DashboardIcon />,
   },
-  // {
-  //   route: "/properties",
-  //   menu: "Properties",
-  //   icon: <HouseIcon />
-  // },
   {
     route: "/properties",
     menu: "Properties",
-    icon: <ContactMailIcon />,
+    icon: <HouseIcon />,
   },
 ];
 

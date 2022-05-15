@@ -1,5 +1,5 @@
 import { Button, Grid } from "@mui/material";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AddIcon from "@mui/icons-material/Add";
 import { ColumnTypes, RowActions } from "components/DataTable/RowActions";
@@ -10,25 +10,27 @@ import SearchForm from "components/SearchForm";
 import DataTable from "components/DataTable";
 import { UserStatus } from "common/constant";
 import useAxios from "axios-hooks";
+import { defaultHeaders } from 'api/defaultHeaders';
+import { AuthContext } from 'context/AuthContext';
 
 function Properties(props) {
   const columns = useMemo(
     () => [
-      { name: "id", label: "ID" },
-      { name: "propertyName", label: "Property Name" },
-      { name: "city", label: "Address" },
-      { name: "propertyType", label: "Type" },
-      { name: "rentAmount", label: "Amount" },
-      { name: "securityDepositAmount", label: "Secrurity Deposit" },
-      { name: "isOccupied", label: "isOccupied" },
-      { name: "lastRentedBy", label: "Rented By" },
+      { id: "id", label: "ID" },
+      { id: "propertyName", label: "Property Name" },
+      { id: "city", label: "Address" },
+      { id: "propertyType", label: "Type" },
+      { id: "rentAmount", label: "Amount" },
+      { id: "securityDepositAmount", label: "Secrurity Deposit" },
+      { id: "isOccupied", label: "isOccupied" },
+      { id: "lastRentedBy", label: "Rented By" },
 
       {
-        id: "active",
+        id: "deleted",
         label: "Active",
         align: "left",
         renderCell: (data) => {
-          const status = data.value ? UserStatus.active : UserStatus.deactivate;
+          const status = !data.value ? UserStatus.active : UserStatus.deactivate;
           return <StatusView title={status} variant={status} />;
         },
       },
@@ -62,8 +64,10 @@ function Properties(props) {
     []
   );
 
+  const { isSignedIn } = useContext(AuthContext)
+
   const [order, setOrder] = React.useState("desc");
-  const [orderBy, setOrderBy] = React.useState("firstName");
+  const [orderBy, setOrderBy] = React.useState("city");
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -73,14 +77,15 @@ function Properties(props) {
 
   const [{ data, loading, error }, refetch] = useAxios(
     {
-      url: "/admin/tenants",
+      url: "/landlord/properties",
       method: "get",
       params: {
         page,
         size: rowsPerPage,
         sort: orderBy ? orderBy + "," + order : undefined,
-        keywords,
+        search: keywords,
       },
+      headers: defaultHeaders(isSignedIn)
     },
     {
       useCache: false,
@@ -136,14 +141,14 @@ function Properties(props) {
   };
 
   /* -------------------------------------------------------------------------- */
-  /*                               Search tenants                               */
+  /*                            Search properties                               */
   /* -------------------------------------------------------------------------- */
   const search = (keywords) => {
     setKeywords(keywords);
   };
 
   /* -------------------------------------------------------------------------- */
-  /*                                 New tenant                                 */
+  /*                               New property                                 */
   /* -------------------------------------------------------------------------- */
   const navigate = useNavigate();
 

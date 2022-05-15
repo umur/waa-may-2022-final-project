@@ -14,39 +14,22 @@ const DisplayTopTenData = (props) => {
 
   const { data, error, loading, execute, queryParam } = useAxios(
     "get",
-    "/admin/tenants"
+    props.url
   );
 
-  const columns = [
-    { id: "id", label: "Id", minWidth: 170 },
-    { id: "name", label: "Name", minWidth: 170 },
-    {
-      id: "date",
-      label: "Date",
-      minWidth: 170,
-      align: "right",
-      format: (value) => dayjs(value).format("MMM DD YYYY"),
-    },
-    {
-      id: "streetName",
-      label: "Address",
-      minWidth: 170,
-      align: "right",
-      format: (value) => value,
-    },
-  ];
+  const columns = props.columns;
 
   const [order, setOrder] = React.useState("desc");
   const [orderBy, setOrderBy] = React.useState("name");
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  const [rows, setRows] = React.useState([]);
-  const [rowCount, setRowCount] = React.useState(34);
 
-  if (data) {
-    setRows(generateData(data.data, rowsPerPage, rowCount, orderBy, order));
-  }
+
+  React.useEffect(() => {
+    // Get new data with new query
+    execute(queryParam([{ key: "pageSize", value: rowsPerPage }, { key: "orderBy", value: `${orderBy},${order}` }, { key: "page", value: page }]))
+  }, [rowsPerPage, orderBy, order, page]);
 
 
   const handleRequestSort = (event, property) => {
@@ -55,14 +38,6 @@ const DisplayTopTenData = (props) => {
     setOrderBy(property);
   };
 
-  // const handleSelectAllClick = (event) => {
-  //   if (event.target.checked) {
-  //     const newSelecteds = rows.map((n) => n.name);
-  //     setSelected(newSelecteds);
-  //     return;
-  //   }
-  //   setSelected([]);
-  // };
 
   const handleClick = (event, name) => {
     const selectedIndex = selected.indexOf(name);
@@ -95,36 +70,6 @@ const DisplayTopTenData = (props) => {
 
 
 
-  function generateRow(index) {
-    return {
-      id: `${index}`,
-      name: faker.name.findName(),
-      date: `${faker.date.past()}`,
-      streetName: faker.address.streetName(),
-      image: faker.image.image(),
-    };
-  }
-
-  function generateData(page, perPage, rowCount, orderBy, orderDirection) {
-    let noOfItems = perPage;
-    let nextPage = page + 1;
-
-    if (nextPage * perPage > rowCount) {
-      noOfItems = rowCount - page * perPage;
-    }
-
-    const data = [];
-
-    for (let index = 1; index <= noOfItems; index++) {
-      const id = index + page * perPage;
-
-      data.push(generateRow(id));
-    }
-
-    return data;
-  }
-
-
   if (loading) {
     return (
       <>
@@ -133,6 +78,11 @@ const DisplayTopTenData = (props) => {
       </>
     );
   }
+
+  const rows = data?.data;
+  const rowCount = data?.total;
+
+
 
   return (
 

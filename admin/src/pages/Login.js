@@ -60,11 +60,10 @@ const Login = () => {
         user: { role },
       } = data.data;
   
-      if (role.roleName === ROLE.Admin) {
+      if (role.roleName === ROLE.Landlord || role.roleName === ROLE.Admin) {
         // console.log('roleName', role.roleName)
         setRole(role.roleName);
         setSignedIn(true);
-        axios.defaults.headers.common['Authorization'] = `Bearer ${access_token}`;
         localStorage.setItem("token", access_token);
         localStorage.setItem("user", JSON.stringify(data.data.user));
   
