@@ -1,0 +1,2 @@
+keycloak/data/h2/keycloakdb.mv.db
+keycloak/data/h2/keycloakdb.trace.db

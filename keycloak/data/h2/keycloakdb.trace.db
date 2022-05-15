@@ -184,7 +184,11 @@ org.h2.jdbc.JdbcSQLException: Database is already closed (to disable automatic c
 	at io.quarkus.runtime.Application.stop(Application.java:203)
 	at io.quarkus.runtime.Application.stop(Application.java:155)
 	at io.quarkus.runtime.ApplicationLifecycleManager$ShutdownHookThread.run(ApplicationLifecycleManager.java:420)
+<<<<<<< HEAD
 2022-05-15 15:09:13 jdbc[3]: exception
+=======
+2022-05-15 14:05:36 jdbc[3]: exception
+>>>>>>> admin-portal-puru
 org.h2.jdbc.JdbcSQLException: Database is already closed (to disable automatic closing at VM shutdown, add ";DB_CLOSE_ON_EXIT=FALSE" to the db URL) [90121-197]
 	at org.h2.message.DbException.getJdbcSQLException(DbException.java:357)
 	at org.h2.message.DbException.get(DbException.java:179)
