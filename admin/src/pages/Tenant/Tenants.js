@@ -1,5 +1,5 @@
 import { Button, Grid } from "@mui/material";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AddIcon from "@mui/icons-material/Add";
 import { ColumnTypes, RowActions } from "components/DataTable/RowActions";
@@ -10,6 +10,8 @@ import SearchForm from "components/SearchForm";
 import DataTable from "components/DataTable";
 import { UserStatus } from "common/constant";
 import useAxios from "axios-hooks";
+import { AuthContext } from "context/AuthContext";
+import { defaultHeaders } from "api/defaultHeaders";
 
 function Tenants(props) {
   const columns = useMemo(
@@ -59,6 +61,7 @@ function Tenants(props) {
     []
   );
 
+  const { isSignedIn } = useContext(AuthContext);
   const [order, setOrder] = React.useState("desc");
   const [orderBy, setOrderBy] = React.useState("firstName");
   const [selected, setSelected] = React.useState([]);
@@ -78,6 +81,7 @@ function Tenants(props) {
         sort: orderBy ? orderBy + "," + order : undefined,
         keywords,
       },
+      headers: defaultHeaders(isSignedIn)
     },
     {
       useCache: false,
@@ -182,11 +186,11 @@ function Tenants(props) {
           <SearchForm onSubmit={searchTenants} />
         </Grid>
 
-        <Grid item xs={4}>
+        {/* <Grid item xs={4}>
           <Button variant="contained" onClick={addTenant}>
             <AddIcon /> New Tenant
           </Button>
-        </Grid>
+        </Grid> */}
 
         <Grid item xs={12}>
           <DataTable

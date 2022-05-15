@@ -1,10 +1,17 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useContext } from "react";
 import axios from "axios";
+import { AuthContext } from "context/AuthContext";
 
 export const useAxios = (method, url) => {
+  const { isSignedIn } = useContext(AuthContext);
+
   const [data, setData] = useState(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(method === "get" ? true : false);
+  let headers = isSignedIn
+    ? { Authorization: "Bearer " + localStorage.getItem("token") }
+    : {};
+
 
   const executeRequest = useCallback(
     async (postData = null) => {
@@ -12,12 +19,14 @@ export const useAxios = (method, url) => {
         setLoading(true);
       }
       try {
-        let response = await axios[method](
-          method === "get" ? url + (postData ? postData : "") : url,
-          { ...postData }
+        let response = await customAxios(method,
+          url,
+          {
+            headers: { ...headers },
+          },
+          postData
         );
         setData(response.data);
-
       } catch (e) {
         setError(e.response.data.message);
       } finally {
@@ -40,6 +49,15 @@ export const useAxios = (method, url) => {
     });
     return query;
   };
+
+  const customAxios = (axiosmethod, url, headers, data) => {
+    console.log("data", data);
+    if (axiosmethod === "get" || axiosmethod === "delete") {
+      return axios[axiosmethod](axiosmethod === "get" ? url + (data ? data : "") : url, headers);
+    } else {
+      return axios[axiosmethod](url, data, headers);
+    }
+  }
 
   return { data, error, loading, execute: executeRequest, queryParam };
 };
