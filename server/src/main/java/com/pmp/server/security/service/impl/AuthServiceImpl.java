@@ -296,7 +296,7 @@ public class AuthServiceImpl {
     String link = "";
     emailData.setMsgBody("Hello, \n " +
       "To reset your passoword, please click this link: \n "
-      + "http://localhost:3000/resetpassword/" + token +
+      + "http://localhost:3000/create-new-password/" + token +
       " \n This link will be expired in 24 hours. Please change your password before it expires. " +
       "\n Regards, \n PMP Team");
     emailService.sendSimpleMail(emailData);
@@ -305,9 +305,9 @@ public class AuthServiceImpl {
 
   }
 
-  public ResponseMessage validateTokenUpdatePassword(String token, String password) {
-    PasswordResetToken pst = passwordResetTokenRepo.findByToken(token);
-    if (pst == null || pst.getExpiryDateTime().isAfter(LocalDateTime.now())) {
+  public ResponseMessage createNewPassword(CreateNewPasswordDTO createNewPasswordDTO) {
+    PasswordResetToken pst = passwordResetTokenRepo.findByToken(createNewPasswordDTO.getToken());
+    if (pst == null || pst.getExpiryDateTime().isBefore(LocalDateTime.now())) {
       throw new CustomErrorException(HttpStatus.UNAUTHORIZED, USER_NOT_FOUND);
     }
 
@@ -319,11 +319,11 @@ public class AuthServiceImpl {
         var userResource = keycloak.realm(realm).users().get(user.get().getId().toString());
         CredentialRepresentation cr = new CredentialRepresentation();
         cr.setType(CredentialRepresentation.PASSWORD);
-        cr.setValue(password);
+        cr.setValue(createNewPasswordDTO.getPassword());
         cr.setTemporary(false);
         userResource.resetPassword(cr);
 
-        user.get().setPassword(password);
+        user.get().setPassword(createNewPasswordDTO.getPassword());
         userService.saveUser(user.get());
         return new ResponseMessage(SUCCESSFULLY_UPDATED, HttpStatus.OK, "Password updated successfully");
       } catch (Exception e) {
