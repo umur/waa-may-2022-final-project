@@ -3,13 +3,13 @@ import PeopleIcon from "@mui/icons-material/People";
 import BarChartIcon from "@mui/icons-material/BarChart";
 import ContactMailIcon from "@mui/icons-material/ContactMail";
 import HouseIcon from "@mui/icons-material/House";
-import ROLE from '../auth/Role';
+import ROLE from "../auth/Role";
 
 const adminRoutes = [
   {
     route: "/",
     menu: "Dashboard",
-    icon: <DashboardIcon />
+    icon: <DashboardIcon />,
   },
   // {
   //   route: "/properties",
@@ -19,12 +19,12 @@ const adminRoutes = [
   {
     route: "/landlords",
     menu: "Landlords",
-    icon: <ContactMailIcon />
+    icon: <ContactMailIcon />,
   },
   {
     route: "/tenants",
     menu: "Tenants",
-    icon: <PeopleIcon />
+    icon: <PeopleIcon />,
   },
   // {
   //   route: "/reports",
@@ -33,27 +33,24 @@ const adminRoutes = [
   // },
 ];
 
-const landlordRoutes = [
+export const landlordRoute = [
   {
     route: "/",
     menu: "Dashboard",
-    icon: <DashboardIcon />
+    icon: <DashboardIcon />,
   },
   {
     route: "/properties",
     menu: "Properties",
-    icon: <HouseIcon />
+    icon: <HouseIcon />,
   },
-]
+];
 
 export function getRoute(role) {
   if (role === ROLE.Admin) {
     return adminRoutes;
+  } else if (role === ROLE.Landlord) {
+    return landlordRoute;
   }
-
-  if (role === ROLE.Landlord) {
-    return landlordRoutes;
-  }
-
   return [];
 }

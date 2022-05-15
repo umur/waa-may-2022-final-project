@@ -1,8 +1,10 @@
 import { useState, useEffect, useCallback, useContext } from "react";
 import axios from "axios";
+import { toast } from "react-toastify";
 import { AuthContext } from "context/AuthContext";
 
 export const useAxios = (method, url) => {
+  const notify = (msg, method = "error") => toast[method](msg);
   const { isSignedIn } = useContext(AuthContext);
   const [data, setData] = useState(null);
   const [error, setError] = useState("");
@@ -26,6 +28,7 @@ export const useAxios = (method, url) => {
         );
         setData(response.data);
       } catch (e) {
+        notify(e.response.data.message);
         setError(e.response.data.message);
       } finally {
         setLoading(false);

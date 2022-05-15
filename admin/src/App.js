@@ -11,30 +11,31 @@ import { ThemeProvider } from "@mui/material/styles";
 import { theme } from "./theme";
 import Tenant from "./pages/Tenant/Tenant";
 import Landlords from "./pages/Landlord/Landlords";
-import Login from 'pages/Login';
-import Register from 'pages/Register';
-import ForgotPassword from 'pages/ForgotPassword';
-import { SignalWifiStatusbarNullSharp } from '@mui/icons-material';
+import Login from "pages/Login";
+import Register from "pages/Register";
+import ForgotPassword from "pages/ForgotPassword";
+import Properties from "pages/Properties";
+import { SignalWifiStatusbarNullSharp } from "@mui/icons-material";
 
 function App() {
   const [isSignedIn, setSignedIn] = useState(
-    localStorage.getItem("token") ? true : false
+    localStorage.getItem("token") ? true : true
   );
 
   const [user, setUser] = useState(null);
-  const [role, setRole] = useState(null);
+  const [role, setRole] = useState("ROLE_LANDLORD");
 
   const fetchData = async () => {
-    const data = await localStorage.getItem("user")
-    const json = JSON.parse(data)
+    const data = await localStorage.getItem("user");
+    const json = JSON.parse(data);
     if (json) {
-      setUser(json)
-      setRole(json.role.roleName)
+      setUser(json);
+      setRole(json.role.roleName);
     }
-  }
+  };
 
   useEffect(() => {
-    fetchData()
+    fetchData();
   }, []);
 
   const authContext = { isSignedIn, setSignedIn, user, setUser, role, setRole };
@@ -99,6 +100,14 @@ function App() {
             element={
               <AuthWrapper role={[ROLE.Admin]}>
                 <EditTenant />
+              </AuthWrapper>
+            }
+          />
+          <Route
+            path="/properties"
+            element={
+              <AuthWrapper role={[ROLE.Landlord]}>
+                <Properties />
               </AuthWrapper>
             }
           />

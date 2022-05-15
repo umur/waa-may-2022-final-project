@@ -10,9 +10,10 @@ import PropertyDetail from "./pages/PropertyDetail";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import ForgotPassword from "./pages/ForgotPassword";
-import Payment from 'pages/Payment';
+import NotFound from "./pages/404";
+import Payment from "pages/Payment";
 import CreateNewPassword from "pages/CreateNewPassword";
-import { ToastContainer } from 'react-toastify';
+import { ToastContainer } from "react-toastify";
 
 function App() {
   const [isSignedIn, setSignedIn] = useState(
@@ -27,11 +28,15 @@ function App() {
     <AuthContext.Provider value={authContext}>
       <ToastContainer />
       <Routes>
+        <Route path="*" element={<NotFound />} />
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/forgotpassword" element={<ForgotPassword />} />
-        <Route path="/create-new-password/:token" element={<CreateNewPassword />} />
+        <Route
+          path="/create-new-password/:token"
+          element={<CreateNewPassword />}
+        />
         <Route path="/property/:id" element={<PropertyDetail />} />
         <Route
           path="/list"
@@ -43,7 +48,6 @@ function App() {
         />
 
         <Route path="/payment/:id" element={<Payment />} />
-
       </Routes>
     </AuthContext.Provider>
   );
