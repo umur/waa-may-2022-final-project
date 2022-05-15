@@ -152,5 +152,16 @@ public class PropertyServiceImpl implements PropertyService {
     return propertyRepo.customSearch(page,"%"+s.toLowerCase()+"%");
   }
 
+  @Override
+  public void delete(UUID s) {
+    Optional<Property> p = propertyRepo.findById(s);
+    if(p.isPresent()){
+      propertyRepo.delete(p.get());
+    }else{
+      throw new CustomErrorException(HttpStatus.NOT_FOUND,"Property not found");
+    }
+
+  }
+
 
 }

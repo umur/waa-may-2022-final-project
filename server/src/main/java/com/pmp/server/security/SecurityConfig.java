@@ -38,6 +38,7 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
       sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests()
             .antMatchers("/api/properties/rental-history").hasAuthority("ROLE_TENANT")
        .antMatchers("/api/landlord/*").permitAll()
+            .antMatchers("/api/landlord/properties/*").permitAll()
       .antMatchers("/api/mail/sendMail").permitAll()
       .antMatchers("/api/auth/login").permitAll()
       .antMatchers("/api/auth/register").permitAll()

@@ -25,6 +25,8 @@ public interface PropertyService {
  void save(PropertyDTO p);
 
  Page<Property> search(Pageable page, String s);
+
+ void delete(UUID s);
 //  List<Property> findPropertiesWithSorting(String field);
 //  Page<Property> findPropertiesWithPagination(int offset, int pageSize);
 //  Page<Property> findPropertiesWithPaginationAndSorting(int offset,int pageSize,String field);

@@ -38,4 +38,9 @@ public class LandlordController {
        propertyService.save(data);
         return new ResponseMessage("success", HttpStatus.CREATED);
     }
+    @DeleteMapping("/properties/{id}")
+    public ResponseMessage delete(@PathVariable UUID id) {
+        propertyService.delete(id);
+        return new ResponseMessage("deleted", HttpStatus.OK);
+    }
 }
