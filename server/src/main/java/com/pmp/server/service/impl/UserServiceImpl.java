@@ -87,7 +87,7 @@ public class UserServiceImpl implements UserService {
     if (authentication != null) {
       if (authentication.getPrincipal() instanceof KeycloakPrincipal) {
         KeycloakPrincipal<KeycloakSecurityContext> kp = (KeycloakPrincipal<KeycloakSecurityContext>) authentication.getPrincipal();
-        uuid = UUID.fromString(kp.getKeycloakSecurityContext().getToken().getId());
+        uuid = UUID.fromString(kp.getKeycloakSecurityContext().getToken().getSubject());
       }
     }
 
