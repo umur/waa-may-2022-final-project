@@ -1,5 +1,6 @@
 package com.property.service.impls;
 
+import com.property.domain.Role;
 import com.property.domain.User;
 import com.property.dto.request.LoginRequest;
 import com.property.dto.response.LoginResponse;
@@ -89,4 +90,17 @@ public class UserServiceImpl implements UserService {
         var loginResponse = new LoginResponse(accessToken, refreshToken);
         return loginResponse;
     }
+
+//    @Override
+//    public void userActive(long id, Role role){
+//        User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(String.format("User does not exist %s",id)));
+//        if (user.getRole() == role.ADMIN) {
+//            if (user.isActive() == true && user.getRole() != role.ADMIN)
+//                user.setActive(false);
+//            else if (user.isActive() == false && user.getRole() != role.ADMIN)
+//                user.setActive(true);
+//            else
+//                user.setActive(true);
+//        }
+//    }
 }

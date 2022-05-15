@@ -109,4 +109,18 @@ public class PropertyServiceImpl implements PropertyService {
     public void deleteById(Long id) {
         propertyRepository.deleteById(id);
     }
+
+    @Override
+    public List<PropertyDto> findAllByPropertyTypeContains(String type){
+        var properties = propertyRepository.findAllByPropertyTypeContains(type);
+        Type listType = new TypeToken<List<PropertyDto>>(){}.getType();
+        return modelMapper.map(properties,listType);
+    }
+
+    @Override
+    public List<PropertyDto> findAllByNoOfBedRoom(int noOfBedRoom){
+        var properties = propertyRepository.findAllByNoOfBedRoom(noOfBedRoom);
+        Type listType = new TypeToken<List<PropertyDto>>(){}.getType();
+        return modelMapper.map(properties,listType);
+    }
 }
