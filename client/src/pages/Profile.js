@@ -3,9 +3,23 @@ import Header from "../components/Header";
 import Default from "../assets/img/profile.png";
 import { AuthContext } from "context/AuthContext";
 import PropertyItem from "components/PropertyItem";
+import { useAxios } from "api/useAxios";
+import Loading from "../components/Loading";
+import moment from "moment";
 
 const Profile = () => {
-  const { user } = useContext(AuthContext);
+  const user = JSON.parse(localStorage.getItem("user"));
+  const { data, loading, execute } = useAxios("get", "/users/rental-history");
+
+  if (loading) {
+    return (
+      <>
+        <Header />
+        <Loading />
+      </>
+    );
+  }
+
   return (
     <div>
       <Header />
@@ -21,28 +35,29 @@ const Profile = () => {
         </div>
         <hr />
         <h3 className="title">Rent History</h3>
-        <div className="rent-list">
-          <div className="item">
-            <PropertyItem
-              key={123123}
-              property={{
-                id: "asdfasdf",
-                numberOfBedrooms: "asdfasdf",
-                numberOfBathrooms: "asdfasdf",
-                photos: "asdfasdf",
-                propertyName: "asdfasdf",
-                rentAmount: "asdfasdf",
-                city: "asdfasdf",
-                state: "asdfasdf",
-                propertyType: "asdfasdf",
-              }}
-            />
+        {data?.data.length > 0 ? (
+          data.data.map((item) => {
+            return (
+              <div className="rent-list">
+                <div className="item">
+                  <PropertyItem key={123123} property={item.property} />
+                </div>
+
+                <div className="description">
+                  <div>
+                    Rented period: {moment(item.startDate).format("MM-DD-YYYY")}{" "}
+                    to {moment(item.endDate).format("MM-DD-YYYY")}
+                  </div>
+                  <div> Total price: ${item.transactionAmount}</div>
+                </div>
+              </div>
+            );
+          })
+        ) : (
+          <div>
+            <h3>You haven't rented any property yet!</h3>
           </div>
-          <div className="description">
-            <div>Rented period: 2/22/2022 - 2/30/2022</div>
-            <div> Total price: $100</div>
-          </div>
-        </div>
+        )}
       </div>
     </div>
   );

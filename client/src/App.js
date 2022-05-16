@@ -47,7 +47,14 @@ function App() {
             </AuthWrapper>
           }
         />
-        <Route path="/profile" element={<Profile />} />
+        <Route
+          path="/profile"
+          element={
+            <AuthWrapper role={[ROLE.Tenant]}>
+              <Profile />
+            </AuthWrapper>
+          }
+        />
         <Route path="/payment/:id" element={<Payment />} />
       </Routes>
     </AuthContext.Provider>

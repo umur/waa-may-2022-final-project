@@ -54,6 +54,7 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
       .antMatchers("/api/property-rental-histories/*").permitAll()
 
       .antMatchers("/api/users/*").permitAll() //pprajapati: need to pass bearer token from admin
+      .antMatchers("/api/users/rental-history").hasAuthority("ROLE_TENANT")
       .anyRequest().authenticated();
 
   }
