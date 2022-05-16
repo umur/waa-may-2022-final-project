@@ -14,6 +14,7 @@ import NotFound from "./pages/404";
 import Payment from "pages/Payment";
 import CreateNewPassword from "pages/CreateNewPassword";
 import { ToastContainer } from "react-toastify";
+import Profile from "pages/Profile";
 
 function App() {
   const [isSignedIn, setSignedIn] = useState(
@@ -46,7 +47,7 @@ function App() {
             </AuthWrapper>
           }
         />
-
+        <Route path="/profile" element={<Profile />} />
         <Route path="/payment/:id" element={<Payment />} />
       </Routes>
     </AuthContext.Provider>
