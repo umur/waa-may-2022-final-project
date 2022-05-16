@@ -1,7 +1,7 @@
 package com.property.exception.custom;
 
 public class ResourceNotFoundException extends RuntimeException{
-    ResourceNotFoundException(String message){
+    public ResourceNotFoundException(String message){
         super(message);
     }
 }
