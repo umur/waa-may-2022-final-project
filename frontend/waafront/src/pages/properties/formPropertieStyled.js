@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { useRef } from "react";
+import { statesOptions } from "./statesOptions";
 import {
   Form,
   Input,
@@ -14,9 +16,13 @@ import {
 
 const FormSizeDemo = () => {
   const [componentSize, setComponentSize] = useState("default");
-
+  const nameRef = useRef(null);
   const onFormLayoutChange = ({ size }) => {
     setComponentSize(size);
+  };
+
+  const myFunction = function () {
+    alert("teste");
   };
 
   return (
@@ -33,6 +39,7 @@ const FormSizeDemo = () => {
       }}
       onValuesChange={onFormLayoutChange}
       size={componentSize}
+      onsubmit="myFunction()"
     >
       <Form.Item label="Form Size" name="size">
         <Radio.Group>
@@ -41,58 +48,50 @@ const FormSizeDemo = () => {
           <Radio.Button value="large">Large</Radio.Button>
         </Radio.Group>
       </Form.Item>
-      <Form.Item label="Input">
-        <Input />
+      <Form.Item label="Name">
+        <Input ref={nameRef} name="name" />
       </Form.Item>
-      <Form.Item label="Select">
-        <Select>
-          <Select.Option value="demo">Demo</Select.Option>
+      <Form.Item label="Street">
+        <Input name="street" />
+      </Form.Item>
+      <Form.Item label="City">
+        <Input name="city" />
+      </Form.Item>
+      <Form.Item label="States">
+        <Select style={{ width: "50%" }}>
+          <Select.Option value=""></Select.Option>
+          {statesOptions.map((statesOption) => (
+            <option value={statesOption.value}>{statesOption.title}</option>
+          ))}
         </Select>
       </Form.Item>
-      <Form.Item label="TreeSelect">
-        <TreeSelect
-          treeData={[
-            {
-              title: "Light",
-              value: "light",
-              children: [
-                {
-                  title: "Bamboo",
-                  value: "bamboo",
-                },
-              ],
-            },
-          ]}
-        />
+      <Form.Item label="Zip Code">
+        <Input name="zipcode" style={{ width: "30%" }} />
       </Form.Item>
-      <Form.Item label="Cascader">
-        <Cascader
-          options={[
-            {
-              value: "zhejiang",
-              label: "Zhejiang",
-              children: [
-                {
-                  value: "hangzhou",
-                  label: "Hangzhou",
-                },
-              ],
-            },
-          ]}
-        />
+
+      <Form.Item label="Number of Bedrooms">
+        <InputNumber name="nbedrooms" style={{ width: "30%" }} />
       </Form.Item>
-      <Form.Item label="DatePicker">
-        <DatePicker />
+      <Form.Item label="Number of Bathrooms">
+        <InputNumber name="nbathrooms" style={{ width: "30%" }} />
       </Form.Item>
-      <Form.Item label="InputNumber">
-        <InputNumber />
+
+      <Form.Item label="Rent Amount">
+        <Input name="rentamount" style={{ width: "30%" }} />
       </Form.Item>
-      <Form.Item label="Switch" valuePropName="checked">
+      <Form.Item label="Security Deposit">
+        <Input name="security" style={{ width: "30%" }} />
+      </Form.Item>
+
+      <Form.Item label="Occupied" valuePropName="checked">
         <Switch />
       </Form.Item>
-      <Form.Item label="Button">
-        <Button>Button</Button>
+      <Form.Item label="Listed" valuePropName="checked">
+        <Switch />
       </Form.Item>
+      {/* <Form.Item label="Button">
+        <Button>Button</Button>
+      </Form.Item> */}
     </Form>
   );
 };
