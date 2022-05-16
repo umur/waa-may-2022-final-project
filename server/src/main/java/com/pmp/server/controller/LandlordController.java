@@ -4,6 +4,7 @@ import com.google.common.base.CaseFormat;
 import com.pmp.server.domain.Property;
 import com.pmp.server.dto.PropertyDTO;
 import com.pmp.server.dto.RentDTO;
+import com.pmp.server.dto.Top10PropertyLeaseEndDTO;
 import com.pmp.server.dto.common.PagingResponse;
 import com.pmp.server.dto.common.ResponseMessage;
 import com.pmp.server.service.impl.PropertyServiceImpl;
@@ -81,5 +82,11 @@ public class LandlordController {
                 .map(sortOrder -> sortOrder.withProperty(CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, sortOrder.getProperty())))
                 .collect(Collectors.toList())
         );
+    }
+
+    @GetMapping("/properties/top10-lease-end")
+    public ResponseMessage getTop10LeaseEnd(@RequestBody Top10PropertyLeaseEndDTO body) {
+        var result = propertyService.top10LeaseEnd(body);
+        return result;
     }
 }
