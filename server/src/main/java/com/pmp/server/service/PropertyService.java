@@ -38,5 +38,8 @@ public interface PropertyService {
  ResponseMessage propertyByIncome(UUID propertyId);
 
  Page<Property> getAllPaginatedProperties(Pageable pageable);
+ Page<Property> getAllRentedProperties(Pageable pageable);
+
+ Page<Property> getAllLandlordProperties(Pageable pageable, UUID ownerId);
  ResponseMessage top10LeaseEnd(Top10PropertyLeaseEndDTO dto);
 }

@@ -33,13 +33,13 @@ echarts.use([
 ]);
 
 
-const PieChartComponent = () => {
+const PieChartComponent = (props) => {
 
   const notify = (msg, method = "error") => toast[method](msg);
 
   const { data, error, loading, execute, queryParam } = useAxios(
     "get",
-    "properties/property-by-income"
+    props.url
   );
 
   if (loading) {

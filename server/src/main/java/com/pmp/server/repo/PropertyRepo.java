@@ -21,9 +21,21 @@ public interface PropertyRepo extends PagingAndSortingRepository<Property, UUID>
     Page<Property> findByLastRentedDateNotNull(Pageable page);
     Page<Property> findAllByOwnedBy(Pageable page, User u);
 
-    @Query(value = "SELECT * FROM Properties p WHERE lower(p.property_name) LIKE ?1 or lower(p.state) LIKE ?1 or lower(p.property_type) LIKE ?1 or lower(p.city) LIKE ?1 or lower(p.description) LIKE ?1 or lower(p.property_type) LIKE ?1 or lower(p.street_address) LIKE ?1  ",
+    @Query(value = "select * from properties p where p.owned_by_id =?1", nativeQuery = true)
+    List<Property> customFindByOwner(UUID id);
+
+    @Query(value = "SELECT *\n" +
+      "FROM Properties p\n" +
+      "WHERE (lower(p.property_name) LIKE ?1\n" +
+      "   or lower(p.state) LIKE ?1\n" +
+      "   or lower(p.property_type) LIKE ?1\n" +
+      "   or lower(p.city) LIKE ?1\n" +
+      "   or lower(p.description) LIKE ?1\n" +
+      "   or lower(p.property_type) LIKE ?1\n" +
+      "   or lower(p.street_address) LIKE ?1)\n" +
+      "AND p.owned_by_id=?2",
             nativeQuery = true)
-    Page<Property> customSearch(Pageable page,String s);
+    Page<Property> customSearch(Pageable page,String s, UUID id);
 
 //    @Query(value = "select\n" +
 //      "        p.id,\n" +

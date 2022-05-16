@@ -23,6 +23,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
 
+import javax.ws.rs.Path;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -67,22 +68,31 @@ public class PropertyController {
   }
 
   @GetMapping("/property-by-income")
-  private ResponseMessage getByID(@RequestParam Optional<UUID> propertyId){
-    UUID propId = null;
-    if(propertyId.isPresent()){
-      propId = propertyId.get();
+  private ResponseMessage getPropertyByIncome(@RequestParam Optional<UUID> userId){
+    UUID uId = null;
+    if(userId.isPresent()){
+      uId = userId.get();
     }
-    return propertyService.propertyByIncome(propId);
+    return propertyService.propertyByIncome(uId);
   }
 
   @GetMapping("/paginated")
   public PagingResponse<Property> getAllPaginatedProperties(Pageable pagingRequest) {
-//    PageRequest daoPageable = PageRequest.of(
-//      pagingRequest.getPageNumber(),
-//      pagingRequest.getPageSize(),
-//      convertDtoSortToDaoSort(pagingRequest.getSort())
-//    );
     var data = propertyService.getAllPaginatedProperties(pagingRequest);
+    return new PagingResponse<>(data);
+
+  }
+
+  @GetMapping("/paginated/{ownerId}")
+  public PagingResponse<Property> getAllLandlordProperties(Pageable pagingRequest, @PathVariable UUID ownerId) {
+    var data = propertyService.getAllLandlordProperties(pagingRequest, ownerId);
+    return new PagingResponse<>(data);
+
+  }
+
+  @GetMapping("/rented/paginated")
+  public PagingResponse<Property> getAllRentedProperties(Pageable pagingRequest) {
+    var data = propertyService.getAllRentedProperties(pagingRequest);
     return new PagingResponse<>(data);
 
   }

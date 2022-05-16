@@ -156,7 +156,15 @@ public class PropertyServiceImpl implements PropertyService {
 
   @Override
   public Page<Property> search(Pageable page, String s) {
-    return propertyRepo.customSearch(page, "%" + s.toLowerCase() + "%");
+    UUID owner = null;
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    if (authentication != null) {
+      if (authentication.getPrincipal() instanceof KeycloakPrincipal) {
+        KeycloakPrincipal<KeycloakSecurityContext> kp = (KeycloakPrincipal<KeycloakSecurityContext>) authentication.getPrincipal();
+        owner = UUID.fromString(kp.getKeycloakSecurityContext().getToken().getSubject());
+      }
+    }
+    return propertyRepo.customSearch(page, "%" + s.toLowerCase() + "%", owner);
   }
 
   @Override
@@ -226,17 +234,17 @@ public class PropertyServiceImpl implements PropertyService {
   }
 
   @Override
-  public ResponseMessage propertyByIncome(UUID propertyId) {
+  public ResponseMessage propertyByIncome(UUID userId) {
     List<Property> properties = new ArrayList<Property>();
     List<PropertyIncomeDTO> results = new ArrayList<PropertyIncomeDTO>();
-    if (propertyId == null) {
+    if (userId == null) {
       properties = (List<Property>) propertyRepo.findAll();
     } else {
-      Optional<Property> property = propertyRepo.findById(propertyId);
-      if (property.isPresent()) {
-        Property p = property.get();
-        properties.add(p);
-      }
+      properties = propertyRepo.customFindByOwner(userId);
+//      if (property.isPresent()) {
+//        Property p = property.get();
+//        properties.add(p);
+//      }
 
     }
     properties.forEach(p -> {
@@ -298,6 +306,16 @@ public class PropertyServiceImpl implements PropertyService {
 
   @Override
   public Page<Property> getAllPaginatedProperties(Pageable pageable) {
+    return propertyRepo.findAll(pageable);
+  }
+
+  @Override
+  public Page<Property> getAllLandlordProperties(Pageable pageable, UUID uuid) {
+    return propertyRepo.findAll(pageable);
+  }
+
+  @Override
+  public Page<Property> getAllRentedProperties(Pageable pageable) {
     return propertyRepo.findByLastRentedDateNotNull(pageable);
   }
 
