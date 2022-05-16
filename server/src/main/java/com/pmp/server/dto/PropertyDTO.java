@@ -31,5 +31,5 @@ public class PropertyDTO {
     private double securityDepositAmount;
     private boolean isOccupied;
     private List<PropertyImage> photos;
-
+    private boolean active;
 }

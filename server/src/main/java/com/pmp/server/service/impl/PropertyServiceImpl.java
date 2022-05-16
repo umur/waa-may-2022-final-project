@@ -45,37 +45,38 @@ public class PropertyServiceImpl implements PropertyService {
   private final PropertyImageRepo imageRepo;
 
 
-  public PropertyServiceImpl(PropertyRepo propertyRepo,PropertyRentalHistoryRepo rentalRepo,UserRepo userRepo,PropertyImageRepo imageRepo) {
+  public PropertyServiceImpl(PropertyRepo propertyRepo, PropertyRentalHistoryRepo rentalRepo, UserRepo userRepo, PropertyImageRepo imageRepo) {
     this.propertyRepo = propertyRepo;
     this.rentalRepo = rentalRepo;
     this.userRepo = userRepo;
-    this.imageRepo= imageRepo;
+    this.imageRepo = imageRepo;
   }
-  public Page<Property> findAll(Pageable pageable){
+
+  public Page<Property> findAll(Pageable pageable) {
     return propertyRepo.findAll(pageable);
   }
 
   @Override
   public Property getById(UUID id) {
     Optional<Property> data = propertyRepo.findById(id);
-    if(!data.isPresent()){
-      throw new CustomErrorException(HttpStatus.NOT_FOUND,"Property Not found");
+    if (!data.isPresent()) {
+      throw new CustomErrorException(HttpStatus.NOT_FOUND, "Property Not found");
     }
     return data.get();
   }
 
   @Override
-  public PropertyRentalHistory rent(UUID id,RentDTO rentdto) {
+  public PropertyRentalHistory rent(UUID id, RentDTO rentdto) {
     PropertyRentalHistory hist = new PropertyRentalHistory();
     Optional<Property> p = propertyRepo.findById(id);
-    if(p.isPresent()){
+    if (p.isPresent()) {
       Property pty = p.get();
       String uuid = null;
       Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
       if (authentication != null) {
         if (authentication.getPrincipal() instanceof KeycloakPrincipal) {
           KeycloakPrincipal<KeycloakSecurityContext> kp = (KeycloakPrincipal<KeycloakSecurityContext>) authentication.getPrincipal();
-           uuid = kp.getKeycloakSecurityContext().getToken().getSubject();
+          uuid = kp.getKeycloakSecurityContext().getToken().getSubject();
         }
       }
 
@@ -89,20 +90,20 @@ public class PropertyServiceImpl implements PropertyService {
       pty.setLastRentedBy(user);
       propertyRepo.save(pty);
       return hist;
-    }else{
-      throw new CustomErrorException(HttpStatus.NOT_FOUND,"Property not found!");
+    } else {
+      throw new CustomErrorException(HttpStatus.NOT_FOUND, "Property not found!");
     }
 
   }
 
   @Override
-  public Page<Property> findAllwithFilter(Pageable page,String loc, int r) {
-    return propertyRepo.findAllByCityIsLikeIgnoreCaseAndAndNumberOfBedroomsGreaterThanEqual(page,loc,r);
+  public Page<Property> findAllwithFilter(Pageable page, String loc, int r) {
+    return propertyRepo.findAllByCityIsLikeIgnoreCaseAndAndNumberOfBedroomsGreaterThanEqualAndActiveIsTrue(page, loc, r);
   }
 
   @Override
   public Page<Property> findAllByOwner(Pageable page) {
-    UUID uuid =null;
+    UUID uuid = null;
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     if (authentication != null) {
       if (authentication.getPrincipal() instanceof KeycloakPrincipal) {
@@ -111,7 +112,7 @@ public class PropertyServiceImpl implements PropertyService {
       }
     }
     User user = userRepo.findById(uuid).get();
-    return propertyRepo.findAllByOwnedBy(page,user);
+    return propertyRepo.findAllByOwnedBy(page, user);
   }
 
   @Override
@@ -126,7 +127,7 @@ public class PropertyServiceImpl implements PropertyService {
     }
     User user = userRepo.findById(owner).get();
     List<PropertyImage> image = pty.getPhotos();
-    List<PropertyImage> imgs = image.stream().map(item->{
+    List<PropertyImage> imgs = image.stream().map(item -> {
       var img = new PropertyImage();
       img.setImageUrl(item.getImageUrl());
       imageRepo.save(img);
@@ -152,17 +153,17 @@ public class PropertyServiceImpl implements PropertyService {
   }
 
   @Override
-  public Page<Property> search(Pageable page,String s) {
-    return propertyRepo.customSearch(page,"%"+s.toLowerCase()+"%");
+  public Page<Property> search(Pageable page, String s) {
+    return propertyRepo.customSearch(page, "%" + s.toLowerCase() + "%");
   }
 
   @Override
   public void delete(UUID s) {
     Optional<Property> p = propertyRepo.findById(s);
-    if(p.isPresent()){
+    if (p.isPresent()) {
       propertyRepo.delete(p.get());
-    }else{
-      throw new CustomErrorException(HttpStatus.NOT_FOUND,"Property not found");
+    } else {
+      throw new CustomErrorException(HttpStatus.NOT_FOUND, "Property not found");
     }
 
   }
@@ -179,14 +180,14 @@ public class PropertyServiceImpl implements PropertyService {
 //    }
     User user = userRepo.findById(owner).get();
     List<PropertyImage> image = pty.getPhotos();
-    List<PropertyImage> imgs = image.stream().map(item->{
+    List<PropertyImage> imgs = image.stream().map(item -> {
       var img = new PropertyImage();
       img.setImageUrl(item.getImageUrl());
       imageRepo.save(img);
       return img;
     }).collect(Collectors.toList());
 
-    if(propertyRepo.findById(s).isPresent()){
+    if (propertyRepo.findById(s).isPresent()) {
       Property p = propertyRepo.findById(s).get();
       p.setCity(pty.getCity());
       p.setDescription(pty.getDescription());
@@ -202,9 +203,24 @@ public class PropertyServiceImpl implements PropertyService {
       p.setOwnedBy(user);
       p.setSecurityDepositAmount(p.getSecurityDepositAmount());
       propertyRepo.save(p);
-    }else{
-      throw new CustomErrorException(HttpStatus.NOT_FOUND,"Property not found");
+    } else {
+      throw new CustomErrorException(HttpStatus.NOT_FOUND, "Property not found");
     }
 
   }
+
+
+  @Override
+  public ResponseMessage activate(UUID id, Boolean isActive) {
+    Optional<Property> p = propertyRepo.findById(id);
+    if (p.isPresent()) {
+      Property property = p.get();
+      property.setActive(isActive);
+      propertyRepo.save(property);
+      return new ResponseMessage("Success", HttpStatus.OK, property);
+    } else {
+      throw new CustomErrorException(HttpStatus.NOT_FOUND, "Property not found");
+    }
+  }
+
 }

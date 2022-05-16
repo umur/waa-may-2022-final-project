@@ -51,15 +51,16 @@ const Payment = () => {
   }, [data]);
 
   return (
-    <Grid container spacing={2} className="payment">
+    <>
       <Header />
-      <Grid item xs={6}>
-        <Item propertyRentalHistory={propertyRentalHistory} />
-        <section>
+
+    <Grid container spacing={2} justifyContent="center" alignItems="center" className="payment">
+      <Grid item justifyContent="center" xs={6}>
+        <Item propertyRentalHistory={propertyRentalHistory}>
           <form onSubmit={handleSubmit} method="POST">
             <button type="submit">Checkout</button>
           </form>
-        </section>
+        </Item>
       </Grid>
 
       <AlertDialog
@@ -72,6 +73,7 @@ const Payment = () => {
         content={""}
       />
     </Grid>
+    </>
   );
 };
 

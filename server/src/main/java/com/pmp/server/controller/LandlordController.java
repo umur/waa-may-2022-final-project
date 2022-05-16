@@ -45,13 +45,26 @@ public class LandlordController {
         return new ResponseMessage("success", HttpStatus.CREATED);
     }
     @PutMapping("/properties/{id}")
-    public ResponseMessage addProperties(@RequestBody PropertyDTO data,@PathVariable UUID id) {
+    public ResponseMessage updateProperties(@RequestBody PropertyDTO data,@PathVariable UUID id) {
         propertyService.update(data,id);
         return new ResponseMessage("success", HttpStatus.OK);
     }
+
+    @PutMapping("/properties/{id}/activate")
+    public ResponseMessage activate(@PathVariable UUID id) {
+        return propertyService.activate(id, true);
+    }
+
+    @PutMapping("/properties/{id}/deactivate")
+    public ResponseMessage deactivate(@PathVariable UUID id) {
+        return propertyService.activate(id, false);
+    }
+
     @DeleteMapping("/properties/{id}")
     public ResponseMessage delete(@PathVariable UUID id) {
         propertyService.delete(id);
         return new ResponseMessage("deleted", HttpStatus.OK);
     }
+
+
 }

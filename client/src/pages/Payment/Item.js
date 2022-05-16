@@ -9,7 +9,7 @@ import DefaultImage from "../../assets/img/default-house.jpeg";
 import { Box, Typography } from '@mui/material';
 import moment from 'moment';
 
-const Item = ({ propertyRentalHistory }) => {
+const Item = ({ propertyRentalHistory, children }) => {
   if (!propertyRentalHistory) return (<></>);
 
   const { property } = propertyRentalHistory
@@ -63,6 +63,7 @@ const Item = ({ propertyRentalHistory }) => {
             </Box>
           </div>
         </CardContent>
+        {children}
       </Card>
     </>
   );
