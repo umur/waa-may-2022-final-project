@@ -26,10 +26,13 @@ const Login = () => {
             
             const decodedString = atob(theToken.split('.')[1]);
             const userRole = JSON.parse(decodedString).role[0].authority;
+            const id=JSON.parse(decodedString).role[0].id;
             const userName = JSON.parse(decodedString).sub;
     
             window.sessionStorage.setItem("userRole", userRole);
             window.sessionStorage.setItem("userName", userName);
+            window.sessionStorage.setItem("token", theToken);
+            window.sessionStorage.setItem("id", id);
 
             if(userRole==='ADMIN'){
                 navigate(`/dashboard-admin`);
@@ -40,7 +43,7 @@ const Login = () => {
             }
             
     
-            dispath(login({ role: userRole, email: userName }));
+            dispath(login({ role: userRole, email: userName, token:theToken, id:id }));
         }catch (err){
             if(err.response){
                 alert ('Login failed');
