@@ -1,4 +1,4 @@
-package com.pmp.server.exception;
+package com.pmp.server.exceptionHandler.exceptions;
 
 
 import org.springframework.validation.Errors;

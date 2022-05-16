@@ -21,6 +21,9 @@ public class PropertyRentalHistory extends BaseEntity{
   @JoinColumn(name="property_id")
   private Property property;
 
+  @Column(name="transaction_amount")
+  private double transactionAmount;
+
   @Column(name="start_date")
   private LocalDate startDate;
 

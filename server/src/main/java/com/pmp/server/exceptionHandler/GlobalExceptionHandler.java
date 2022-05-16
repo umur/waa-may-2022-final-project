@@ -1,8 +1,7 @@
 package com.pmp.server.exceptionHandler;
 
 import com.pmp.server.dto.common.ResponseMessage;
-import com.pmp.server.exception.ErrorResourceException;
-import com.pmp.server.exception.UserNotFoundException;
+import com.pmp.server.exceptionHandler.exceptions.UserNotFoundException;
 import com.pmp.server.exceptionHandler.exceptions.CustomErrorException;
 import com.stripe.exception.StripeException;
 import org.springframework.http.HttpHeaders;
