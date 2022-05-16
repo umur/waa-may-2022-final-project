@@ -26,6 +26,10 @@ import org.springframework.data.domain.Pageable;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
+
+import static com.pmp.server.utils.constants.ResponseMessageConstants.SUCCESSFUL_MESSAGE;
+import static java.time.temporal.ChronoUnit.DAYS;
 
 @Service
 public class PropertyServiceImpl implements PropertyService {
@@ -71,12 +75,14 @@ public class PropertyServiceImpl implements PropertyService {
           uuid = kp.getKeycloakSecurityContext().getToken().getSubject();
         }
       }
+      var diff = DAYS.between(rentdto.getStartDate(),rentdto.getEndDate());
 
       User user = userRepo.findById(UUID.fromString(uuid)).get();
       hist.setRentedBy(user);
       hist.setProperty(pty);
       hist.setEndDate(rentdto.getEndDate());
       hist.setStartDate(rentdto.getStartDate());
+      hist.setTransactionAmount(diff*(pty.getRentAmount()+pty.getSecurityDepositAmount()));
       rentalRepo.save(hist);
 
       pty.setLastRentedBy(user);

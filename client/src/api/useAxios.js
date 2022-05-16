@@ -6,6 +6,7 @@ import { AuthContext } from "context/AuthContext";
 export const useAxios = (method, url) => {
   const notify = (msg, method = "error") => toast[method](msg);
   const { isSignedIn } = useContext(AuthContext);
+  console.log(isSignedIn);
   const [data, setData] = useState(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(method === "get" ? true : false);
@@ -19,12 +20,13 @@ export const useAxios = (method, url) => {
         setLoading(true);
       }
       try {
-        let response = await axios[method](
-          method === "get" ? url + (postData ? postData : "") : url,
-          { ...postData },
+        let response = await customAxios(
+          method,
+          url,
           {
             headers: { ...headers },
-          }
+          },
+          postData
         );
         setData(response.data);
       } catch (e) {
@@ -52,4 +54,16 @@ export const useAxios = (method, url) => {
   };
 
   return { data, error, loading, execute: executeRequest, queryParam };
+};
+
+const customAxios = (axiosmethod, url, headers, data) => {
+  console.log("data", data);
+  if (axiosmethod === "get" || axiosmethod === "delete") {
+    return axios[axiosmethod](
+      axiosmethod === "get" ? url + (data ? data : "") : url,
+      headers
+    );
+  } else {
+    return axios[axiosmethod](url, data, headers);
+  }
 };

@@ -109,7 +109,7 @@ public class PaymentController {
                         .setCancelUrl(paymentURL + "?canceled=true")
                         .addLineItem(
                                 SessionCreateParams.LineItem.builder()
-                                        .setQuantity(body.getNumberOfDays())
+                                        .setQuantity(1L)
                                         // Set price id
                                         .setPrice(transaction.getPriceId())
                                         .build())

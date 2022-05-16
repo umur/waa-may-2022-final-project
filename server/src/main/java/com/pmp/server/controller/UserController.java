@@ -48,8 +48,8 @@ public class UserController {
 
   @GetMapping("/rental-history")
   private ResponseMessage getRental(){
-    //List<PropertyRentalHistory> list = userService.getRental();
-    return new ResponseMessage("success", HttpStatus.CREATED);
+    List<PropertyRentalHistory> list = userService.getRental();
+    return new ResponseMessage("success", HttpStatus.OK,list);
   }
 }
 
