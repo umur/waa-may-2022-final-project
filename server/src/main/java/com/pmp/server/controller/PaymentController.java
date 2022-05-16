@@ -155,6 +155,8 @@ public class PaymentController {
                 Session session = (Session) stripeObject;
                 log.warn("Checkout session: ");
                 paymentService.handleSessionSucceeded(session);
+
+                // TODO: Send email to Landlord
             default:
                 log.error("Unhandled event type: {}", event.getType());
                 break;

@@ -28,7 +28,7 @@ spring:
   application:
     name: spring-security
   datasource:
-    password: 1
+    password: postgres
     url: jdbc:postgresql://localhost:5432/test
     username: postgres
   jpa:
@@ -58,3 +58,14 @@ server:
   port: 8081
   netty:
     connection-timeout: 6000
+
+stripe:
+  secret:
+    key: sk_test_51KzpNaCqGP5n20NTpJDEU8NpzniPpievQ6SG6yo6ino2zQeyHFKb9vyjjw8cy1Ta0drikBr1uDWx5O4BOF5b4AAE00Wsk7RJng
+  public:
+    key: pk_test_51KzpNaCqGP5n20NTsGZbvkXNOZ0JZ3DTDuoy6hSfzcL4ZOgg3QGkdy6VjApL4da7u50kluqgzyyC057DCbfP0oMt00HGX3B3Zj
+  webhook:
+    secret: whsec_3304e18405b9c6a1d3c716c4b40e8d93645a2502e3b71251906193dec7174c05
+
+client:
+  domain: http://localhost:3000

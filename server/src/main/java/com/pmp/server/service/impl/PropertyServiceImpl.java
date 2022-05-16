@@ -75,7 +75,7 @@ public class PropertyServiceImpl implements PropertyService {
       if (authentication != null) {
         if (authentication.getPrincipal() instanceof KeycloakPrincipal) {
           KeycloakPrincipal<KeycloakSecurityContext> kp = (KeycloakPrincipal<KeycloakSecurityContext>) authentication.getPrincipal();
-           uuid = kp.getKeycloakSecurityContext().getToken().getId();
+           uuid = kp.getKeycloakSecurityContext().getToken().getSubject();
         }
       }
 
@@ -102,28 +102,28 @@ public class PropertyServiceImpl implements PropertyService {
 
   @Override
   public Page<Property> findAllByOwner(Pageable page) {
-    UUID uuid = UUID.fromString("655cb8f5-80c9-43af-830c-f8b309d9e508");
-//    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//    if (authentication != null) {
-//      if (authentication.getPrincipal() instanceof KeycloakPrincipal) {
-//        KeycloakPrincipal<KeycloakSecurityContext> kp = (KeycloakPrincipal<KeycloakSecurityContext>) authentication.getPrincipal();
-//        uuid = UUID.fromString(kp.getKeycloakSecurityContext().getToken().getId());
-//      }
-//    }
+    UUID uuid =null;
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    if (authentication != null) {
+      if (authentication.getPrincipal() instanceof KeycloakPrincipal) {
+        KeycloakPrincipal<KeycloakSecurityContext> kp = (KeycloakPrincipal<KeycloakSecurityContext>) authentication.getPrincipal();
+        uuid = UUID.fromString(kp.getKeycloakSecurityContext().getToken().getSubject());
+      }
+    }
     User user = userRepo.findById(uuid).get();
     return propertyRepo.findAllByOwnedBy(page,user);
   }
 
   @Override
   public void save(PropertyDTO pty) {
-    UUID owner = UUID.fromString("655cb8f5-80c9-43af-830c-f8b309d9e508");
-//    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//    if (authentication != null) {
-//      if (authentication.getPrincipal() instanceof KeycloakPrincipal) {
-//        KeycloakPrincipal<KeycloakSecurityContext> kp = (KeycloakPrincipal<KeycloakSecurityContext>) authentication.getPrincipal();
-//        uuid = UUID.fromString(kp.getKeycloakSecurityContext().getToken().getId());
-//      }
-//    }
+    UUID owner = null;
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    if (authentication != null) {
+      if (authentication.getPrincipal() instanceof KeycloakPrincipal) {
+        KeycloakPrincipal<KeycloakSecurityContext> kp = (KeycloakPrincipal<KeycloakSecurityContext>) authentication.getPrincipal();
+        owner = UUID.fromString(kp.getKeycloakSecurityContext().getToken().getSubject());
+      }
+    }
     User user = userRepo.findById(owner).get();
     List<PropertyImage> image = pty.getPhotos();
     List<PropertyImage> imgs = image.stream().map(item->{
