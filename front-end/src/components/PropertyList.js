@@ -1,0 +1,6 @@
+
+const PropertyList = (props) => {
+
+    
+
+}
