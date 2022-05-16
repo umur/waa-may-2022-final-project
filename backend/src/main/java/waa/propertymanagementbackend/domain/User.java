@@ -1,6 +1,9 @@
 package waa.propertymanagementbackend.domain;
 
+import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Value;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -8,7 +11,8 @@ import java.time.LocalDate;
 @Data
 @Entity
 @Table(name = "users")
-public class Users {
+@Getter
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -25,4 +29,5 @@ public class Users {
     private Boolean active;
     private Boolean deleted;
 
+private LocalDate createdDate;
 }

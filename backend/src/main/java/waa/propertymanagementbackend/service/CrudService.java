@@ -1,5 +1,8 @@
 package waa.propertymanagementbackend.service;
 
+import waa.propertymanagementbackend.domain.Property;
+
+import java.time.LocalDate;
 import java.util.List;
 
 public interface CrudService <TDto> {

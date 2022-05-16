@@ -1,39 +1,48 @@
 package waa.propertymanagementbackend.service.impl;
 
-import org.apache.catalina.User;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+
 import org.springframework.stereotype.Service;
-import waa.propertymanagementbackend.domain.Property;
-import waa.propertymanagementbackend.domain.Users;
-import waa.propertymanagementbackend.dto.PropertyDto;
-import waa.propertymanagementbackend.dto.UsersDto;
+import waa.propertymanagementbackend.domain.EmailDataDetail;
+import waa.propertymanagementbackend.domain.User;
+import waa.propertymanagementbackend.dto.EmailDataDetailDto;
+import waa.propertymanagementbackend.dto.UserDto;
+import waa.propertymanagementbackend.repository.EmailDataDetailRep;
 import waa.propertymanagementbackend.repository.UserRepository;
-import waa.propertymanagementbackend.service.CrudService;
+import waa.propertymanagementbackend.service.UserService;
+
+
+
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class UserServiceImpl implements CrudService<UsersDto> {
-    private ModelMapper modelMapper=new ModelMapper();
+public class UserServiceImpl implements UserService<UserDto> {
+    private ModelMapper modelMapper = new ModelMapper();
     @Autowired
     UserRepository userRepository;
 
-    @Override
+
+
+
+ /*   @Override
     public void save(UsersDto user) {
-        Users u = new Users();
+        User u = new User();
         modelMapper.map(user, u);
         userRepository.save(u);
 
     }
 
     @Override
-    public List<UsersDto> getAll() {
-        List<UsersDto> dtos = new ArrayList<>();
+    public List<User> getAll() {
+        List<User> dtos = new ArrayList<>();
 
-        List<Users> p = (List<Users>) userRepository.findAll();
-        UsersDto dto = new UsersDto();
+        List<User> p = (List<User>) userRepository.findAll();
+        User dto = new User();
         for (int i = 0; i < p.size(); i++) {
             modelMapper.map(p.get(i), dto);
             dtos.add(dto);
@@ -44,8 +53,8 @@ public class UserServiceImpl implements CrudService<UsersDto> {
     }
 
     @Override
-    public UsersDto getById(int id) {
-        UsersDto dto = new UsersDto();
+    public User getById(int id) {
+        User dto = new User();
         modelMapper.map(userRepository.findById(id).get(), dto);
         return dto;
 
@@ -54,7 +63,7 @@ public class UserServiceImpl implements CrudService<UsersDto> {
     @Override
     public void delete(int id, boolean value) {
 
-        Users u = new Users();
+        User u = new User();
         u = userRepository.findById(id).get();
 
         u.setDeleted(value);
@@ -62,5 +71,62 @@ public class UserServiceImpl implements CrudService<UsersDto> {
 
 
     }
+*/
+
+    /**
+     * Admin
+     *
+     * @return
+     */
+    @Override
+    public List<UserDto> getLastRecentTenants() {
+
+        List<User> users = userRepository.getLastRecentTenants();
+
+        List<UserDto> dtos = new ArrayList<>();
+        UserDto dto = new UserDto();
+        users.stream().forEach(item -> {
+            modelMapper.map(item, dto);
+            dtos.add(dto);
+        });
+
+        return dtos;
+
+    }
+
+
+    @Override
+    public UserDto getById(int id) {
+        UserDto dto = new UserDto();
+        modelMapper.map(userRepository.findById(id).get(), dto);
+        return dto;
+
+    }
+    @Override
+    public UserDto getUserDtoByEmail(String email){
+        User u = userRepository.findByEmail(email);
+        UserDto dto = new UserDto();
+        modelMapper.map(u, dto);
+        return dto;
+
+    }
+
+    @Override
+    public User getUserById(int id) {
+        return userRepository.findById(id).get();
+
+    }
+
+    @Override
+    public void activate(String email, boolean value) {
+        User u = userRepository.findByEmail(email);
+        u.setActive(value);
+        userRepository.save(u);
+    }
+
+
+
+
+
 
 }
