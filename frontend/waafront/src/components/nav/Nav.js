@@ -58,8 +58,8 @@ function getMenu(role) {
         return (
             <>
                 <Nav className="me-auto">                      
-                    <Link to='/properties' className='margin-r nav-text'>About</Link>
-                    <Link to='/properties' className='nav-text'>Help</Link>
+                    <Link to='/users' className='margin-r nav-text'>Users</Link>
+                    <Link to='/dashboard-admin' className='nav-text'>Dashboard</Link>
                 </Nav>
                 <Nav>                                          
                     <Link to='/' className='nav-text'>Logout</Link>
