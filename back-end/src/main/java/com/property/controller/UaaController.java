@@ -10,6 +10,7 @@ import com.property.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -35,6 +36,13 @@ public class UaaController {
         return ResponseEntity.ok(registration);
     }
 
+
+    @PutMapping("/useractivedeactive/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public void userActiveDeactive(@PathVariable long id) {
+        userService.userIsActive(id);
+    }
+
     @PostMapping("/forgot-password")
     public ResponseEntity<Void> processForgotPassword(@RequestBody EmailRequest request) {
         userService.processForgotPassword(request);
@@ -51,5 +59,6 @@ public class UaaController {
     public ResponseEntity<?> changePassword(@RequestBody UserRegistrationRequest user, @PathVariable long id) {
         UserRegistrationResponse res = userService.update(user, id);
         return ResponseEntity.ok(res);
+
     }
 }

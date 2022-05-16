@@ -15,6 +15,9 @@ public interface UserService extends CrudService<UserRegistrationRequest, UserRe
 
     LoginResponse login(LoginRequest loginRequest);
 
+
+    void userIsActive(long id);
+
     void processForgotPassword(EmailRequest request);
 
     UserRegistrationResponse resetPassword(PasswordRequest passwordRequest, HttpServletRequest request);
