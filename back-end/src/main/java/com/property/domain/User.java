@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -32,6 +33,8 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    private LocalDate accountCreatedAt;
 
     @OneToMany(mappedBy = "landLord")
     private List<Property> properties;

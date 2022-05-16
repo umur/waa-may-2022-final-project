@@ -3,7 +3,9 @@ package com.property.service;
 import com.amazonaws.AmazonClientException;
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.model.GetObjectRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.amazonaws.services.s3.model.S3Object;
 import com.property.dto.PhotoMeta;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -11,8 +13,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,6 +51,30 @@ public class S3BucketStorageService {
             }
         }
         return photoMetas;
+    }
+
+    public ByteArrayOutputStream downloadImage(String keyName) {
+        try {
+            S3Object s3object = s3client.getObject(new GetObjectRequest(bucketName, keyName));
+
+            InputStream is = s3object.getObjectContent();
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            int len;
+            byte[] buffer = new byte[4096];
+            while ((len = is.read(buffer, 0, buffer.length)) != -1) {
+                outputStream.write(buffer, 0, len);
+            }
+            return outputStream;
+        } catch (IOException ioException) {
+            log.error("IOException: " + ioException.getMessage());
+        } catch (AmazonServiceException serviceException) {
+            log.info("AmazonServiceException Message:    " + serviceException.getMessage());
+            throw serviceException;
+        } catch (AmazonClientException clientException) {
+            log.info("AmazonClientException Message: " + clientException.getMessage());
+            throw clientException;
+        }
+        return null;
     }
 
 

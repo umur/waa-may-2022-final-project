@@ -1,6 +1,9 @@
 package com.property.dto;
 
+import com.property.dto.response.PhotoDto;
 import lombok.Data;
+
+import java.util.List;
 
 @Data
 public class PropertyDto {
@@ -18,5 +21,7 @@ public class PropertyDto {
     private Double rentAmount;
 
     private Double securityDepositAmount;
+
+    private List<PhotoDto> photos;
 
 }

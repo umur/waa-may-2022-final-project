@@ -5,6 +5,9 @@ import com.property.domain.Property;
 import com.property.domain.PropertyRent;
 import com.property.dto.PropertyDto;
 import com.property.dto.request.Rent;
+import com.property.dto.response.DailyCountDto;
+import com.property.dto.response.PieChartResponse;
+import com.property.dto.response.PropertyRequestDateDto;
 import com.property.exception.custom.PropertyAlreadyRented;
 import com.property.exception.custom.ResourceNotFoundException;
 import com.property.respository.PropertyRentRepository;
@@ -17,16 +20,17 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.ByteArrayOutputStream;
 import java.lang.reflect.Type;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -51,6 +55,8 @@ public class PropertyServiceImpl implements PropertyService {
         return modelMapper.map(property,PropertyDto.class);
     }
 
+
+
     @Override
     public PropertyDto save(PropertyDto propertyDto, List<MultipartFile> files) {
         var username = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -63,8 +69,53 @@ public class PropertyServiceImpl implements PropertyService {
             var photos = photoMetas.stream().map(meta -> new Photo(meta.getUrl(),meta.getKeyName())).toList();
             property.addPhotos(photos);
         }
+        property.setAvailable(Boolean.TRUE);
         property = propertyRepository.save(property);
         return modelMapper.map(property,PropertyDto.class);
+    }
+
+    @Override
+    public List<PropertyDto> findNotRented() {
+        var properties = propertyRepository.findAllByAvailableIsTrue();
+        Type listType = new TypeToken<List<PropertyDto>>(){}.getType();
+        return modelMapper.map(properties,listType);
+    }
+
+    @Override
+    public List<PropertyDto> findLast10lease() {
+        var username = SecurityContextHolder.getContext().getAuthentication().getName();
+        log.info("Login with user: {}",username);
+        var user = userRepository.findByEmail(username);
+        var properties = propertyRepository.findAllLeaseByLandLordAndDateRange(user.getId(),LocalDate.now(),LocalDate.now().plusMonths(1), PageRequest.of(0,10));
+        Type listType = new TypeToken<List<PropertyDto>>(){}.getType();
+        return modelMapper.map(properties,listType);
+    }
+
+    @Override
+    public List<DailyCountDto> findWeeklyRentedCount() {
+        Set<PropertyRequestDateDto> properties = propertyRepository.findAllByRentedDateRange(LocalDate.now().minusDays(7), LocalDate.now());
+        Map<LocalDate, List<PropertyRequestDateDto>> propertyMap = properties.stream()
+                .collect(Collectors.groupingBy(p -> p.getCreatedAt()));
+
+        List<DailyCountDto> weeklyCounts = propertyMap.entrySet()
+                                                       .stream()
+                                                        .map(entry ->  new DailyCountDto(entry.getKey(),entry.getValue().size())).toList();
+        return weeklyCounts;
+    }
+
+    @Override
+    public List<PropertyDto> findLast10Rent() {
+        var properties = propertyRepository.findAllRentedByDateRange(LocalDate.now(), PageRequest.of(0,10));
+        Type listType = new TypeToken<List<PropertyDto>>(){}.getType();
+        return modelMapper.map(properties,listType);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public ByteArrayOutputStream findImage(Long propertyId, Long imageId) {
+        Property property = propertyRepository.findById(propertyId).orElseThrow(() -> new ResourceNotFoundException(String.format("Property with id: %s not found",propertyId)));
+        Photo photo = property.getPhotos().stream().filter(p -> p.getId().equals(imageId)).findFirst().orElseThrow(() -> new ResourceNotFoundException(String.format("Image with id: %s not found",imageId)));
+        return s3BucketStorageService.downloadImage(photo.getKeyName());
     }
 
     @Override
@@ -80,12 +131,14 @@ public class PropertyServiceImpl implements PropertyService {
         PropertyRent propertyRent = new PropertyRent(property,user, rent.getRentEndDate(), rent.getAmount());
         user.addTenantRent(propertyRent);
         userRepository.save(user);
+        property.setAvailable(Boolean.FALSE);
+        propertyRepository.save(property);
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<PropertyDto> findAll() {
-        var properties = propertyRepository.findAll();
+        var properties = propertyRepository.findAllByDeleteIsFalse();
         Type listType = new TypeToken<List<PropertyDto>>(){}.getType();
         return modelMapper.map(properties,listType);
     }
@@ -99,16 +152,22 @@ public class PropertyServiceImpl implements PropertyService {
 
     @Override
     public PropertyDto update(PropertyDto propertyDto, Long id) {
-        propertyRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(String.format("Property with id: %s not found",id)));
-        Property property = modelMapper.map(propertyDto, Property.class);
-        property.setId(id);
+        Property property = propertyRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(String.format("Property with id: %s not found",id)));
+        property.setNoOfBedRoom(propertyDto.getNoOfBedRoom());
+        property.setNoOfBathRoom(propertyDto.getNoOfBathRoom());
+        property.setPropertyType(propertyDto.getPropertyType());
+        property.setPropertyName(propertyDto.getPropertyName());
+        property.setRentAmount(propertyDto.getRentAmount());
+        property.setSecurityDepositAmount(propertyDto.getSecurityDepositAmount());
         property = propertyRepository.save(property);
         return modelMapper.map(property, PropertyDto.class);
     }
 
     @Override
     public void deleteById(Long id) {
-        propertyRepository.deleteById(id);
+        Property property = propertyRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(String.format("Property with id: %s not found",id)));
+        property.setDelete(Boolean.TRUE);
+        propertyRepository.save(property);
     }
 
     @Override
