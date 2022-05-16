@@ -1,0 +1,41 @@
+.property-container{
+    max-width: 1140px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    grid-gap: 20px;
+    padding-bottom: 3rem;
+}
+
+.property-card{
+    padding: 1.2rem 1rem;
+}
+
+.property-card img{
+    width: 100%;
+    height: 50%;
+}
+
+.property-card p{
+    padding-bottom: 1rem;
+    font-size: 1.1rem;
+    text-align: justify;
+}
+
+.prop-btns{
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 0;
+}
+
+.prop-btns .btn{
+    padding: 0.5rem 2rem;
+}
+
+@media screen and (max-width:740px){
+    .property-container{
+        max-width: 90%;
+        margin: auto;
+        grid-template-columns: 1fr;
+    }
+}

@@ -1,13 +1,26 @@
-import React from 'react';
-import { BrowserRouter } from 'react-router-dom';
-import Dashboard from './containers/Dashboard/Dashboard';
-import axios from 'axios'; 
+import "./App.css";
+import Home from "./routes/Home";
+import About from "./routes/About";
+import Contact from "./routes/Contact";
+import Properties from "./routes/properties";
+import { Route, Routes } from "react-router-dom";
+import Lease from "./routes/Lease";
+import PropertyRoute from "./routes/PropertyRouter";
 
 function App() {
   return (
-    <BrowserRouter>
-      <Dashboard />
-    </BrowserRouter>
+    <div>
+      <div className="App">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/properties" element={<Properties />} />
+          <Route path="/properties/:id/lease" element={<Lease />} />
+          <Route path="/properties/:id" element={<PropertyRoute />} />
+        </Routes>
+      </div>
+    </div>
   );
 }
 
