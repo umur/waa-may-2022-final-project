@@ -3,11 +3,8 @@ package com.property.service.impls;
 import com.property.domain.PasswordResetToken;
 import com.property.domain.Role;
 import com.property.domain.User;
-import com.property.dto.request.EmailRequest;
-import com.property.dto.request.LoginRequest;
-import com.property.dto.request.PasswordRequest;
+import com.property.dto.request.*;
 import com.property.dto.response.LoginResponse;
-import com.property.dto.request.UserRegistrationRequest;
 import com.property.dto.response.UserRegistrationResponse;
 import com.property.exception.custom.MailSendException;
 import com.property.exception.custom.UserNotFoundException;
@@ -20,10 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.bytebuddy.utility.RandomString;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
-import org.springframework.mail.MailSender;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -31,16 +25,14 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.ui.Model;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
+import java.time.LocalDate;
 import java.util.List;
-import java.util.Locale;
-import java.util.UUID;
 
 @Service
 @Transactional
@@ -67,6 +59,7 @@ public class UserServiceImpl implements UserService {
         User user = modelMapper.map(userRegistration, User.class);
         user.setPassword(passwordEncoder.encode(userRegistration.getPassword()));
         user = userRepository.save(user);
+        user.setAccountCreatedAt(LocalDate.now());
         return modelMapper.map(user, UserRegistrationResponse.class);
     }
 
@@ -112,6 +105,22 @@ public class UserServiceImpl implements UserService {
         final String refreshToken = jwtHelper.generateRefreshToken(loginRequest.getEmail());
         var loginResponse = new LoginResponse(accessToken, refreshToken);
         return loginResponse;
+    }
+
+    @Override
+    public List<UserRegistrationResponse> findTop10RecentTenants() {
+        var users = userRepository.findTop10ByRoleEqualsOrderByAccountCreatedAtDesc(Role.TENANT);
+        Type listType = new TypeToken<List<UserRegistrationResponse>>(){}.getType();
+        return modelMapper.map(users,listType);
+    }
+
+    @Override
+    public UserUpdateDto update(Long id, UserUpdateDto userUpdateDto) {
+        var user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(String.format("User does not exist %s",id)));
+        user.setFirstName(userUpdateDto.getFirstName());
+        user.setLastName(userUpdateDto.getLastName());
+        userRepository.save(user);
+        return userUpdateDto;
     }
 
     @Override

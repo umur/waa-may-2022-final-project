@@ -2,6 +2,8 @@ package com.property.domain;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -29,11 +31,18 @@ public class Property {
 
     private Double securityDepositAmount;
 
+    @Column(name = "is_available", columnDefinition = "boolean default true")
+    private boolean available;
+
+    @Column(name = "is_deleted", columnDefinition = "boolean default false")
+    private boolean delete;
+
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id")
     private Address address;
 
     @OneToMany(mappedBy = "property", cascade = CascadeType.ALL)
+    @Fetch(FetchMode.JOIN)
     private List<Photo> photos;
 
     @ManyToOne
