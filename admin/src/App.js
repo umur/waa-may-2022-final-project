@@ -18,6 +18,7 @@ import Properties from "pages/Properties";
 import { SignalWifiStatusbarNullSharp } from "@mui/icons-material";
 import Landlord from "pages/Landlord/Landlord";
 import NotFound from 'pages/404';
+import NewProperty from 'pages/Properties/NewProperty';
 
 function App() {
   const [isSignedIn, setSignedIn] = useState(
@@ -112,6 +113,15 @@ function App() {
             element={
               <AuthWrapper role={[ROLE.Landlord]}>
                 <Properties />
+              </AuthWrapper>
+            }
+          />
+
+          <Route
+            path="/properties/new"
+            element={
+              <AuthWrapper role={[ROLE.Landlord]}>
+                <NewProperty />
               </AuthWrapper>
             }
           />

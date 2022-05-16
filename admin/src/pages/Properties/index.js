@@ -1,4 +1,4 @@
-import { Button, Grid } from "@mui/material";
+import { Box, Button, Grid } from "@mui/material";
 import React, { useContext, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AddIcon from "@mui/icons-material/Add";
@@ -12,6 +12,7 @@ import { UserStatus } from "common/constant";
 import useAxios from "axios-hooks";
 import { defaultHeaders } from 'api/defaultHeaders';
 import { AuthContext } from 'context/AuthContext';
+import { Image } from '@mui/icons-material';
 
 function Properties(props) {
   const columns = useMemo(
@@ -67,7 +68,7 @@ function Properties(props) {
   const { isSignedIn } = useContext(AuthContext)
 
   const [order, setOrder] = React.useState("desc");
-  const [orderBy, setOrderBy] = React.useState("city");
+  const [orderBy, setOrderBy] = React.useState("createdAt");
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -153,8 +154,8 @@ function Properties(props) {
   const navigate = useNavigate();
 
   const newProperty = () => {
-    // TODO: New property
-    // navigate("/admin/tenants/new");
+    // New property
+    navigate("/properties/new");
   };
 
   /* -------------------------------------------------------------------------- */
