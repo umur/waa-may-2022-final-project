@@ -22,11 +22,6 @@ import java.util.concurrent.TimeUnit;
 @SpringBootApplication
 @EnableJpaAuditing // so that it will generate code in base entity
 @EnableJpaRepositories(repositoryFactoryBeanClass = DynamicJpaRepositoryFactoryBean.class)
-public class ServerApplication {
-@EnableJpaRepositories
-//@EnableConfigurationProperties({
-//		FileStorageProperties.class
-//})
 public class ServerApplication implements WebMvcConfigurer {
 
 	public static void main(String[] args) {

@@ -80,6 +80,7 @@ public class PropertyServiceImpl implements PropertyService {
       rentalRepo.save(hist);
 
       pty.setLastRentedBy(user);
+      pty.setLastRentedDate(new Date());
       propertyRepo.save(pty);
       return hist;
     } else {
