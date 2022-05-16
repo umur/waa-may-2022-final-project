@@ -115,6 +115,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void userIsActive(long id) {
+        User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(String.format("User does not exist %s", id)));
+        var status = user.isActive() ? false : true;
+        user.setActive(status);
+        userRepository.save(user);
+    }
+
     public void processForgotPassword(EmailRequest request) {
         String email = request.getEmail();
         log.info("Sending email for user:",email);
@@ -179,5 +186,6 @@ public class UserServiceImpl implements UserService {
             PasswordResetToken myToken = new PasswordResetToken(token, user);
             passwordResetTokenRepository.save(myToken);
         }
+
     }
 }
