@@ -86,6 +86,6 @@ public class UserServiceImpl implements UserService {
       }
     }
 
-    return rentalRepo.findAllByRentedBy(uuid);
+    return null;
   }
 }

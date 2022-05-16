@@ -8,6 +8,7 @@ import com.pmp.server.dto.common.ResponseMessage;
 import com.pmp.server.security.service.impl.AuthServiceImpl;
 import com.pmp.server.service.RoleService;
 import com.pmp.server.service.UserService;
+import com.pmp.server.service.impl.PropertyServiceImpl;
 import com.pmp.server.utils.enums.ERole;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -28,10 +29,13 @@ public class AdminController {
 
     private final AuthServiceImpl authService;
 
-    public AdminController(UserService userService, RoleService roleService, AuthServiceImpl authService) {
+    private final PropertyServiceImpl propertyService;
+
+    public AdminController(UserService userService, RoleService roleService, AuthServiceImpl authService, PropertyServiceImpl propertyService) {
         this.userService = userService;
         this.roleService = roleService;
         this.authService = authService;
+        this.propertyService = propertyService;
     }
 
     @GetMapping("/landlords")
@@ -75,10 +79,17 @@ public class AdminController {
         return ResponseEntity.ok(responseMessage);
     }
 
+//    @GetMapping("/propertyincome")
+//    public ResponseEntity<ResponseMessage> perpertyIncome(){
+//        return ResponseEntity.ok( propertyService.propertyIncome());
+//    }
+
     private Sort convertDtoSortToDaoSort(Sort dtoSort) {
         return Sort.by(dtoSort.get()
                 .map(sortOrder -> sortOrder.withProperty(CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, sortOrder.getProperty())))
                 .collect(Collectors.toList())
         );
     }
+
+
 }
