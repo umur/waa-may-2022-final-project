@@ -91,16 +91,11 @@ public class UserServiceImpl implements UserService {
         return loginResponse;
     }
 
-//    @Override
-//    public void userActive(long id, Role role){
-//        User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(String.format("User does not exist %s",id)));
-//        if (user.getRole() == role.ADMIN) {
-//            if (user.isActive() == true && user.getRole() != role.ADMIN)
-//                user.setActive(false);
-//            else if (user.isActive() == false && user.getRole() != role.ADMIN)
-//                user.setActive(true);
-//            else
-//                user.setActive(true);
-//        }
-//    }
+    @Override
+    public void userIsActive(long id){
+        User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(String.format("User does not exist %s",id)));
+        var status = user.isActive() ? false:true;
+        user.setActive(status);
+        userRepository.save(user);
+    }
 }

@@ -10,5 +10,5 @@ public interface UserService extends CrudService<UserRegistrationRequest, UserRe
 
     LoginResponse login(LoginRequest loginRequest);
 
-//    void userActive(long id, Role role);
+    void userIsActive(long id);
 }

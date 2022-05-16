@@ -7,6 +7,7 @@ import com.property.dto.response.UserRegistrationResponse;
 import com.property.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -28,8 +29,9 @@ public class UaaController {
         return ResponseEntity.ok(registration);
     }
 
-//    @GetMapping("/useractivedeactive")
-//    public void userActiveDeactive(@RequestParam long id, @RequestParam Role role){
-//        userService.userActive(id, role);
-//    }
+    @PutMapping("/useractivedeactive/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public void userActiveDeactive(@PathVariable long id){
+        userService.userIsActive(id);
+    }
 }
