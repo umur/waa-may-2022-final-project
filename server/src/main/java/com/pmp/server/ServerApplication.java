@@ -1,6 +1,7 @@
 package com.pmp.server;
 
 import com.pmp.server.configuration.FileStorageProperties;
+import org.hibernate.Cache;
 import org.keycloak.adapters.springboot.KeycloakSpringBootConfigResolver;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -20,9 +21,9 @@ import java.util.concurrent.TimeUnit;
 @SpringBootApplication
 @EnableJpaAuditing // so that it will generate code in base entity
 @EnableJpaRepositories
-@EnableConfigurationProperties({
-		FileStorageProperties.class
-})
+//@EnableConfigurationProperties({
+//		FileStorageProperties.class
+//})
 public class ServerApplication implements WebMvcConfigurer {
 
 	public static void main(String[] args) {
@@ -37,10 +38,9 @@ public class ServerApplication implements WebMvcConfigurer {
 
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
+		registry.addResourceHandler("/static/**").addResourceLocations("file:" + System.getProperty("user.dir") + "/target/static/").setCacheControl(CacheControl.noCache());
+
 		WebMvcConfigurer.super.addResourceHandlers(registry);
-		// Add resource handler as static resources for frontend to display images
-		registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
-//				.setCacheControl(CacheControl.maxAge(2, TimeUnit.HOURS).cachePublic());
 	}
 
 
