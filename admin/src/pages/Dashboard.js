@@ -170,7 +170,7 @@ function Dashboard() {
 
         <DisplayTopTenData title="Recently rented properties" url="/admin/tenants" columns={propertyColumn} />
 
-        <Grid item xs={6} rowSpacing={1}>
+        <Grid item xs={12} rowSpacing={1}>
           <Paper>
             <ReactECharts
               option={getOption()}

@@ -67,7 +67,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 );
 
 function Layout(props) {
-  const { title, children } = props;
+  const { title, isHideLogout, children } = props;
 
   const { role, setSignedIn, setRole, setUser } = React.useContext(AuthContext);
   
@@ -115,12 +115,12 @@ function Layout(props) {
               {title}
             </Typography>
             
-            <Button color="inherit" onClickCapture={logout}>
+            {!isHideLogout && <Button color="inherit" onClickCapture={logout}>
               <LogoutIcon />
               <Typography ml={1}>
               Logout
               </Typography>
-            </Button>
+            </Button>}
           </Toolbar>
         </AppBar>
         <Drawer variant="permanent" open={open}>
@@ -163,8 +163,13 @@ function Layout(props) {
   );
 }
 
+Layout.propTypes = {
+  title: PropTypes.string,
+  isHideLogout: PropTypes.bool,
+}
+
 Layout.defaultProps = {
-  title: PropTypes.string.isRequired,
+  isHideLogout: false,
 }
 
 export default Layout;

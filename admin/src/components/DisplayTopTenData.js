@@ -87,7 +87,7 @@ const DisplayTopTenData = (props) => {
   return (
 
     <Grid container spacing={1}>
-      <Grid item xs={6}>
+      <Grid item xs={12}>
         <DataTable
           title={props.title}
           order={order}

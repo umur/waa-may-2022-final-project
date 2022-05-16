@@ -7,7 +7,7 @@ import { Grid } from "@mui/material";
 
 const NotFound = () => {
   return (
-    <Layout>
+    <Layout isHideLogout={true}>
       <Grid
         container
         spacing={0}
