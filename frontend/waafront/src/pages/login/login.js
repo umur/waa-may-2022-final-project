@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import api from '../../api/posts'
 import { useDispatch } from 'react-redux';
 import { login } from '../../features/user-slice';
@@ -30,7 +30,15 @@ const Login = () => {
     
             window.sessionStorage.setItem("userRole", userRole);
             window.sessionStorage.setItem("userName", userName);
-            navigate(`/dashboard-admin`);
+
+            if(userRole==='ADMIN'){
+                navigate(`/dashboard-admin`);
+            }else if(userRole==='TENANT'){
+                navigate(`/dashboard-tenant`);
+            }else if(userRole==='LANDLORD'){
+                navigate(`/dashboard-landlord`);
+            }
+            
     
             dispath(login({ role: userRole, email: userName }));
         }catch (err){
@@ -77,7 +85,7 @@ const Login = () => {
                         <br></br>
                         <div className='form-group'>
                             <button className='btn btn-sm btn-primary' onClick={sendInfo}>Login</button>
-                            <a href='#' className='ms-3'>Forgot password? Reset from here.</a>
+                            <Link to='/forgot-password'>Forgot password? Reset from here.</Link>
                         </div>
                     </div>
                 </div>

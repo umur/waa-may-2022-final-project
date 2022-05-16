@@ -30,6 +30,7 @@ public class User {
     private LocalDate deletedAt;
     private LocalDateTime LastLoggedInAt;
     private String role;
+    private String resetPasswordToken;
 
     @OneToMany(mappedBy = "user")
     @JsonManagedReference(value = "rentsUser")

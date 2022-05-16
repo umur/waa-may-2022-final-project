@@ -6,3 +6,15 @@
 .hide-element {
     color: #001529!important;
 }
+
+.margin-r{
+    margin-right: 15px;
+}
+.margin-l{
+    margin-right: 15px;
+}
+
+.nav-text{
+    text-decoration: none;
+    color: #fff;
+}
