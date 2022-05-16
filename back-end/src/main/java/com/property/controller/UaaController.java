@@ -1,12 +1,15 @@
 package com.property.controller;
 
-import com.property.domain.User;
+import com.property.dto.request.EmailRequest;
 import com.property.dto.request.LoginRequest;
+import com.property.dto.request.PasswordRequest;
 import com.property.dto.request.UserRegistrationRequest;
 import com.property.dto.response.UserRegistrationResponse;
 import com.property.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/uaa")
+@CrossOrigin
 public class UaaController {
 
     private final UserService userService;
@@ -30,9 +34,15 @@ public class UaaController {
         return ResponseEntity.ok(registration);
     }
 
-    @PostMapping("/user/resetPassword")
-    public ResponseEntity<?> resetPassword(@RequestParam("email") String userEmail) {
-        UserRegistrationResponse res = userService.resetPassword(userEmail);
+    @PostMapping("/forgot-password")
+    public ResponseEntity<Void> processForgotPassword(@RequestBody EmailRequest request) {
+        userService.processForgotPassword(request);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping("/reset-password")
+    public ResponseEntity<UserRegistrationResponse> resetPassword(@RequestBody PasswordRequest passwordRequest, HttpServletRequest request) {
+        UserRegistrationResponse res = userService.resetPassword(passwordRequest, request);
         return ResponseEntity.ok(res);
     }
 

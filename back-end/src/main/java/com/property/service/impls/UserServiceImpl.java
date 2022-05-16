@@ -2,10 +2,13 @@ package com.property.service.impls;
 
 import com.property.domain.PasswordResetToken;
 import com.property.domain.User;
+import com.property.dto.request.EmailRequest;
 import com.property.dto.request.LoginRequest;
+import com.property.dto.request.PasswordRequest;
 import com.property.dto.response.LoginResponse;
 import com.property.dto.request.UserRegistrationRequest;
 import com.property.dto.response.UserRegistrationResponse;
+import com.property.exception.custom.MailSendException;
 import com.property.exception.custom.UserNotFoundException;
 import com.property.respository.PasswordResetTokenRepository;
 import com.property.respository.UserRepository;
@@ -13,17 +16,26 @@ import com.property.security.JwtHelper;
 import com.property.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import net.bytebuddy.utility.RandomString;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.Model;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
+import javax.servlet.http.HttpServletRequest;
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Locale;
@@ -47,7 +59,7 @@ public class UserServiceImpl implements UserService {
 
     private final PasswordResetTokenRepository passwordResetTokenRepository;
 
-    private final MailSender mailSender;
+    private final JavaMailSender mailSender;
 
     @Override
     public UserRegistrationResponse save(UserRegistrationRequest userRegistration) {
@@ -102,42 +114,69 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserRegistrationResponse resetPassword(String email) {
+    public void processForgotPassword(EmailRequest request) {
+        String email = request.getEmail();
+        log.info("Sending email for user:",email);
         User user = userRepository.findByEmail(email);
         if (user == null) {
-            throw new UserNotFoundException("User Not Found");
+            throw new UserNotFoundException("User not Found");
         }
-        String token = UUID.randomUUID().toString();
-        this.createPasswordResetTokenForUser(user, token);
-        mailSender.send(constructResetTokenEmail("https://localhost:3000", token, user));
-//        return new GenericResponse(
-//                messages.getMessage("message.resetPasswordEmail", null,
-//                        request.getLocale()));
+        String token = RandomString.make(30);
+        try {
+            this.createPasswordResetTokenForUser(user, token);
+            String resetPasswordLink = "http://localhost:3000" + "/reset-password?token=" + token;
+            sendEmail(email, resetPasswordLink);
 
+        } catch (UnsupportedEncodingException | MessagingException e) {
+            throw new MailSendException(String.format("Unable to send email to address: %s",email));
+        }
+    }
+
+    @Override
+    public UserRegistrationResponse resetPassword(PasswordRequest passwordRequest, HttpServletRequest request) {
+         String token = request.getParameter("token");
+         PasswordResetToken passwordResetToken = passwordResetTokenRepository.findByToken(token);
+         User user = passwordResetToken.getUser();
+         user.setPassword(passwordEncoder.encode(passwordRequest.getPassword()));
+         userRepository.save(user);
         return modelMapper.map(user, UserRegistrationResponse.class);
+    }
 
+    public void sendEmail(String recipientEmail, String link)
+            throws MessagingException, UnsupportedEncodingException {
+        MimeMessage message = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message);
+
+
+        helper.setFrom("bibek.karki001@gmail.com", "check it out");
+        helper.setTo(recipientEmail);
+
+        String subject = "Here's the link to reset your password";
+
+        String content = "<p>Hello,</p>"
+                + "<p>You have requested to reset your password.</p>"
+                + "<p>Click the link below to change your password:</p>"
+                + "<a href=\"" + link + "\">Change my password</a>"
+                + "<br>"
+                + "<p>Ignore this email if you do remember your password, "
+                + "or you have not made the request.</p>";
+
+        helper.setSubject(subject);
+
+        helper.setText(content, true);
+
+        mailSender.send(message);
     }
 
     public void createPasswordResetTokenForUser(User user, String token) {
-        PasswordResetToken myToken = new PasswordResetToken(token, user);
-        passwordResetTokenRepository.save(myToken);
+        PasswordResetToken tokenExist = passwordResetTokenRepository.findByUserId(user.getId());
+        if(tokenExist != null) {
+            tokenExist.setToken(token);
+            passwordResetTokenRepository.save(tokenExist);
+        }
+        else {
+            PasswordResetToken myToken = new PasswordResetToken(token, user);
+            passwordResetTokenRepository.save(myToken);
+        }
     }
-
-    public SimpleMailMessage constructResetTokenEmail(String contextPath, String token, User user) {
-        String url = contextPath + "/user/changePassword?token=" + token;
-        String message = "Reset Your Password";
-        return constructEmail("Reset Password", message + " \r\n" + url, user);
-    }
-
-
-    public SimpleMailMessage constructEmail(String subject, String body,
-                                            User user) {
-        SimpleMailMessage email = new SimpleMailMessage();
-        email.setSubject(subject);
-        email.setText(body);
-        email.setTo(user.getEmail());
-        email.setFrom("vivek.karki247@gmail.com");
-        return email;
-    }
-
 }
