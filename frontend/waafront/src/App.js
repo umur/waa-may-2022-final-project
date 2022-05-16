@@ -14,6 +14,8 @@ import Properties from './pages/properties/index';
 import Login from './pages/login/login';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import DashboarAdmin from './pages/dashbord/dashboard-admin';
+import ForgotPassword from './pages/login/forgotpassword';
+import ResetPassword from './pages/login/resetpassword';
 const { Header, Content, Sider } = Layout;
 
 function App() {
@@ -59,6 +61,8 @@ function App() {
                             <Route path="/login" element={<Login></Login>} />
                             <Route path="/register" element={<User></User>} />
                             <Route path="/dashboard-admin" element={<DashboarAdmin></DashboarAdmin>} />
+                            <Route path="/forgot-password" element={<ForgotPassword></ForgotPassword>} />
+                            <Route path="/reset-password" element={<ResetPassword></ResetPassword>} />
                         </Routes>
 
 
