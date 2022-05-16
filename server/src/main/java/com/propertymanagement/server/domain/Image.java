@@ -7,15 +7,17 @@ import javax.persistence.*;
 @Entity
 @Data
 
-public class Photo {
+public class Image {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
-    @SequenceGenerator(name = "sequenceGenerator",  sequenceName = "photo_id",allocationSize = 1)
+    @SequenceGenerator(name = "sequenceGenerator",  sequenceName = "image_id",allocationSize = 1)
     private Long id;
 
-    private String url;
-
     private boolean isDeleted;
+
+    private String fileContentBase64;
+
+    private String fileName;
 
     @ManyToOne
     private Property property;

@@ -18,7 +18,6 @@ public class RentalActivity {
     private User rentedBy;
 
     @ManyToOne
-    @JoinColumn(name="property_id")
     private Property property;
 
     @ManyToOne

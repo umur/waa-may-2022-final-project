@@ -3,7 +3,6 @@ package com.propertymanagement.server.domain;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,7 +38,7 @@ public class Property {
     private boolean isOccupied;
 
     @OneToMany
-    private List<Photo> photos;
+    private List<Image> images;
 
     @OneToMany(mappedBy = "property", cascade = CascadeType.ALL)
     private List<RentalActivity> rentalActivities;
@@ -50,13 +49,13 @@ public class Property {
     @ManyToOne
     private User tenant;
 
-    public void addPhoto(Photo photo){
-        this.photos.add(photo);
+    public void addImage(Image image){
+        this.images.add(image);
     }
 
-    public void addPhotos(List<Photo> photos){
-        photos.forEach(photo -> photo.setProperty(this));
-        this.photos = new ArrayList<>();
-        this.photos.addAll(photos);
+    public void addImages(List<Image> images){
+        images.forEach(image -> image.setProperty(this));
+        this.images = new ArrayList<>();
+        this.images.addAll(images);
     }
 }

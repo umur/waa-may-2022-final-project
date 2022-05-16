@@ -32,10 +32,12 @@ public class User {
         this.properties.add(property);
     }
 
-    @OneToMany(mappedBy = "tenant")
-    private List<Property> rentedProperties;
+    @OneToMany(mappedBy = "tenant", cascade = CascadeType.ALL)
+    private List<RentalActivity> rentedProperties;
 
-    public void addRentedProperties(Property property){
-        this.rentedProperties.add(property);
+    public void addRentedProperties(RentalActivity rentalActivity){
+        rentalActivity.setTenant(this);
+        this.rentedProperties.add(rentalActivity);
     }
+
 }
