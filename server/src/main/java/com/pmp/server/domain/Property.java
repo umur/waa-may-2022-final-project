@@ -35,6 +35,9 @@ public class Property extends BaseEntity {
   @Column(name = "is_occupied")
   private boolean isOccupied;
 
+
+  private boolean active = true;
+
   @OneToMany
   @JoinColumn(name = "property_id")
   private List<PropertyImage> photos;

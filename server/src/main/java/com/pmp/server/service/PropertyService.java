@@ -5,6 +5,7 @@ import com.pmp.server.domain.PropertyRentalHistory;
 import com.pmp.server.dto.PropertyDTO;
 import com.pmp.server.dto.RentDTO;
 import com.pmp.server.dto.common.PagingRequest;
+import com.pmp.server.dto.common.ResponseMessage;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -33,4 +34,6 @@ public interface PropertyService {
 //  List<Property> findPropertiesWithSorting(String field);
 //  Page<Property> findPropertiesWithPagination(int offset, int pageSize);
 //  Page<Property> findPropertiesWithPaginationAndSorting(int offset,int pageSize,String field);
+
+ ResponseMessage activate(UUID id, Boolean isActive);
 }

@@ -13,7 +13,7 @@ import java.util.UUID;
 
 @Repository
 public interface PropertyRepo extends PagingAndSortingRepository<Property, UUID> {
-    Page<Property> findAllByCityIsLikeIgnoreCaseAndAndNumberOfBedroomsGreaterThanEqual(Pageable page, String loc, int room);
+    Page<Property> findAllByCityIsLikeIgnoreCaseAndAndNumberOfBedroomsGreaterThanEqualAndActiveIsTrue(Pageable page, String loc, int room);
     Page<Property> findAllByOwnedBy(Pageable page, User u);
 
     @Query(value = "SELECT * FROM Properties p WHERE lower(p.property_name) LIKE ?1 or lower(p.state) LIKE ?1 or lower(p.property_type) LIKE ?1 or lower(p.city) LIKE ?1 or lower(p.description) LIKE ?1 or lower(p.property_type) LIKE ?1 or lower(p.street_address) LIKE ?1  ",

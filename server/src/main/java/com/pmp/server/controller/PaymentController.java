@@ -1,11 +1,13 @@
 package com.pmp.server.controller;
 
 import com.pmp.server.domain.Property;
+import com.pmp.server.domain.PropertyRentalHistory;
 import com.pmp.server.domain.Transaction;
 import com.pmp.server.dto.payment.CheckoutSessionDTO;
 import com.pmp.server.dto.payment.CheckoutSessionResponseDTO;
 import com.pmp.server.dto.payment.TransactionDTO;
 import com.pmp.server.service.PaymentService;
+import com.pmp.server.service.PropertyRentalHistoryService;
 import com.pmp.server.service.TransactionService;
 import com.pmp.server.service.PropertyService;
 import com.pmp.server.utils.enums.ECurrency;
@@ -41,15 +43,18 @@ public class PaymentController {
         Stripe.apiKey = stripeSecretKey;
     }
 
-    public PaymentController(PropertyService propertyService, TransactionService transactionService, PaymentService paymentService) {
+    public PaymentController(PropertyService propertyService, TransactionService transactionService, PaymentService paymentService, PropertyRentalHistoryService propertyRentalHistoryService) {
         this.propertyService = propertyService;
         this.transactionService = transactionService;
         this.paymentService = paymentService;
+        this.propertyRentalHistoryService = propertyRentalHistoryService;
     }
 
     private final PropertyService propertyService;
     private final TransactionService transactionService;
     private final PaymentService paymentService;
+
+    private final PropertyRentalHistoryService propertyRentalHistoryService;
 
     @Value("${client.domain}")
     private String clientDomain;
@@ -59,6 +64,7 @@ public class PaymentController {
         Property property = propertyService.getById(body.getPropertyId());
         String currency = ECurrency.USD.getValue();
 
+        PropertyRentalHistory hist = propertyRentalHistoryService.findById(body.getPropertyRentalHistoryId());
         // Save payment transaction into database
         Transaction transaction = transactionService.findByPropertyId(property.getId());
         if (transaction == null) {
@@ -74,7 +80,8 @@ public class PaymentController {
 
             // Create price id for product
             Map<String, Object> priceParams = new HashMap<>();
-            priceParams.put("unit_amount", Double.valueOf(property.getRentAmount()).longValue() * 100L);
+
+            priceParams.put("unit_amount", Double.valueOf(hist.getTransactionAmount()).longValue() * 100L);
             priceParams.put("currency", currency);
             priceParams.put("product", product.getId());
             Price price = Price.create(priceParams);

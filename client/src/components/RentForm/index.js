@@ -31,16 +31,18 @@ const RentForm = ({ amount, security, id }) => {
   );
 
   if (data) {
-    navigate("/profile");
+    navigate("/payment/" + data?.data?.id);
   }
 
   let diff = 0;
   let rent = 0;
+  let totalSecurity = 0;
   if (state[0].endDate) {
     let start = moment(state[0].startDate);
     let end = moment(state[0].endDate);
     diff = end.diff(start, "days");
     rent = diff * amount;
+    totalSecurity = diff * security;
   }
   const onSubmit = () => {
     if (isSignedIn) {
@@ -88,12 +90,12 @@ const RentForm = ({ amount, security, id }) => {
                       </div>
                       <div>
                         <span>Security Deposit</span>
-                        <span>${security}</span>
+                        <span>${totalSecurity}</span>
                       </div>
                       <hr />
                       <div>
                         <span>Total</span>
-                        <span>${rent + security}</span>
+                        <span>${rent + totalSecurity}</span>
                       </div>
                     </>
                   )}
