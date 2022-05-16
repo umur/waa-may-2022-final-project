@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import "./App.css";
-import logo from "./Assets/house.png";
 import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 import Header from "./Components/Shared/Header/Header";
 import SignIn from "./Components/SignIn/SignIn";
