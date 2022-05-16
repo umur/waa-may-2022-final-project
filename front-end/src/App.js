@@ -21,8 +21,6 @@ function App() {
         <Route path="/" element={<Navigate to="/dashboard" />}>
         </Route>
 
-        <Route path="/report" element={<Report />}>
-        </Route>
 
         <Route
           path='/dashboard'
@@ -37,6 +35,9 @@ function App() {
           <Route path='property' element={<PropertyList />}></Route>
 
           <Route path='add' element={<AddProperty />}></Route>
+          
+          <Route path="report" element={<Report />}>
+          </Route>
         </Route>
 
         <Route path='/login' element={<Login />}>
