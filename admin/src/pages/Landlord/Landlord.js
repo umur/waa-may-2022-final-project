@@ -33,12 +33,39 @@ const style = {
 const Landlord = () => {
   const { id } = useParams();
   const [open, setOpen] = useState(false);
-  const notify = (msg) => toast.error(msg);
+  const [userState, setUserState] = useState({
+    firstName: "",
+    lastName: ""
+  });
+  const notify = (msg, method = "error") => toast[method](msg);
 
   const { data, error, loading, execute, queryParam } = useAxios(
     "get",
     "/users/" + id
   );
+
+  const { data: updateData, error: updateError, loading: updateLoading, execute: udpateExecute, queryParam: udpateQueryParam } = useAxios(
+    "post",
+    "/auth/update/" + id
+  );
+
+  useEffect(() => {
+    if (data) {
+      setUserState({
+        firstName: data?.data?.firstName,
+        lastName: data?.data?.lastName
+      });
+    }
+  }, [data]);
+
+  useEffect(() => {
+    if (updateData) {
+      notify("User update successfully!", "success");
+      handleDialogClose();
+      execute();
+    }
+  }, [updateData]);
+
 
   if (loading) {
     return (
@@ -49,17 +76,34 @@ const Landlord = () => {
     );
   }
 
+  if (updateLoading) {
+    return (
+      <>
+        <Header />
+        <Loading loading={updateLoading} />
+      </>
+    );
+  }
+
   const handleSubmit = (event) => {
-    event.preventDefault();
-    const form = new FormData(event.currentTarget);
-    console.log({
-      data: { email: form.get("email"), firstName: form.get("firstName"), lastName: form.get("lastName") },
-    });
+
+
+    udpateExecute(userState);
   };
 
   const handleDialogClose = () => {
-    setOpen(false);
+    if (open) {
+      setOpen(false);
+    }
+
   }
+
+  if (updateError) {
+    notify(updateError);
+  }
+
+
+
 
   return (
     <Layout title="Landlord">
@@ -136,7 +180,10 @@ const Landlord = () => {
               autoComplete="firstName"
               autoFocus
               size="small"
-              value={data.data.firstName}
+              value={userState.firstName}
+              onChange={(e) => {
+                setUserState({ ...userState, firstName: e.target.value });
+              }}
             />
             <TextField
               margin="normal"
@@ -148,7 +195,10 @@ const Landlord = () => {
               autoComplete="lastName"
               autoFocus
               size="small"
-              value={data.data.lastName}
+              value={userState.lastName}
+              onChange={(e) => {
+                setUserState({ ...userState, lastName: e.target.value });
+              }}
             />
             <TextField
               margin="normal"
