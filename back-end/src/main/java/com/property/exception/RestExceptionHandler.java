@@ -1,6 +1,7 @@
 package com.property.exception;
 
 import com.property.exception.custom.ApiError;
+import com.property.exception.custom.MailSendException;
 import com.property.exception.custom.PropertyAlreadyRented;
 import com.property.exception.custom.ResourceNotFoundException;
 import com.property.exception.custom.UserNotFoundException;
@@ -27,6 +28,14 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
             RuntimeException ex, WebRequest request) {
         logger.error(ex.getMessage());
         ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, ex.getMessage(), toPath(request));
+        return buildResponseEntity(apiError);
+    }
+
+    @ExceptionHandler({MailSendException.class})
+    protected ResponseEntity<Object> handleMailSendError(
+            RuntimeException ex, WebRequest request) {
+        logger.error(ex.getMessage());
+        ApiError apiError = new ApiError(HttpStatus.BAD_GATEWAY, ex.getMessage(), toPath(request));
         return buildResponseEntity(apiError);
     }
 
