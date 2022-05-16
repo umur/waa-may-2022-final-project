@@ -12,7 +12,7 @@ export const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { register, handleSubmit, watch, formState: { errors } } = useForm({
+  const { register, handleSubmit, formState: { errors } } = useForm({
     defaultValues: {
       email: "",
       password: "",
@@ -30,9 +30,14 @@ export const Login = () => {
 
   const onSubmit = async (data) => {
     const result = await dispatch(doLogin(data));
-    dispatch(authActions.loginSuccessful());
-    navigate('/dashboard');
-    localStorage.setItem('token', JSON.stringify(result.payload))
+    console.log({result})
+    if(result?.payload?.accessToken) {
+      dispatch(authActions.loginSuccessful());
+      navigate('/dashboard');
+      localStorage.setItem('token', JSON.stringify(result.payload))
+    }else{
+      navigate('/login');
+    }
   }
 
 

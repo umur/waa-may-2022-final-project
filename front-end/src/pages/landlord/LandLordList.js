@@ -1,6 +1,5 @@
 import React from 'react'
 import BreadCrumb from '../../components/BreadCrumb'
-import BreadCrums from '../../components/BreadCrumb'
 
 const LandLordList = () => {
     return (
