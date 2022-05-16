@@ -11,6 +11,9 @@ import java.util.UUID;
 
 @Repository
 public interface PropertyRentalHistoryRepo  extends PagingAndSortingRepository<PropertyRentalHistory, UUID> {
+
+    List<PropertyRentalHistory> findAllByRentedBy(User user);
+
    // List<PropertyRentalHistory> findAllByRentedBy(UUID uuid);
   List<PropertyRentalHistory> findByPropertyId(UUID uuid);
 

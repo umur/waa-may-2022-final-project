@@ -85,7 +85,7 @@ public class UserServiceImpl implements UserService {
         uuid = UUID.fromString(kp.getKeycloakSecurityContext().getToken().getSubject());
       }
     }
-
-    return null;
+    User user = userRepo.findById(uuid).get();
+    return rentalRepo.findAllByRentedBy(user);
   }
 }

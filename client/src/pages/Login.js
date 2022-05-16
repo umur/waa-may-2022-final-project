@@ -18,6 +18,7 @@ import { AuthContext } from "context/AuthContext";
 import { useNavigate, Link as RouteLink } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import ROLE from "auth/Role";
 
 const Login = () => {
   const notify = (msg) => toast.error(msg);
@@ -50,11 +51,16 @@ const Login = () => {
   }
 
   if (data) {
-    localStorage.setItem("token", data.data.tokenResponse.access_token);
-    localStorage.setItem("user", JSON.stringify(data.data.user));
-    setUser(data.data.user);
-    setSignedIn(true);
-    navigate("/");
+    if (data.data.user.role.roleName === ROLE.Tenant) {
+      localStorage.setItem("token", data.data.tokenResponse.access_token);
+      localStorage.setItem("user", JSON.stringify(data.data.user));
+      setUser(data.data.user);
+      setSignedIn(true);
+      navigate("/");
+    } else {
+      notify("Please use admin portal to login this account!");
+      navigate("/login");
+    }
   }
 
   return (
