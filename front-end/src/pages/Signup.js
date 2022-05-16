@@ -16,6 +16,7 @@ const Signup = () => {
             email: "",
             password: "",
             confirmPassword: "",
+            role: ""
         }
     });
 
@@ -36,7 +37,9 @@ const Signup = () => {
             lastName: data.lastName,
             email: data.email,
             password: data.password,
+            role: data.role,
         }
+        
         const result = await dispatch(doSignup(withOutConfirmPass));
         alert('Successfully registered, Login in to continue');
         navigate('/login');
@@ -92,6 +95,27 @@ const Signup = () => {
                                     </div>
                                 </div>
                             </div>
+
+                            <div className="input-group mb-3">
+
+                                <select 
+                                    className='form-control select2 select2-hidden-accessible' 
+                                    {...register("role", { required: 'Role is required' })}
+                                    defaultValue='DEFAULT'
+                                >
+                                    <option value="DEFAULT" disabled />
+                                    <option value="TENANT">User</option>
+                                    <option value="LANDLORD">Landlord</option>
+                                </select>
+                                <p className='text-danger'>{errors.role?.message}</p>
+
+                                <div className="input-group-append">
+                                    <div className="input-group-text">
+                                        <span className="fas fa-user" />
+                                    </div>
+                                </div>
+                            </div>
+
                             <div className="input-group mb-3">
                                 <input
                                     type="password"
