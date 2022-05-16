@@ -6,7 +6,6 @@ import com.pmp.server.domain.PropertyRentalHistory;
 import com.pmp.server.domain.User;
 import com.pmp.server.dto.PropertyDTO;
 import com.pmp.server.dto.RentDTO;
-import com.pmp.server.dto.common.PagingRequest;
 import com.pmp.server.dto.common.ResponseMessage;
 import com.pmp.server.exceptionHandler.exceptions.CustomErrorException;
 import com.pmp.server.repo.PropertyImageRepo;
@@ -17,8 +16,6 @@ import com.pmp.server.service.PropertyService;
 import org.keycloak.KeycloakPrincipal;
 import org.keycloak.KeycloakSecurityContext;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -26,14 +23,8 @@ import org.springframework.stereotype.Service;
 
 import org.springframework.data.domain.Pageable;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
-
-import static com.pmp.server.utils.constants.ResponseMessageConstants.SUCCESSFUL_MESSAGE;
 
 @Service
 public class PropertyServiceImpl implements PropertyService {
@@ -116,7 +107,7 @@ public class PropertyServiceImpl implements PropertyService {
   }
 
   @Override
-  public void save(PropertyDTO pty) {
+  public Property save(PropertyDTO pty) {
     UUID owner = null;
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     if (authentication != null) {
@@ -149,7 +140,7 @@ public class PropertyServiceImpl implements PropertyService {
     p.setRentAmount(p.getRentAmount());
     p.setOwnedBy(user);
     p.setSecurityDepositAmount(p.getSecurityDepositAmount());
-    propertyRepo.save(p);
+    return propertyRepo.save(p);
   }
 
   @Override

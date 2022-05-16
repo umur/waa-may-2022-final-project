@@ -41,8 +41,8 @@ public class LandlordController {
     }
     @PostMapping("/properties")
     public ResponseMessage addProperties(@RequestBody PropertyDTO data) {
-       propertyService.save(data);
-        return new ResponseMessage("success", HttpStatus.CREATED);
+        Property p = propertyService.save(data);
+        return new ResponseMessage("success", HttpStatus.CREATED, p);
     }
     @PutMapping("/properties/{id}")
     public ResponseMessage updateProperties(@RequestBody PropertyDTO data,@PathVariable UUID id) {
