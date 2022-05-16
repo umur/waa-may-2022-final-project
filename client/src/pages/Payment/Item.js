@@ -21,6 +21,7 @@ const Item = ({ propertyRentalHistory, children }) => {
     photos,
     propertyName,
     rentAmount,
+    securityDepositAmount,
     city,
     state,
     propertyType,
@@ -42,11 +43,12 @@ const Item = ({ propertyRentalHistory, children }) => {
         <CardMedia
           component="img"
           height="240"
-          image={photos.length > 0 ? photos[0] : DefaultImage}
+          image={photos.length > 0 ? photos[0].imageUrl : DefaultImage}
           alt="green iguana"
         />
         <CardContent>
           <h4 className="title">${rentAmount}</h4>
+          <h4 className="sub-title">Security Deposit: ${securityDepositAmount}</h4>
           <p className="sub-title">
             {city}, {state}
           </p>
@@ -59,7 +61,7 @@ const Item = ({ propertyRentalHistory, children }) => {
             <p>Start Date: {moment(startDate).format('MMM DD YYYY')}</p>
             <p>End Date: {moment(endDate).format('MMM DD YYYY')}</p>
             <Box sx={{ fontWeight: 'bold', m: 1 }}>
-            Subtotal: ${diffDuration.days() * rentAmount}
+            Subtotal: ${diffDuration.days() * (rentAmount + securityDepositAmount)}
             </Box>
           </div>
         </CardContent>
