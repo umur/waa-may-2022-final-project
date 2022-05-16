@@ -30,30 +30,28 @@ function Dashboard() {
 
   const propertyColumn = [
     { id: "id", label: "Id", minWidth: 10 },
-    { id: "firstName", label: "First Name", minWidth: 170 },
-    { id: "lastName", label: "Last Name", minWidth: 170 },
+    { id: "propertyName", label: "Property Name", minWidth: 170 },
+    { id: "streetAddress", label: "Street Name", minWidth: 170 },
+    { id: "city", label: "City", minWidth: 170 },
+    { id: "propertyType", label: "Property Type", minWidth: 170 },
+    { id: "numberOfBedrooms", label: "Bedroom#", minWidth: 170 },
+    { id: "numberOfBathrooms", label: "Bathroom#", minWidth: 170 },
     {
-      id: "created_at",
-      label: "Date",
+      id: "lastRentedDate",
+      label: "Last Rented Date",
       minWidth: 170,
       align: "right",
       format: (value) => dayjs(value).format("MMM DD YYYY"),
     },
-    {
-      id: "gender",
-      label: "Gender",
-      minWidth: 170,
-      align: "right",
-      format: (value) => value,
-    },
+
   ];
 
   return (
     <Layout title="Dashboard">
       <Grid container spacing={1}>
-        <DisplayTopTenData title="Newly added tenants" url="/admin/tenants" columns={tenantColumn} />
+        <DisplayTopTenData title="Newly added tenants" url="/admin/tenants" columns={tenantColumn} defaultColumnSort="createdAt" />
 
-        <DisplayTopTenData title="Recently rented properties" url="/admin/tenants" columns={propertyColumn} />
+        <DisplayTopTenData title="Recently rented properties" url="/properties/paginated" columns={propertyColumn} defaultColumnSort="lastRentedDate" />
 
         <Grid item xs={6} rowSpacing={1}>
 

@@ -35,4 +35,6 @@ public interface PropertyService {
  ResponseMessage activate(UUID id, Boolean isActive);
 
  ResponseMessage propertyByIncome(UUID propertyId);
+
+ Page<Property> getAllPaginatedProperties(Pageable pageable);
 }

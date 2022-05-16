@@ -277,4 +277,9 @@ public class PropertyServiceImpl implements PropertyService {
 
   }
 
+  @Override
+  public Page<Property> getAllPaginatedProperties(Pageable pageable) {
+    return propertyRepo.findByLastRentedDateNotNull(pageable);
+  }
+
 }
