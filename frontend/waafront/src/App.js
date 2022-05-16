@@ -17,7 +17,13 @@ import DashboardAdmin from './pages/dashbord/dashboard-admin';
 import DashboardLandlord from './pages/dashbord/dashboard-landlord';
 import DashboardTenant from './pages/dashbord/dashboard-tenant';
 import SignupForm from './pages/users/signup-form';
+
+
+import ForgotPassword from './pages/login/forgotpassword';
+import ResetPassword from './pages/login/resetpassword';
+
 import { useSelector } from 'react-redux';
+
 
 const { Header, Content, Sider } = Layout;
 
@@ -68,7 +74,9 @@ function App() {
                             <Route path="/signup" element={<SignupForm></SignupForm>} />
                             <Route path="/dashboard-admin" element={<DashboardAdmin></DashboardAdmin>} />
                             <Route path="/dashboard-tenant" element={<DashboardTenant></DashboardTenant>} />
-                            <Route path="/dashboard-landlord" element={<DashboardLandlord></DashboardLandlord>} />
+                            <Route path="/dashboard-landlord" element={<DashboardLandlord></DashboardLandlord>} />                                                      
+                            <Route path="/forgot-password" element={<ForgotPassword></ForgotPassword>} />
+                            <Route path="/reset-password" element={<ResetPassword></ResetPassword>} />
                         </Routes>
 
 

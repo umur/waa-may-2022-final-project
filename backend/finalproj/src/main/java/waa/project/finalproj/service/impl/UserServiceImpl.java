@@ -12,6 +12,7 @@ import waa.project.finalproj.service.UserService;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -73,4 +74,35 @@ public class UserServiceImpl implements UserService {
                 .map(u -> modelMapper.map(u, UserDTO.class))
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public String forgotPassword(String email) throws Exception {
+        Optional<User> userOptional = userRepository.findByEmail(email);
+        if (!userOptional.isPresent()) {
+            throw new Exception();
+        }
+        User user = userOptional.get();
+        user.setResetPasswordToken(Utility.generateToken());
+        user = userRepository.save(user);
+        return user.getResetPasswordToken();
+    }
+
+    @Override
+    public User resetPassword(String token, String password) throws Exception {
+        Optional<User> userOptional = Optional.ofNullable(userRepository.findByResetPasswordToken(token));
+
+        if (!userOptional.isPresent()) {
+            throw new Exception();
+        }
+
+        if (token.equals(userOptional.get().getResetPasswordToken())){
+            userOptional.get().setPassword(new BCryptPasswordEncoder().encode(password));
+            userOptional.get().setResetPasswordToken(null);
+            userRepository.save(userOptional.get());
+            return userOptional.get();
+        }
+        return null;
+    }
+
+
 }
