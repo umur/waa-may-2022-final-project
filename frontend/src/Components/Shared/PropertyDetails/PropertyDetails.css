@@ -1,0 +1,19 @@
+.left-align {
+    text-align: left;
+}
+
+.center-align {
+    text-align: center;
+}
+
+.container {
+    text-align: center;
+}
+
+.left-container {
+    padding: 0;
+    margin: 0 0 4px 0;
+    display: inline-block;
+    width: 50%;
+    text-align: left;
+}
