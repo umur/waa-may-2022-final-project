@@ -7,6 +7,7 @@ import com.pmp.server.domain.User;
 import com.pmp.server.dto.PropertyDTO;
 import com.pmp.server.dto.RentDTO;
 import com.pmp.server.dto.common.PagingRequest;
+import com.pmp.server.dto.common.ResponseMessage;
 import com.pmp.server.exceptionHandler.exceptions.CustomErrorException;
 import com.pmp.server.repo.PropertyImageRepo;
 import com.pmp.server.repo.PropertyRentalHistoryRepo;
@@ -31,6 +32,8 @@ import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
+
+import static com.pmp.server.utils.constants.ResponseMessageConstants.SUCCESSFUL_MESSAGE;
 
 @Service
 public class PropertyServiceImpl implements PropertyService {
@@ -204,6 +207,4 @@ public class PropertyServiceImpl implements PropertyService {
     }
 
   }
-
-
 }
