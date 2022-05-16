@@ -11,6 +11,7 @@ import AddProperty from './pages/property/AddProperty';
 
 import ForgotPassword from './pages/ForgotPassword';
 import ResetPassword from './pages/ResetPassword';
+import Report from './pages/Report';
 
 
 function App() {
@@ -18,7 +19,9 @@ function App() {
     <>
       <Routes>
         <Route path="/" element={<Navigate to="/dashboard" />}>
+        </Route>
 
+        <Route path="/report" element={<Report />}>
         </Route>
 
         <Route
