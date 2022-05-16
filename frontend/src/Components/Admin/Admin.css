@@ -1,0 +1,26 @@
+.list-container {
+  width: 50%;
+  display: inline-block;
+  padding: 10px;
+}
+
+.total-income {
+  width: 50%;
+  display: inline-block;
+  border-radius: 10px;
+  /* box-shadow: 5px 10px #7783f3; */
+  background-color: #212529;
+  color: #ffffff8c;
+  padding: 10px 10px 11px 10px;
+}
+
+.inner-p {
+  display: inline-block;
+  width: 50%;
+  margin: 0;
+  padding: 0;
+}
+
+.heading {
+  font-weight: bold;
+}
