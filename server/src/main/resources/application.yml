@@ -58,6 +58,10 @@ spring:
     multipart:
       max-file-size: 10MB
       max-request-size: 10MB
+  web:
+    resources:
+      static-locations: classpath:/static
+
 server:
   port: 8081
   netty:
@@ -78,5 +82,5 @@ client:
 # File upload                                                             #
 ###########################################################################
 file:
-  upload-dir: ./src/main/resources/images
-  public: /src/main/resources/images
+  upload-dir: ./src/main/resources/static
+  public: /src/main/resources/static
