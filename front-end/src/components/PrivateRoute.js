@@ -6,6 +6,7 @@ const PrivateRoute = ({children}) => {
     const [isLoggedIn, setIsLoggedIn] = useState(
         () => {
           const token = JSON.parse(localStorage.getItem('token'));
+          console.log(token)
           if(token === null) {
               return false;
           }

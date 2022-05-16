@@ -9,6 +9,10 @@ import LandLordList from './pages/landlord/LandLordList';
 import PropertyList from './pages/property/PropertyList';
 import AddProperty from './pages/property/AddProperty';
 
+import ForgotPassword from './pages/ForgotPassword';
+import ResetPassword from './pages/ResetPassword';
+
+
 function App() {
   return (
     <>
@@ -36,6 +40,10 @@ function App() {
         </Route>
 
         <Route path='/signup' element={<Signup />}>
+        </Route>
+        <Route path='/forgot-password' element={<ForgotPassword />}>
+        </Route>
+        <Route path='/reset-password' element={<ResetPassword />}>
         </Route>
       </Routes>
     </>

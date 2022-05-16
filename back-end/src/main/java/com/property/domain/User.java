@@ -27,6 +27,9 @@ public class User {
 
     private String password;
 
+    @Column(columnDefinition="BOOLEAN DEFAULT true")
+    private boolean isActive;
+
     @Enumerated(EnumType.STRING)
     private Role role;
 
