@@ -1,6 +1,7 @@
 import { Layout, Menu } from 'antd';
 import './nav.css'
 import { Link } from "react-router-dom";
+import { Navbar, Nav, Container } from 'react-bootstrap'
 
 const { Header } = Layout;
 
@@ -12,108 +13,71 @@ const navWithoutLogin = [
 function getMenu(role) {
     if(role == ''){
         return (
-            <>
-                {/* <Menu.Item><a href="/#" className='hide-element'>Random</a></Menu.Item> */}
-                 <Menu.Item >
-                    <Link to='/properties'>About</Link>
-                </Menu.Item>
-                <Menu.Item >
-                    <Link to='/properties'>Support</Link>
-                </Menu.Item>
-                <Menu.Item>
-                    <Link to='/users'>Help</Link>
-                </Menu.Item> 
-                
-                 <Menu.Item>
-                    <Link to='/users'>Logout</Link>
-                </Menu.Item>
-                <Menu.Item>
-                    <Link to='/login'>Login</Link>
-                </Menu.Item>
-                <Menu.Item >
-                    <Link to='/properties'>properties</Link>
-                </Menu.Item>
-                
-                
+            <>              
+                <Nav className="me-auto">                      
+                    <Link to='#' className='margin-r nav-text'>About</Link>
+                    <Link to='#' className='nav-text'>Help</Link>
+                </Nav>
+                <Nav>                       
+                    <Link to='/login' className='margin-r nav-text'>Login</Link>
+                    <Link to='/signup' className='nav-text'>Register</Link>
+                </Nav>
             </>
         )
     }
     else if(role.toLowerCase() === 'landlord'){
         return (
             <>
-                {/* <Menu.Item><a href="/#" className='hide-element'>Random</a></Menu.Item> */}
-                <Menu.Item >
-                    <Link to='/users'>Landlord link 1</Link>
-                </Menu.Item>
-                <Menu.Item>
-                    <Link to='/users'>Landlord link 2</Link>
-                </Menu.Item>
-                <Menu.Item>
-                    <Link to='/users'>Logout</Link>
-                </Menu.Item>
-                <Menu.Item >
-                    <Link to='/properties'>properties</Link>
-                </Menu.Item>
-                
+               <Nav className="me-auto">                      
+                    <Link to='/properties' className='margin-r nav-text'>About</Link>
+                    <Link to='/properties' className='nav-text'>Help</Link>
+                </Nav>
+                <Nav>                                          
+                    <Link to='/login' className='nav-text' onClick={()=> window.sessionStorage.clear()}>Logout</Link>
+                </Nav>
             </>
         )
     }
     else if(role.toLowerCase() === 'tenant'){
         return (
             <>
-                {/* <Menu.Item><a href="/#" className='hide-element'>Random</a></Menu.Item> */}
-                <Menu.Item >
-                    <Link to='/users'>Tenant link 1</Link>
-                </Menu.Item>
-                <Menu.Item>
-                    <Link to='/users'>Tenant link 2</Link>
-                </Menu.Item>
-                <Menu.Item>
-                    <Link to='/users'>Logout</Link>
-                </Menu.Item>
-                <Menu.Item >
-                    <Link to='/properties'>properties</Link>
-                </Menu.Item>
-                
+                 <Nav className="me-auto">                      
+                    <Link to='#' className='margin-r nav-text'>LatestOrder</Link>
+                    
+                </Nav>
+                <Nav>                                          
+                    <Link to='/login' className='nav-text' onClick={()=> window.sessionStorage.clear()}>Logout</Link>
+                </Nav>                
             </>
         )
     }
     else if(role.toLowerCase() === 'admin'){
         return (
             <>
-                {/* <Menu.Item><a href="/#" className='hide-element'>Random</a></Menu.Item> */}
-                <Menu.Item >
-                    <Link to='/properties'>Properties</Link>
-                </Menu.Item>
-                <Menu.Item>
-                    <Link to='/users'>Userss</Link>
-                </Menu.Item>
-                {/* <Menu.Item>
-                    <Link to='/register'>Register</Link>
-                </Menu.Item> */}
-                {/* <Menu.Item>
-                    <Link to='/login'>Login</Link>
-                </Menu.Item> */}
+                <Nav className="me-auto">                      
+                    <Link to='/properties' className='margin-r nav-text'>About</Link>
+                    <Link to='/properties' className='nav-text'>Help</Link>
+                </Nav>
+                <Nav>                                          
+                    <Link to='/login' className='nav-text'>Logout</Link>
+                </Nav>
             </>
         )
-    }
-        
-    
+    }       
 }
 
-function Nav(props) {
+function Navv(props) {
     const rightStyle = {position: 'absolute', top: 0, right: 30} 
 
     return (
-        <Header className="header">
-            <div className="logo"><Link to='/'>Home</Link></div>
-          
-            <Menu theme="dark" mode="horizontal" style={rightStyle}>
+        
+        <Navbar bg="dark" variant="dark">
+            <Container>
+            <Navbar.Brand><Link to='/' className='nav-text'>Logout</Link></Navbar.Brand>
                 { getMenu(props.role) }
-            </Menu>
-         
-        </Header>
+            </Container>
+        </Navbar>
     )
 }
 
-export default  Nav;
+export default  Navv;

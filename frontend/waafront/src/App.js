@@ -13,7 +13,10 @@ import { Layout, Menu } from 'antd';
 import Properties from './pages/properties/index';
 import Login from './pages/login/login';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import DashboarAdmin from './pages/dashbord/dashboard-admin';
+import DashboardAdmin from './pages/dashbord/dashboard-admin';
+import DashboardLandlord from './pages/dashbord/dashboard-landlord';
+import DashboardTenant from './pages/dashbord/dashboard-tenant';
+import SignupForm from './pages/users/signup-form';
 import { useSelector } from 'react-redux';
 
 const { Header, Content, Sider } = Layout;
@@ -36,17 +39,17 @@ function App() {
         userRole=user.role;
     }
         
-    const [isAdmin, setIsAdmin] = useState(false);
-    const [isTenant, setIsTenant] = useState(false);
-    const [isLandLord, setIsLandLord] = useState(false);
+    // const [isAdmin, setIsAdmin] = useState(false);
+    // const [isTenant, setIsTenant] = useState(false);
+    // const [isLandLord, setIsLandLord] = useState(false);
 
     return (
         <div className="App">
 
             <Layout>
-                {/* <Nav role="ADMIN"></Nav> */}
+               
                 <Nav role={userRole}></Nav>
-                {/* <Nav role='admin'></Nav> */}
+               
                 <Layout style={{ padding: '0 24px 24px', }}>
                     {/* <Breadcrumb></Breadcrumb> */}
                     <Content
@@ -60,13 +63,12 @@ function App() {
                     >
 
                         <Routes>
-                            <Route path="/" element={<Home></Home>} />
-                            <Route path="/users" element={<User></User>} />
-                            <Route path="/properties" element={<Properties></Properties>} />
-                            <Route path="/rents" element={<User></User>} />
+                            <Route path="/" element={<Home></Home>} />                           
                             <Route path="/login" element={<Login></Login>} />
-                            <Route path="/register" element={<User></User>} />
-                            <Route path="/dashboard-admin" element={<DashboarAdmin></DashboarAdmin>} />
+                            <Route path="/signup" element={<SignupForm></SignupForm>} />
+                            <Route path="/dashboard-admin" element={<DashboardAdmin></DashboardAdmin>} />
+                            <Route path="/dashboard-tenant" element={<DashboardTenant></DashboardTenant>} />
+                            <Route path="/dashboard-landlord" element={<DashboardLandlord></DashboardLandlord>} />
                         </Routes>
 
 

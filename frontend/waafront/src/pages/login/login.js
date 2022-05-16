@@ -30,7 +30,15 @@ const Login = () => {
     
             window.sessionStorage.setItem("userRole", userRole);
             window.sessionStorage.setItem("userName", userName);
-            navigate(`/dashboard-admin`);
+
+            if(userRole==='ADMIN'){
+                navigate(`/dashboard-admin`);
+            }else if(userRole==='TENANT'){
+                navigate(`/dashboard-tenant`);
+            }else if(userRole==='LANDLORD'){
+                navigate(`/dashboard-landlord`);
+            }
+            
     
             dispath(login({ role: userRole, email: userName }));
         }catch (err){
