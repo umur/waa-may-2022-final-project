@@ -16,7 +16,7 @@ import pro.manage.service.PropertyService;
 @Service
 @RequiredArgsConstructor
 public class PropertyServiceImpl implements PropertyService {
-    private PropertyRepository propertyRepository;
+    private final  PropertyRepository propertyRepository;
 
     @Override
     public PropertyRepository getRepo() {

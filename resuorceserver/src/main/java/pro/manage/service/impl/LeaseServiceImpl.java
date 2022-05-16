@@ -16,7 +16,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class LeaseServiceImpl implements LeaseService {
 
-    private LeaseRepository leaseRepository;
+    private final  LeaseRepository leaseRepository;
     @Override
     public LeaseRepository getRepo() {
         return leaseRepository;

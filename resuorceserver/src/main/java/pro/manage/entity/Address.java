@@ -10,7 +10,7 @@ import javax.persistence.*;
 @Setter
 @Getter
 @RequiredArgsConstructor
-@SQLDelete(sql = "UPDATE adress SET isdeleted = true WHERE id=?")
+@SQLDelete(sql = "UPDATE address SET isdeleted = true WHERE id=?")
 public class Address extends  Audit{
 
     @Column(nullable = false)

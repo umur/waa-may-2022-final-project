@@ -7,6 +7,7 @@ import { Route, Routes } from "react-router-dom";
 import Lease from "./routes/Lease";
 import PropertyRoute from "./routes/PropertyRouter";
 
+
 function App() {
   return (
     <div>

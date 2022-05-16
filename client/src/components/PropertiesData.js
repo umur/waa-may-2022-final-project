@@ -1,23 +1,6 @@
+/*
 import Prop1 from "./../images/1.jpg";
-import Prop2 from "./../images/2.jpg";
-import Prop3 from "./../images/3.jpg";
-import Prop4 from "./../images/4.jpg";
-import Prop5 from "./../images/5.jpg";
-import Prop11 from "./../images/11.jpg";
-import Prop21 from "./../images/21.jpg";
-import Prop31 from "./../images/31.jpg";
-import Prop41 from "./../images/41.jpg";
-import Prop51 from "./../images/51.jpg";
-import Prop12 from "./../images/12.jpg";
-import Prop22 from "./../images/22.jpg";
-import Prop32 from "./../images/32.jpg";
-import Prop42 from "./../images/42.jpg";
-import Prop52 from "./../images/52.jpg";
-import Prop13 from "./../images/13.jpg";
-import Prop23 from "./../images/23.jpg";
-import Prop33 from "./../images/33.jpg";
-import Prop43 from "./../images/43.jpg";
-import Prop53 from "./../images/53.jpg";
+
 
 const data = [
   {
@@ -63,3 +46,4 @@ const data = [
 ];
 
 export default data;
+*/

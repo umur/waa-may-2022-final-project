@@ -13,7 +13,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class RoleServiceImpl implements RoleService {
 
-RoleRepository roleRepository;
+    private final RoleRepository roleRepository;
     @Override
     public RoleRepository getRepo() {
         return roleRepository;
