@@ -6,6 +6,8 @@ import Home from './pages/Home';
 import PrivateRoute from './components/PrivateRoute';
 import Dashboard from './components/Dashboard';
 import LandLordList from './pages/landlord/LandLordList';
+import PropertyList from './pages/property/PropertyList';
+import AddProperty from './pages/property/AddProperty';
 
 function App() {
   return (
@@ -25,6 +27,9 @@ function App() {
           <Route path='' element={<Dashboard />}>
           </Route>
           <Route path='landlords' element={<LandLordList />}></Route>
+          <Route path='property' element={<PropertyList />}></Route>
+
+          <Route path='add' element={<AddProperty />}></Route>
         </Route>
 
         <Route path='/login' element={<Login />}>
