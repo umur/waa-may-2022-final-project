@@ -22,6 +22,7 @@ public class Property extends  Audit{
     private int deposit;
 
 
+
     @OneToOne(cascade = CascadeType.PERSIST)
     private Address address;
 

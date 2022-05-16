@@ -17,6 +17,4 @@ public  class ModelMapperUti {
     public static <T,TT> TT map(T t,Class<TT> ttClass){
         return  modelMapper.map(t,ttClass);
     }
-
-
 }

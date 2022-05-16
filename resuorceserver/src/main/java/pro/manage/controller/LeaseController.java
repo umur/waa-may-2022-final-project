@@ -1,15 +1,19 @@
 package pro.manage.controller;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import pro.manage.entity.Lease;
 import pro.manage.service.LeaseService;
 
 @RestController
 @RequestMapping(value = "/lease")
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class LeaseController implements GenericController<Lease,Long, LeaseService>{
 
-    LeaseService leaseService;
+
+
+   private final LeaseService leaseService;
 
     @Override
     public LeaseService getService() {

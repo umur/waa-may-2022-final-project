@@ -7,10 +7,9 @@ export const PropertyDetails = () => {
 
   let prop = PopertiesData.find((p) => p.id == id);
 
-  console.log(prop);
-  console.log(prop.title);
-
-  return <div></div>;
+  return <div>
+    <h1>prop.name</h1>
+  </div>;
 };
 
 export default PropertyDetails;

@@ -17,8 +17,6 @@ public class User extends  Audit {
 
     private String firstName;
     private String lastname;
-    //@Size(min=10,max=10,message="{size.phoneNo}")
-    //@Pattern(regexp="(^$|[0-9]{10})")
     private String phoneno;
     @NotEmpty(message = "username is required")
     @Email

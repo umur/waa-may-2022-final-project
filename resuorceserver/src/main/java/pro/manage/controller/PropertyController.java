@@ -1,6 +1,8 @@
 
 package pro.manage.controller;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import pro.manage.entity.Property;
 import pro.manage.service.PropertyService;
@@ -9,10 +11,11 @@ import pro.manage.service.PropertyService;
 @RestController
 @CrossOrigin(allowedHeaders = "*")
 @RequestMapping(value="/properties")
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class PropertyController implements GenericController<Property,Long, PropertyService>{
 
-    PropertyService propertyService;
+
+    private final PropertyService propertyService;
 
     @Override
     public PropertyService getService() {

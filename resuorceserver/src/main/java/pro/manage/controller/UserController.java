@@ -1,5 +1,6 @@
 package pro.manage.controller;
 
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -10,11 +11,11 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/users")
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class UserController implements GenericController<UserDto, Long, UserService> {
 
-    @Autowired
-    UserService userService;
+
+    private final UserService userService;
 
     @Override
     public UserService getService() {
