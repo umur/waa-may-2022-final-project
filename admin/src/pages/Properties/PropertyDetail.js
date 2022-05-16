@@ -1,4 +1,4 @@
-import { Box, Button, Grid, Paper, Stack } from "@mui/material";
+import { Box, Button, Grid, Paper } from "@mui/material";
 import Layout from "pages/Layout";
 import React, { useContext, useEffect, useState } from "react";
 import Typography from "@mui/material/Typography";
@@ -9,18 +9,49 @@ import { defaultHeaders } from "api/defaultHeaders";
 import { AuthContext } from "context/AuthContext";
 import Loading from "components/Loading";
 import { toast, ToastContainer } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import Photo from "components/Photo";
 import AxiosFormData from 'form-data';
 
-function NewProperty(props) {
+function PropertyDetail(props) {
+  const { id } = useParams();
   const { isSignedIn } = useContext(AuthContext);
+
+  /* -------------------------------------------------------------------------- */
+  /*                                Get property                                */
+  /* -------------------------------------------------------------------------- */
+  const [{ data: property }, getProperty] = useAxios(
+    {
+      url: "/landlord/properties/" + id,
+      method: "post",
+      data: {},
+      headers: defaultHeaders(isSignedIn),
+    },
+    {
+      useCache: false,
+      manual: true,
+    }
+  );
+
+  useEffect(() => {
+    getProperty({
+      url: "/landlord/properties/" + id,
+      method: "post",
+      data: {},
+      headers: defaultHeaders(isSignedIn),
+    },
+    {
+      useCache: false,
+      manual: true,
+    })
+  }, [getProperty, id, isSignedIn]);
+
   const notify = (msg) => toast.error(msg);
 
-  const [{ data, loading, error }, submitNewProperty] = useAxios(
+  const [{ data, loading, error }, updateProperty] = useAxios(
     {
-      url: "/landlord/properties",
+      url: "/landlord/properties" ,
       method: "post",
       data: {},
       headers: defaultHeaders(isSignedIn),
@@ -105,7 +136,7 @@ function NewProperty(props) {
         console.log(imageUrls)
       }
 
-      const property = await submitNewProperty(
+      const property = await updateProperty(
         {
           url: "/landlord/properties",
           method: "post",
@@ -155,7 +186,7 @@ function NewProperty(props) {
   
 
   return (
-    <Layout title="New Property">
+    <Layout title="Property Detail">
       <ToastContainer />
       <Grid container spacing={1}>
         <Grid item xs={6}>
@@ -343,4 +374,4 @@ function NewProperty(props) {
   );
 }
 
-export default NewProperty;
+export default PropertyDetail;
