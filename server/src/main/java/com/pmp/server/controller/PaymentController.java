@@ -80,8 +80,8 @@ public class PaymentController {
 
             // Create price id for product
             Map<String, Object> priceParams = new HashMap<>();
-            // TODO: Update transaction amount from property rental history
-            priceParams.put("unit_amount", Double.valueOf(property.getRentAmount()).longValue() * 100L);
+
+            priceParams.put("unit_amount", Double.valueOf(hist.getTransactionAmount()).longValue() * 100L);
             priceParams.put("currency", currency);
             priceParams.put("product", product.getId());
             Price price = Price.create(priceParams);
