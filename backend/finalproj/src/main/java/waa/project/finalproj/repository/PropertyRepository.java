@@ -5,6 +5,7 @@ import waa.project.finalproj.entity.Property;
 
 import java.util.List;
 
-public interface HouseRepository extends CrudRepository<Property, Integer> {
+public interface PropertyRepository extends CrudRepository<Property, Integer> {
     List<Property> findAllByDeletedAtIsNull();
+
 }

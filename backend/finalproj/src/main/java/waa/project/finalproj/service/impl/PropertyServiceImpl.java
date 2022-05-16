@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import waa.project.finalproj.dto.property.PropertyDTO;
 import waa.project.finalproj.dto.property.PropertySaveDTO;
 import waa.project.finalproj.entity.Property;
-import waa.project.finalproj.repository.HouseRepository;
+import waa.project.finalproj.repository.PropertyRepository;
 import waa.project.finalproj.service.PropertyService;
 
 import java.time.LocalDate;
@@ -18,7 +18,7 @@ import java.util.stream.StreamSupport;
 @AllArgsConstructor
 public class PropertyServiceImpl implements PropertyService {
 
-    private final HouseRepository houseRepository;
+    private final PropertyRepository houseRepository;
     private final ModelMapper modelMapper;
 
     @Override
