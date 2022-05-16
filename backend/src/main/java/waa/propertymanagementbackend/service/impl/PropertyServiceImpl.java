@@ -4,45 +4,96 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import waa.propertymanagementbackend.domain.Property;
+import waa.propertymanagementbackend.domain.PropertyRentHistory;
+import waa.propertymanagementbackend.domain.User;
 import waa.propertymanagementbackend.dto.PropertyDto;
-import waa.propertymanagementbackend.service.CrudService;
+import waa.propertymanagementbackend.dto.PropertyRentingDto;
+import waa.propertymanagementbackend.dto.RentedPropertyDto;
+import waa.propertymanagementbackend.repository.PropertyPhotosRep;
+import waa.propertymanagementbackend.repository.PropertyRentHistoryRepo;
 import waa.propertymanagementbackend.repository.PropertyRepository;
+import waa.propertymanagementbackend.service.PropertyService;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class PropertyServiceImpl implements CrudService<PropertyDto> {
+public class PropertyServiceImpl implements PropertyService<PropertyDto> {
+    List<PropertyDto> convertToPropertyDto(List<Property> properties) {
+        List<PropertyDto> dtos = new ArrayList<>();
+        PropertyDto dto = new PropertyDto();
+        properties.stream().forEach(item -> {
+            modelMapper.map(item, dto);
+            dtos.add(dto);
+        });
+        return dtos;
+    }
+
+    List<RentedPropertyDto> convertToRentedPropertyDto(List<PropertyRentHistory> properties) {
+        List<RentedPropertyDto> dtos = new ArrayList<>();
+        RentedPropertyDto dto = new RentedPropertyDto();
+        properties.stream().forEach(item -> {
+            modelMapper.map(item, dto);
+            dtos.add(dto);
+        });
+        return dtos;
+    }
+
     @Autowired
     private PropertyRepository propertyRepository;
 
-    private ModelMapper modelMapper=new ModelMapper();
+    @Autowired
+    private PropertyRentHistoryRepo propertyRentHistoryRepo;
+    @Autowired
+    private ModelMapper modelMapper;
+    @Autowired
+    PropertyPhotosRep propertyPhotosRep;
 
     @Override
     public void save(PropertyDto property) {
         Property p = new Property();
         modelMapper.map(property, p);
-        propertyRepository.save(p);
 
+        p.setSecurityDepositAmount(0);
+        p.setVisible(true);
+        p.setDeleted(false);
+        System.out.println("hello");
+       // int id = propertyRepository.getLastId();
+
+       // p.setId(id + 1);
+     //   System.out.println("id" + p.getId());
+        propertyRepository.save(p);
+      for (int i = 0; i < property.getPropertyPhotos().size(); i++) {
+           propertyPhotosRep.save(property.getPropertyPhotos().get(i));
+        }
     }
+
 
     @Override
     public List<PropertyDto> getAll() {
-        List<PropertyDto> dtos = new ArrayList<>();
+        List<Property> properties = (List<Property>) propertyRepository.findAll();
+        return convertToPropertyDto(properties);
+    }
 
-        List<Property> p = (List<Property>) propertyRepository.findAll();
-        PropertyDto dto = new PropertyDto();
-        for (int i = 0; i < p.size(); i++) {
-            modelMapper.map(p.get(i), dto);
-            dtos.add(dto);
-        }
-        return dtos;
+    /*Admin */
+    @Override
+    public List<RentedPropertyDto> getLastRented() {
+
+        List<PropertyRentHistory> properties = propertyRentHistoryRepo.findByActiveOrderByRentedToAsc(true);
+        return convertToRentedPropertyDto(properties);
+
+
+    }
+
+    /**/
+    @Override
+    public float getTotalIncomePerLocation(String city) {
+        return propertyRentHistoryRepo.getTotalIncomePerLocation(city);
     }
 
     @Override
     public PropertyDto getById(int id) {
-
-
         PropertyDto dto = new PropertyDto();
         modelMapper.map(propertyRepository.findById(id).get(), dto);
         return dto;
@@ -52,17 +103,129 @@ public class PropertyServiceImpl implements CrudService<PropertyDto> {
     public void delete(int id, boolean value) {
         Property p = new Property();
         p = propertyRepository.findById(id).get();
-        System.out.println("value" + value);
-        System.out.println("prop" + p.getPropertyName());
         p.setDeleted(value);
         propertyRepository.save(p);
     }
 
-    public void List(int id, boolean value) {
+    @Override
+    public void updatePropertyVisible(int id, boolean value) {
         Property p = new Property();
         p = propertyRepository.findById(id).get();
         p.setVisible(value);
         propertyRepository.save(p);
     }
 
+    @Override
+    public List<PropertyDto> findByOwnedByEmail(String email) {
+        List<Property> properties = propertyRepository.findByOwnedByEmail(email);
+        return convertToPropertyDto(properties);
+
+    }
+
+    @Override
+    public List<PropertyDto> findByOwnedByEmailAndCity(String email, String city) {
+        List<Property> properties = propertyRepository.findByOwnedByEmailAndAddressCity(email, city);
+        return convertToPropertyDto(properties);
+    }
+
+    @Override
+    public List<PropertyDto> findByLastRentedByEmail(String email) {
+        List<Property> properties = propertyRepository.findByLastRentedByEmail(email);
+        return convertToPropertyDto(properties);
+
+    }
+
+    @Override
+    public float totalIncomePerLanLordAndCity(String email, String city) {
+        return propertyRentHistoryRepo.getTotalIncomePerLocationAndLandLord(city, email);
+    }
+
+
+    @Override
+    public List<RentedPropertyDto> getPropertiesLeasesInMonth(String email) {
+        LocalDate date = LocalDate.now().plusDays(30);
+        List<PropertyRentHistory> properties = propertyRentHistoryRepo.getPropertiesLeasesInMonth(email, date);
+        return convertToRentedPropertyDto(properties);
+
+
+    }
+
+
+    @Override
+    public List<PropertyDto> getByLandLordAndCityAndRoomsCount(String email, String city, int numberOfBedrooms) {
+
+        List<Property> properties = propertyRepository.findByOwnedByEmailAndAddressCityAndNumberOfBedrooms(email, city, numberOfBedrooms);
+        return convertToPropertyDto(properties);
+
+    }
+
+    @Override
+    public List<PropertyDto> getByLandLordAndRoomsCount(String email, int numberOfBedrooms) {
+        List<Property> properties = propertyRepository.findByOwnedByEmailAndNumberOfBedrooms(email, numberOfBedrooms);
+        return convertToPropertyDto(properties);
+    }
+
+    public void changeVisibility(int id, boolean value) {
+        Property p = new Property();
+        p = propertyRepository.findById(id).get();
+        p.setVisible(value);
+        propertyRepository.save(p);
+    }
+
+    /**
+     * LandLord
+     */
+
+
+    /**
+     * for tenant Search
+     **/
+    @Override
+    public List<PropertyDto> findByNumberOfBedroomsAndIsOccupied(int numberOfBedrooms, boolean isOccupied) {
+        List<Property> properties = propertyRepository.findByNumberOfBedroomsAndIsOccupiedAndVisible(numberOfBedrooms, isOccupied, true);
+        return convertToPropertyDto(properties);
+
+    }
+
+    @Override
+    public List<PropertyDto> getByLandLordAndIsOccupied(String email, boolean isOccupied) {
+        List<Property> properties = propertyRepository.findByOwnedByEmailAndIsOccupied(email, isOccupied);
+        return convertToPropertyDto(properties);
+
+    }
+
+    @Override
+    public List<PropertyDto> findByAddressCityAndNumberOfBedroomsAndIsOccupied(String city, int numberOfBedroom, boolean isOccupied) {
+        List<Property> properties = propertyRepository.findByAddressCityAndNumberOfBedroomsAndIsOccupiedAndVisible(city, numberOfBedroom, isOccupied, true);
+        return convertToPropertyDto(properties);
+
+    }
+
+    @Override
+    public List<PropertyDto> findByAddressCityAndIsOccupied(String city, boolean isOccupied) {
+        List<Property> properties = propertyRepository.findByAddressCityAndIsOccupiedAndVisible(city, isOccupied, true);
+        return convertToPropertyDto(properties);
+
+    }
+
+    /**
+     * Tenant
+     */
+    @Override
+    public void rentProperty(PropertyRentingDto pDto) {
+        Property p = new Property();
+        p = propertyRepository.findById(pDto.getProperty().getId()).get();
+        PropertyRentHistory pH = new PropertyRentHistory();
+        modelMapper.map(pDto, pH);
+        pH.setActive(true);
+
+        pH.setId(propertyRentHistoryRepo.getLastId() + 1);
+        p.setIsOccupied(true);
+        User u = new User();
+        modelMapper.map(pDto.getRentedBy(), u);
+        p.setLastRentedBy(u);
+        propertyRepository.save(p);
+        propertyRentHistoryRepo.save(pH);
+
+    }
 }
