@@ -3,10 +3,6 @@ import "antd/dist/antd.css";
 import { Button } from "antd";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 
-const teste = () => {
-  alert("my bengs");
-};
-
 const columns = [
   {
     title: "Name",
@@ -36,11 +32,19 @@ const columns = [
     render: (text, record) => (
       <Space size="middle">
         <Button type="primary" icon={<EditOutlined />}></Button>
-        <Button type="danger" icon={<DeleteOutlined />}></Button>
+        <Button
+          onClick={deletePropertie}
+          type="danger"
+          icon={<DeleteOutlined />}
+        ></Button>
       </Space>
     ),
   },
 ];
+
+const deletePropertie = async () => {
+  // alert(name);
+};
 
 export default (props) => (
   <Table columns={columns} dataSource={props.propertyList} rowKey="id" />

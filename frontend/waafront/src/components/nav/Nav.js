@@ -3,6 +3,7 @@ import './nav.css'
 import { Link } from "react-router-dom";
 import { Navbar, Nav, Container } from 'react-bootstrap'
 
+
 const { Header } = Layout;
 
 const navWithoutLogin = [
@@ -11,6 +12,8 @@ const navWithoutLogin = [
     {key: 0, label: `Register`},
 ];
 function getMenu(role) {
+
+    
     if(role == ''){
         return (
             <>              
@@ -33,7 +36,7 @@ function getMenu(role) {
                     <Link to='/properties' className='nav-text'>Help</Link>
                 </Nav>
                 <Nav>                                          
-                    <Link to='/login' className='nav-text' onClick={()=> window.sessionStorage.clear()}>Logout</Link>
+                    <Link to='/' className='nav-text' onClick={()=> {window.sessionStorage.clear()}}>Logout</Link>
                 </Nav>
             </>
         )
@@ -46,7 +49,7 @@ function getMenu(role) {
                     
                 </Nav>
                 <Nav>                                          
-                    <Link to='/login' className='nav-text' onClick={()=> window.sessionStorage.clear()}>Logout</Link>
+                    <Link to='/' className='nav-text' onClick={()=> window.sessionStorage.clear()}>Logout</Link>
                 </Nav>                
             </>
         )
@@ -59,7 +62,7 @@ function getMenu(role) {
                     <Link to='/properties' className='nav-text'>Help</Link>
                 </Nav>
                 <Nav>                                          
-                    <Link to='/login' className='nav-text'>Logout</Link>
+                    <Link to='/' className='nav-text'>Logout</Link>
                 </Nav>
             </>
         )
@@ -73,7 +76,7 @@ function Navv(props) {
         
         <Navbar bg="dark" variant="dark">
             <Container>
-            <Navbar.Brand><Link to='/' className='nav-text'>Logout</Link></Navbar.Brand>
+            <Navbar.Brand><Link to='/' className='nav-text'>E Property</Link></Navbar.Brand>
                 { getMenu(props.role) }
             </Container>
         </Navbar>

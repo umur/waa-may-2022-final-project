@@ -1,12 +1,13 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import PropertiesTable from "./propertiesTable";
-
+import { statesOptions } from "./statesOptions";
 import { Modal, Button } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import FormSizeDemo from "./formPropertieStyled";
+import formPropertieStyled from "./formPropertieStyled";
 
 import {
   Form,
@@ -19,45 +20,51 @@ import {
   TreeSelect,
   Switch,
 } from "antd";
+import { Alert } from "bootstrap";
+
+let propertiesObject = {
+  id: 0,
+  name: "",
+  street: "",
+  city: "",
+  state: "",
+  zip: "",
+  numberOfBedrooms: 0,
+  numberOfBathrooms: 0,
+  rentAmount: 25,
+  securityDepositAmount: 54,
+  occupied: false,
+  listed: true,
+  photos: [],
+  propertyType: {
+    id: 1,
+    name: "Single-Family Homes",
+  },
+  user: {
+    id: 1,
+    email: "admin@admin.com",
+    firstname: "John",
+    lastname: "Doe",
+    active: true,
+    role: "ADMIN",
+    lastLoggedInAt: null,
+  },
+  rent: [],
+};
 
 function Properties() {
   const [size, setSize] = useState("large");
+  const nameRef = useRef(null);
 
-  const [propertyState, setPropertyState] = useState([
-    {
-      id: 0,
-      name: "",
-      street: "",
-      city: "",
-      state: "",
-      zip: "",
-      numberOfBedrooms: 0,
-      numberOfBathrooms: 0,
-      rentAmount: 25,
-      securityDepositAmount: 54,
-      occupied: false,
-      listed: true,
-      photos: [],
-      propertyType: {
-        id: 1,
-        name: "Single-Family Homes",
-      },
-      user: {
-        id: 1,
-        email: "admin@admin.com",
-        firstname: "John",
-        lastname: "Doe",
-        active: true,
-        role: "ADMIN",
-        lastLoggedInAt: null,
-      },
-      rent: [],
-    },
+  const [propertyState, setPropertyState] = useState(propertiesObject);
+
+  const [propertyListState, setPropertyListState] = useState([
+    propertiesObject,
   ]);
 
   const fetchProducts = async () => {
     const result = await axios.get("http://localhost:8080/api/v1/properties");
-    setPropertyState(result.data);
+    setPropertyListState(result.data);
   };
 
   useEffect(() => {
@@ -69,13 +76,23 @@ function Properties() {
     setVisible(true);
   };
 
-  const handleOk = () => {
-    setModalText("The modal will be closed after two seconds");
-    setConfirmLoading(true);
-    setTimeout(() => {
-      setVisible(false);
-      setConfirmLoading(false);
-    }, 2000);
+  const handleOk = async () => {
+    try {
+      const { data } = await axios.post(
+        "http://localhost:8080/api/v1/properties",
+        propertyState
+      );
+      window.alert("Register Save");
+    } catch (e) {
+      console.log(e.message);
+    }
+
+    // setModalText("The modal will be closed after two seconds");
+    // setConfirmLoading(true);
+    // setTimeout(() => {
+    //   setVisible(false);
+    //   setConfirmLoading(false);
+    // }, 2000);
   };
 
   const handleCancel = () => {
@@ -100,6 +117,14 @@ function Properties() {
   const [form] = Form.useForm();
   const [, forceUpdate] = useState({});
 
+  const onFieldsChanged = (event) => {
+    //alert("I am here");
+    let copy = { ...propertyState };
+    console.log(copy);
+    copy[event.target.name] = event.target.value;
+    setPropertyState(copy);
+  };
+
   return (
     <>
       <div>
@@ -114,17 +139,106 @@ function Properties() {
         </Button>
       </div>
 
-      <PropertiesTable propertyList={propertyState}></PropertiesTable>
+      <PropertiesTable propertyList={propertyListState}></PropertiesTable>
 
       <Modal
-        title="Title"
+        title="Add Property"
         visible={visible}
         onOk={handleOk}
         confirmLoading={confirmLoading}
         onCancel={handleCancel}
         width={900}
       >
-        <FormSizeDemo></FormSizeDemo>
+        <Form>
+          <Form.Item label="Form Size" name="size">
+            <Radio.Group>
+              <Radio.Button value="small">Small</Radio.Button>
+              <Radio.Button value="default">Default</Radio.Button>
+              <Radio.Button value="large">Large</Radio.Button>
+            </Radio.Group>
+          </Form.Item>
+          <Form.Item label="Name">
+            <Input
+              name="name"
+              value={propertyState.name}
+              onChange={onFieldsChanged}
+            />
+          </Form.Item>
+          <Form.Item label="Street">
+            <Input
+              name="street"
+              value={propertyState.street}
+              onChange={onFieldsChanged}
+            />
+          </Form.Item>
+          <Form.Item label="City">
+            <Input
+              name="city"
+              value={propertyState.city}
+              onChange={onFieldsChanged}
+            />
+          </Form.Item>
+          <Form.Item label="States">
+            <Select>
+              <Select.Option value=""></Select.Option>
+              {statesOptions.map((statesOption) => (
+                <option value={statesOption.value}>{statesOption.title}</option>
+              ))}
+            </Select>
+          </Form.Item>
+          <Form.Item label="Zip Code">
+            <Input
+              name="zip"
+              style={{ width: "30%" }}
+              value={propertyState.zip}
+              onChange={onFieldsChanged}
+            />
+          </Form.Item>
+
+          <Form.Item label="Number of Bedrooms">
+            <InputNumber
+              name="numberOfBedrooms"
+              style={{ width: "30%" }}
+              value={propertyState.numberOfBedrooms}
+              onChange={onFieldsChanged}
+            />
+          </Form.Item>
+          <Form.Item label="Number of Bathrooms">
+            <InputNumber
+              name="numberOfBathrooms"
+              style={{ width: "30%" }}
+              value={propertyState.numberOfBathrooms}
+              onChange={onFieldsChanged}
+            />
+          </Form.Item>
+
+          <Form.Item label="Rent Amount">
+            <Input
+              name="rentAmount"
+              style={{ width: "30%" }}
+              value={propertyState.rentAmount}
+              onChange={onFieldsChanged}
+            />
+          </Form.Item>
+          <Form.Item label="Security Deposit">
+            <Input
+              name="securityDepositAmount"
+              style={{ width: "30%" }}
+              value={propertyState.securityDepositAmount}
+              onChange={onFieldsChanged}
+            />
+          </Form.Item>
+
+          <Form.Item label="Occupied" valuePropName="checked">
+            <Switch value={propertyState.occupied} onChange={onFieldsChanged} />
+          </Form.Item>
+          <Form.Item label="Listed" valuePropName="checked">
+            <Switch value={propertyState.listed} onChange={onFieldsChanged} />
+          </Form.Item>
+          {/* <Form.Item label="Button">
+            <Button onClick={myteste()}>Button</Button>
+          </Form.Item> */}
+        </Form>
       </Modal>
     </>
   );
