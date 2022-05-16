@@ -1,5 +1,6 @@
 package com.pmp.server.repo;
 
+import com.joutvhu.dynamic.jpa.DynamicQuery;
 import com.pmp.server.domain.Property;
 import com.pmp.server.domain.User;
 import com.pmp.server.dto.PropertyIncomeDTO;
@@ -9,6 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.UUID;
 
 @Repository
@@ -20,14 +22,23 @@ public interface PropertyRepo extends PagingAndSortingRepository<Property, UUID>
             nativeQuery = true)
     Page<Property> customSearch(Pageable page,String s);
 
-    @Query(value = "select\n" +
-      "p.id, p.property_name, p.street_address, p.state, sum(prh.transaction_amount) as transaction_amount\n" +
-      "from properties p\n" +
-      "    inner join property_rental_history prh on p.id = prh.property_id\n" +
-      "    inner join transactions t on prh.id = t.property_rental_history_id\n" +
-      "group by p.id) propertyincome\n" +
-      "order by propertyincome.transaction_amount desc ",
-      nativeQuery = true)
-    Page<PropertyIncomeDTO> propertyIncome(Pageable p);
+//    @Query(value = "select\n" +
+//      "        p.id,\n" +
+//      "        p.property_name,\n" +
+//      "        p.street_address,\n" +
+//      "        p.state,\n" +
+//      "        sum(prh.transaction_amount) as transaction_amount\n" +
+//      "    from\n" +
+//      "        properties p\n" +
+//      "    inner join\n" +
+//      "        property_rental_history prh\n" +
+//      "            on p.id = prh.property_id\n" +
+//      "    inner join\n" +
+//      "        transactions t\n" +
+//      "            on prh.id = t.property_rental_history_id\n" +
+//      "    group by\n" +
+//      "        p.id",
+//      nativeQuery = true)
+//     List<PropertyIncomeDTO> propertyIncome();
 
 }

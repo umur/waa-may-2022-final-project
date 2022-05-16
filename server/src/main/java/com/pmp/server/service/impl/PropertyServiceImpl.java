@@ -5,8 +5,8 @@ import com.pmp.server.domain.PropertyImage;
 import com.pmp.server.domain.PropertyRentalHistory;
 import com.pmp.server.domain.User;
 import com.pmp.server.dto.PropertyDTO;
+import com.pmp.server.dto.PropertyIncomeDTO;
 import com.pmp.server.dto.RentDTO;
-import com.pmp.server.dto.common.PagingRequest;
 import com.pmp.server.dto.common.ResponseMessage;
 import com.pmp.server.exceptionHandler.exceptions.CustomErrorException;
 import com.pmp.server.repo.PropertyImageRepo;
@@ -17,8 +17,6 @@ import com.pmp.server.service.PropertyService;
 import org.keycloak.KeycloakPrincipal;
 import org.keycloak.KeycloakSecurityContext;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -26,14 +24,8 @@ import org.springframework.stereotype.Service;
 
 import org.springframework.data.domain.Pageable;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
-
-import static com.pmp.server.utils.constants.ResponseMessageConstants.SUCCESSFUL_MESSAGE;
 
 @Service
 public class PropertyServiceImpl implements PropertyService {
@@ -221,6 +213,61 @@ public class PropertyServiceImpl implements PropertyService {
     } else {
       throw new CustomErrorException(HttpStatus.NOT_FOUND, "Property not found");
     }
+  }
+
+  @Override
+  public ResponseMessage propertyByIncome(UUID propertyId) {
+    List<Property> properties = new ArrayList<Property>();
+    List<PropertyIncomeDTO> results = new ArrayList<PropertyIncomeDTO>();
+    if(propertyId == null){
+      properties = (List<Property>) propertyRepo.findAll();
+    } else {
+      Optional<Property> property = propertyRepo.findById(propertyId);
+      if(property.isPresent()){
+        Property p = property.get();
+        properties.add(p);
+      }
+
+    }
+    properties.forEach(p->{
+      List<PropertyRentalHistory> prh = rentalRepo.findByPropertyId(p.getId());
+      if(prh.size() > 0) {
+        PropertyIncomeDTO pi = new PropertyIncomeDTO();
+        pi.setId(p.getId());
+        pi.setPropertyName(p.getPropertyName());
+        pi.setState(p.getState());
+        pi.setStreetAddress(pi.getStreetAddress());
+        pi.setTransactionAmount(prh.stream().mapToDouble(x -> x.getTransactionAmount()).sum());
+        results.add(pi);
+      }
+    });
+
+    return new ResponseMessage("Success", HttpStatus.OK, results);
+//    String sql = "select\n" +
+//      "        p.id,\n" +
+//      "        p.property_name,\n" +
+//      "        p.street_address,\n" +
+//      "        p.state,\n" +
+//      "        sum(prh.transaction_amount) as transaction_amount\n" +
+//      "    from\n" +
+//      "        properties p\n" +
+//      "    inner join\n" +
+//      "        property_rental_history prh\n" +
+//      "            on p.id = prh.property_id\n" +
+//      "    inner join\n" +
+//      "        transactions t\n" +
+//      "            on prh.id = t.property_rental_history_id\n" +
+//      "    group by\n" +
+//      "        p.id\n";
+//    EntityManagerFactory entityManagerFactory = (EntityManagerFactory) appContext
+//      .getBean("entityManagerFactory");
+//
+//    EntityManager entityManager = entityManagerFactory.createEntityManager();
+//    javax.persistence.Query query = entityManager.createNativeQuery(sql);
+//    List list = query.getResultList();
+//    System.out.println("list:" + list);
+//    System.out.println("list 0:" + list.get(0));
+
   }
 
 }

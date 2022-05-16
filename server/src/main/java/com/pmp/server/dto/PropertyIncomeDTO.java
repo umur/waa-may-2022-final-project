@@ -11,9 +11,9 @@ import java.util.UUID;
 @AllArgsConstructor
 public class PropertyIncomeDTO {
   private UUID id;
-  private String property_name;
-  private String street_address;
+  private String propertyName;
+  private String streetAddress;
   private String state;
-  private double transaction_amount;
+  private double transactionAmount;
 
 }

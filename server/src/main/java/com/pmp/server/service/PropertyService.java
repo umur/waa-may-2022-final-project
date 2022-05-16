@@ -36,4 +36,6 @@ public interface PropertyService {
 //  Page<Property> findPropertiesWithPaginationAndSorting(int offset,int pageSize,String field);
 
  ResponseMessage activate(UUID id, Boolean isActive);
+
+ ResponseMessage propertyByIncome(UUID propertyId);
 }
