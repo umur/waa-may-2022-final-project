@@ -78,7 +78,7 @@ function App() {
                             <Route path="/forgot-password" element={<ForgotPassword></ForgotPassword>} />
                             <Route path="/reset-password" element={<ResetPassword></ResetPassword>} />
                             <Route path="/properties" element={<Properties></Properties>} />
-                            <Route path="/users" element={<Properties></Properties>} />
+                            <Route path="/user" element={<User></User>} />
                         </Routes>
 
 
