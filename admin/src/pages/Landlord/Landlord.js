@@ -30,7 +30,7 @@ const style = {
   p: 4,
 };
 
-const Tenant = () => {
+const Landlord = () => {
   const { id } = useParams();
   const [open, setOpen] = useState(false);
   const notify = (msg) => toast.error(msg);
@@ -62,12 +62,12 @@ const Tenant = () => {
   }
 
   return (
-    <Layout title="Tenant">
+    <Layout title="Landlord">
       <ToastContainer />
       <Paper>
         <div style={{ padding: "20px 20px 0px 20px" }}>
           <Typography component="h1" variant="h5">
-            Tenant Infromation
+            Landlord Infromation
           </Typography>
         </div>
         <Grid
@@ -193,4 +193,4 @@ const Tenant = () => {
   );
 };
 
-export default Tenant;
+export default Landlord;

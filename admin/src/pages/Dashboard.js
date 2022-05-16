@@ -9,68 +9,11 @@ import ReactECharts from 'echarts-for-react';
 // Import the echarts core module, which provides the necessary interfaces for using echarts.
 import * as echarts from "echarts/core";
 // Import charts, all with Chart suffix
-import {
-  // LineChart,
-  BarChart,
-  PieChart,
-  // ScatterChart,
-  // RadarChart,
-  // MapChart,
-  // TreeChart,
-  // TreemapChart,
-  // GraphChart,
-  // GaugeChart,
-  // FunnelChart,
-  // ParallelChart,
-  // SankeyChart,
-  // BoxplotChart,
-  // CandlestickChart,
-  // EffectScatterChart,
-  // LinesChart,
-  // HeatmapChart,
-  // PictorialBarChart,
-  // ThemeRiverChart,
-  // SunburstChart,
-  // CustomChart,
-} from "echarts/charts";
+import { BarChart, PieChart, } from "echarts/charts";
 // import components, all suffixed with Component
-import {
-  // GridSimpleComponent,
-  GridComponent,
-  // PolarComponent,
-  // RadarComponent,
-  // GeoComponent,
-  // SingleAxisComponent,
-  // ParallelComponent,
-  CalendarComponent,
-  // GraphicComponent,
-  ToolboxComponent,
-  TooltipComponent,
-  // AxisPointerComponent,
-  // BrushComponent,
-  TitleComponent,
-  TimelineComponent,
-  // MarkPointComponent,
-  // MarkLineComponent,
-  // MarkAreaComponent,
-  LegendComponent,
-  // LegendScrollComponent,
-  // LegendPlainComponent,
-  DataZoomComponent,
-  // DataZoomInsideComponent,
-  // DataZoomSliderComponent,
-  VisualMapComponent,
-  // VisualMapContinuousComponent,
-  // VisualMapPiecewiseComponent,
-  // AriaComponent,
-  // TransformComponent,
-  // DatasetComponent,
-} from "echarts/components";
+import { GridComponent, CalendarComponent, ToolboxComponent, TooltipComponent, TitleComponent, TimelineComponent, LegendComponent, DataZoomComponent, VisualMapComponent } from "echarts/components";
 // Import renderer, note that introducing the CanvasRenderer or SVGRenderer is a required step
-import {
-  CanvasRenderer,
-  // SVGRenderer,
-} from "echarts/renderers";
+import { CanvasRenderer } from "echarts/renderers";
 import DisplayTopTenData from "components/DisplayTopTenData";
 
 // Register the required components
@@ -154,46 +97,15 @@ const lineChartOption = {
   }]
 };
 
-function generateRow(index) {
-  return {
-    id: `${index}`,
-    name: faker.name.findName(),
-    date: `${faker.date.past()}`,
-    streetName: faker.address.streetName(),
-    image: faker.image.image(),
-  };
-}
 
-
-function Dashboard(props) {
-
-
-
-  /* -------------------------------------------------------------------------- */
-  /*                                    Chart                                   */
-  /* -------------------------------------------------------------------------- */
-  const getOption = () => {
-    return option;
-  };
-
-  function onChartReady(echarts) {
-    console.log('echarts is ready', echarts);
-  }
-
-  function onChartClick(param, echarts) {
-    console.log(param, echarts);
-  };
-
-  function onChartLegendselectchanged(param, echarts) {
-    console.log(param, echarts);
-  };
+function Dashboard() {
 
   const tenantColumn = [
     { id: "id", label: "Id", minWidth: 10 },
     { id: "firstName", label: "First Name", minWidth: 170 },
     { id: "lastName", label: "Last Name", minWidth: 170 },
     {
-      id: "created_at",
+      id: "createdAt",
       label: "Date",
       minWidth: 170,
       align: "right",
@@ -227,6 +139,25 @@ function Dashboard(props) {
       format: (value) => value,
     },
   ];
+
+  /* -------------------------------------------------------------------------- */
+  /*                                    Chart                                   */
+  /* -------------------------------------------------------------------------- */
+  const getOption = () => {
+    return option;
+  };
+
+  function onChartReady(echarts) {
+    console.log('echarts is ready', echarts);
+  }
+
+  function onChartClick(param, echarts) {
+    console.log(param, echarts);
+  };
+
+  function onChartLegendselectchanged(param, echarts) {
+    console.log(param, echarts);
+  };
 
   /* -------------------------------------------------------------------------- */
   /*                                  End Chart                                 */
