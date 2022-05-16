@@ -5,14 +5,17 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import pro.manage.entity.Property;
+import pro.manage.entity.dto.PropertyDto;
 import pro.manage.service.PropertyService;
+
+import java.util.UUID;
 
 
 @RestController
 @CrossOrigin(allowedHeaders = "*")
 @RequestMapping(value="/properties")
 @AllArgsConstructor
-public class PropertyController implements GenericController<Property,Long, PropertyService>{
+public class PropertyController implements GenericController<PropertyDto, UUID, PropertyService>{
 
 
     private final PropertyService propertyService;

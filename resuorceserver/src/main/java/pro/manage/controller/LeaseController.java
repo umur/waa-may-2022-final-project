@@ -4,12 +4,15 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import pro.manage.entity.Lease;
+import pro.manage.entity.dto.LeaseDto;
 import pro.manage.service.LeaseService;
+
+import java.util.UUID;
 
 @RestController
 @RequestMapping(value = "/lease")
 @AllArgsConstructor
-public class LeaseController implements GenericController<Lease,Long, LeaseService>{
+public class LeaseController implements GenericController<LeaseDto, UUID, LeaseService>{
 
 
 

@@ -5,9 +5,10 @@ import org.springframework.stereotype.Repository;
 import pro.manage.entity.User;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Repository
-public interface UserRepository extends PagingAndSortingRepository<User, Long> {
+public interface UserRepository extends PagingAndSortingRepository<User, UUID> {
 
 
 

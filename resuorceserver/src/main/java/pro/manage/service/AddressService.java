@@ -4,8 +4,9 @@ import pro.manage.entity.dto.AddressDto;
 import pro.manage.repository.AddressRepository;
 
 import java.util.List;
+import java.util.UUID;
 
-public interface AddressService  extends GenericService<Address, AddressDto,Long, AddressRepository>{
+public interface AddressService  extends GenericService<Address, AddressDto, UUID, AddressRepository>{
     List<Address> findAllByStateAndCity(String state, String city);
 
 }

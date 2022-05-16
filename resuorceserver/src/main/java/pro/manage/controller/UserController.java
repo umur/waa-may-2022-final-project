@@ -8,11 +8,12 @@ import pro.manage.entity.dto.UserDto;
 import pro.manage.service.UserService;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping(value = "/users")
 @AllArgsConstructor
-public class UserController implements GenericController<UserDto, Long, UserService> {
+public class UserController implements GenericController<UserDto, UUID, UserService> {
 
 
     private final UserService userService;
