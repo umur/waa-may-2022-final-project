@@ -4,13 +4,10 @@ import com.pmp.server.domain.Property;
 import com.pmp.server.domain.PropertyRentalHistory;
 import com.pmp.server.dto.PropertyDTO;
 import com.pmp.server.dto.RentDTO;
-import com.pmp.server.dto.common.PagingRequest;
 import com.pmp.server.dto.common.ResponseMessage;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 public interface PropertyService {
@@ -24,7 +21,7 @@ public interface PropertyService {
 
  Page<Property> findAllByOwner(Pageable page);
 
- void save(PropertyDTO p);
+ Property save(PropertyDTO p);
 
  Page<Property> search(Pageable page, String s);
 

@@ -55,6 +55,8 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
       .antMatchers("/api/property-rental-histories/*").permitAll()
 
       .antMatchers("/api/users/").hasAuthority(ERole.ROLE_ADMIN.getRole())
+            .antMatchers("/api/file").hasAnyAuthority(ERole.ROLE_LANDLORD.getRole(), ERole.ROLE_ADMIN.getRole())
+            .antMatchers("/static/*").permitAll()
       .anyRequest().authenticated();
 
   }

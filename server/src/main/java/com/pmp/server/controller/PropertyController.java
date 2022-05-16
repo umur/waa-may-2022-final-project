@@ -3,6 +3,7 @@ package com.pmp.server.controller;
 import com.pmp.server.domain.Property;
 import com.pmp.server.domain.PropertyRentalHistory;
 import com.pmp.server.dto.PropertyIncomeDTO;
+import com.pmp.server.dto.PropertyDTO;
 import com.pmp.server.dto.RentDTO;
 import com.pmp.server.dto.common.PagingResponse;
 import com.pmp.server.dto.common.ResponseMessage;

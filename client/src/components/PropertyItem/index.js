@@ -32,8 +32,8 @@ const PropertyItem = ({ property }) => {
         <CardMedia
           component="img"
           height="140"
-          image={photos.length > 0 ? photos[0] : DefaultImage}
-          alt="green iguana"
+          image={photos.length > 0 ? photos[0].imageUrl : DefaultImage}
+          alt={photos.length > 0 ? photos[0].imageUrl : "green guava"}
         />
         <CardContent>
           <h4 className="title">${rentAmount}</h4>

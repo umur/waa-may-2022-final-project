@@ -54,6 +54,11 @@ spring:
           auth: true
           starttls:
             enable: true
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
 server:
   port: 8081
   netty:
@@ -69,3 +74,10 @@ stripe:
 
 client:
   domain: http://localhost:3000
+
+###########################################################################
+# File upload                                                             #
+###########################################################################
+file:
+  upload-dir: ./src/main/resources/static
+  public: /src/main/resources/static

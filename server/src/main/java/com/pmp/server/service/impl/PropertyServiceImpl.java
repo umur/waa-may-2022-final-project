@@ -108,7 +108,7 @@ public class PropertyServiceImpl implements PropertyService {
   }
 
   @Override
-  public void save(PropertyDTO pty) {
+  public Property save(PropertyDTO pty) {
     UUID owner = null;
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     if (authentication != null) {
@@ -141,7 +141,7 @@ public class PropertyServiceImpl implements PropertyService {
     p.setRentAmount(p.getRentAmount());
     p.setOwnedBy(user);
     p.setSecurityDepositAmount(p.getSecurityDepositAmount());
-    propertyRepo.save(p);
+    return propertyRepo.save(p);
   }
 
   @Override
