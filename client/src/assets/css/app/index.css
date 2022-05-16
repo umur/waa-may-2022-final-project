@@ -69,3 +69,58 @@ h5 {
   width: 100%;
   font-size: 24px;
 }
+
+.profile-container {
+  margin: auto;
+  max-width: 800px;
+  margin-bottom: 100px;
+}
+.profile-container .image-container {
+  margin-bottom: 40px;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
+    rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+}
+.profile-container .image-container img {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+}
+.profile-container .name {
+  font-size: 30px;
+  color: rgb(49, 49, 49);
+  margin-bottom: 10px;
+}
+
+.profile-container .email {
+  font-size: 20px;
+  color: rgb(80, 80, 80);
+}
+.profile-container .rent-list {
+  border: 1px solid black;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: row;
+}
+.profile-container .rent-list .description {
+  padding: 20px;
+  font-size: 20px;
+}
+.profile-container .rent-list .item * {
+  margin: 0px !important;
+}
+.profile-container .rent-list .description * {
+  margin-top: 20px;
+}
+.profile-container .title {
+  font-size: 24px;
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+
+.profile-container hr {
+  margin-top: 30px;
+  margin-bottom: 30px;
+}

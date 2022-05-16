@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -9,16 +9,18 @@ import moment from "moment";
 import { Form, useFormik } from "formik";
 import { useAxios } from "../../api/useAxios";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../context/AuthContext";
 import "./index.css";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 
 const RentForm = ({ amount, security, id }) => {
+  const { isSignedIn } = useContext(AuthContext);
   const navigate = useNavigate();
   const [state, setState] = useState([
     {
       startDate: new Date(),
-      endDate: null,
+      endDate: new Date(),
       key: "selection",
     },
   ]);
@@ -43,11 +45,15 @@ const RentForm = ({ amount, security, id }) => {
     totalSecurity = diff * security;
   }
   const onSubmit = () => {
-    let data = {
-      startDate: state[0].startDate,
-      endDate: state[0].endDate,
-    };
-    execute(data);
+    if (isSignedIn) {
+      let data = {
+        startDate: state[0].startDate,
+        endDate: state[0].endDate,
+      };
+      execute(data);
+    } else {
+      navigate("/login");
+    }
   };
 
   return (
@@ -111,6 +117,8 @@ const RentForm = ({ amount, security, id }) => {
         <div className="date-picker">
           <DateRange
             editableDateInputs={true}
+            minDate={new Date()}
+            // disabledDates={[new Date("22/5/2022")]}
             onChange={(item) => {
               if (
                 moment(item.selection.startDate).format("MM-DD-YYYY") !==

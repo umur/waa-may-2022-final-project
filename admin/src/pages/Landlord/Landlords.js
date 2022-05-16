@@ -160,6 +160,7 @@ function Landlords(props) {
     {
       url: "/admin/users/{{user_id}}/activate",
       method: "PUT",
+      headers: defaultHeaders(isSignedIn)
 
     },
     { manual: true }

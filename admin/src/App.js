@@ -16,6 +16,7 @@ import Register from "pages/Register";
 import ForgotPassword from "pages/ForgotPassword";
 import Properties from "pages/Properties";
 import { SignalWifiStatusbarNullSharp } from "@mui/icons-material";
+import Landlord from "pages/Landlord/Landlord";
 import NotFound from 'pages/404';
 import NewProperty from 'pages/Properties/NewProperty';
 
@@ -92,10 +93,10 @@ function App() {
             }
           />
           <Route
-            path="/landlords/:id"
+            path="admin/landlords/:id"
             element={
               <AuthWrapper role={[ROLE.Admin]}>
-                <Tenant />
+                <Landlord />
               </AuthWrapper>
             }
           />
