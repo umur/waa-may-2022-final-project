@@ -1,4 +1,4 @@
-import { Button, Grid } from "@mui/material";
+import { Box, Button, Grid } from "@mui/material";
 import React, { useContext, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AddIcon from "@mui/icons-material/Add";
@@ -12,6 +12,7 @@ import { UserStatus } from "common/constant";
 import useAxios from "axios-hooks";
 import { defaultHeaders } from 'api/defaultHeaders';
 import { AuthContext } from 'context/AuthContext';
+import { Image } from '@mui/icons-material';
 
 function Properties(props) {
   const columns = useMemo(
@@ -67,7 +68,7 @@ function Properties(props) {
   const { isSignedIn } = useContext(AuthContext)
 
   const [order, setOrder] = React.useState("desc");
-  const [orderBy, setOrderBy] = React.useState("city");
+  const [orderBy, setOrderBy] = React.useState("createdAt");
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -107,28 +108,10 @@ function Properties(props) {
   };
 
   const handleClick = (event, row) => {
-    const name = row.name;
-    const selectedIndex = selected.indexOf(name);
-    let newSelected = [];
-
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1)
-      );
-    }
-
-    setSelected(newSelected);
-
     console.log("click ", row);
 
-    // navigate(`/admin/tenants/${row.id}`);
+    // NOTE: Do not need to do edit property because it will cause the mismatch with the rental history
+    // navigate(`/properties/detail/${row.id}`);
   };
 
   const handleChangePage = (event, newPage) => {
@@ -153,8 +136,8 @@ function Properties(props) {
   const navigate = useNavigate();
 
   const newProperty = () => {
-    // TODO: New property
-    // navigate("/admin/tenants/new");
+    // New property
+    navigate("/properties/new");
   };
 
   /* -------------------------------------------------------------------------- */

@@ -2,6 +2,8 @@ package com.pmp.server.controller;
 
 import com.pmp.server.domain.Property;
 import com.pmp.server.domain.PropertyRentalHistory;
+import com.pmp.server.dto.PropertyIncomeDTO;
+import com.pmp.server.dto.PropertyDTO;
 import com.pmp.server.dto.RentDTO;
 import com.pmp.server.dto.common.PagingResponse;
 import com.pmp.server.dto.common.ResponseMessage;
@@ -55,6 +57,15 @@ public class PropertyController {
   public ResponseMessage rent(@PathVariable UUID id, @RequestBody RentDTO body){
     PropertyRentalHistory hist = propertyService.rent(id,body);
     return new ResponseMessage("success", HttpStatus.CREATED,hist);
+  }
+
+  @GetMapping("/property-by-income")
+  private ResponseMessage getByID(@RequestParam Optional<UUID> propertyId){
+    UUID propId = null;
+    if(propertyId.isPresent()){
+      propId = propertyId.get();
+    }
+    return propertyService.propertyByIncome(propId);
   }
 
 }

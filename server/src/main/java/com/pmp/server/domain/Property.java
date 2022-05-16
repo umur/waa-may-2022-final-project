@@ -15,6 +15,8 @@ import java.util.List;
 public class Property extends BaseEntity {
   @Column(name = "property_name")
   private String propertyName;
+
+  @Column(length = 2048)
   private String description;
   @Column(name = "street_address")
   private String streetAddress;
