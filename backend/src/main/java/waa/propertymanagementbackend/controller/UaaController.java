@@ -2,6 +2,7 @@ package waa.propertymanagementbackend.controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import waa.propertymanagementbackend.domain.User;
 import waa.propertymanagementbackend.dto.EmailDataDetailDto;
@@ -45,6 +46,11 @@ public class UaaController {
         return userService.getUserDtoByEmail(email);
     }
 
+    @GetMapping("/admin/byRole/{roleName}")
+    public List<UserDto> getUsersByRole(@PathVariable String roleName) {
+        return userService.getUserDtoByRole(roleName);
+    }
+
     @PutMapping("/admin/{email}/{value}")
     public void activate(@PathVariable String email, @PathVariable boolean value) {
         userService.activate(email, value);
@@ -67,10 +73,21 @@ public class UaaController {
         return emailService.getById(id);
     }
 
+
+
+
+    @PostMapping("/signup")
+    public void signUp(@RequestBody UserDto user) {
+        System.out.println("Helllllo");
+        userService.save(user);
+
+    }
+
     ////////////////////
 /*
     @Autowired
     private UserServiceImpl uaaService;
+
 
 
 

@@ -14,14 +14,15 @@ public interface UserService<TDto> {
 
     public User getUserById(int id);
     public TDto getUserDtoByEmail(String email);
+    public List<TDto> getUserDtoByRole(String roleName);
 
     public void activate(String email, boolean value);
 
 
 
-    /*void save(TDto dto);
+ void save(TDto dto);
 
-    List<TDto> getAll();
+    /*List<TDto> getAll();
 
 
 

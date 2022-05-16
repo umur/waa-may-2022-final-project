@@ -24,9 +24,9 @@ public interface PropertyService <TDto>{
     public  List<RentedPropertyDto> getPropertiesLeasesInMonth(String email);
     public  List<TDto> findByAddressCityAndIsOccupied(String city,boolean isOccupied);
 
-    public  List<TDto> getByLandLordAndCityAndRoomsCount(String email,String city,int numberOfBedrooms);
-    public  List<TDto> getByLandLordAndRoomsCount(String email,int numberOfBedrooms);
-    public  List<TDto> getByLandLordAndIsOccupied(String email, boolean isOccupied);
+    public  List<TDto> getByLandlordAndCityAndRoomsCount(String email,String city,int numberOfBedrooms);
+    public  List<TDto> getByLandlordAndRoomsCount(String email,int numberOfBedrooms);
+    public  List<TDto> getByLandlordAndIsOccupied(String email, boolean isOccupied);
     public  List<TDto> findByNumberOfBedroomsAndIsOccupied(int numberOfBedrooms,boolean isOccupied);
     public  List<TDto> findByAddressCityAndNumberOfBedroomsAndIsOccupied(String city,int numberOfBedroom,boolean isOccupied);
     public void rentProperty(PropertyRentingDto PDto);

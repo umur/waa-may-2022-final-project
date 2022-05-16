@@ -1,6 +1,8 @@
 package waa.propertymanagementbackend.dto;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import waa.propertymanagementbackend.domain.Address;
 import waa.propertymanagementbackend.domain.PropertyPhotos;
 import waa.propertymanagementbackend.domain.PropertyType;
@@ -11,9 +13,11 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import java.util.List;
 
-@Data
+//@Data
+@Getter
+@Setter
 public class PropertyDto {
-    private int Id;
+    private int id;
 
     private String propertyName;
 

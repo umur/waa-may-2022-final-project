@@ -37,7 +37,7 @@ public interface PropertyRentHistoryRepo extends CrudRepository<PropertyRentHist
             "     where h.property_id=p.id  and p.address_id=d.id and d.city=:city\n" +
             "and  p.owned_by=u.id  and u.email=:email",
             nativeQuery = true)
-    float getTotalIncomePerLocationAndLandLord(String city, String email);
+    float getTotalIncomePerLocationAndLandlord(String city, String email);
 
     @Query(value =
             "select max(id) from property",

@@ -33,7 +33,7 @@ public class PropertyController {
 
 
     /*
-     * Landlord Operations
+     * landlord Operations
      */
 
 //    @PostMapping("landlord/pictures")
@@ -45,56 +45,56 @@ public class PropertyController {
         service.save(p);
     }
 
-    @PutMapping("/landLord")
+    @PutMapping("/landlord")
     public void update(@RequestBody PropertyDto p) {
         service.save(p);
     }
 
-    @GetMapping("/landLord/ownedBy/{email}/{city}")
+    @GetMapping("/landlord/ownedBy/{email}/{city}")
     public List<PropertyDto> getOwnedByAndCity(@PathVariable String email, @PathVariable String city) {
         return service.findByOwnedByEmailAndCity(email, city);
     }
 
-    @GetMapping("/landLord/ownedBy/{email}")
+    @GetMapping("/landlord/ownedBy/{email}")
     public List<PropertyDto> getOwnedBy(@PathVariable String email) {
         return service.findByOwnedByEmail(email);
     }
 
 
-    @DeleteMapping("/landLord/{id}/{value}")
+    @DeleteMapping("/landlord/{id}/{value}")
     public void delete(@PathVariable int id, @PathVariable Boolean value) {
         service.delete(id, value);
     }
 
-    @PutMapping("/landLord/{id}/{value}")
+    @PutMapping("/landlord/{id}/{value}")
     public void updateVisible(@PathVariable int id, @PathVariable Boolean value) {
         service.updatePropertyVisible(id, value);
     }
 
 
-    @GetMapping("/landLord/leases/{email}")
+    @GetMapping("/landlord/leases/{email}")
     public List<RentedPropertyDto> getPropertiesLeasesInMonth(@PathVariable String email) {
         return service.getPropertiesLeasesInMonth(email);
     }
 
-    @GetMapping("/landLord/totalIncome/{email}/{city}")
+    @GetMapping("/landlord/totalIncome/{email}/{city}")
     public float totalIncomePerLanLordAndCity(@PathVariable String email, @PathVariable String city) {
         return service.totalIncomePerLanLordAndCity(email, city);
     }
 
-    @GetMapping("/landLord/addressAndNumberOfRooms/{email}/{city}/{numberOfBedrooms}")
-    public List<PropertyDto> getByLandLordAndCityAndRoomsCount(@PathVariable String email, @PathVariable String city, @PathVariable int numberOfBedrooms) {
-        return service.getByLandLordAndCityAndRoomsCount(email, city, numberOfBedrooms);
+    @GetMapping("/landlord/addressAndNumberOfRooms/{email}/{city}/{numberOfBedrooms}")
+    public List<PropertyDto> getByLandlordAndCityAndRoomsCount(@PathVariable String email, @PathVariable String city, @PathVariable int numberOfBedrooms) {
+        return service.getByLandlordAndCityAndRoomsCount(email, city, numberOfBedrooms);
     }
 
-    @GetMapping("/landLord/numberOfRooms/{email}/{numberOfBedrooms}")
-    public List<PropertyDto> getByLandLordAndRoomsCount(@PathVariable String email, @PathVariable int numberOfBedrooms) {
-        return service.getByLandLordAndRoomsCount(email, numberOfBedrooms);
+    @GetMapping("/landlord/numberOfRooms/{email}/{numberOfBedrooms}")
+    public List<PropertyDto> getByLandlordAndRoomsCount(@PathVariable String email, @PathVariable int numberOfBedrooms) {
+        return service.getByLandlordAndRoomsCount(email, numberOfBedrooms);
     }
 
-    @GetMapping("landLord/occupied/{email}/{isOccupied}")
-    public List<PropertyDto> getByLandLordAndIsOccupied(@PathVariable String email, @PathVariable Boolean isOccupied) {
-        return service.getByLandLordAndIsOccupied(email, isOccupied);
+    @GetMapping("landlord/occupied/{email}/{isOccupied}")
+    public List<PropertyDto> getByLandlordAndIsOccupied(@PathVariable String email, @PathVariable Boolean isOccupied) {
+        return service.getByLandlordAndIsOccupied(email, isOccupied);
     }
 
     /**

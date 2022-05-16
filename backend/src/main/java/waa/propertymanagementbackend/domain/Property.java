@@ -2,6 +2,8 @@ package waa.propertymanagementbackend.domain;
 
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.lang.Nullable;
 
@@ -13,6 +15,8 @@ import java.util.List;
 
 @Data
 @Entity
+@Setter
+@Getter
 public class Property {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -29,9 +33,9 @@ public class Property {
 
     private int securityDepositAmount;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany( cascade = CascadeType.ALL)
     @JoinColumn(name = "property_id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    //@GeneratedValue(strategy = GenerationType.AUTO)
     private List<PropertyPhotos> propertyPhotos;
 
     @OneToOne

@@ -25,10 +25,10 @@ public class PropertyPhotosImpl implements PropertyPhotoService<PropertyPhotos> 
     }
     @Override
     public void save(PropertyPhotos p) {
-        PropertyPhotos propertyPhoto=new PropertyPhotos();
+       // PropertyPhotos propertyPhoto=new PropertyPhotos();
       //  propertyPhoto= propertyPhotosRep.findByPhotoUrl(p.getPhotoUrl(),int propertyId);
-            propertyPhoto.setId(propertyPhotosRep.getLastId()+1);
-            propertyPhoto.setPhotoUrl(p.getPhotoUrl());
+          //  propertyPhoto.setId(propertyPhotosRep.getLastId()+1);
+           // propertyPhoto.setPhotoUrl(p.getPhotoUrl());
             propertyPhotosRep.save(p);
 
 

@@ -1,22 +1,24 @@
 package waa.propertymanagementbackend.service.impl;
 
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 
 import org.springframework.stereotype.Service;
 import waa.propertymanagementbackend.domain.EmailDataDetail;
+import waa.propertymanagementbackend.domain.Property;
 import waa.propertymanagementbackend.domain.User;
 import waa.propertymanagementbackend.dto.EmailDataDetailDto;
+import waa.propertymanagementbackend.dto.PropertyDto;
 import waa.propertymanagementbackend.dto.UserDto;
 import waa.propertymanagementbackend.repository.EmailDataDetailRep;
 import waa.propertymanagementbackend.repository.UserRepository;
 import waa.propertymanagementbackend.service.UserService;
 
 
-
-
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,18 +27,27 @@ public class UserServiceImpl implements UserService<UserDto> {
     private ModelMapper modelMapper = new ModelMapper();
     @Autowired
     UserRepository userRepository;
+    List<UserDto> convertToPropertyDto(List<User> users) {
+
+        Type listType = new TypeToken<List<UserDto>>(){}.getType();
+        return modelMapper.map(users,listType);
+
+    }
 
 
 
-
- /*   @Override
-    public void save(UsersDto user) {
+  @Override
+    public void save(UserDto user) {
         User u = new User();
         modelMapper.map(user, u);
         userRepository.save(u);
 
     }
 
+
+
+
+/*
     @Override
     public List<User> getAll() {
         List<User> dtos = new ArrayList<>();
@@ -109,6 +120,11 @@ public class UserServiceImpl implements UserService<UserDto> {
         modelMapper.map(u, dto);
         return dto;
 
+    }
+
+    @Override
+    public List<UserDto> getUserDtoByRole(String roleName) {
+        return convertToPropertyDto( userRepository.findByRoleDescription(roleName));
     }
 
     @Override
