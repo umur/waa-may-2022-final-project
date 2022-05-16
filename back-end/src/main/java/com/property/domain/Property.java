@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,14 +29,18 @@ public class Property {
 
     private Double securityDepositAmount;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "address_id")
+    private Address address;
+
     @OneToMany(mappedBy = "property", cascade = CascadeType.ALL)
     private List<Photo> photos;
 
     @ManyToOne
     private User landLord;
 
-    @ManyToOne
-    private User tenant;
+    @OneToMany(mappedBy = "property")
+    private List<PropertyRent> tenantProperties;
 
     public void addPhoto(Photo photo){
         this.photos.add(photo);

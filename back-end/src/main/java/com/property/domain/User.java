@@ -33,16 +33,16 @@ public class User {
     @OneToMany(mappedBy = "landLord")
     private List<Property> properties;
 
+    @OneToMany(mappedBy = "tenant", cascade = CascadeType.ALL)
+    private List<PropertyRent> tenantProperties;
+
     public void addProperty(Property property){
         this.properties.add(property);
     }
 
-    @OneToMany(mappedBy = "tenant")
-    private List<Property> rentedProperties;
-
-    public void addRentedProperties(Property property){
-        this.rentedProperties.add(property);
+    public void addTenantRent(PropertyRent tenantProperty){
+        tenantProperty.setTenant(this);
+        this.tenantProperties.add(tenantProperty);
     }
-
 
 }
