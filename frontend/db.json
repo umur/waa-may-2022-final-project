@@ -1,0 +1,400 @@
+{
+  "property": [
+    {
+      "id": 1,
+      "propertyName": "Property 1",
+      "streetAddress": "123 Fake Street",
+      "city": "Khartoum",
+      "state": "Khartoum",
+      "zipCode": 12345,
+      "propertyType": "Type 1",
+      "numberOfBedrooms": 3,
+      "numberOfBathrooms": 3,
+      "rentAmount": 3,
+      "securityDepositAmount": 3,
+      "photos": [
+        "https://i.ibb.co/g9vzZQQ/property.jpg",
+        "https://ibb.co/vqsZ4ff",
+        "https://ibb.co/vqsZ4ff"
+      ],
+      "ownedBy": "User",
+      "lastRentedBy": "Rent User",
+      "isOccupied": true
+    },
+    {
+      "id": 2,
+      "propertyName": "Property 2",
+      "streetAddress": "123 Fake Street",
+      "city": "Khartoum",
+      "state": "Khartoum",
+      "zipCode": 12345,
+      "propertyType": "Type 1",
+      "numberOfBedrooms": 3,
+      "numberOfBathrooms": 3,
+      "rentAmount": 3,
+      "securityDepositAmount": 3,
+      "photos": [
+        "https://i.ibb.co/g9vzZQQ/property.jpg",
+        "https://ibb.co/vqsZ4ff",
+        "https://ibb.co/vqsZ4ff"
+      ],
+      "ownedBy": "User",
+      "lastRentedBy": "Rent User",
+      "isOccupied": true
+    },
+    {
+      "id": 3,
+      "propertyName": "Property 3",
+      "streetAddress": "123 Fake Street",
+      "city": "Khartoum",
+      "state": "Khartoum",
+      "zipCode": 12345,
+      "propertyType": "Type 1",
+      "numberOfBedrooms": 3,
+      "numberOfBathrooms": 3,
+      "rentAmount": 3,
+      "securityDepositAmount": 3,
+      "photos": [
+        "https://i.ibb.co/g9vzZQQ/property.jpg",
+        "https://ibb.co/vqsZ4ff",
+        "https://ibb.co/vqsZ4ff"
+      ],
+      "ownedBy": "User",
+      "lastRentedBy": "Rent User",
+      "isOccupied": true
+    },
+    {
+      "id": 4,
+      "propertyName": "Property 4",
+      "streetAddress": "123 Fake Street",
+      "city": "Khartoum",
+      "state": "Khartoum",
+      "zipCode": 12345,
+      "propertyType": "Type 1",
+      "numberOfBedrooms": 3,
+      "numberOfBathrooms": 3,
+      "rentAmount": 3,
+      "securityDepositAmount": 3,
+      "photos": [
+        "https://i.ibb.co/g9vzZQQ/property.jpg",
+        "https://ibb.co/vqsZ4ff",
+        "https://ibb.co/vqsZ4ff"
+      ],
+      "ownedBy": "User",
+      "lastRentedBy": "Rent User",
+      "isOccupied": true
+    },
+    {
+      "id": 5,
+      "propertyName": "Property 5",
+      "streetAddress": "123 Fake Street",
+      "city": "Khartoum",
+      "state": "Khartoum",
+      "zipCode": 12345,
+      "propertyType": "Type 1",
+      "numberOfBedrooms": 3,
+      "numberOfBathrooms": 3,
+      "rentAmount": 3,
+      "securityDepositAmount": 3,
+      "photos": [
+        "https://i.ibb.co/g9vzZQQ/property.jpg",
+        "https://ibb.co/vqsZ4ff",
+        "https://ibb.co/vqsZ4ff"
+      ],
+      "ownedBy": "User",
+      "lastRentedBy": "Rent User",
+      "isOccupied": true
+    },
+    {
+      "id": 6,
+      "propertyName": "Property 1",
+      "streetAddress": "123 Fake Street",
+      "city": "Khartoum",
+      "state": "Khartoum",
+      "zipCode": 12345,
+      "propertyType": "Type 1",
+      "numberOfBedrooms": 3,
+      "numberOfBathrooms": 3,
+      "rentAmount": 3,
+      "securityDepositAmount": 3,
+      "photos": [
+        "https://i.ibb.co/g9vzZQQ/property.jpg",
+        "https://ibb.co/vqsZ4ff",
+        "https://ibb.co/vqsZ4ff"
+      ],
+      "ownedBy": "User",
+      "lastRentedBy": "Rent User",
+      "isOccupied": true
+    },
+    {
+      "id": 7,
+      "propertyName": "Property 1",
+      "streetAddress": "123 Fake Street",
+      "city": "Khartoum",
+      "state": "Khartoum",
+      "zipCode": 12345,
+      "propertyType": "Type 1",
+      "numberOfBedrooms": 3,
+      "numberOfBathrooms": 3,
+      "rentAmount": 3,
+      "securityDepositAmount": 3,
+      "photos": [
+        "https://i.ibb.co/g9vzZQQ/property.jpg",
+        "https://ibb.co/vqsZ4ff",
+        "https://ibb.co/vqsZ4ff"
+      ],
+      "ownedBy": "User",
+      "lastRentedBy": "Rent User",
+      "isOccupied": true
+    },
+    {
+      "id": 8,
+      "propertyName": "Property 1",
+      "streetAddress": "123 Fake Street",
+      "city": "Khartoum",
+      "state": "Khartoum",
+      "zipCode": 12345,
+      "propertyType": "Type 1",
+      "numberOfBedrooms": 3,
+      "numberOfBathrooms": 3,
+      "rentAmount": 3,
+      "securityDepositAmount": 3,
+      "photos": [
+        "https://i.ibb.co/g9vzZQQ/property.jpg",
+        "https://ibb.co/vqsZ4ff",
+        "https://ibb.co/vqsZ4ff"
+      ],
+      "ownedBy": "User",
+      "lastRentedBy": "Rent User",
+      "isOccupied": true
+    },
+    {
+      "id": 9,
+      "propertyName": "Property 1",
+      "streetAddress": "123 Fake Street",
+      "city": "Khartoum",
+      "state": "Khartoum",
+      "zipCode": 12345,
+      "propertyType": "Type 1",
+      "numberOfBedrooms": 3,
+      "numberOfBathrooms": 3,
+      "rentAmount": 3,
+      "securityDepositAmount": 3,
+      "photos": [
+        "https://i.ibb.co/g9vzZQQ/property.jpg",
+        "https://ibb.co/vqsZ4ff",
+        "https://ibb.co/vqsZ4ff"
+      ],
+      "ownedBy": "User",
+      "lastRentedBy": "Rent User",
+      "isOccupied": true
+    },
+    {
+      "id": 10,
+      "propertyName": "Property 1",
+      "streetAddress": "123 Fake Street",
+      "city": "Khartoum",
+      "state": "Khartoum",
+      "zipCode": 12345,
+      "propertyType": "Type 1",
+      "numberOfBedrooms": 3,
+      "numberOfBathrooms": 3,
+      "rentAmount": 3,
+      "securityDepositAmount": 3,
+      "photos": [
+        "https://i.ibb.co/g9vzZQQ/property.jpg",
+        "https://ibb.co/vqsZ4ff",
+        "https://ibb.co/vqsZ4ff"
+      ],
+      "ownedBy": "User",
+      "lastRentedBy": "Rent User",
+      "isOccupied": true
+    }
+  ],
+  "tenants": [
+    {
+      "id":1,
+      "email": "tenant1@gmail.com",
+      "firstName": "Hassan",
+      "lastName": "Tenant",
+      "password": "123456",
+      "role": {
+        "id":  1,
+        "role": "TENANT"
+      },
+      "LastLoggedInAt": "23-01-2022",
+      "active": false
+    },
+    {
+      "id":2,
+      "email": "tenant2@gmail.com",
+      "firstName": "Hassan",
+      "lastName": "Ahmed",
+      "password": "123456",
+      "role": {
+        "id":  1,
+        "role": "TENANT"
+      },
+      "LastLoggedInAt": "23-01-2022",
+      "active": false
+    },
+    {
+      "id":3,
+      "email": "tenant11@gmail.com",
+      "firstName": "Hassan",
+      "lastName": "Ahmed",
+      "password": "123456",
+      "role": {
+        "id":  1,
+        "role": "TENANT"
+      },
+      "LastLoggedInAt": "23-01-2022",
+      "active": true
+    },
+    {
+      "id":4,
+      "email": "tenant15@gmail.com",
+      "firstName": "Hassan",
+      "lastName": "Ahmed",
+      "password": "123456",
+      "role": {
+        "id":  1,
+        "role": "TENANT"
+      },
+      "LastLoggedInAt": "23-01-2022",
+      "active": false
+    }
+  ],
+  "landlords": [
+    {
+      "id":1,
+      "email": "landlord@gmail.com",
+      "firstName": "Hassan",
+      "lastName": "Ahmed",
+      "password": "123456",
+      "role": {
+        "id": 2,
+        "role": "LANDLORD"
+      },
+      "LastLoggedInAt": "28-05-2022",
+      "active": false
+    },
+    {
+      "id":2,
+      "email": "landlord@gmail.com",
+      "firstName": "Hassan",
+      "lastName": "Ahmed",
+      "password": "123456",
+      "role": {
+        "id": 2,
+        "role": "LANDLORD"
+      },
+      "LastLoggedInAt": "28-05-2022",
+      "active": false
+    },
+    {
+      "id":3,
+      "email": "landlord@gmail.com",
+      "firstName": "Hassan",
+      "lastName": "Ahmed",
+      "password": "123456",
+      "role": {
+        "id": 2,
+        "role": "LANDLORD"
+      },
+      "LastLoggedInAt": "28-05-2022",
+      "active": true
+    },
+    {
+      "id":4,
+      "email": "landlord@gmail.com",
+      "firstName": "Hassan",
+      "lastName": "Ahmed",
+      "password": "123456",
+      "role": {
+        "id": 2,
+        "role": "LANDLORD"
+      },
+      "LastLoggedInAt": "28-05-2022",
+      "active": true
+    },
+    {
+      "id":5,
+      "email": "landlord@gmail.com",
+      "firstName": "Hassan",
+      "lastName": "Ahmed",
+      "password": "123456",
+      "role": {
+        "id": 2,
+        "role": "LANDLORD"
+      },
+      "LastLoggedInAt": "28-05-2022",
+      "active": false
+    },
+    {
+      "id":6,
+      "email": "landlord@gmail.com",
+      "firstName": "Hassan",
+      "lastName": "Ahmed",
+      "password": "123456",
+      "role": {
+        "id": 2,
+        "role": "LANDLORD"
+      },
+      "LastLoggedInAt": "28-05-2022",
+      "active": false
+    },
+    {
+      "id":7,
+      "email": "landlord@gmail.com",
+      "firstName": "Hassan",
+      "lastName": "Ahmed",
+      "password": "123456",
+      "role": {
+        "id": 2,
+        "role": "LANDLORD"
+      },
+      "LastLoggedInAt": "28-05-2022",
+      "active": false
+    },
+    {
+      "id":8,
+      "email": "landlord@gmail.com",
+      "firstName": "Hassan",
+      "lastName": "Ahmed",
+      "password": "123456",
+      "role": {
+        "id": 2,
+        "role": "LANDLORD"
+      },
+      "LastLoggedInAt": "28-05-2022",
+      "active": true
+    },
+    {
+      "id":9,
+      "email": "landlord@gmail.com",
+      "firstName": "Hassan",
+      "lastName": "Ahmed",
+      "password": "123456",
+      "role": {
+        "id": 2,
+        "role": "LANDLORD"
+      },
+      "LastLoggedInAt": "28-05-2022",
+      "active": true
+    },
+    {
+      "id":10,
+      "email": "landlord@gmail.com",
+      "firstName": "Hassan",
+      "lastName": "Ahmed",
+      "password": "123456",
+      "role": {
+        "id": 2,
+        "role": "LANDLORD"
+      },
+      "LastLoggedInAt": "28-05-2022",
+      "active": true
+    }
+  ]
+}
