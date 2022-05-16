@@ -8,6 +8,8 @@ const Report = () => {
     const [state, setState] = useState([]);
     const [incomePerState, setIncomePerLocation] = useState([]);
     const [selectedState, setSelectedState] = useState("");
+    const [incomePerStreet, setIncomePerStreet] = useState([]);
+    const [selectedCity, setSelectedCity] = useState("");
 
     useEffect(() => {
       getReport();
@@ -46,11 +48,32 @@ const Report = () => {
               }
             );
             setIncomePerLocation([...response.data]);
+            setIncomePerStreet([])
           } catch (error) {
             console.log(error);
           }
 
     }
+
+    const handleCityClick = async (e) => {
+        console.log(e.name);
+        setSelectedCity(e.name);
+        try {
+            const response = await axios.get(
+              `http://localhost:8080/api/v1/reports/location-base?state=${selectedState}&city=${e.name}`,
+              {
+                headers: {
+                  Authorization: `Bearer ${token.accessToken}`,
+                },
+              }
+            );
+            setIncomePerStreet([...response.data]);
+          } catch (error) {
+            console.log(error);
+          }
+
+    }
+
 
 
     const sameValueForChart = {
@@ -116,7 +139,7 @@ const Report = () => {
         ]
     };
 
-    const barOption = {
+    const cityOption = {
         ...sameValueForChart,
         series: [
             {
@@ -127,8 +150,23 @@ const Report = () => {
 
     }
 
+    const streetOption = {
+        ...sameValueForChart,
+        series: [
+            {
+               ...seriesSameValue,
+                data: incomePerStreet
+            }
+        ]
+
+    }
+
     const onEvents = {
         'click': handleClick,
+      }
+    
+      const onEventsCity = {
+          'click' : handleCityClick,
       }
 
     return (
@@ -149,8 +187,18 @@ const Report = () => {
                                 {
                                     incomePerState.length ? 
                                         <div className="card-body">
-                                            <p className='text-primary'>Total Income of {selectedState} Cities</p>
-                                            <ReactEcharts  option={barOption}/>
+                                            <p className='text-primary'>Total Income of {selectedState}'s Cities</p>
+                                            <ReactEcharts  option={cityOption} onEvents={onEventsCity}/>
+                                        </div>
+                                    
+                                    : ""
+                                }
+
+                                {
+                                    incomePerState.length && incomePerStreet.length ? 
+                                        <div className="card-body">
+                                            <p className='text-primary'>Total Income of {selectedCity}'s Streets</p>
+                                            <ReactEcharts  option={streetOption}/>
                                         </div>
                                     
                                     : ""
