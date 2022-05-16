@@ -1,26 +1,47 @@
 import React, { useState } from 'react'
 import { useNavigate, Link } from "react-router-dom";
 import api from '../../api/posts'
+import { useDispatch } from 'react-redux';
+import { login } from '../../features/user-slice';
 
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [res, setRes] = useState('');
     let navigate = useNavigate();
+
+    const dispath = useDispatch();
+
     const sendInfo = async () => {
         const credentials = { email: email, password: password };
-        try {
+
+        try{
+
             const response = await api.post('api/v1/login', credentials);
             setRes(response.data);
-            window.sessionStorage.setItem("token", JSON.stringify(res));
+    
+            const theTokenString = JSON.stringify(response.data) ;
+            const theToken=JSON.parse(theTokenString).jwtToken;
+            console.log(theToken);
+            
+            const decodedString = atob(theToken.split('.')[1]);
+            const userRole = JSON.parse(decodedString).role[0].authority;
+            const userName = JSON.parse(decodedString).sub;
+    
+            window.sessionStorage.setItem("userRole", userRole);
+            window.sessionStorage.setItem("userName", userName);
             navigate(`/dashboard-admin`);
-        } catch (err) {
-            if (err.response) {
-
-            } else {
-                console.log('Error')
+    
+            dispath(login({ role: userRole, email: userName }));
+        }catch (err){
+            if(err.response){
+                alert ('Login failed');
+            }else{
+                alert ('Login failed');
             }
         }
+       
+       
     }
 
     return (
@@ -35,7 +56,7 @@ const Login = () => {
                     </div>
                     <div className="card-body">
                         <div className='form-group'>
-                            <label>Email</label>
+                            <label>Eail</label>
                             <input
                                 type='text'
                                 value={email}
