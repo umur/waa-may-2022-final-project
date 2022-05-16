@@ -27,6 +27,8 @@ public class PropertyRent {
 
     private LocalDate rentEndDate;
 
+    private LocalDate createdAt;
+
     private Double paidRentAmount;
 
     public PropertyRent(Property property, User user, LocalDate rentEndDate, Double paidRentAmount) {
