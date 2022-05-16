@@ -1,6 +1,7 @@
 package com.property.service.impls;
 
 import com.property.domain.PasswordResetToken;
+import com.property.domain.Role;
 import com.property.domain.User;
 import com.property.dto.request.EmailRequest;
 import com.property.dto.request.LoginRequest;

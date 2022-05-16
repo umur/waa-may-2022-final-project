@@ -1,6 +1,7 @@
 package com.property.controller;
 
 import com.property.dto.request.EmailRequest;
+import com.property.domain.Role;
 import com.property.dto.request.LoginRequest;
 import com.property.dto.request.PasswordRequest;
 import com.property.dto.request.UserRegistrationRequest;
@@ -9,10 +10,10 @@ import com.property.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -51,5 +52,4 @@ public class UaaController {
         UserRegistrationResponse res = userService.update(user, id);
         return ResponseEntity.ok(res);
     }
-
 }

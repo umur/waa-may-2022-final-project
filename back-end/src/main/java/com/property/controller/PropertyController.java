@@ -16,6 +16,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/properties")
 @RequiredArgsConstructor
+@CrossOrigin
 public class PropertyController {
 
     private final PropertyService propertyService;
@@ -35,7 +36,23 @@ public class PropertyController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @GetMapping("/filter-property-by-type")
+    public ResponseEntity<List<PropertyDto>> findAllByPropertyTypeContains(@RequestParam String type){
+        List<PropertyDto> propertyDtos = propertyService.findAllByPropertyTypeContains(type);
+        return ResponseEntity.ok(propertyDtos);
+    }
 
+    @GetMapping("/filter-property-by-roomno")
+    public ResponseEntity<List<PropertyDto>> findAllByNoOfBedRoom(@RequestParam int noofroom){
+        List<PropertyDto> propertyDtos = propertyService.findAllByNoOfBedRoom(noofroom);
+        return ResponseEntity.ok(propertyDtos);
+    }
 
+    @GetMapping("/filter-property-by-address")
+    public ResponseEntity<List<PropertyDto>> findAllByAddress_StateAndAddress_City(@RequestParam(required = false) String state,
+                                                                                                 @RequestParam(required = false) String city){
+        List<PropertyDto> properties = propertyService.findAllByAddress_StateAndAddress_City(state, city);
+        return ResponseEntity.ok(properties);
+    }
 
 }
