@@ -6,6 +6,8 @@ ALTER SEQUENCE address_id_seq RESTART WITH 1;
 
 ALTER SEQUENCE property_id_seq RESTART WITH 1;
 
+ALTER SEQUENCE photo_id_seq RESTART WITH 1;
+
 ALTER SEQUENCE tenant_property_id_seq RESTART WITH 1;
 
 
@@ -62,6 +64,9 @@ INSERT INTO property(id, no_of_bath_room,no_of_bed_room,property_name,property_t
 INSERT INTO property(id, no_of_bath_room,no_of_bed_room,property_name,property_type,rent_amount,security_deposit_amount,land_lord_id,address_id) values
     (nextval('property_id_seq'),2,5,'Super House','House',5000,300,2,4);
 
+truncate table photo restart identity cascade ;
+
+INSERT INTO photo(id,is_deleted,key_name,url,property_id) values (nextval('photo_id_seq'),false,'2yjamkqutym\files','https://property-management-system.s3.amazonaws.com/2yjamkqutym%5Cfiles',1);
 
 truncate table property_rent restart identity cascade;
 
