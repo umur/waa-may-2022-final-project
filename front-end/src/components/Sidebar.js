@@ -2,7 +2,7 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, NavLink } from 'react-router-dom'
 
-import { getRole } from '../utils/role';
+import { getRole, getUsername } from '../utils/role';
 
 const Sidebar = () => {
 
@@ -23,7 +23,7 @@ const Sidebar = () => {
                 {/* Sidebar user panel (optional) */}
                 <div className="user-panel mt-3 pb-3 mb-3 d-flex">
                     <div className="info">
-                        <a href="#" className="d-block">Alexander Pierce</a>
+                       <Link to="profile">{getUsername()}</Link>
                     </div>
                 </div>
                 {/* SidebarSearch Form */}

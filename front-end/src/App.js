@@ -19,6 +19,8 @@ import LineChart from './pages/LineChart';
 import NotFound from './pages/404';
 import User from './pages/Users';
 import ChangePassword from './pages/ChangePassword';
+import UserProfile from './pages/user/UserProfile';
+import UpdateUserProfile from './pages/user/UpdateUserProfile';
 
 
 function App() {
@@ -43,6 +45,9 @@ function App() {
      
           </Route>
 
+          <Route path='profile' element={<UserProfile />} ></Route>
+          <Route path="profile/update/:id" element={<UpdateUserProfile />} />
+
           <Route path="property/updateProperty/:id" element={<UpdateProperty />} />
 
           <Route path="property/propertyDetail/:id" element={<ProductDetail />} />
@@ -50,6 +55,8 @@ function App() {
           <Route path="change-password/:id" element={<ChangePassword />} />
 
           <Route path='add' element={<AddProperty />}></Route>
+
+          
 
           <Route path="report" element={<Report />}>
           </Route>
