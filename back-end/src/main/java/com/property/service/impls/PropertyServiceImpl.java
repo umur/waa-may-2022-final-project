@@ -1,13 +1,9 @@
 package com.property.service.impls;
 
-import com.property.domain.Address;
-import com.property.domain.Photo;
-import com.property.domain.Property;
-import com.property.domain.PropertyRent;
+import com.property.domain.*;
 import com.property.dto.PropertyDto;
 import com.property.dto.request.Rent;
 import com.property.dto.response.DailyCountDto;
-import com.property.dto.response.PieChartResponse;
 import com.property.dto.response.PropertyRequestDateDto;
 import com.property.exception.custom.PropertyAlreadyRented;
 import com.property.exception.custom.ResourceNotFoundException;
@@ -139,7 +135,14 @@ public class PropertyServiceImpl implements PropertyService {
     @Override
     @Transactional(readOnly = true)
     public List<PropertyDto> findAll() {
-        var properties = propertyRepository.findAllByDeleteIsFalse();
+        var username = SecurityContextHolder.getContext().getAuthentication().getName();
+        log.info("Login with user: {}",username);
+        var user = userRepository.findByEmail(username);
+
+        var properties = user.getRole().equals(Role.LANDLORD) ?
+                    propertyRepository.findAllByLandLordIdAndDeleteIsFalse(user.getId()):
+                    propertyRepository.findAllByDeleteIsFalse();
+
         Type listType = new TypeToken<List<PropertyDto>>(){}.getType();
         return modelMapper.map(properties,listType);
     }
