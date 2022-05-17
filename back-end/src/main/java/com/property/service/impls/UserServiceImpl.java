@@ -166,6 +166,13 @@ public class UserServiceImpl implements UserService {
         return modelMapper.map(user, UserRegistrationResponse.class);
     }
 
+    @Override
+    public UserRegistrationResponse changePassword(PasswordRequest password, Long id) {
+        User user = userRepository.findById(id).orElse(null);
+        user.setPassword(passwordEncoder.encode(password.getPassword()));
+        return modelMapper.map(user, UserRegistrationResponse.class);
+    }
+
     public void sendEmail(String recipientEmail, String link)
             throws MessagingException, UnsupportedEncodingException {
         MimeMessage message = mailSender.createMimeMessage();

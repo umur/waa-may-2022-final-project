@@ -23,4 +23,6 @@ public interface UserService extends CrudService<UserRegistrationRequest, UserRe
 
     UserRegistrationResponse resetPassword(PasswordRequest passwordRequest, HttpServletRequest request);
 
+    UserRegistrationResponse changePassword(PasswordRequest password, Long id);
+
 }

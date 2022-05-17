@@ -56,8 +56,8 @@ public class UaaController {
     }
 
     @PostMapping("/change-password/{id}")
-    public ResponseEntity<?> changePassword(@RequestBody UserRegistrationRequest user, @PathVariable long id) {
-        UserRegistrationResponse res = userService.update(user, id);
+    public ResponseEntity<?> changePassword(@RequestBody PasswordRequest passwordRequest, @PathVariable long id) {
+        UserRegistrationResponse res = userService.changePassword(passwordRequest, id);
         return ResponseEntity.ok(res);
 
     }
