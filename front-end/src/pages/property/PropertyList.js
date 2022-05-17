@@ -3,10 +3,14 @@ import BreadCrumb from "../../components/BreadCrumb";
 
 
 import axios from "axios";
+import { Link, Route, Routes, useNavigate } from "react-router-dom";
+import UpdateProperty from "./UpdateProperty";
 
 const PropertyList = () => {
 
   const [state, setState] = useState([]);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     getProperty();
@@ -24,11 +28,34 @@ const PropertyList = () => {
         }
       );
       setState([...response.data]);
-      console.log(state);
     } catch (error) {
       console.log(error);
     }
   };
+
+  const handleOnDelete = async (event, propertyId) => {
+    let token = JSON.parse(localStorage.getItem("token"));
+    const confirm = window.confirm(`Are you sure to delete property with id: ${propertyId} `);
+
+    if(confirm){
+      const response = await axios.delete(
+        `http://localhost:8080/api/v1/properties/${propertyId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token.accessToken}`,
+          },
+        }
+      );
+      if(response.status===200){
+        const properties = state.filter(property =>  property.id!=propertyId);
+        setState(properties);
+        alert('Properties deleted successfully');
+        navigate("/dashboard/property");
+      }
+    }
+  
+
+  }
 
   return (
     <div className="content-wrapper">
@@ -69,9 +96,9 @@ const PropertyList = () => {
                                                 <td>{property.rentAmount}</td>
                                                 <td>{property.securityDepositAmount}</td>
                                                 <td>
-                                                <i className='fas fa-info-circle text-primary'></i>
-                                                    <i className='fas fa-edit text-primary ml-2'></i>
-                                                    <i className='fas fa-trash text-danger ml-2'></i>
+                                                <Link to={`propertyDetail/${property.id}`}><i className='fas fa-info-circle text-primary'></i></Link>
+                                                <Link to={`updateProperty/${property.id}`}><i className='fas fa-edit text-primary ml-2'></i></Link>
+                                                <i className='fas fa-trash text-danger ml-2 hand-over' onClick={(event) => handleOnDelete(event,property.id)}></i>
                                                 </td>
                                             </tr>)
                       )}
@@ -83,7 +110,9 @@ const PropertyList = () => {
           </div>
         </div>
       </section>
+      
     </div>
+    
   );
 };
 

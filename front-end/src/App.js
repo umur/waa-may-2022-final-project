@@ -12,6 +12,8 @@ import AddProperty from './pages/property/AddProperty';
 import ForgotPassword from './pages/ForgotPassword';
 import ResetPassword from './pages/ResetPassword';
 import Report from './pages/Report';
+import UpdateProperty from './pages/property/UpdateProperty';
+import ProductDetail from './pages/property/ProductDetail';
 
 
 function App() {
@@ -32,9 +34,28 @@ function App() {
           <Route path='' element={<Dashboard />}>
           </Route>
           <Route path='landlords' element={<LandLordList />}></Route>
-          <Route path='property' element={<PropertyList />}></Route>
+          
+
+          <Route path='property' element={<PropertyList />}>
+     
+             
+    
+          
+          </Route>
+
+          <Route path="property/updateProperty/:id" element={<UpdateProperty />} />
+
+          <Route path="property/propertyDetail/:id" element={<ProductDetail />} />
+
+
+          
+
+          
 
           <Route path='add' element={<AddProperty />}></Route>
+
+
+          
           
           <Route path="report" element={<Report />}>
           </Route>
