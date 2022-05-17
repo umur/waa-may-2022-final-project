@@ -52,7 +52,7 @@ public class PropertyServiceImpl implements PropertyService {
   }
 
   public Page<Property> findAll(Pageable pageable) {
-    return propertyRepo.findAllByActiveIsTrue(pageable);
+    return propertyRepo.findAllByActiveIsTrueAndOwnedByActiveIsTrue(pageable);
   }
 
   @Override
@@ -100,7 +100,7 @@ public class PropertyServiceImpl implements PropertyService {
 
   @Override
   public Page<Property> findAllwithFilter(Pageable page, String loc, int r) {
-    return propertyRepo.findAllByCityIsLikeIgnoreCaseAndAndNumberOfBedroomsGreaterThanEqualAndActiveIsTrue(page, loc, r);
+    return propertyRepo.findAllByCityIsLikeIgnoreCaseAndAndNumberOfBedroomsGreaterThanEqualAndActiveIsTrueAndOwnedByActiveIsTrue(page, loc, r);
   }
 
   @Override
