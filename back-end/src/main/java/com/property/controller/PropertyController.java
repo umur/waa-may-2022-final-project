@@ -38,6 +38,19 @@ public class PropertyController {
         return ResponseEntity.ok(propertyDto);
     }
 
+    @GetMapping
+    public ResponseEntity<List<PropertyDto>> get() {
+         var propertyDtos = propertyService.findAll();
+        return ResponseEntity.ok(propertyDtos);
+    }
+
+    @GetMapping("{id}")
+    public ResponseEntity<PropertyDto> get(@PathVariable Long id) {
+        var propertyDto = propertyService.findById(id);
+        return ResponseEntity.ok(propertyDto);
+    }
+
+
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('LANDLORD')")
     public ResponseEntity<PropertyDto> delete(@PathVariable Long id) {

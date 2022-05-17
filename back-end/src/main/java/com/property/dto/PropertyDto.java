@@ -1,5 +1,6 @@
 package com.property.dto;
 
+import com.property.dto.request.AddressDto;
 import com.property.dto.response.PhotoDto;
 import lombok.Data;
 
@@ -21,6 +22,8 @@ public class PropertyDto {
     private Double rentAmount;
 
     private Double securityDepositAmount;
+
+    private AddressDto address;
 
     private List<PhotoDto> photos;
 

@@ -1,5 +1,6 @@
 package com.property.service.impls;
 
+import com.property.domain.Address;
 import com.property.domain.Photo;
 import com.property.domain.Property;
 import com.property.domain.PropertyRent;
@@ -159,6 +160,8 @@ public class PropertyServiceImpl implements PropertyService {
         property.setPropertyName(propertyDto.getPropertyName());
         property.setRentAmount(propertyDto.getRentAmount());
         property.setSecurityDepositAmount(propertyDto.getSecurityDepositAmount());
+        Address address = modelMapper.map(propertyDto.getAddress(), Address.class);
+        property.setAddress(address);
         property = propertyRepository.save(property);
         return modelMapper.map(property, PropertyDto.class);
     }
