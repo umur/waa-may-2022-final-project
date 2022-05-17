@@ -8,6 +8,10 @@ export const isLandLord = () => {
     return getRole()==='LANDLORD';
 }
 
+export const isTenant = () => {
+    return getRole()==='TENANT';
+}
+
 export const getRole = () => {
-    return jwt_decode(JSON.parse(localStorage.getItem("token")).accessToken).authorities;;
+    return jwt_decode(JSON.parse(localStorage.getItem("token")).accessToken).authorities;
 }
