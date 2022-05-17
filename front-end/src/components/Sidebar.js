@@ -52,6 +52,15 @@ const Sidebar = () => {
                             </Link>
                         </li>
 
+                        <li className="nav-item menu-open">
+                            <Link to='users' className="nav-link">
+                                <i className="nav-icon far fa-circle nav-icon" />
+                                <p>
+                                   Users List
+                                </p>
+                            </Link>
+                        </li>
+
                         <li className="nav-header">Property</li>
                         <li className="nav-item">
                             <Link to='property' className="nav-link">
