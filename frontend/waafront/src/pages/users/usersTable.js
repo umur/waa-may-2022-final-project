@@ -6,6 +6,7 @@ import { Button, Modal } from "antd";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { Form, Input, } from "antd";
 import api from '../../api/posts'
+import { useSelector } from 'react-redux'
 
 let userObjectSave = {
   email: '',
@@ -16,6 +17,13 @@ let userObjectSave = {
 };
 
 function UsersTable(props) {
+
+  const user = useSelector((state) => state.user.value); //token, role, email, id
+
+  const config = {
+    headers: { Authorization: `Bearer ${user.token}` }
+  };
+
 
   const columns = [
     {
@@ -94,7 +102,7 @@ function UsersTable(props) {
   const handleOk = async () => {
     try {
      
-      const { data } = await api.put('api/v1/users/' + userState.id, userState);
+      const { data } = await api.put('api/v1/users/' + userState.id, userState, config);
       window.alert("User updated");
       
       setVisible(false);

@@ -9,6 +9,7 @@ import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import FormSizeDemo from "./formPropertieStyled";
 import formPropertieStyled from "./formPropertieStyled";
 import api from "../../api/posts";
+import { useSelector } from 'react-redux'
 
 import {
   Form,
@@ -54,6 +55,12 @@ let propertiesObjectInitialValue = {
 };
 
 function Properties(props) {
+  const user = useSelector((state) => state.user.value); //token, role, email, id
+
+  const config = {
+    headers: { Authorization: `Bearer ${user.token}` }
+  };
+
   const { propertiesObject } = props;
   const [size, setSize] = useState("large");
   const nameRef = useRef(null);
@@ -66,7 +73,7 @@ function Properties(props) {
 
   const fetchProducts = async () => {
     //const result = await axios.get("http://localhost:8080/api/v1/properties");
-    const result = await api.get("api/v1/properties");
+    const result = await api.get("api/v1/properties", config);
     setPropertyListState(result.data);
   };
 
@@ -82,7 +89,7 @@ function Properties(props) {
   const handleOk = async () => {
     try {
      
-      const { data } = await api.post("api/v1/properties", propertyState);
+      const { data } = await api.post("api/v1/properties", propertyState, config);
       window.alert("Property added");
       
       setVisible(false);
