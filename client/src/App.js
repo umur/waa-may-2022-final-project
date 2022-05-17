@@ -6,7 +6,7 @@ import Properties from "./routes/properties";
 import { Route, Routes } from "react-router-dom";
 import Lease from "./routes/Lease";
 import PropertyRoute from "./routes/PropertyRouter";
-
+//redux or context(wrap the whole app with auth context)
 
 function App() {
   return (

@@ -10,7 +10,7 @@ const Property = (props) => {
 
   const fetchProerties = () => {
     axios
-      .get("http://localhost:8080/properties")
+      .get("http://localhost:8081/properties")
       .then((response) => {
         setProertiesState(response.data);
       })
@@ -35,7 +35,7 @@ const Property = (props) => {
               imgsrc={
                 "https://bartlebrothers.com/wp-content/uploads/2015/02/Condos-and-houses-in-San-Diego-California.jpg"
               }
-              title={property.title}
+              title={property.name}
               description={property.description}
             />
           );

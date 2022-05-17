@@ -1,15 +1,34 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import PopertiesData from "./PropertiesData";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import TextMobileStepper from "../components/slideShow"
 
 export const PropertyDetails = () => {
   const { id } = useParams();
+  const [propertyState, setProertyState] = useState({});
 
-  let prop = PopertiesData.find((p) => p.id == id);
+  const fetchProerty = () => {
+    axios.get(`http://localhost:8081/properties/${id}`)
+      .then((response) => {
+        setProertyState(response.data);
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  };
 
-  return <div>
-    <h1>prop.name</h1>
-  </div>;
+  useEffect(() => {
+    fetchProerty();
+  }, []);
+
+  return (
+    <div>
+      <h1>{propertyState.name}</h1>
+      <h1>{propertyState.description}</h1>
+      <TextMobileStepper />
+    </div>
+  );
 };
 
 export default PropertyDetails;
