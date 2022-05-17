@@ -22,6 +22,7 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -66,7 +67,13 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional(readOnly = true)
     public List<UserRegistrationResponse> findAll() {
-        var users = userRepository.findAll();
+        var username = SecurityContextHolder.getContext().getAuthentication().getName();
+        log.info("Login with user: {}",username);
+        var user = userRepository.findByEmail(username);
+        var users = (List<User>) userRepository.findAll();
+        users = users
+                .stream()
+                .filter(u -> !u.getId().equals(user.getId())).toList();
         Type listType = new TypeToken<List<UserRegistrationResponse>>(){}.getType();
         return modelMapper.map(users,listType);
     }

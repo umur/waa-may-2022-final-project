@@ -2,11 +2,14 @@ package com.property.service.impls;
 
 import com.property.domain.Address;
 import com.property.domain.PropertyRent;
+import com.property.domain.Role;
 import com.property.dto.response.PieChartResponse;
 import com.property.respository.PropertyRentRepository;
+import com.property.respository.UserRepository;
 import com.property.service.ReportService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,11 +27,16 @@ public class ReportServiceImpl implements ReportService {
 
     private final PropertyRentRepository propertyRentRepository;
 
+    private final UserRepository userRepository;
+
     @Override
     public List<PieChartResponse> findIncomePerStateAndCity(String state, String city) {
         List<PieChartResponse> pieChartResponses = new ArrayList<>();
+        var username = SecurityContextHolder.getContext().getAuthentication().getName();
+        log.info("Login with user: {}",username);
+        var user = userRepository.findByEmail(username);
         if(state==null && city==null){
-            List<PropertyRent> propertyRents = (List<PropertyRent>) propertyRentRepository.findAll();
+            List<PropertyRent> propertyRents = user.getRole().equals(Role.LANDLORD) ?  propertyRentRepository.findAllByPropertyLandLordId(user.getId()): (List<PropertyRent>) propertyRentRepository.findAll();
             pieChartResponses = toPieChartResponse(propertyRents, address -> address.getState());
         } else if(state!=null && city==null){
             List<PropertyRent> propertyRents = propertyRentRepository.findAllByPropertyAddressState(state);

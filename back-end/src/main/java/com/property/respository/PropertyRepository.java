@@ -25,6 +25,7 @@ public interface PropertyRepository extends CrudRepository<Property, Long> {
     @Query("from Property p inner join PropertyRent pr on p.id=pr.property.id where p.landLord.id=:id and p.delete=false and pr.rentEndDate>=:now and pr.rentEndDate<=:then")
     List<Property> findAllLeaseByLandLordAndDateRange(@Param("id") Long id, @Param("now") LocalDate now, @Param("then") LocalDate then, Pageable pageable);
 
+    List<Property> findAllByLandLordIdAndDeleteIsFalse(@Param("id") Long id);
 
     @Query("select new com.property.dto.response.PropertyRequestDateDto(pr.createdAt,p.id) from Property p inner join PropertyRent pr on p.id=pr.property.id where p.delete=false and pr.createdAt>=:previous and pr.createdAt<=:now")
     Set<PropertyRequestDateDto> findAllByRentedDateRange(@Param("previous") LocalDate previous, @Param("now") LocalDate now);

@@ -12,6 +12,8 @@ public class UserRegistrationResponse {
 
     private Role role;
 
+    private boolean isActive;
+
     private String email;
 
 }

@@ -13,6 +13,8 @@ public interface PropertyRentRepository extends CrudRepository<PropertyRent, Lon
 
     List<PropertyRent> findAllByPropertyAddressState(String state);
 
+    List<PropertyRent> findAllByPropertyLandLordId(Long id);
+
     List<PropertyRent> findAllByPropertyAddressStateAndPropertyAddressCity(String state, String city);
 
     Optional<PropertyRent> findByPropertyIdAndRentEndDateIsAfter(Long id, LocalDate date);
