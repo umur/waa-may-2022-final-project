@@ -23,6 +23,11 @@ public class AddressServiceImpl  implements AddressService {
         return AddressDto.class;
     }
 
+    @Override
+    public Class<Address> getTType() {
+        return Address.class;
+    }
+
 
     @Override
     public List<Address> findAllByStateAndCity(String state, String city) {

@@ -23,4 +23,9 @@ public class RoleServiceImpl implements RoleService {
     public Class<RoleDto> getDTOType() {
         return RoleDto.class;
     }
+
+    @Override
+    public Class<Role> getTType() {
+        return Role.class;
+    }
 }

@@ -1,6 +1,7 @@
 package pro.manage.service;
 
 
+import net.bytebuddy.dynamic.DynamicType;
 import org.springframework.core.GenericTypeResolver;
 import org.springframework.data.repository.CrudRepository;
 import pro.manage.utility.ModelMapperUti;
@@ -14,34 +15,24 @@ import java.util.stream.Collectors;
 public interface GenericService<T,TO, ID,Repo  extends CrudRepository<T,ID>> {
     Repo getRepo();
     Class<TO> getDTOType();
+    Class<T> getTType();
 
+    default List<TO> findAll() {
 
-    default List<T> findAll() {
         var result = new ArrayList<T>();
         getRepo().findAll().forEach(result::add);
-      return result;
-
+        return  ModelMapperUti.mapList(result,getDTOType());
     }
-    default List<TO> findAll1() {
-       // Class<TO> clazz=new TO();
-        var result = new ArrayList<T>();
-        getRepo().findAll().forEach(result::add);
-        //Type listType = new TypeToken<TO>(getClass());
-        // Get the type of generic parameter
 
-      return  ModelMapperUti.mapList(result,getDTOType());
-    }
-    default Class<TO> ggg(TO to)
-    {
-        //return     new TypeToken<TO>() {}.getType();;
+    default Optional<TO> findById(ID id){
+        Optional<T> tempObj=getRepo().findById(id);
+        if(tempObj.isPresent())
+        return Optional.ofNullable( ModelMapperUti.map(tempObj ,getDTOType()));
         return null;
     }
-    default Optional<T> findById(ID id){
-        return getRepo().findById(id);
-    }
 
-    default void save(T t){
-        getRepo().save(t);
+    default void save(TO t){
+        getRepo().save(ModelMapperUti.map(t ,getTType()));
     }
 
 
@@ -50,11 +41,12 @@ public interface GenericService<T,TO, ID,Repo  extends CrudRepository<T,ID>> {
     };
 
 
-    default List<T> findAllById(Iterable<ID> ids){
+    default List<TO> findAllById(Iterable<ID> ids){
         var result = new ArrayList<T>();
         getRepo().findAllById(ids).forEach(result::add);
-        return result;
+        return    ModelMapperUti.mapList(result,getDTOType());
     };
+
 
     default long count(){
         return getRepo().count();
@@ -64,16 +56,19 @@ public interface GenericService<T,TO, ID,Repo  extends CrudRepository<T,ID>> {
         getRepo().deleteById(id);
     };
 
-    default void delete(T entity){
-        getRepo().delete(entity);
+    default void delete(TO entity){
+        getRepo().delete(ModelMapperUti.map(entity ,getTType()));
     };
 
     default void deleteAllById(Iterable<? extends ID> ids){
         getRepo().deleteAllById(ids);
     };
 
-    default void deleteAll(Iterable<? extends T> entities){
-        getRepo().deleteAll(entities);
+    default void deleteAll(Iterable<? extends TO> entities){
+               var result = new ArrayList<TO>();
+        entities.forEach(c->result.add((TO)c));
+       List<T> entitiesT= ModelMapperUti.mapList(result,getTType());
+        getRepo().deleteAll(entitiesT);
     };
 
     default void deleteAll(){

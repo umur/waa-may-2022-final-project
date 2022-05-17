@@ -25,5 +25,10 @@ public class UserServiceImpl implements UserService {
         return UserDto.class;
     }
 
+    @Override
+    public Class<User> getTType() {
+        return User.class;
+    }
+
 
 }

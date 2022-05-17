@@ -29,6 +29,11 @@ public class PropertyServiceImpl implements PropertyService {
     }
 
     @Override
+    public Class<Property> getTType() {
+        return Property.class;
+    }
+
+    @Override
     public Property findByAddress(Address address)
     {
         return propertyRepository.findByAddress(address);
