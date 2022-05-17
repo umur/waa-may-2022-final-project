@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./assets/css/app/index.css";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import { AuthContext } from "./context/AuthContext";
 import AuthWrapper from "./auth/AuthWrapper";
 import ROLE from "./auth/Role";
@@ -21,8 +21,14 @@ import NotFound from 'pages/404';
 import NewProperty from 'pages/Properties/NewProperty';
 import PropertyDetail from 'pages/Properties/PropertyDetail';
 import CreateNewPassword from "pages/CreateNewPassword";
+import axios from 'axios';
+import RentHistory from 'pages/RentHistory';
+import { toast, ToastContainer } from 'react-toastify';
 
 function App() {
+
+  const notify = (msg) => toast.error(msg);
+
   const [isSignedIn, setSignedIn] = useState(
     localStorage.getItem("token") ? true : false
   );
@@ -45,9 +51,32 @@ function App() {
 
   const authContext = { isSignedIn, setSignedIn, user, setUser, role, setRole };
 
+  axios.interceptors.response.use(
+    (response) => {
+      return response;
+    },
+    (error) => {
+      if (error.response.status === 401) {
+        notify("Token expired")
+        
+        setSignedIn(false)
+        setRole(null)
+        setUser(null)
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+        // navigate to login
+        setTimeout(() => {
+          window.location = "/login";
+        }, 1500);
+      }
+      return error;
+    }
+  );
+
   return (
     <ThemeProvider theme={theme}>
       <AuthContext.Provider value={authContext}>
+        <ToastContainer />
         <Routes>
           <Route path="*" element={<NotFound />} />
 
@@ -137,6 +166,15 @@ function App() {
             element={
               <AuthWrapper role={[ROLE.Landlord]}>
                 <NewProperty />
+              </AuthWrapper>
+            }
+          />
+
+          <Route
+            path="/rent/"
+            element={
+              <AuthWrapper role={[ROLE.Landlord]}>
+                <RentHistory />
               </AuthWrapper>
             }
           />
