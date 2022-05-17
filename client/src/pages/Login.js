@@ -19,7 +19,8 @@ import { useNavigate, Link as RouteLink } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ROLE from "auth/Role";
-import { ReactComponent as Logo } from "../assets/img/logo.svg";
+import { ReactComponent as Logo } from "../assets/img/logo-white.svg";
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 
 const Login = () => {
   const notify = (msg) => toast.error(msg);
@@ -71,7 +72,7 @@ const Login = () => {
         <Box className="login-left">
           <img
             className="login-img"
-            src="https://images.unsplash.com/photo-1511452885600-a3d2c9148a31?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2821&q=80"
+            src="https://images.unsplash.com/photo-1623298317883-6b70254edf31?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80"
             alt="title login "
           />
           <div className="login-img-text">
@@ -141,6 +142,12 @@ const Login = () => {
                 </Link>
               </Grid>
             </Grid>
+            <div style={{ position: "absolute", bottom: "20px" }}>
+              <Button variant="text" onClick={() => navigate("/")}>
+                <ArrowBackIosIcon />
+                Back to Home
+              </Button>
+            </div>
           </Box>
         </Box>
       </div>

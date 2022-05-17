@@ -60,6 +60,7 @@ const Home = () => {
                 { key: "page", value: value - 1 },
               ])
             );
+            window.scrollTo(0, 0);
           }}
         />
       </div>
