@@ -12,26 +12,26 @@ const PropertyDetails = ({ property }) => {
   return (
     <div className="container" style={{ width: "22rem", display: "flex" }}>
       <Card style={{ width: "22rem", margin: "10px" }}>
-        <Card.Img variant="top" src="https://i.ibb.co/g9vzZQQ/property.jpg" />
+        <Card.Img variant="top" src={property.propertyPhotos[0]? property.propertyPhotos[0].photoUrl : "https://waapropertymang052022fr.s3.amazonaws.com/properties/12.png"} />
         <Card.Body className="center-align">
           <Card.Title>
             <b>{property.propertyName}</b>
           </Card.Title>
           <Card.Text className="left-align">
             <p className="left-container">
-              <b>Type: </b> {property.propertyType}
+              <b>Type: </b> {property.propertyType.type}
             </p>
             <p className="left-container">
-              <b>Zip Code: </b> {property.zipCode}
+              <b>Zip Code: </b> {property.address.zipCode}
             </p>
           </Card.Text>
           <Card.Text className="left-align">
             <p className="left-container">
               <b>City: </b>
-              {property.city}
+              {property.address.city}
             </p>
             <p className="left-container">
-              <b>State: </b> {property.state}
+              <b>State: </b> {property.address.state}
             </p>
           </Card.Text>
           <Card.Text className="left-align"></Card.Text>

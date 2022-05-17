@@ -6,7 +6,7 @@ const Properties = ({ properties }) => {
     <>
       <div className="flex-container wrap">
         {properties.map((property, index) => (
-          <PropertyDetails key={index} property={property} />
+          <PropertyDetails key={property.id} property={property} />
         ))}
       </div>
     </>

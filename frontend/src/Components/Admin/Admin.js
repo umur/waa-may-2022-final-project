@@ -1,48 +1,92 @@
 import { useState, useEffect } from "react";
 import Properties from "../Shared/Properties/Properties";
 import SearchBar from "../Shared/SearchBar/SearchBar";
+import Service from "../Shared/Service";
 import "./Admin.css";
 
 const Admin = () => {
+  const urls = Service;
   const urlTenants = "http://localhost:5000/tenants";
   const url2Landlords = "http://localhost:5000/landlords";
   const url3 = "http://localhost:5000/property";
   const url4 = "http://localhost:5000/property"; // toggle Active status
 
+  const url6 = "http://172.19.141.27:8080/api/users/admin/byRole/landlord";
+
+  // var requestOptions = {
+  //   method: 'GET',
+  //   redirect: 'follow',
+  //   mode: 'Access-Control-Allow-Origin'
+  // };
+
+  // fetch("172.19.141.27:8080/api/properties/admin/totalIncome/Fairfield", requestOptions)
+  //   .then(response => response.text())
+  //   .then(result => console.log(result))
+  //   .catch(error => console.log('error', error));
+
   const [landlords, setLandlords] = useState([]);
   const [tenants, setTenants] = useState([]);
   const [properties, setProperties] = useState([]);
-  const totalIncome = 123500;
+  const [totalIncome, setTotalIncome] = useState(0);
+  var requestGetOptions = {
+    method: "GET",
+    redirect: "follow",
+  };
 
+  var requestPutOptions = {
+    method: 'PUT',
+    redirect: 'follow'
+  };
   useEffect(() => {
-    getProperties();
+    console.log(urls);
+    // getProperties();
     getLandlords();
     getTenants();
+    getTotalIncome();
+
+    // fetch("172.19.141.27:8080/api/properties/admin/totalIncome/Fairfield", requestOptions)
+    //   .then(response => response.text())
+    //   .then(result => console.log(result))
+    //   .catch(error => console.log('error', error));
   }, []);
 
   const getProperties = async () => {
-    const propertyList = await fetchProperties(url3);
+    const propertyList = await fetchData(url3);
     setProperties(propertyList);
   };
 
   const getLandlords = async () => {
-    const landlordList = await fetchProperties(url2Landlords);
+    const landlordList = await fetchData(Service.MostRecentLandlordsUrl);
     setLandlords(landlordList);
   };
 
   const getTenants = async () => {
-    const tenantList = await fetchProperties(urlTenants);
+    const tenantList = await fetchData(Service.MostRecentTenantsUrl);
+    console.log("List : " + tenantList);
     setTenants(tenantList);
   };
 
-  const fetchProperties = async (url) => {
+  const getTotalIncome = async () => {
+    const totalIncome = await fetchData(
+      Service.TotalIncomePerLocation,
+      requestGetOptions
+    );
+    if (totalIncome) {
+      setTotalIncome(totalIncome.income);
+    } else {
+      setTotalIncome(0);
+    }
+  };
+
+  const fetchData = async (url) => {
+    console.log("URL Here : ", url);
     const res = await fetch(url);
     const data = await res.json();
 
     return data;
   };
 
-  const toggleLandlordStatus = async (status, landlord) => {
+  const toggleLandlordStatus = (status, landlord) => {
     setLandlords(
       landlords.map((l) => {
         if (landlord.id == l.id) {
@@ -51,8 +95,20 @@ const Admin = () => {
         return l;
       })
     );
+    console.log("Status : ", status);
+    const statusUrl = `http://172.19.141.27:8080/api/users/admin/activation/${landlord.email}/${status}`;
     // const toggle = await fetchProperties(url4);
+    updateStatus(statusUrl);
   };
+
+  const updateStatus = async (url) =>  {
+    
+    
+    fetch(url, requestPutOptions)
+      .then(response => response.text())
+      .then(result => console.log(result))
+      .catch(error => console.log('error', error));
+  }
 
   const toggleTenantStatus = async (status, tenant) => {
     setTenants(
@@ -63,14 +119,22 @@ const Admin = () => {
         return l;
       })
     );
+
+    
+    const statusUrl = `http://172.19.141.27:8080/api/users/admin/activation/${tenant.email}/${status}`;
+    updateStatus(statusUrl);
   };
 
   return (
     <div className="admin ">
       <SearchBar />
-
       {/* //Total Income : $123456 */}
-      <div className="total-income">
+      <div
+        className="total-income"
+        onClick={(e) => {
+          getTotalIncome();
+        }}
+      >
         <h2>
           Total Income{" "}
           {"$" +
@@ -89,9 +153,9 @@ const Admin = () => {
             </li>
             {landlords.map((landlord, index) => (
               <>
-                <li className="list-group-item" key={index}>
+                <li className="list-group-item" key={landlord.id}>
                   <p className="inner-p">
-                    {landlord.firstName + " " + landlord.lastName}
+                    {landlord.firstName + " " + landlord.lastname}
                   </p>
                   <p className="inner-p">
                     <input
@@ -117,9 +181,9 @@ const Admin = () => {
             </li>
             {tenants.map((tenant, index) => (
               <>
-                <li className="list-group-item" key={index}>
+                <li className="list-group-item" key={tenant.id}>
                   <p className="inner-p">
-                    {tenant.firstName + " " + tenant.lastName}
+                    {tenant.firstName + " " + tenant.lastname}
                   </p>
                   <p className="inner-p">
                     <input
