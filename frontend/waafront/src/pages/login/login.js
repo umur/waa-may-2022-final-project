@@ -26,7 +26,7 @@ const Login = () => {
             
             const decodedString = atob(theToken.split('.')[1]);
             const userRole = JSON.parse(decodedString).role[0].authority;
-            const id=JSON.parse(decodedString).role[0].id;
+            const id=JSON.parse(decodedString).id;
             const userName = JSON.parse(decodedString).sub;
     
             window.sessionStorage.setItem("userRole", userRole);
