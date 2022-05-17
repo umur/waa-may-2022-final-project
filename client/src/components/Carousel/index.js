@@ -14,24 +14,29 @@ const Carousel = ({ list }) => {
     centerMode: true,
     variableWidth: true,
   };
-  let items =
-    list.length > 0 ? (
+
+  let items = [];
+  console.log(list.length);
+  if (list.length === 1) {
+    items.push(
       <div className="carousel-item">
-        <img
-          src="https://images.unsplash.com/photo-1554995207-c18c203602cb?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80"
-          className="carousel-img"
-          alt="house"
-        />
-      </div>
-    ) : (
-      <div className="carousel-item">
-        <img
-          src="https://images.unsplash.com/photo-1554995207-c18c203602cb?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80"
-          className="carousel-img"
-          alt="house"
-        />
+        <img src={list[0].imageUrl} className="carousel-img" alt="house" />
       </div>
     );
+    items.push(
+      <div className="carousel-item">
+        <img src={list[0].imageUrl} className="carousel-img" alt="house" />
+      </div>
+    );
+  } else {
+    list.map((item) => {
+      items.push(
+        <div className="carousel-item">
+          <img src={item.imageUrl} className="carousel-img" alt="house" />
+        </div>
+      );
+    });
+  }
   let defaultList = [];
   defaultList.push(
     <div className="carousel-item">
