@@ -1,3 +1,0 @@
-#!/usr/bin/env bash
-
-stripe listen --forward-to localhost:8081/api/payment/webhook
