@@ -17,6 +17,7 @@ import RentProperty from './pages/RentProperty';
 import RentForm from './pages/RentForm';
 import LineChart from './pages/LineChart';
 import NotFound from './pages/404';
+import User from './pages/Users';
 
 
 function App() {
@@ -53,6 +54,9 @@ function App() {
           <Route path="line-report" element={<LineChart />}>
           </Route>
 
+
+          <Route path="users" element={<User />}>
+          </Route>
 
           <Route path="rent-property" element={<RentProperty />}>
           </Route>
