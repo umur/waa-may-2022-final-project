@@ -4,12 +4,17 @@ import { useParams } from "react-router-dom";
 import BreadCrumb from "../../components/BreadCrumb";
 
 const ProductDetail = () => {
-
- const { id } = useParams();
+  const { id } = useParams();
 
   const [product, setProduct] = useState();
 
-  const fetchProperty = async () => {
+  
+
+  useEffect(() => {
+    get();
+  }, []);
+
+  const get = async () => {
     let token = JSON.parse(localStorage.getItem("token"));
     try {
       const response = await axios.get(
@@ -20,15 +25,12 @@ const ProductDetail = () => {
           },
         }
       );
-      setProduct({...response.data});
+      setProduct({ ...response.data });
+      console.log(response.data);
     } catch (error) {
       console.log(error);
     }
   };
-
-  useEffect(()=> {
-    fetchProperty();
-  },[]);
 
   return (
     <div className="content-wrapper">
@@ -46,12 +48,13 @@ const ProductDetail = () => {
                     className="ms-4 mt-5 d-flex flex-column"
                     style={{ width: 150 }}
                   >
-                    <img
-                      src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp"
+                   {product?.photos ?  <img
+                      src={`http://localhost:8080/api/v1/properties/${product.id}/images/${product?.photos[0]?.id}`}
                       alt="Generic placeholder image"
                       className="img-fluid img-thumbnail mt-4 mb-2"
                       style={{ width: 150, zIndex: 1 }}
-                    />
+                    /> : ""
+}
                     <button
                       type="button"
                       className="btn btn-outline-dark"
@@ -62,8 +65,8 @@ const ProductDetail = () => {
                     </button>
                   </div>
                   <div className="ms-3" style={{ marginTop: 130 }}>
-                    <h5>Andy Horwitz</h5>
-                    <p>New York</p>
+                    <h5>{product?.propertyName}</h5>
+                    <p>{product?.propertyType}</p>
                   </div>
                 </div>
                 <div
@@ -72,26 +75,35 @@ const ProductDetail = () => {
                 >
                   <div className="d-flex justify-content-end text-center py-1">
                     <div>
-                      <p className="mb-1 h5">253</p>
-                      <p className="small text-muted mb-0">Photos</p>
+                      <p className="mb-1 h5">{product?.noOfBedRoom}</p>
+                      <p className="small text-muted mb-0">Bed Room</p>
                     </div>
                     <div className="px-3">
-                      <p className="mb-1 h5">1026</p>
-                      <p className="small text-muted mb-0">Followers</p>
+                      <p className="mb-1 h5">{product?.noOfBathRoom}</p>
+                      <p className="small text-muted mb-0">Bath Room</p>
                     </div>
                     <div>
-                      <p className="mb-1 h5">478</p>
-                      <p className="small text-muted mb-0">Following</p>
+                      <p className="mb-1 h5">{product?.rentAmount}</p>
+                      <p className="small text-muted mb-0">Rent Amount</p>
                     </div>
                   </div>
                 </div>
                 <div className="card-body p-4 text-black">
                   <div className="mb-5">
-                    <p className="lead fw-normal mb-1">About</p>
+                    <p className="lead fw-normal mb-1">ADDRESS</p>
                     <div className="p-4" style={{ backgroundColor: "#f8f9fa" }}>
-                      <p className="font-italic mb-1">Web Developer</p>
-                      <p className="font-italic mb-1">Lives in New York</p>
-                      <p className="font-italic mb-0">Photographer</p>
+                      <p className="font-italic mb-1">
+                        STATE: {product?.address?.state}
+                      </p>
+                      <p className="font-italic mb-1">
+                        CITY: {product?.address?.city}
+                      </p>
+                      <p className="font-italic mb-0">
+                        STREET: {product?.address?.street}
+                      </p>
+                      <p className="font-italic mb-0">
+                        ZIP CODE: {product?.address?.zipcode}
+                      </p>
                     </div>
                   </div>
                   <div className="d-flex justify-content-between align-items-center mb-4">
@@ -102,37 +114,17 @@ const ProductDetail = () => {
                       </a>
                     </p>
                   </div>
+
                   <div className="row g-2">
-                    <div className="col mb-2">
-                      <img
-                        src="https://mdbcdn.b-cdn.net/img/Photos/Lightbox/Original/img%20(112).webp"
-                        alt="image 1"
-                        className="w-100 rounded-3"
-                      />
-                    </div>
-                    <div className="col mb-2">
-                      <img
-                        src="https://mdbcdn.b-cdn.net/img/Photos/Lightbox/Original/img%20(107).webp"
-                        alt="image 1"
-                        className="w-100 rounded-3"
-                      />
-                    </div>
-                  </div>
-                  <div className="row g-2">
-                    <div className="col">
-                      <img
-                        src="https://mdbcdn.b-cdn.net/img/Photos/Lightbox/Original/img%20(108).webp"
-                        alt="image 1"
-                        className="w-100 rounded-3"
-                      />
-                    </div>
-                    <div className="col">
-                      <img
-                        src="https://mdbcdn.b-cdn.net/img/Photos/Lightbox/Original/img%20(114).webp"
-                        alt="image 1"
-                        className="w-100 rounded-3"
-                      />
-                    </div>
+                    {product?.photos.map((photo) => (
+                      <div className="col mb-2">
+                         <img
+                      src={`http://localhost:8080/api/v1/properties/${product.id}/images/${product?.photos[0]?.id}`}
+                          alt="image 1"
+                          className="w-100 rounded-3"
+                        />
+                      </div>
+                    ))}
                   </div>
                 </div>
               </div>
