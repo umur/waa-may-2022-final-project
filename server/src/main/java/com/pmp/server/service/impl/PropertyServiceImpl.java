@@ -52,7 +52,7 @@ public class PropertyServiceImpl implements PropertyService {
   }
 
   public Page<Property> findAll(Pageable pageable) {
-    return propertyRepo.findAll(pageable);
+    return propertyRepo.findAllByActiveIsTrue(pageable);
   }
 
   @Override
