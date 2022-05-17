@@ -1,5 +1,9 @@
 .card-item {
   margin: 20px;
+  cursor: pointer;
+}
+.card-item:hover {
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
 .title {
   font-size: 20px;
