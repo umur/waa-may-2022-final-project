@@ -37,10 +37,10 @@ function getMenu(role) {
       <>
         <Nav className="me-auto">
           <Link to="/properties" className="margin-r nav-text">
-            About
+            Property
           </Link>
-          <Link to="/properties" className="nav-text">
-            Help
+          <Link to="/dashboard-landlord" className="nav-text">
+            Dashboard
           </Link>
         </Nav>
         <Nav>
@@ -59,11 +59,11 @@ function getMenu(role) {
   } else if (role.toLowerCase() === "tenant") {
     return (
       <>
-        <Nav className="me-auto">
+        {/* <Nav className="me-auto">
           <Link to="#" className="margin-r nav-text">
             LatestOrder
           </Link>
-        </Nav>
+        </Nav> */}
         <Nav>
           <Link
             to="/"
