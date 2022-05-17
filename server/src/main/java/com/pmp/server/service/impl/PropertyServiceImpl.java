@@ -155,7 +155,7 @@ public class PropertyServiceImpl implements PropertyService {
   }
 
   @Override
-  public Page<Property> search(Pageable page, String s) {
+  public Page<Property> search(Pageable page, String s, int room) {
     UUID owner = null;
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     if (authentication != null) {
@@ -164,7 +164,7 @@ public class PropertyServiceImpl implements PropertyService {
         owner = UUID.fromString(kp.getKeycloakSecurityContext().getToken().getSubject());
       }
     }
-    return propertyRepo.customSearch(page, "%" + s.toLowerCase() + "%", owner);
+    return propertyRepo.customSearch(page, "%" + s.toLowerCase() + "%", owner, room);
   }
 
   @Override
@@ -287,7 +287,10 @@ public class PropertyServiceImpl implements PropertyService {
 //    System.out.println("list 0:" + list.get(0));
   }
 
-  public ResponseMessage top10LeaseEnd(Top10PropertyLeaseEndDTO dto) {
+  @Override
+  public ResponseMessage top10LeaseEnd() {
+    Top10PropertyLeaseEndDTO dto = new Top10PropertyLeaseEndDTO();
+    dto.setDate(LocalDate.now());
     // Get all history end by request month
     LocalDate endDateOfMonth = dto.getDate().withDayOfMonth(dto.getDate().lengthOfMonth());
     LocalDate startDateOfMonth = dto.getDate().withDayOfMonth(1);

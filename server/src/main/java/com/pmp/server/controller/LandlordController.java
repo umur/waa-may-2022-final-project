@@ -30,14 +30,18 @@ public class LandlordController {
     }
 
     @GetMapping("/properties")
-    public PagingResponse getProperties(Pageable page, @RequestParam Optional<String> search) {
-        if(search.isPresent()){
+    public PagingResponse getProperties(Pageable page, @RequestParam Optional<String> search, @RequestParam Optional<Integer> room) {
+        if(search.isPresent() || room.isPresent()){
             PageRequest daoPageable = PageRequest.of(
                     page.getPageNumber(),
                     page.getPageSize(),
                     convertDtoSortToDaoSort(page.getSort())
             );
-            Page<Property> list = propertyService.search(daoPageable, search.get());
+
+            var searchValue = search.orElse("");
+            var roomValue = room.orElse(0);
+
+            Page<Property> list = propertyService.search(daoPageable, searchValue, roomValue);
             return new PagingResponse<Property>(list);
         }
         Page<Property> list = propertyService.findAllByOwner(page);
@@ -85,8 +89,8 @@ public class LandlordController {
     }
 
     @GetMapping("/properties/top10-lease-end")
-    public ResponseMessage getTop10LeaseEnd(@RequestBody Top10PropertyLeaseEndDTO body) {
-        var result = propertyService.top10LeaseEnd(body);
+    public ResponseMessage getTop10LeaseEnd() {
+        var result = propertyService.top10LeaseEnd();
         return result;
     }
 }

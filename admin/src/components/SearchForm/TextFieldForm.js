@@ -1,9 +1,8 @@
-import { Input, InputAdornment, Paper } from "@mui/material";
+import { Paper, TextField } from "@mui/material";
 import React from "react";
-import SearchIcon from "@mui/icons-material/Search";
 import { useFormik } from "formik";
 
-function SearchForm({ onSubmit, initialValues }) {
+function TextFieldForm({ onSubmit, initialValues, label }) {
   const formik = useFormik({
     initialValues: initialValues || { search: "" },
     onSubmit: values => {
@@ -14,17 +13,11 @@ function SearchForm({ onSubmit, initialValues }) {
   return (
     <form onSubmit={formik.handleSubmit}>
       <Paper>
-        <Input
+        <TextField 
           id="search"
           name="search"
-          startAdornment={
-            <InputAdornment position="start">
-              <SearchIcon />
-            </InputAdornment>
-          }
-          disableUnderline
-          sx={{ p: 1.5 }}
-          placeholder="Search"
+          label={label}
+          variant="outlined" 
           fullWidth
           onChange={formik.handleChange}
           value={formik.values.search}
@@ -34,4 +27,8 @@ function SearchForm({ onSubmit, initialValues }) {
   );
 }
 
-export default SearchForm;
+TextFieldForm.defaultProps = {
+  label: "Search"
+}
+
+export default TextFieldForm;
