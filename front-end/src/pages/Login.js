@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useForm } from "react-hook-form";
 import axios from 'axios';
@@ -11,6 +11,7 @@ export const Login = () => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [badCredential, setBadCredential] = useState("");
 
   const { register, handleSubmit, formState: { errors } } = useForm({
     defaultValues: {
@@ -24,7 +25,8 @@ export const Login = () => {
       const res = await axios.post('http://localhost:8080/api/v1/uaa/login', credendials);
       return res.data;
     } catch (error) {
-      console.log(error);
+      // console.log(error);
+      setBadCredential(error.response.data.message)
     }
   })
 
@@ -69,6 +71,7 @@ export const Login = () => {
                   </div>
                 </div>
               </div>
+              {badCredential? <p className='text-danger'>{badCredential}</p> : ""}
               <div className="row">
                 <div className="col-12">
                   <input

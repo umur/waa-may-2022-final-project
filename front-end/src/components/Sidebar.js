@@ -34,6 +34,14 @@ const Sidebar = () => {
                                 </p>
                             </Link>
                         </li>
+                        <li className="nav-item menu-open">
+                            <Link to='report' className="nav-link">
+                                <i className="nav-icon fas fa-tachometer-alt" />
+                                <p>
+                                    Report
+                                </p>
+                            </Link>
+                        </li>
                         <li className="nav-header">Property</li>
                         <li className="nav-item">
                             <Link to='property' className="nav-link">
