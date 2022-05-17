@@ -7,7 +7,7 @@ public class FileStorageProperties {
     private String uploadDir;
 
     public String getUploadDir() {
-        return System.getProperty("user.dir") + "/target/static";
+        return System.getProperty("user.dir") + "/static";
     }
 
     public void setUploadDir(String uploadDir) {
