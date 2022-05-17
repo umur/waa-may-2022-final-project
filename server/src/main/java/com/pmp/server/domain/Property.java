@@ -5,6 +5,7 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -49,6 +50,9 @@ public class Property extends BaseEntity {
 
   @OneToOne
   private User lastRentedBy;
+
+  @Column(name="last_rented_date")
+  private Date lastRentedDate;
 
   // just to track the current rented information
   @OneToOne

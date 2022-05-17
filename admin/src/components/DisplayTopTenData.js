@@ -20,7 +20,7 @@ const DisplayTopTenData = (props) => {
   const columns = props.columns;
 
   const [order, setOrder] = React.useState("desc");
-  const [orderBy, setOrderBy] = React.useState("createdAt");
+  const [orderBy, setOrderBy] = React.useState(props.defaultColumnSort);
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);

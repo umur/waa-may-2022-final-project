@@ -7,6 +7,7 @@ import com.pmp.server.domain.User;
 import com.pmp.server.dto.PropertyDTO;
 import com.pmp.server.dto.PropertyIncomeDTO;
 import com.pmp.server.dto.RentDTO;
+import com.pmp.server.dto.Top10PropertyLeaseEndDTO;
 import com.pmp.server.dto.common.ResponseMessage;
 import com.pmp.server.exceptionHandler.exceptions.CustomErrorException;
 import com.pmp.server.repo.PropertyImageRepo;
@@ -24,11 +25,10 @@ import org.springframework.stereotype.Service;
 
 import org.springframework.data.domain.Pageable;
 
+import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
-import static com.pmp.server.utils.constants.ResponseMessageConstants.SUCCESSFUL_MESSAGE;
 import static java.time.temporal.ChronoUnit.DAYS;
 
 @Service
@@ -40,16 +40,19 @@ public class PropertyServiceImpl implements PropertyService {
 
   private final PropertyImageRepo imageRepo;
 
+  private final PropertyRentalHistoryRepo propertyRentalHistoryRepo;
 
-  public PropertyServiceImpl(PropertyRepo propertyRepo, PropertyRentalHistoryRepo rentalRepo, UserRepo userRepo, PropertyImageRepo imageRepo) {
+
+  public PropertyServiceImpl(PropertyRepo propertyRepo, PropertyRentalHistoryRepo rentalRepo, UserRepo userRepo, PropertyImageRepo imageRepo, PropertyRentalHistoryRepo propertyRentalHistoryRepo) {
     this.propertyRepo = propertyRepo;
     this.rentalRepo = rentalRepo;
     this.userRepo = userRepo;
     this.imageRepo = imageRepo;
+    this.propertyRentalHistoryRepo = propertyRentalHistoryRepo;
   }
 
   public Page<Property> findAll(Pageable pageable) {
-    return propertyRepo.findAll(pageable);
+    return propertyRepo.findAllByActiveIsTrueAndOwnedByActiveIsTrue(pageable);
   }
 
   @Override
@@ -86,6 +89,7 @@ public class PropertyServiceImpl implements PropertyService {
       rentalRepo.save(hist);
 
       pty.setLastRentedBy(user);
+      pty.setLastRentedDate(new Date());
       propertyRepo.save(pty);
       return hist;
     } else {
@@ -96,7 +100,7 @@ public class PropertyServiceImpl implements PropertyService {
 
   @Override
   public Page<Property> findAllwithFilter(Pageable page, String loc, int r) {
-    return propertyRepo.findAllByCityIsLikeIgnoreCaseAndAndNumberOfBedroomsGreaterThanEqualAndActiveIsTrue(page, loc, r);
+    return propertyRepo.findAllByCityIsLikeIgnoreCaseAndAndNumberOfBedroomsGreaterThanEqualAndActiveIsTrueAndOwnedByActiveIsTrue(page, loc, r);
   }
 
   @Override
@@ -139,20 +143,28 @@ public class PropertyServiceImpl implements PropertyService {
     p.setPropertyType(pty.getPropertyType());
     p.setPhotos(imgs);
     p.setOccupied(false);
-    p.setNumberOfBathrooms(p.getNumberOfBathrooms());
-    p.setNumberOfBedrooms(p.getNumberOfBedrooms());
-    p.setState(p.getState());
-    p.setZipCode(p.getZipCode());
-    p.setStreetAddress(p.getStreetAddress());
-    p.setRentAmount(p.getRentAmount());
+    p.setNumberOfBathrooms(pty.getNumberOfBathrooms());
+    p.setNumberOfBedrooms(pty.getNumberOfBedrooms());
+    p.setState(pty.getState());
+    p.setZipCode(pty.getZipCode());
+    p.setStreetAddress(pty.getStreetAddress());
+    p.setRentAmount(pty.getRentAmount());
     p.setOwnedBy(user);
-    p.setSecurityDepositAmount(p.getSecurityDepositAmount());
+    p.setSecurityDepositAmount(pty.getSecurityDepositAmount());
     return propertyRepo.save(p);
   }
 
   @Override
   public Page<Property> search(Pageable page, String s) {
-    return propertyRepo.customSearch(page, "%" + s.toLowerCase() + "%");
+    UUID owner = null;
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    if (authentication != null) {
+      if (authentication.getPrincipal() instanceof KeycloakPrincipal) {
+        KeycloakPrincipal<KeycloakSecurityContext> kp = (KeycloakPrincipal<KeycloakSecurityContext>) authentication.getPrincipal();
+        owner = UUID.fromString(kp.getKeycloakSecurityContext().getToken().getSubject());
+      }
+    }
+    return propertyRepo.customSearch(page, "%" + s.toLowerCase() + "%", owner);
   }
 
   @Override
@@ -222,22 +234,22 @@ public class PropertyServiceImpl implements PropertyService {
   }
 
   @Override
-  public ResponseMessage propertyByIncome(UUID propertyId) {
+  public ResponseMessage propertyByIncome(UUID userId) {
     List<Property> properties = new ArrayList<Property>();
     List<PropertyIncomeDTO> results = new ArrayList<PropertyIncomeDTO>();
-    if(propertyId == null){
+    if (userId == null) {
       properties = (List<Property>) propertyRepo.findAll();
     } else {
-      Optional<Property> property = propertyRepo.findById(propertyId);
-      if(property.isPresent()){
-        Property p = property.get();
-        properties.add(p);
-      }
+      properties = propertyRepo.customFindByOwner(userId);
+//      if (property.isPresent()) {
+//        Property p = property.get();
+//        properties.add(p);
+//      }
 
     }
-    properties.forEach(p->{
+    properties.forEach(p -> {
       List<PropertyRentalHistory> prh = rentalRepo.findByPropertyId(p.getId());
-      if(prh.size() > 0) {
+      if (prh.size() > 0) {
         PropertyIncomeDTO pi = new PropertyIncomeDTO();
         pi.setId(p.getId());
         pi.setPropertyName(p.getPropertyName());
@@ -273,7 +285,38 @@ public class PropertyServiceImpl implements PropertyService {
 //    List list = query.getResultList();
 //    System.out.println("list:" + list);
 //    System.out.println("list 0:" + list.get(0));
+  }
 
+  public ResponseMessage top10LeaseEnd(Top10PropertyLeaseEndDTO dto) {
+    // Get all history end by request month
+    LocalDate endDateOfMonth = dto.getDate().withDayOfMonth(dto.getDate().lengthOfMonth());
+    LocalDate startDateOfMonth = dto.getDate().withDayOfMonth(1);
+    var histories = propertyRentalHistoryRepo.findAllByEndDateBefore(startDateOfMonth, endDateOfMonth);
+
+    // Get top 10 properties
+    var properties = histories.stream()
+            .map(h -> h.getProperty().getId().toString())
+            .distinct()
+            .limit(10)
+            .map(id -> propertyRepo.findById(UUID.fromString(id)))
+            .collect(Collectors.toList());
+
+    return new ResponseMessage("Ok", HttpStatus.OK, properties);
+  }
+
+  @Override
+  public Page<Property> getAllPaginatedProperties(Pageable pageable) {
+    return propertyRepo.findAll(pageable);
+  }
+
+  @Override
+  public Page<Property> getAllLandlordProperties(Pageable pageable, UUID uuid) {
+    return propertyRepo.findAll(pageable);
+  }
+
+  @Override
+  public Page<Property> getAllRentedProperties(Pageable pageable) {
+    return propertyRepo.findByLastRentedDateNotNull(pageable);
   }
 
 }

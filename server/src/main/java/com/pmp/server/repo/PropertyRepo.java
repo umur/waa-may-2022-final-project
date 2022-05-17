@@ -4,6 +4,7 @@ import com.joutvhu.dynamic.jpa.DynamicQuery;
 import com.pmp.server.domain.Property;
 import com.pmp.server.domain.User;
 import com.pmp.server.dto.PropertyIncomeDTO;
+import com.pmp.server.dto.common.PagingRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
@@ -15,12 +16,30 @@ import java.util.UUID;
 
 @Repository
 public interface PropertyRepo extends PagingAndSortingRepository<Property, UUID> {
-    Page<Property> findAllByCityIsLikeIgnoreCaseAndAndNumberOfBedroomsGreaterThanEqualAndActiveIsTrue(Pageable page, String loc, int room);
+    Page<Property> findAllByCityIsLikeIgnoreCaseAndAndNumberOfBedroomsGreaterThanEqualAndActiveIsTrueAndOwnedByActiveIsTrue(Pageable page, String loc, int room);
+
+    Page<Property> findByLastRentedDateNotNull(Pageable page);
     Page<Property> findAllByOwnedBy(Pageable page, User u);
 
-    @Query(value = "SELECT * FROM Properties p WHERE lower(p.property_name) LIKE ?1 or lower(p.state) LIKE ?1 or lower(p.property_type) LIKE ?1 or lower(p.city) LIKE ?1 or lower(p.description) LIKE ?1 or lower(p.property_type) LIKE ?1 or lower(p.street_address) LIKE ?1  ",
+    Page<Property> findAllByActiveIsTrue(Pageable page);
+
+    Page<Property> findAllByActiveIsTrueAndOwnedByActiveIsTrue(Pageable page);
+
+    @Query(value = "select * from properties p where p.owned_by_id =?1", nativeQuery = true)
+    List<Property> customFindByOwner(UUID id);
+
+    @Query(value = "SELECT *\n" +
+      "FROM Properties p\n" +
+      "WHERE (lower(p.property_name) LIKE ?1\n" +
+      "   or lower(p.state) LIKE ?1\n" +
+      "   or lower(p.property_type) LIKE ?1\n" +
+      "   or lower(p.city) LIKE ?1\n" +
+      "   or lower(p.description) LIKE ?1\n" +
+      "   or lower(p.property_type) LIKE ?1\n" +
+      "   or lower(p.street_address) LIKE ?1)\n" +
+      "AND p.owned_by_id=?2",
             nativeQuery = true)
-    Page<Property> customSearch(Pageable page,String s);
+    Page<Property> customSearch(Pageable page,String s, UUID id);
 
 //    @Query(value = "select\n" +
 //      "        p.id,\n" +

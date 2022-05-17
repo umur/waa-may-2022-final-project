@@ -1,7 +1,10 @@
 package com.pmp.server.controller;
 
+import com.google.common.base.CaseFormat;
 import com.pmp.server.domain.Property;
 import com.pmp.server.domain.PropertyRentalHistory;
+import com.pmp.server.domain.Role;
+import com.pmp.server.domain.User;
 import com.pmp.server.dto.PropertyIncomeDTO;
 import com.pmp.server.dto.PropertyDTO;
 import com.pmp.server.dto.RentDTO;
@@ -10,16 +13,21 @@ import com.pmp.server.dto.common.ResponseMessage;
 import com.pmp.server.service.PropertyService;
 import com.pmp.server.service.impl.PropertyServiceImpl;
 import com.pmp.server.service.impl.UserServiceImpl;
+import com.pmp.server.utils.enums.ERole;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
 
+import javax.ws.rs.Path;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/properties")
@@ -60,12 +68,41 @@ public class PropertyController {
   }
 
   @GetMapping("/property-by-income")
-  private ResponseMessage getByID(@RequestParam Optional<UUID> propertyId){
-    UUID propId = null;
-    if(propertyId.isPresent()){
-      propId = propertyId.get();
+  private ResponseMessage getPropertyByIncome(@RequestParam Optional<UUID> userId){
+    UUID uId = null;
+    if(userId.isPresent()){
+      uId = userId.get();
     }
-    return propertyService.propertyByIncome(propId);
+    return propertyService.propertyByIncome(uId);
+  }
+
+  @GetMapping("/paginated")
+  public PagingResponse<Property> getAllPaginatedProperties(Pageable pagingRequest) {
+    var data = propertyService.getAllPaginatedProperties(pagingRequest);
+    return new PagingResponse<>(data);
+
+  }
+
+  @GetMapping("/paginated/{ownerId}")
+  public PagingResponse<Property> getAllLandlordProperties(Pageable pagingRequest, @PathVariable UUID ownerId) {
+    var data = propertyService.getAllLandlordProperties(pagingRequest, ownerId);
+    return new PagingResponse<>(data);
+
+  }
+
+  @GetMapping("/rented/paginated")
+  public PagingResponse<Property> getAllRentedProperties(Pageable pagingRequest) {
+    var data = propertyService.getAllRentedProperties(pagingRequest);
+    return new PagingResponse<>(data);
+
+  }
+
+
+  private Sort convertDtoSortToDaoSort(Sort dtoSort) {
+    return Sort.by(dtoSort.get()
+      .map(sortOrder -> sortOrder.withProperty(CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, sortOrder.getProperty())))
+      .collect(Collectors.toList())
+    );
   }
 
 }

@@ -23,11 +23,11 @@ import PropertyDetail from 'pages/Properties/PropertyDetail';
 
 function App() {
   const [isSignedIn, setSignedIn] = useState(
-    localStorage.getItem("token") ? true : true
+    localStorage.getItem("token") ? true : false
   );
 
   const [user, setUser] = useState(null);
-  const [role, setRole] = useState("ROLE_LANDLORD");
+  const [role, setRole] = useState(localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")).role.roleName : "");
 
   const fetchData = async () => {
     const data = await localStorage.getItem("user");
@@ -57,7 +57,7 @@ function App() {
             path="/"
             element={
               <AuthWrapper role={[ROLE.Admin, ROLE.Landlord]}>
-                <Dashboard />
+                <Dashboard role={role} />
               </AuthWrapper>
             }
           />
@@ -135,7 +135,7 @@ function App() {
               </AuthWrapper>
             }
           />
-          
+
         </Routes>
       </AuthContext.Provider>
     </ThemeProvider>

@@ -41,17 +41,17 @@ function PropertyDetail(props) {
       data: {},
       headers: defaultHeaders(isSignedIn),
     },
-    {
-      useCache: false,
-      manual: true,
-    })
+      {
+        useCache: false,
+        manual: true,
+      })
   }, [getProperty, id, isSignedIn]);
 
   const notify = (msg) => toast.error(msg);
 
   const [{ data, loading, error }, updateProperty] = useAxios(
     {
-      url: "/landlord/properties" ,
+      url: "/landlord/properties",
       method: "post",
       data: {},
       headers: defaultHeaders(isSignedIn),
@@ -95,12 +95,12 @@ function PropertyDetail(props) {
       useCache: false,
       manual: true,
     }
-  ); 
+  );
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     const form = new FormData(event.currentTarget);
-    
+
     try {
       let imageUrls = []
       if (photos.length > 0) {
@@ -126,7 +126,7 @@ function PropertyDetail(props) {
           }
         )
 
-        
+
         imageUrls = files?.data?.data?.map(f => {
           return {
             "imageUrl": f.fileDownloadUri
@@ -183,7 +183,7 @@ function PropertyDetail(props) {
     notify(error);
   }, [error]);
 
-  
+
 
   return (
     <Layout title="Property Detail">
