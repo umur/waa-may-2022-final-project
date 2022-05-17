@@ -20,6 +20,7 @@ import Landlord from "pages/Landlord/Landlord";
 import NotFound from 'pages/404';
 import NewProperty from 'pages/Properties/NewProperty';
 import PropertyDetail from 'pages/Properties/PropertyDetail';
+import CreateNewPassword from "pages/CreateNewPassword";
 
 function App() {
   const [isSignedIn, setSignedIn] = useState(
@@ -53,6 +54,10 @@ function App() {
           <Route path="/login" element={<Login />} />
           {/* <Route path="/register" element={<Register />} /> */}
           <Route path="/forgotpassword" element={<ForgotPassword />} />
+          <Route
+            path="/create-new-password/:token"
+            element={<CreateNewPassword />}
+          />
           <Route
             path="/"
             element={
