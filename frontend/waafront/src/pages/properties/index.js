@@ -86,7 +86,7 @@ function Properties(props) {
     setVisible(true);
   };
 
-  const handleOk = async () => {
+  const handleOk = async (e) => {
     try {
      
       const { data } = await api.post("api/v1/properties", propertyState, config);
