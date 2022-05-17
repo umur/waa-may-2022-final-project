@@ -5,6 +5,7 @@ import axios from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { useDispatch } from 'react-redux';
 import { authActions } from '../store';
+import jwt_decode from "jwt-decode";
 
 
 export const Login = () => {
@@ -32,9 +33,9 @@ export const Login = () => {
 
   const onSubmit = async (data) => {
     const result = await dispatch(doLogin(data));
-    console.log({result})
     if(result?.payload?.accessToken) {
-      dispatch(authActions.loginSuccessful());
+      const decoded = jwt_decode(result.payload.accessToken);
+      dispatch(authActions.loginSuccessful(decoded.authorities));
       navigate('/dashboard');
       localStorage.setItem('token', JSON.stringify(result.payload))
     }else{
