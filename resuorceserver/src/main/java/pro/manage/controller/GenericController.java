@@ -14,12 +14,12 @@ public interface GenericController <TO,ID,S extends GenericService>{
     default Optional<TO> getById(@PathVariable ID id) {
         return getService().findById(id);
     }
-    @PostMapping("/")
+    @PostMapping
     default void add( @RequestBody TO t) {
         getService().save(t);
     }
 
-    @GetMapping("/")
+    @GetMapping
     default List<TO> getAll() {
         return getService().findAll();
     }
