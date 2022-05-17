@@ -12,6 +12,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.http.CacheControl;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -40,6 +41,16 @@ public class ServerApplication implements WebMvcConfigurer {
 
 		WebMvcConfigurer.super.addResourceHandlers(registry);
 	}
+	@Override
+	public void addCorsMappings(CorsRegistry registry) {
 
+		registry.addMapping("/**")
+				.allowedOriginPatterns("*")
+				.allowedMethods("GET", "POST","PUT","DELETE")
+				.allowedHeaders("Origin", "Accept", "Content-Type", "Authorization")
+				.allowCredentials(true)
+				.maxAge(3600);
+
+	}
 
 }

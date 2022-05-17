@@ -13,19 +13,24 @@ import ForgotPassword from "./pages/ForgotPassword";
 import NotFound from "./pages/404";
 import Payment from "pages/Payment";
 import CreateNewPassword from "pages/CreateNewPassword";
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import Profile from "pages/Profile";
 import Footer from "./components/Footer";
+import { StompSessionProvider, useSubscription } from "react-stomp-hooks";
 
 function App() {
   const [isSignedIn, setSignedIn] = useState(
     localStorage.getItem("token") ? true : false
   );
+  const [notification, setNotification] = useState(null);
   const [user, setUser] = useState(null);
   const [role, setRole] = useState("User");
 
   const authContext = { isSignedIn, setSignedIn, user, setUser, role, setRole };
 
+  useSubscription("/topic/tenants", (msg) => {
+    toast.success(JSON.parse(msg.body).message);
+  });
   return (
     <AuthContext.Provider value={authContext}>
       <ToastContainer />

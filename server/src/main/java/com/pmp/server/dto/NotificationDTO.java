@@ -8,6 +8,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class NotificationDTO {
-    private String from;
-    private String text;
+    private String to;
+    private String message;
 }
