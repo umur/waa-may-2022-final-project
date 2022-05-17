@@ -27,7 +27,8 @@ public interface GenericService<T,TO, ID,Repo  extends CrudRepository<T,ID>> {
     default Optional<TO> findById(ID id){
         Optional<T> tempObj=getRepo().findById(id);
         if(tempObj.isPresent())
-        return Optional.ofNullable( ModelMapperUti.map(tempObj ,getDTOType()));
+
+        return Optional.ofNullable( ModelMapperUti.map(tempObj.get() ,getDTOType()));
         return null;
     }
 
