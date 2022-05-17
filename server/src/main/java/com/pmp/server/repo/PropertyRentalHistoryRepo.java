@@ -18,7 +18,7 @@ public interface PropertyRentalHistoryRepo  extends PagingAndSortingRepository<P
 
     List<PropertyRentalHistory> findAllByRentedBy(User user);
 
-   // List<PropertyRentalHistory> findAllByRentedBy(UUID uuid);
+    List<PropertyRentalHistory> findAllByPropertyOwnedBy(User user);
   List<PropertyRentalHistory> findByPropertyId(UUID uuid);
 
 
