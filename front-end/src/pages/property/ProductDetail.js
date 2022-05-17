@@ -1,16 +1,21 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import BreadCrumb from "../../components/BreadCrumb";
+import { isLandLord } from '../../utils/role';
 
 const ProductDetail = () => {
   const { id } = useParams();
 
   const [product, setProduct] = useState();
 
+  const navigate = useNavigate();
   
 
   useEffect(() => {
+    if(!isLandLord()){
+      navigate('/not-found');
+    }
     get();
   }, []);
 

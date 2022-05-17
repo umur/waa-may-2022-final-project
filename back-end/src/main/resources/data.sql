@@ -51,18 +51,45 @@ INSERT INTO address(id,city,state,street,zipcode) values (nextval('address_id_se
 
 truncate table property restart identity cascade;
 
-INSERT INTO property(id, no_of_bath_room,no_of_bed_room,property_name,property_type,rent_amount,security_deposit_amount,land_lord_id,address_id) values
-    (nextval('property_id_seq'),2,3,'Housing Royal','House',5000,500,2,1);
+INSERT INTO property(id, no_of_bath_room,no_of_bed_room,property_name,property_type,rent_amount,security_deposit_amount,land_lord_id,address_id,is_available) values
+    (nextval('property_id_seq'),2,3,'Housing Royal','House',5000,500,2,1,false);
 
-INSERT INTO property(id, no_of_bath_room,no_of_bed_room,property_name,property_type,rent_amount,security_deposit_amount,land_lord_id,address_id) values
-    (nextval('property_id_seq'),4,7,'Royal House','House',2000,100,2,2);
+INSERT INTO property(id, no_of_bath_room,no_of_bed_room,property_name,property_type,rent_amount,security_deposit_amount,land_lord_id,address_id,is_available) values
+    (nextval('property_id_seq'),4,7,'Royal House','House',2000,100,2,2,false);
 
 
-INSERT INTO property(id, no_of_bath_room,no_of_bed_room,property_name,property_type,rent_amount,security_deposit_amount,land_lord_id,address_id) values
-    (nextval('property_id_seq'),4,7,'Moto House','House',4000,100,3,3);
+INSERT INTO property(id, no_of_bath_room,no_of_bed_room,property_name,property_type,rent_amount,security_deposit_amount,land_lord_id,address_id,is_available) values
+    (nextval('property_id_seq'),4,7,'Moto House','House',4000,100,3,3,false);
 
-INSERT INTO property(id, no_of_bath_room,no_of_bed_room,property_name,property_type,rent_amount,security_deposit_amount,land_lord_id,address_id) values
-    (nextval('property_id_seq'),2,5,'Super House','House',5000,300,2,4);
+INSERT INTO property(id, no_of_bath_room,no_of_bed_room,property_name,property_type,rent_amount,security_deposit_amount,land_lord_id,address_id,is_available) values
+    (nextval('property_id_seq'),2,5,'Super House','House',5000,300,2,4,false);
+
+
+/*
+
+PROPERTY FOR WEEKLY REPORT
+
+*/
+
+INSERT INTO property(id, no_of_bath_room,no_of_bed_room,property_name,property_type,rent_amount,security_deposit_amount,land_lord_id,address_id,is_available) values
+    (nextval('property_id_seq'),2,3,'Kathmandu Royal','House',5000,500,2,1,false);
+
+INSERT INTO property(id, no_of_bath_room,no_of_bed_room,property_name,property_type,rent_amount,security_deposit_amount,land_lord_id,address_id,is_available) values
+    (nextval('property_id_seq'),4,7,'Royal Chitwan','House',2000,100,2,2,false);
+
+
+INSERT INTO property(id, no_of_bath_room,no_of_bed_room,property_name,property_type,rent_amount,security_deposit_amount,land_lord_id,address_id,is_available) values
+    (nextval('property_id_seq'),4,7,'Osho Ashram','House',4000,100,3,3,false);
+
+INSERT INTO property(id, no_of_bath_room,no_of_bed_room,property_name,property_type,rent_amount,security_deposit_amount,land_lord_id,address_id,is_available) values
+    (nextval('property_id_seq'),2,5,'Ashram Peace','House',5000,300,2,4,false);
+
+INSERT INTO property(id, no_of_bath_room,no_of_bed_room,property_name,property_type,rent_amount,security_deposit_amount,land_lord_id,address_id,is_available) values
+    (nextval('property_id_seq'),2,5,'Pokhara Royal','House',5000,300,2,4,false);
+
+
+
+
 
 truncate table photo restart identity cascade ;
 
@@ -84,7 +111,7 @@ values (nextval('tenant_property_id_seq'),6000,'2020-05-10',2,5,'2020-04-10');
 
 INSERT INTO property_rent(id,paid_rent_amount,rent_end_date,property_id,tenant_id,created_at)
 
-values (nextval('tenant_property_id_seq'),8000,'2022-05-30',2,5,'2022-05-09');
+values (nextval('tenant_property_id_seq'),8000,'2022-05-30',2,5,'2022-05-15');
 
 
 INSERT INTO property_rent(id,paid_rent_amount,rent_end_date,property_id,tenant_id,created_at)
@@ -136,3 +163,29 @@ values (nextval('tenant_property_id_seq'),2500,'2020-11-10',4,6,'2020-10-10');
 INSERT INTO property_rent(id,paid_rent_amount,rent_end_date,property_id,tenant_id,created_at)
 
 values (nextval('tenant_property_id_seq'),6100,'2021-05-10',4,6,'2021-04-10');
+
+
+
+/*
+PROPERTY FOR WEEKLY REPORT
+*/
+
+INSERT INTO property_rent(id,paid_rent_amount,rent_end_date,property_id,tenant_id, created_at)
+
+values (nextval('tenant_property_id_seq'),3000,'2022-06-10',5,4,'2022-05-15');
+
+INSERT INTO property_rent(id,paid_rent_amount,rent_end_date,property_id,tenant_id, created_at)
+
+values (nextval('tenant_property_id_seq'),3000,'2022-06-10',9,7,'2022-05-16');
+
+INSERT INTO property_rent(id,paid_rent_amount,rent_end_date,property_id,tenant_id, created_at)
+
+values (nextval('tenant_property_id_seq'),4000,'2022-06-10',6,6,'2022-05-16');
+
+INSERT INTO property_rent(id,paid_rent_amount,rent_end_date,property_id,tenant_id, created_at)
+
+values (nextval('tenant_property_id_seq'),7000,'2022-06-10',7,5,'2022-05-14');
+
+INSERT INTO property_rent(id,paid_rent_amount,rent_end_date,property_id,tenant_id, created_at)
+
+values (nextval('tenant_property_id_seq'),3500,'2022-06-10',8,5,'2022-05-13');

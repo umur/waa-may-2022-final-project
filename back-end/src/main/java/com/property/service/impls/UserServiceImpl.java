@@ -22,6 +22,7 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -100,15 +101,17 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public LoginResponse login(LoginRequest loginRequest) {
+        Authentication authentication= null;
         try {
-            authenticationManager.authenticate(
+            authentication =authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(loginRequest.getEmail(),
                             loginRequest.getPassword())
             );
         } catch (BadCredentialsException e) {
             throw new UserNotFoundException("Bad Credentials");
         }
-        final String accessToken = jwtHelper.generateToken(loginRequest.getEmail());
+        String role = authentication.getAuthorities().stream().findFirst().get().getAuthority();
+        final String accessToken = jwtHelper.generateToken(loginRequest.getEmail(), role);
         final String refreshToken = jwtHelper.generateRefreshToken(loginRequest.getEmail());
         var loginResponse = new LoginResponse(accessToken, refreshToken);
         return loginResponse;

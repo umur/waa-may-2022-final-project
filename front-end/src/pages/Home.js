@@ -4,7 +4,6 @@ import Dashboard from '../components/Dashboard'
 import Footer from '../components/Footer'
 import Header from '../components/Header'
 import Sidebar from '../components/Sidebar'
-import LandLordList from './landlord/LandLordList'
 
 const Home = () => {
 

@@ -5,7 +5,6 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import Home from './pages/Home';
 import PrivateRoute from './components/PrivateRoute';
 import Dashboard from './components/Dashboard';
-import LandLordList from './pages/landlord/LandLordList';
 import PropertyList from './pages/property/PropertyList';
 import AddProperty from './pages/property/AddProperty';
 
@@ -16,6 +15,8 @@ import UpdateProperty from './pages/property/UpdateProperty';
 import ProductDetail from './pages/property/ProductDetail';
 import RentProperty from './pages/RentProperty';
 import RentForm from './pages/RentForm';
+import LineChart from './pages/LineChart';
+import NotFound from './pages/404';
 import User from './pages/Users';
 import ChangePassword from './pages/ChangePassword';
 
@@ -36,7 +37,6 @@ function App() {
           }>
           <Route path='' element={<Dashboard />}>
           </Route>
-          <Route path='landlords' element={<LandLordList />}></Route>
           
 
           <Route path='property' element={<PropertyList />}>
@@ -53,6 +53,10 @@ function App() {
 
           <Route path="report" element={<Report />}>
           </Route>
+
+          <Route path="line-report" element={<LineChart />}>
+          </Route>
+
 
           <Route path="users" element={<User />}>
           </Route>
@@ -74,6 +78,8 @@ function App() {
         </Route>
         <Route path='/reset-password' element={<ResetPassword />}>
         </Route>
+        <Route path='*' element={<NotFound />} />
+        <Route path='/not-found' element={<NotFound />} />
       </Routes>
     </>
   );

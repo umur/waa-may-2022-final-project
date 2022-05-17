@@ -28,6 +28,12 @@ public class UserController {
         return ResponseEntity.ok(users);
     }
 
+    @GetMapping("{id}")
+    public ResponseEntity<UserRegistrationResponse> getById(@PathVariable Long id){
+        UserRegistrationResponse response = userService.findById(id);
+        return ResponseEntity.ok(response);
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<UserUpdateDto> update(@RequestBody UserUpdateDto userUpdateDto, @PathVariable Long id){
         userUpdateDto = userService.update(id,userUpdateDto);
