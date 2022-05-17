@@ -11,7 +11,7 @@ const User = () => {
     const [changePswBtnClicked, setChangePswBtnClicked] = useState(false);
     const [statusChangeBtnClicked, setStatusChangeBtnClicked] = useState(false);
 
-    const [userId, setUserId] = useState(null);
+    // const [userId, setUserId] = useState(null);
 
     const navigate = useNavigate();
 
@@ -48,11 +48,11 @@ const User = () => {
     }
 
     const handleStatusChangeBtn = async(userId) => {
-        setUserId(userId);
-        
+        // setUserId(userId);
+
         let token = JSON.parse(localStorage.getItem("token"));
         try {
-            const response = await axios.put(`http://localhost:8080/api/v1/uaa/useractivedeactive/${userId}`,
+            const response = await axios.post(`http://localhost:8080/api/v1/users/user-active/${userId}`,null,
                 {
                     headers: {
                         Authorization: `Bearer ${token.accessToken}`,

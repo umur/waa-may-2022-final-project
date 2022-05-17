@@ -5,7 +5,7 @@ export const isAdmin = () => {
 }
 
 export const isLandLord = () => {
-    return getRole()==='ADMIN';
+    return getRole()==='LANDLORD';
 }
 
 export const getRole = () => {

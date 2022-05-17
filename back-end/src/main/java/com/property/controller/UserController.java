@@ -4,6 +4,7 @@ import com.property.dto.request.UserUpdateDto;
 import com.property.dto.response.UserRegistrationResponse;
 import com.property.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,6 +39,12 @@ public class UserController {
     public ResponseEntity<UserUpdateDto> update(@RequestBody UserUpdateDto userUpdateDto, @PathVariable Long id){
         userUpdateDto = userService.update(id,userUpdateDto);
         return ResponseEntity.ok(userUpdateDto);
+    }
+
+    @PostMapping("/user-active/{id}")
+    public ResponseEntity<Void> updateUserStatus(@PathVariable Long id) {
+        userService.userIsActive(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }
