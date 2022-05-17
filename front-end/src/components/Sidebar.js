@@ -42,6 +42,16 @@ const Sidebar = () => {
                                 </p>
                             </Link>
                         </li>
+
+                        <li className="nav-item menu-open">
+                            <Link to='rent-property' className="nav-link">
+                                <i className="nav-icon far fa-circle nav-icon" />
+                                <p>
+                                    Rent Property
+                                </p>
+                            </Link>
+                        </li>
+
                         <li className="nav-header">Property</li>
                         <li className="nav-item">
                             <Link to='property' className="nav-link">

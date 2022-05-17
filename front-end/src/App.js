@@ -12,6 +12,8 @@ import AddProperty from './pages/property/AddProperty';
 import ForgotPassword from './pages/ForgotPassword';
 import ResetPassword from './pages/ResetPassword';
 import Report from './pages/Report';
+import RentProperty from './pages/RentProperty';
+import RentForm from './pages/RentForm';
 
 
 function App() {
@@ -20,7 +22,6 @@ function App() {
       <Routes>
         <Route path="/" element={<Navigate to="/dashboard" />}>
         </Route>
-
 
         <Route
           path='/dashboard'
@@ -35,9 +36,16 @@ function App() {
           <Route path='property' element={<PropertyList />}></Route>
 
           <Route path='add' element={<AddProperty />}></Route>
-          
+
           <Route path="report" element={<Report />}>
           </Route>
+
+          <Route path="rent-property" element={<RentProperty />}>
+          </Route>
+          
+          <Route path="rent-property/rent-form/:id" element={<RentForm />}>
+          </Route>
+
         </Route>
 
         <Route path='/login' element={<Login />}>
