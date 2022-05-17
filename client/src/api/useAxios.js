@@ -3,7 +3,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { AuthContext } from "context/AuthContext";
 
-export const useAxios = (method, url) => {
+export const useAxios = (method, url, param = null) => {
   const notify = (msg, method = "error") => toast[method](msg);
   const { isSignedIn } = useContext(AuthContext);
   console.log(isSignedIn);
@@ -41,21 +41,14 @@ export const useAxios = (method, url) => {
 
   useEffect(() => {
     if (data === null && method === "get") {
-      executeRequest();
+      executeRequest(param);
     }
   }, [data, executeRequest, method]);
-
-  const queryParam = (list) => {
-    let query = "?";
-    list.map((item, index, list) => {
-      query += item.key + "=" + item.value + (list.length > 0 ? "&" : "");
-    });
-    return query;
-  };
 
   return { data, error, loading, execute: executeRequest, queryParam };
 };
 
+//methods
 const customAxios = (axiosmethod, url, headers, data) => {
   console.log("data", data);
   if (axiosmethod === "get" || axiosmethod === "delete") {
@@ -66,4 +59,12 @@ const customAxios = (axiosmethod, url, headers, data) => {
   } else {
     return axios[axiosmethod](url, data, headers);
   }
+};
+
+const queryParam = (list) => {
+  let query = "?";
+  list.map((item, index, list) => {
+    query += item.key + "=" + item.value + (list.length > 0 ? "&" : "");
+  });
+  return query;
 };

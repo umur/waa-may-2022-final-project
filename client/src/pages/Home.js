@@ -5,10 +5,13 @@ import PropertyItem from "../components/PropertyItem";
 import { useAxios } from "../api/useAxios";
 import Loading from "../components/Loading";
 import MapsHomeWorkIcon from "@mui/icons-material/MapsHomeWork";
+import Pagination from "@mui/material/Pagination";
+
 const Home = () => {
   const { data, error, loading, execute, queryParam } = useAxios(
     "get",
-    "/properties"
+    "/properties",
+    "?size=12"
   );
 
   if (loading) {
@@ -43,6 +46,22 @@ const Home = () => {
             </div>
           </>
         )}
+      </div>
+      <div className="pagination">
+        <Pagination
+          count={data?.totalPage}
+          shape="rounded"
+          color="primary"
+          page={data?.current + 1}
+          onChange={(e, value) => {
+            execute(
+              queryParam([
+                { key: "size", value: 12 },
+                { key: "page", value: value - 1 },
+              ])
+            );
+          }}
+        />
       </div>
     </>
   );

@@ -149,3 +149,11 @@ h5 {
 .login-container .login-img-text .text {
   font-size: 24px;
 }
+
+.pagination {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+  margin-bottom: 20px;
+}
