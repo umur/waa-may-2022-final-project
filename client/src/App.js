@@ -15,6 +15,7 @@ import Payment from "pages/Payment";
 import CreateNewPassword from "pages/CreateNewPassword";
 import { ToastContainer } from "react-toastify";
 import Profile from "pages/Profile";
+import Footer from "./components/Footer";
 
 function App() {
   const [isSignedIn, setSignedIn] = useState(
@@ -57,6 +58,7 @@ function App() {
         />
         <Route path="/payment/:id" element={<Payment />} />
       </Routes>
+      <Footer />
     </AuthContext.Provider>
   );
 }

@@ -35,7 +35,7 @@ const Home = () => {
           ))
         ) : (
           <>
-            <div className="empty-list">
+            <div className="empty-list" style={{ minHeight: "500px" }}>
               <MapsHomeWorkIcon
                 style={{ fontSize: "35px", marginBottom: "10px" }}
               />

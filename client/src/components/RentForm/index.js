@@ -67,13 +67,20 @@ const RentForm = ({ amount, security, id }) => {
                   <TextField
                     label="Start"
                     color="primary"
-                    value={moment(state[0].startDate).format("MM/DD/YYYY")}
+                    value={
+                      moment(state[0].startDate).format("MM-DD-YYYY") !==
+                      moment(state[0].endDate).format("MM-DD-YYYY")
+                        ? moment(state[0].startDate).format("MM/DD/YYYY")
+                        : ""
+                    }
                     onFocus={() => setOpen(true)}
                   />
                   <TextField
                     label="End"
                     color="primary"
                     value={
+                      moment(state[0].startDate).format("MM-DD-YYYY") !==
+                        moment(state[0].endDate).format("MM-DD-YYYY") &&
                       state[0].endDate
                         ? moment(state[0].endDate).format("MM/DD/YYYY")
                         : ""
@@ -82,23 +89,25 @@ const RentForm = ({ amount, security, id }) => {
                   />
                 </div>
                 <div className="price">
-                  {state[0].endDate !== null && (
-                    <>
-                      <div>
-                        <span>Rent x {diff} days</span>
-                        <span>${rent}</span>
-                      </div>
-                      <div>
-                        <span>Security Deposit</span>
-                        <span>${totalSecurity}</span>
-                      </div>
-                      <hr />
-                      <div>
-                        <span>Total</span>
-                        <span>${rent + totalSecurity}</span>
-                      </div>
-                    </>
-                  )}
+                  {moment(state[0].startDate).format("MM-DD-YYYY") !==
+                    moment(state[0].endDate).format("MM-DD-YYYY") &&
+                    state[0].endDate !== null && (
+                      <>
+                        <div>
+                          <span>Rent x {diff} days</span>
+                          <span>${rent}</span>
+                        </div>
+                        <div>
+                          <span>Security Deposit</span>
+                          <span>${totalSecurity}</span>
+                        </div>
+                        <hr />
+                        <div>
+                          <span>Total</span>
+                          <span>${rent + totalSecurity}</span>
+                        </div>
+                      </>
+                    )}
                 </div>
                 <Button
                   variant="contained"
