@@ -36,8 +36,13 @@ public class PropertyController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @GetMapping()
+    public ResponseEntity<List<PropertyDto>> findAllProperty(){
+        return ResponseEntity.ok(propertyService.findAll());
+    }
+
     @GetMapping("/filter-property-by-type")
-    public ResponseEntity<List<PropertyDto>> findAllByPropertyTypeContains(@RequestParam String type){
+    public ResponseEntity<List<PropertyDto>> findAllByPropertyTypeContains(@RequestParam("type") String type){
         List<PropertyDto> propertyDtos = propertyService.findAllByPropertyTypeContains(type);
         return ResponseEntity.ok(propertyDtos);
     }

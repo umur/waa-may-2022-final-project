@@ -2,12 +2,13 @@ package com.property.respository;
 
 import com.property.domain.Property;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
 public interface PropertyRepository extends CrudRepository<Property, Long> {
 
-    List<Property> findAllByPropertyTypeContains(String name);
+    List<Property> findAllByPropertyTypeContains(@Param("propertyType") String propertyType);
 
     List<Property> findAllByNoOfBedRoom(int noOfBedRoom);
 
