@@ -16,12 +16,14 @@ import java.util.UUID;
 
 @Repository
 public interface PropertyRepo extends PagingAndSortingRepository<Property, UUID> {
-    Page<Property> findAllByCityIsLikeIgnoreCaseAndAndNumberOfBedroomsGreaterThanEqualAndActiveIsTrue(Pageable page, String loc, int room);
+    Page<Property> findAllByCityIsLikeIgnoreCaseAndAndNumberOfBedroomsGreaterThanEqualAndActiveIsTrueAndOwnedByActiveIsTrue(Pageable page, String loc, int room);
 
     Page<Property> findByLastRentedDateNotNull(Pageable page);
     Page<Property> findAllByOwnedBy(Pageable page, User u);
 
     Page<Property> findAllByActiveIsTrue(Pageable page);
+
+    Page<Property> findAllByActiveIsTrueAndOwnedByActiveIsTrue(Pageable page);
 
     @Query(value = "select * from properties p where p.owned_by_id =?1", nativeQuery = true)
     List<Property> customFindByOwner(UUID id);
