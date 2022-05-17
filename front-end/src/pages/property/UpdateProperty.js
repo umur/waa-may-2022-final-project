@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
+import { isLandLord } from '../../utils/role';
 
 import BreadCrumb from "../../components/BreadCrumb";
 
@@ -26,6 +27,9 @@ const UpdateProperty = () => {
   const [addressId, setAddressId] = useState();
 
   useEffect(() => {
+    if(!isLandLord()){
+      navigate('/not-found');
+    }
     fetchProperty();
   }, []);
 

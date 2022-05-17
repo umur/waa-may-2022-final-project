@@ -10,11 +10,12 @@ import java.util.Map;
 public class JwtHelper {
 
     private final String secret = "top-secret";
-    private final long expiration = 5 * 60 * 60 * 60;
+    private final long expiration = 1000 * 60 * 60 * 24;
 
-    public String generateToken(String email) {
+    public String generateToken(String email, String role) {
         return Jwts.builder()
                 .setSubject(email)
+                .claim("authorities", role)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + expiration))
                 .signWith(SignatureAlgorithm.HS512, secret)
