@@ -13,6 +13,8 @@ public interface UserService extends CrudService<UserRegistrationRequest, UserRe
 
     LoginResponse login(LoginRequest loginRequest);
 
+    UserRegistrationResponse findByEmail(String email);
+
     List<UserRegistrationResponse> findTop10RecentTenants();
 
     UserUpdateDto update(Long id, UserUpdateDto userUpdateDto);

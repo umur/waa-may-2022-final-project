@@ -38,7 +38,6 @@ public class Property {
     private boolean delete;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "address_id")
     private Address address;
 
     @OneToMany(mappedBy = "property", cascade = CascadeType.ALL)

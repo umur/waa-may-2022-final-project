@@ -1,5 +1,7 @@
 package com.property.controller;
 
+import com.property.dto.request.EmailRequest;
+import com.property.dto.request.UserRegistrationRequest;
 import com.property.dto.request.UserUpdateDto;
 import com.property.dto.response.UserRegistrationResponse;
 import com.property.service.UserService;
@@ -24,9 +26,12 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<List<UserRegistrationResponse>> get(){
-        List<UserRegistrationResponse> users = userService.findAll();
-        return ResponseEntity.ok(users);
+    public ResponseEntity<?> get(@RequestParam(required = false) String email){
+        if(email==null){
+            List<UserRegistrationResponse> users = userService.findAll();
+            return ResponseEntity.ok(users);
+        }
+        return ResponseEntity.ok(userService.findByEmail(email));
     }
 
     @GetMapping("{id}")

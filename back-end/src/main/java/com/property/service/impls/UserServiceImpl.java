@@ -118,6 +118,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public UserRegistrationResponse findByEmail(String email) {
+        User user = userRepository.findByEmail(email);
+        if (user == null) {
+            throw new UserNotFoundException("User not Found");
+        }
+        return modelMapper.map(user, UserRegistrationResponse.class);
+    }
+
+    @Override
     public List<UserRegistrationResponse> findTop10RecentTenants() {
         var users = userRepository.findTop10ByRoleEqualsOrderByAccountCreatedAtDesc(Role.TENANT);
         Type listType = new TypeToken<List<UserRegistrationResponse>>(){}.getType();

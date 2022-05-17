@@ -16,6 +16,7 @@ public class JwtHelper {
         return Jwts.builder()
                 .setSubject(email)
                 .claim("authorities", role)
+                .claim("username",email)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + expiration))
                 .signWith(SignatureAlgorithm.HS512, secret)
