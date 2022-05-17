@@ -15,6 +15,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @EnableWebSecurity
@@ -32,11 +34,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        http.cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues()).and()
+        http.cors().and()
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/api/v1/uaa/*").permitAll()
-                .antMatchers("/api/v1/properties/*").hasAuthority("LANDLORD")
                 .antMatchers("/api/v1/uaa/change-password").hasAuthority("ADMIN")
                 .antMatchers("/api/v1/reports/*").hasAuthority("ADMIN")
                 .anyRequest()
