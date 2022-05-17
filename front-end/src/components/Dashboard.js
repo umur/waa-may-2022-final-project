@@ -2,8 +2,13 @@ import React, { useEffect, useState } from "react";
 import { useForm } from 'react-hook-form';
 
 import axios from "axios";
+import { getRole } from '../utils/role';
+
 
 const Dashboard = () => {
+
+    let role = getRole();
+
 
 
     const [state, setState] = useState([]);
@@ -71,7 +76,7 @@ const Dashboard = () => {
         }
     };
 
-    
+
     const getIncomes = async () => {
         let token = JSON.parse(localStorage.getItem("token"));
         try {
@@ -101,7 +106,7 @@ const Dashboard = () => {
                         </div>{/* /.col */}
                         <div className="col-sm-6">
                             <ol className="breadcrumb float-sm-right">
-                                <li className="breadcrumb-item"><a href="#">Home</a></li>
+                                <li className="breadcrumb-item"><p>Home</p></li>
                             </ol>
                         </div>{/* /.col */}
                     </div>{/* /.row */}
@@ -152,7 +157,6 @@ const Dashboard = () => {
                     </div>
                 </div>{/* /.container-fluid */}
             </section>
-
             <section className="content">
                 <div className="container-fluid">
                     <div className="row">
@@ -227,49 +231,54 @@ const Dashboard = () => {
                 </div>{/* /.container-fluid */}
             </section>
 
-            <section className="content">
-                <div className="container-fluid">
-                    <div className="row">
-                        <div className="col-12">
-                            <div className="card">
-                                <div className="px-4 pt-4 d-flex justify-content-between">
-                                    <h3 className="card-title">List of Properties whose leases end in a month</h3>
-                                </div>
+            {role == "LANDLORD" ?
+                <>
+                    <section className="content">
+                        <div className="container-fluid">
+                            <div className="row">
+                                <div className="col-12">
+                                    <div className="card">
+                                        <div className="px-4 pt-4 d-flex justify-content-between">
+                                            <h3 className="card-title">List of Properties whose leases end in a month</h3>
+                                        </div>
 
-                                <div className="card-body">
-                                    <table
-                                        id="example2"
-                                        className="table table-bordered table-hover"
-                                    >
-                                        <thead>
-                                            <tr>
-                                                <th>Property Name</th>
-                                                <th>Property Type</th>
-                                                <th>Bed No</th>
-                                                <th>Bath Room No</th>
-                                                <th>Rent Amount</th>
-                                                <th>Security Deposit Amount</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {propertiesEnding.map((property) => (
-                                                <tr key={property.id}>
-                                                    <td>{property.propertyName}</td>
-                                                    <td>{property.propertyType}</td>
-                                                    <td>{property.noOfBedRoom}</td>
-                                                    <td>{property.noOfBathRoom}</td>
-                                                    <td>{property.rentAmount}</td>
-                                                    <td>{property.securityDepositAmount}</td>
-                                                </tr>)
-                                            )}
-                                        </tbody>
-                                    </table>
+                                        <div className="card-body">
+                                            <table
+                                                id="example2"
+                                                className="table table-bordered table-hover"
+                                            >
+                                                <thead>
+                                                    <tr>
+                                                        <th>Property Name</th>
+                                                        <th>Property Type</th>
+                                                        <th>Bed No</th>
+                                                        <th>Bath Room No</th>
+                                                        <th>Rent Amount</th>
+                                                        <th>Security Deposit Amount</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {propertiesEnding.map((property) => (
+                                                        <tr key={property.id}>
+                                                            <td>{property.propertyName}</td>
+                                                            <td>{property.propertyType}</td>
+                                                            <td>{property.noOfBedRoom}</td>
+                                                            <td>{property.noOfBathRoom}</td>
+                                                            <td>{property.rentAmount}</td>
+                                                            <td>{property.securityDepositAmount}</td>
+                                                        </tr>)
+                                                    )}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>{/* /.container-fluid */}
-            </section>
+                        </div>{/* /.container-fluid */}
+                    </section>
+                </> : ""}
+
+
 
             {/* /.content */}
         </div>

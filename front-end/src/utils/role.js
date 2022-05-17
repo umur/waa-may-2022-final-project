@@ -13,5 +13,5 @@ export const isTenant = () => {
 }
 
 export const getRole = () => {
-    return jwt_decode(JSON.parse(localStorage.getItem("token")).accessToken).authorities;;
+    return jwt_decode(JSON.parse(localStorage.getItem("token")).accessToken).authorities;
 }

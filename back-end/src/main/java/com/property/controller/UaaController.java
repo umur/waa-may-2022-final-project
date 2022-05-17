@@ -37,11 +37,7 @@ public class UaaController {
     }
 
 
-    @PutMapping("/useractivedeactive/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
-    public void userActiveDeactive(@PathVariable long id) {
-        userService.userIsActive(id);
-    }
+
 
     @PostMapping("/forgot-password")
     public ResponseEntity<Void> processForgotPassword(@RequestBody EmailRequest request) {
@@ -56,8 +52,8 @@ public class UaaController {
     }
 
     @PostMapping("/change-password/{id}")
-    public ResponseEntity<?> changePassword(@RequestBody UserRegistrationRequest user, @PathVariable long id) {
-        UserRegistrationResponse res = userService.update(user, id);
+    public ResponseEntity<?> changePassword(@RequestBody PasswordRequest passwordRequest, @PathVariable long id) {
+        UserRegistrationResponse res = userService.changePassword(passwordRequest, id);
         return ResponseEntity.ok(res);
 
     }

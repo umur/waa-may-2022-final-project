@@ -18,6 +18,7 @@ import RentForm from './pages/RentForm';
 import LineChart from './pages/LineChart';
 import NotFound from './pages/404';
 import User from './pages/Users';
+import ChangePassword from './pages/ChangePassword';
 
 
 function App() {
@@ -45,6 +46,8 @@ function App() {
           <Route path="property/updateProperty/:id" element={<UpdateProperty />} />
 
           <Route path="property/propertyDetail/:id" element={<ProductDetail />} />
+          
+          <Route path="change-password/:id" element={<ChangePassword />} />
 
           <Route path='add' element={<AddProperty />}></Route>
 
