@@ -1,6 +1,6 @@
 import React from "react";
-import { useState, useEffect, useRef } from "react";
 import axios from "axios";
+import { useState, useEffect, useRef } from "react";
 import PropertiesTable from "./propertiesTable";
 import { statesOptions } from "./statesOptions";
 import { Modal, Button } from "antd";
@@ -53,8 +53,11 @@ let propertiesObjectInitialValue = {
   rent: [],
 };
 
-function Properties(props) {
-  const { propertiesObject } = props;
+function UpdateProperty(props) {
+  const [propertiesObject, setPropertiesObject] = useState(
+    props.propertiesObject
+  );
+
   const [size, setSize] = useState("large");
   const nameRef = useRef(null);
 
@@ -63,6 +66,19 @@ function Properties(props) {
   const [propertyListState, setPropertyListState] = useState([
     propertiesObject,
   ]);
+
+  const updateProperty = async (idProp) => {
+    try {
+      const { data } = await axios.get(
+        `http://localhost:8080/api/v1/properties/${idProp}`
+      );
+      setPropertiesObject(data);
+      console.log(data);
+    } catch (e) {}
+  };
+  useEffect(() => {
+    updateProperty(props.id);
+  }, []);
 
   const fetchProducts = async () => {
     //const result = await axios.get("http://localhost:8080/api/v1/properties");
@@ -262,7 +278,7 @@ function Properties(props) {
     </>
   );
 }
-Properties.defaultProps = {
+UpdateProperty.defaultProps = {
   propertiesObject: propertiesObjectInitialValue,
 };
-export default Properties;
+export default UpdateProperty;
