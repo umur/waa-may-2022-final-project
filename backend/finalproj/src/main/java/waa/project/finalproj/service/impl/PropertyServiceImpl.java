@@ -76,4 +76,14 @@ public class PropertyServiceImpl implements PropertyService {
                 .map(u -> modelMapper.map(u, PropertyDTO.class))
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public List<PropertyDTO> findTop10OrderByIdDesc() {
+        return StreamSupport
+                .stream(propertyRepository.findTop10ByOccupiedIsTrueAndDeletedAtIsNullOrderByIdDesc().spliterator(), false)
+                .map(u -> modelMapper.map(u, PropertyDTO.class))
+                .collect(Collectors.toList());
+    }
+
 }
+

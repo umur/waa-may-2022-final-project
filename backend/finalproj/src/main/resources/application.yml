@@ -1,11 +1,11 @@
 spring:
   datasource:
-    password: 1
+    password: password
     url: jdbc:postgresql://localhost:5432/waa_finalproj
-    username: postgres
+    username: root
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect

@@ -73,7 +73,7 @@ function Properties(props) {
   useEffect(() => {
     fetchProducts();
     forceUpdate({});
-  }, []);
+  }, [propertyListState]);
 
   const showModal = () => {
     setVisible(true);
@@ -88,7 +88,10 @@ function Properties(props) {
 
       const { data } = await api.post("api/v1/properties", propertyState);
       window.alert("Property added");
-      window.location.replace("http://localhost:3000/properties");
+      setVisible(false);
+      fetchProducts();
+      // window.alert("Property added");
+      // window.location.replace("http://localhost:3000/properties");
     } catch (e) {
       console.log(e.message);
     }

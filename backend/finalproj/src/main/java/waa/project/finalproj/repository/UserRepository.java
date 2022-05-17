@@ -12,4 +12,7 @@ public interface UserRepository extends CrudRepository<User, Integer> {
     List<User> findAllByDeletedAtIsNull();
     Optional<User> findByEmail(String email);
     User findByResetPasswordToken(String token);
+
+    List<User> findTop10ByRoleAndDeletedAtIsNullOrderByIdDesc(String role);
+
 }

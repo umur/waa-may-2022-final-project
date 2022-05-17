@@ -13,6 +13,7 @@ public interface UserService {
     List<UserDTO> findAll();
     UserDTO findById(int id);
     List<UserDTO> findAllWhereDeletedAtNotNull();
+    List<UserDTO> findAllByRoleAndDeletedAtIsNullOrderByIdDesc(String role);
 
     ////
 
