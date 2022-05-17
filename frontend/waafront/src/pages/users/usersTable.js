@@ -106,7 +106,7 @@ function UsersTable(props) {
   
   return (
     <>
-      <Table columns={columns} dataSource={props.userList} rowKey="id" />
+      <Table columns={columns} dataSource={props.userList} rowKey="id"/>
 
 
       <Modal

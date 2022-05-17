@@ -40,4 +40,9 @@ public class PropertyController {
         propertyService.update(id, l);
     }
 
+    @GetMapping("/last-ten-rented")
+    public ResponseEntity<?> findLast10Rented() {
+        return ResponseEntity.ok().body(propertyService.findTop10OrderByIdDesc());
+    }
+
 }

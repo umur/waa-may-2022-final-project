@@ -49,4 +49,9 @@ public class UserController {
         userService.update(id, l);
     }
 
+    @GetMapping("/get-by-role")
+    public ResponseEntity<?> findAllRole(@RequestParam String role) {
+        return ResponseEntity.ok().body(userService.findAllByRoleAndDeletedAtIsNullOrderByIdDesc(role));
+    }
+
 }

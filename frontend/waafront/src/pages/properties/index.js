@@ -73,7 +73,7 @@ function Properties(props) {
   useEffect(() => {
     fetchProducts();
     forceUpdate({});
-  }, []);
+  }, [propertyListState]);
 
   const showModal = () => {
     setVisible(true);
@@ -81,24 +81,16 @@ function Properties(props) {
 
   const handleOk = async () => {
     try {
-      // const { data } = await axios.post(
-      //   "http://localhost:8080/api/v1/properties",
-      //   propertyState
-      // );
-
+     
       const { data } = await api.post("api/v1/properties", propertyState);
       window.alert("Property added");
-      //window.location.replace("http://localhost:3000/properties");
+      
+      setVisible(false);
+      fetchProducts();
+     
     } catch (e) {
       console.log(e.message);
     }
-
-    // setModalText("The modal will be closed after two seconds");
-    // setConfirmLoading(true);
-    // setTimeout(() => {
-    //   setVisible(false);
-    //   setConfirmLoading(false);
-    // }, 2000);
   };
 
   const handleCancel = () => {

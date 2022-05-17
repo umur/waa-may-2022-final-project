@@ -12,4 +12,5 @@ public interface PropertyService {
     List<PropertyDTO> findAll();
     PropertyDTO findById(int id);
     List<PropertyDTO> findAllWhereDeletedAtNotNull();
+    List<PropertyDTO> findTop10OrderByIdDesc();
 }

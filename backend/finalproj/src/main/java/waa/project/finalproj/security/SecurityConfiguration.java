@@ -29,11 +29,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable()
+        http.cors().and().csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/api/v1/login").permitAll()
                 .antMatchers(HttpMethod.POST,"/api/v1/users").permitAll()
-//                .anyRequest().authenticated()
+                .antMatchers(HttpMethod.PUT,"/api/v1/properties").hasRole("LANDLORD")
+                .antMatchers(HttpMethod.POST,"/api/v1/properties").hasRole("LANDLORD")
+                .antMatchers(HttpMethod.POST,"/api/v1/users/admin").hasRole("ADMIN")
+                .anyRequest().authenticated()
                 .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);

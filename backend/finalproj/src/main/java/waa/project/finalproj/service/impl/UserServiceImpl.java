@@ -104,5 +104,11 @@ public class UserServiceImpl implements UserService {
         return null;
     }
 
-
+    @Override
+    public List<UserDTO> findAllByRoleAndDeletedAtIsNullOrderByIdDesc(String role) {
+        return StreamSupport
+                .stream(userRepository.findTop10ByRoleAndDeletedAtIsNullOrderByIdDesc(role).spliterator(), false)
+                .map(u -> modelMapper.map(u, UserDTO.class)).limit(10)
+                .collect(Collectors.toList());
+    }
 }

@@ -84,13 +84,15 @@ function PropertyTable(props) {
 
   const handleEdit = (param) => {
     setPropertyState(param);
-    console.log(param);
+    // console.log(param);
     setVisible(true);
   };
   const [visible, setVisible] = React.useState(false);
   const [confirmLoading, setConfirmLoading] = React.useState(false);
   const [propertyState, setPropertyState] = useState(propertyObjectSave);
-
+  // const [propertyListState, setPropertyListState] = useState(
+  //   props.propertyList,
+  // );
   const onFieldsChanged = (event) => {
     //alert("I am here");
     let copy = { ...propertyState };
@@ -111,12 +113,14 @@ function PropertyTable(props) {
         propertyState
       );
       window.alert("Property updated");
-      window.location.replace("http://localhost:3000/properties");
+      // window.location.replace("http://localhost:3000/properties");
       setVisible(false);
     } catch (e) {
       console.log(e.message);
     }
   };
+
+  
 
   const deleteProperty = async (property) => {
     const id = property.id;
@@ -125,15 +129,15 @@ function PropertyTable(props) {
         `http://localhost:8080/api/v1/properties/${id}`
       );
       window.alert("The Properties  was Deleted");
-      window.location.replace("http://localhost:3000/properties");
+      // window.location.replace("http://localhost:3000/properties");
     } catch (e) {}
   };
 
   return (
     <>
-      <Table columns={columns} dataSource={props.propertyList} rowKey="id" />
+      <Table columns={columns} dataSource={props.propertyList} rowKey="id"/>
       <Modal
-        title="Update Property Informations"
+        title="Update Property information's"
         visible={visible}
         onOk={handleOk}
         confirmLoading={confirmLoading}

@@ -1,6 +1,32 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
+import api from '../../api/posts'
+import UsersTable from '../users/usersTable';
+import PropertiesTable from '../properties/propertiesTable';
+import { Row, Col } from 'antd';
+import ReactECharts from 'echarts-for-react';
 
+let propertiesObject = {
+  id: 0,
+  name: "",
+  street: "",
+  city: "",
+  state: "",
+  zip: "",
+  numberOfBedrooms: 0,
+  numberOfBathrooms: 0,
+  rentAmount: 0,
+  securityDepositAmount: 0,
+  occupied: false,
+  listed: true,
+  photos: [],
+  propertyType: {
+  },
+  user: {
+    
+  },
+  rent: [],
+};
 
 const DashboardAdmin = () => {
 
@@ -10,11 +36,63 @@ const DashboardAdmin = () => {
     headers: { Authorization: `Bearer ${user.token}` }
   };
 
-  
-  console.log(user);
+  const [tenants, setTenants] = useState([{
+    id:0,
+    email: '',
+    password: '',
+    lastname: '',
+    active:'',
+    LastLoggedInAt:'',
+    role:'',
+    rents:{},
+    property:{}
+  }]);
+  const [properties, setProperties] = useState([propertiesObject]);
 
+  async function getLastTenTenants() {
+    let res = await api.get(`api/v1/users/get-by-role?role=ADMIN`, config);
+    setTenants(res.data);
+  }
+
+  async function getLastTenRentedProperty() {
+    let res = await api.get(`/api/v1/properties/last-ten-rented`, config);
+    console.log(res.data)
+    setProperties(res.data);
+  }
+
+  const [, forceUpdate] = useState({});
+  useEffect(() => {
+    getLastTenTenants();
+    getLastTenRentedProperty();
+    forceUpdate({});
+  }, [])
+  
   return (
-    <div>dashboard-admin</div>
+    <>
+
+      <Row>
+        <Col span={11}>
+          <h4>Last 10 Recent Tenant</h4>
+          <UsersTable userList = {tenants}></UsersTable>
+        </Col>
+        <Col span={11} offset={2}>
+          <h4>Last 10 Properties Rented</h4>
+          <PropertiesTable propertyList = {properties}></PropertiesTable>
+        </Col>
+      </Row>
+      
+
+      {/* <ReactECharts
+        option={this.getOption()}
+        notMerge={true}
+        lazyUpdate={true}
+        theme={"theme_name"}
+        onChartReady={this.onChartReadyCallback}
+        // onEvents={EventsDict}
+        // opts={}
+      /> */}
+
+    </>
   )
 }
 
