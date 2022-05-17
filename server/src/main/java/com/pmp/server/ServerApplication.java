@@ -43,7 +43,7 @@ public class ServerApplication implements WebMvcConfigurer {
 
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		registry.addResourceHandler("/static/**").addResourceLocations("file:" + System.getProperty("user.dir") + "/target/static/").setCacheControl(CacheControl.noCache());
+		registry.addResourceHandler("/static/**").addResourceLocations("file:" + System.getProperty("user.dir") + "/static/").setCacheControl(CacheControl.noCache());
 
 		WebMvcConfigurer.super.addResourceHandlers(registry);
 	}
