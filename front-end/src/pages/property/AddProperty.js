@@ -1,10 +1,20 @@
 import axios from 'axios';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 
 import BreadCrumb from "../../components/BreadCrumb";
+import { isLandLord } from '../../utils/role';
 
 const AddProperty = () => {
+
+  const navigate = useNavigate();
+
+  useEffect(()=>{
+    if(!isLandLord()){
+      navigate('/not-found');
+    }
+  },[])
 
   const[imageState,setImageState] = useState();
 

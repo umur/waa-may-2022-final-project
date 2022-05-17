@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form';
 import axios from "axios";
 import { Link, Route, Routes, useNavigate } from "react-router-dom";
 import UpdateProperty from "./UpdateProperty";
+import { isLandLord } from '../../utils/role';
 
 const PropertyList = () => {
 
@@ -13,6 +14,9 @@ const PropertyList = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    if(!isLandLord()){
+      navigate('/not-found');
+    }
     getProperty();
   }, []);
 

@@ -1,7 +1,16 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { Link, NavLink } from 'react-router-dom'
+
+import { getRole } from '../utils/role';
 
 const Sidebar = () => {
+
+
+    let role = getRole();
+
+
+    
     return (
         <aside className="main-sidebar sidebar-dark-primary elevation-4">
             {/* Brand Logo */}
@@ -13,9 +22,6 @@ const Sidebar = () => {
             <div className="sidebar">
                 {/* Sidebar user panel (optional) */}
                 <div className="user-panel mt-3 pb-3 mb-3 d-flex">
-                    <div className="image">
-                        <img src="dist/img/user2-160x160.jpg" className="img-circle elevation-2" alt="User Image" />
-                    </div>
                     <div className="info">
                         <a href="#" className="d-block">Alexander Pierce</a>
                     </div>
@@ -26,47 +32,62 @@ const Sidebar = () => {
                     <ul className="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                         {/* Add icons to the links using the .nav-icon class
          with font-awesome or any other icon font library */}
+                        {role==='ADMIN' || role==='LANDLORD' ? <>
                         <li className="nav-item menu-open">
-                            <Link to='' className="nav-link active">
+                            <NavLink to='' className={({ isActive }) => (isActive ? "nav-link active" : "nav-link")}>
                                 <i className="nav-icon fas fa-tachometer-alt" />
                                 <p>
                                     Dashboard
                                 </p>
-                            </Link>
+                            </NavLink>
                         </li>
-                        <li className="nav-item menu-open">
-                            <Link to='report' className="nav-link">
-                                <i className="nav-icon fas fa-tachometer-alt" />
+                        </>:""}
+                        {role==='ADMIN' ? <><li className="nav-item menu-open">
+                            <NavLink className={({ isActive }) => (isActive ? "nav-link active" : "nav-link")} to='report'>
+                                <i className="nav-icon fas fa-chart-pie" />
                                 <p>
-                                    Report
+                                    Total Income Report
                                 </p>
-                            </Link>
+                            </NavLink>
                         </li>
 
                         <li className="nav-item menu-open">
-                            <Link to='rent-property' className="nav-link">
-                                <i className="nav-icon far fa-circle nav-icon" />
+                            <NavLink to='line-report' className={({ isActive }) => (isActive ? "nav-link active" : "nav-link")}>
+                                <i className="nav-icon fas fa-chart-line" />
+                                <p>
+                                    Weekly Report
+                                </p>
+                            </NavLink>
+                        </li></> :""}                        
+
+                        { role==='TENANT' ? <>
+                        <li className="nav-item menu-open">
+                            <NavLink to='rent-property' className={({ isActive }) => (isActive ? "nav-link active" : "nav-link")}>
+                                <i className="nav-icon fas fa-shopping-cart" />
                                 <p>
                                     Rent Property
                                 </p>
-                            </Link>
-                        </li>
+                            </NavLink>
+                        </li></>:""
+                        }
 
+{ role==='LANDLORD' ? <>
                         <li className="nav-header">Property</li>
                         <li className="nav-item">
-                            <Link to='property' className="nav-link">
-                                <i className="nav-icon far fa-circle nav-icon" />
+                            <NavLink to='property' className={({ isActive }) => (isActive ? "nav-link active" : "nav-link")}>
+                                <i className="nav-icon fas fa-list" />
                                 <p>
-                                    Lists
+                                    List
                                 </p>
-                            </Link>
-                            <Link to='add' className="nav-link">
-                                <i className="nav-icon far fa-add nav-icon" />
+                            </NavLink>
+                            <NavLink to='add' className={({ isActive }) => (isActive ? "nav-link active" : "nav-link")}>
+                                <i className="nav-icon fas fa-plus" />
                                 <p>
                                     Add
                                 </p>
-                            </Link>
+                            </NavLink>
                         </li>
+                        </> :""}
                     </ul>
                 </nav>
                 {/* /.sidebar-menu */}
