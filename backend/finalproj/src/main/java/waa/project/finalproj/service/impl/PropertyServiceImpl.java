@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import waa.project.finalproj.dto.property.PropertyDTO;
 import waa.project.finalproj.dto.property.PropertySaveDTO;
 import waa.project.finalproj.entity.Property;
-import waa.project.finalproj.repository.HouseRepository;
+import waa.project.finalproj.repository.PropertyRepository;
 import waa.project.finalproj.service.PropertyService;
 
 import java.time.LocalDate;
@@ -18,26 +18,26 @@ import java.util.stream.StreamSupport;
 @AllArgsConstructor
 public class PropertyServiceImpl implements PropertyService {
 
-    private final HouseRepository houseRepository;
+    private final PropertyRepository propertyRepository;
     private final ModelMapper modelMapper;
 
     @Override
     public void add(PropertySaveDTO t) {
-        houseRepository.save(modelMapper.map(t, Property.class));
+        propertyRepository.save(modelMapper.map(t, Property.class));
     }
 
     @Override
     public void delete(int id) {
-        var j = houseRepository.findById(id);
+        var j = propertyRepository.findById(id);
         if (j.isPresent()){
             j.get().setDeletedAt(LocalDate.now());
-            houseRepository.save(j.get());
+            propertyRepository.save(j.get());
         }
     }
 
     @Override
     public void update(int id, PropertyDTO t) {
-        var j = houseRepository.findById(id);
+        var j = propertyRepository.findById(id);
         if (j.isPresent()){
             j.get().setName(t.getName());
             j.get().setStreet(t.getStreet());
@@ -50,21 +50,21 @@ public class PropertyServiceImpl implements PropertyService {
             j.get().setSecurityDepositAmount(t.getSecurityDepositAmount());
             j.get().setOccupied(t.isOccupied());
             j.get().setListed(t.isListed());
-            houseRepository.save(j.get());
+            propertyRepository.save(j.get());
         }
     }
 
     @Override
     public List<PropertyDTO> findAll() {
         return StreamSupport
-                .stream(houseRepository.findAll().spliterator(), false)
+                .stream(propertyRepository.findAll().spliterator(), false)
                 .map(u -> modelMapper.map(u, PropertyDTO.class))
                 .collect(Collectors.toList());
     }
 
     @Override
     public PropertyDTO findById(int id) {
-        var h = houseRepository.findById(id);
+        var h = propertyRepository.findById(id);
 
         return h.isPresent() && h.get().getDeletedAt() == null ? modelMapper.map(h.get(), PropertyDTO.class) : null;
     }
@@ -72,7 +72,7 @@ public class PropertyServiceImpl implements PropertyService {
     @Override
     public List<PropertyDTO> findAllWhereDeletedAtNotNull() {
         return StreamSupport
-                .stream(houseRepository.findAllByDeletedAtIsNull().spliterator(), false)
+                .stream(propertyRepository.findAllByDeletedAtIsNull().spliterator(), false)
                 .map(u -> modelMapper.map(u, PropertyDTO.class))
                 .collect(Collectors.toList());
     }

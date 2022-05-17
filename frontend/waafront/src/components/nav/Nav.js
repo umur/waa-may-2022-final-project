@@ -29,9 +29,6 @@ function getMenu(role) {
           <Link to="/signup" className="nav-text">
             Register
           </Link>
-          <Link to="/properties" className="nav-text">
-            Properties
-          </Link>
         </Nav>
       </>
     );
@@ -48,9 +45,11 @@ function getMenu(role) {
         </Nav>
         <Nav>
           <Link
-            to="/login"
+            to="/"
             className="nav-text"
-            onClick={() => window.sessionStorage.clear()}
+            onClick={() => {
+              window.sessionStorage.clear();
+            }}
           >
             Logout
           </Link>
@@ -67,7 +66,7 @@ function getMenu(role) {
         </Nav>
         <Nav>
           <Link
-            to="/login"
+            to="/"
             className="nav-text"
             onClick={() => window.sessionStorage.clear()}
           >
@@ -80,15 +79,15 @@ function getMenu(role) {
     return (
       <>
         <Nav className="me-auto">
-          <Link to="/properties" className="margin-r nav-text">
-            About
+          <Link to="/user" className="margin-r nav-text">
+            Users
           </Link>
-          <Link to="/properties" className="nav-text">
-            Help
+          <Link to="/dashboard-admin" className="nav-text">
+            Dashboard
           </Link>
         </Nav>
         <Nav>
-          <Link to="/login" className="nav-text">
+          <Link to="/" className="nav-text">
             Logout
           </Link>
         </Nav>
@@ -105,7 +104,7 @@ function Navv(props) {
       <Container>
         <Navbar.Brand>
           <Link to="/" className="nav-text">
-            Logout
+            E Property
           </Link>
         </Navbar.Brand>
         {getMenu(props.role)}

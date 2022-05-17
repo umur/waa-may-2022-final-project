@@ -8,6 +8,7 @@ import { PlusOutlined } from "@ant-design/icons";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import FormSizeDemo from "./formPropertieStyled";
 import formPropertieStyled from "./formPropertieStyled";
+import api from '../../api/posts'
 
 import {
   Form,
@@ -63,7 +64,8 @@ function Properties() {
   ]);
 
   const fetchProducts = async () => {
-    const result = await axios.get("http://localhost:8080/api/v1/properties");
+    //const result = await axios.get("http://localhost:8080/api/v1/properties");
+    const result = await api.get('api/v1/properties');
     setPropertyListState(result.data);
   };
 
@@ -78,11 +80,13 @@ function Properties() {
 
   const handleOk = async () => {
     try {
-      const { data } = await axios.post(
-        "http://localhost:8080/api/v1/properties",
-        propertyState
-      );
-      window.alert("Register Save");
+      // const { data } = await axios.post(
+      //   "http://localhost:8080/api/v1/properties",
+      //   propertyState
+      // );
+
+      const { data } = await api.post('api/v1/properties', propertyState);
+      window.alert("Property added");
     } catch (e) {
       console.log(e.message);
     }
