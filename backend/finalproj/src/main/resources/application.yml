@@ -1,8 +1,10 @@
 spring:
   datasource:
-    password: password
+
+    password: Zayadbhaia1
+
     url: jdbc:postgresql://localhost:5432/waa_finalproj
-    username: root
+    username: postgres
   jpa:
     hibernate:
       ddl-auto: create
