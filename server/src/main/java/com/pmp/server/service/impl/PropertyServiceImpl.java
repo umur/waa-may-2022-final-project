@@ -100,7 +100,7 @@ public class PropertyServiceImpl implements PropertyService {
 
   @Override
   public Page<Property> findAllwithFilter(Pageable page, String loc, int r) {
-    return propertyRepo.findAllByCityIsLikeIgnoreCaseAndAndNumberOfBedroomsGreaterThanEqualAndActiveIsTrueAndOwnedByActiveIsTrue(page, loc, r);
+    return propertyRepo.findAllByCityIsLikeIgnoreCaseOrStateIsLikeIgnoreCaseAndNumberOfBedroomsGreaterThanEqualAndActiveIsTrueAndOwnedByActiveIsTrue(page, loc,loc, r);
   }
 
   @Override

@@ -61,6 +61,9 @@ const RentForm = ({ amount, security, id }) => {
       <Box sx={{ minWidth: 300, maxWidth: 300 }} className="rent-form">
         <Card variant="outlined">
           <CardContent className="content">
+            <h3 style={{ marginBottom: "10px", color: "rgb(104 104 104)" }}>
+              Rent this property now
+            </h3>
             {!open && (
               <>
                 <div className="date-input">
@@ -112,7 +115,10 @@ const RentForm = ({ amount, security, id }) => {
                 <Button
                   variant="contained"
                   className="button"
-                  disabled={state[0].endDate === null}
+                  disabled={
+                    moment(state[0].startDate).format("MM-DD-YYYY") ===
+                    moment(state[0].endDate).format("MM-DD-YYYY")
+                  }
                   onClick={onSubmit}
                 >
                   Rent

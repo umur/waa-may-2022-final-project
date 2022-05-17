@@ -16,7 +16,7 @@ import java.util.UUID;
 
 @Repository
 public interface PropertyRepo extends PagingAndSortingRepository<Property, UUID> {
-    Page<Property> findAllByCityIsLikeIgnoreCaseAndAndNumberOfBedroomsGreaterThanEqualAndActiveIsTrueAndOwnedByActiveIsTrue(Pageable page, String loc, int room);
+    Page<Property> findAllByCityIsLikeIgnoreCaseOrStateIsLikeIgnoreCaseAndNumberOfBedroomsGreaterThanEqualAndActiveIsTrueAndOwnedByActiveIsTrue(Pageable page, String loc,String loc2, int room);
 
     Page<Property> findByLastRentedDateNotNull(Pageable page);
     Page<Property> findAllByOwnedBy(Pageable page, User u);
