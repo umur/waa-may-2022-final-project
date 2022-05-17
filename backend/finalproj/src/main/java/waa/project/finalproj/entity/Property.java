@@ -38,7 +38,7 @@ public class Property {
     @JsonManagedReference
     private List<Photo> photos;
 
-    @OneToOne
+    @ManyToOne
     @JsonBackReference
     private PropertyType propertyType;
 
