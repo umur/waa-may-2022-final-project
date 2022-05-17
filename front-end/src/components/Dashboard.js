@@ -5,71 +5,90 @@ import axios from "axios";
 
 const Dashboard = () => {
 
-    
-  const [state, setState] = useState([]);
 
-  useEffect(() => {
-    getProperty();
-  }, []);
+    const [state, setState] = useState([]);
+    const [tenants, setTenants] = useState([]);
+    const [incomes, setIncomes] = useState([]);
+    const [propertiesEnding, setPropertiesEnding] = useState([]);
 
-  const getProperty = async () => {
-    let token = JSON.parse(localStorage.getItem("token"));
-    try {
-      const response = await axios.get(
-        "http://localhost:8080/api/v1/properties",
-        {
-          headers: {
-            Authorization: `Bearer ${token.accessToken}`,
-          },
+
+    useEffect(() => {
+        getProperty();
+        getTenants();
+        getIncomes()
+        getPropertiesEnding();
+    }, []);
+
+    const getPropertiesEnding = async () => {
+        let token = JSON.parse(localStorage.getItem("token"));
+        try {
+            const response = await axios.get(
+                "http://localhost:8080/api/v1/properties/filter-top-10-lease-in-month",
+                {
+                    headers: {
+                        Authorization: `Bearer ${token.accessToken}`,
+                    },
+                }
+            );
+            setPropertiesEnding([...response.data]);
+        } catch (error) {
+            console.log(error);
         }
-      );
-      setState([...response.data]);
-      console.log(state);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+    };
 
-//filter start
-const { register, handleSubmit, formState: { errors } } = useForm({
-    defaultValues: {
-      propertyType: "",
-      noOfBedRoom: "",
-      state: "",
-      city: "",
-    }
-  });
+    const getProperty = async () => {
+        let token = JSON.parse(localStorage.getItem("token"));
+        try {
+            const response = await axios.get(
+                "http://localhost:8080/api/v1/properties/filter-last-10-rented",
+                {
+                    headers: {
+                        Authorization: `Bearer ${token.accessToken}`,
+                    },
+                }
+            );
+            setState([...response.data]);
+            console.log(state);
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
-const [filterTypeState, setFilterTypeState] = useState("");
-  const handleOnFilterTypeChange = (e) => {
-    setFilterTypeState(e.target.value);
-  }
+    const getTenants = async () => {
+        let token = JSON.parse(localStorage.getItem("token"));
+        try {
+            const response = await axios.get(
+                "http://localhost:8080/api/v1/users/top10-recent-tenants",
+                {
+                    headers: {
+                        Authorization: `Bearer ${token.accessToken}`,
+                    },
+                }
+            );
+            setTenants([...response.data]);
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
-const onSubmit = async (data) => {
-  let token = JSON.parse(localStorage.getItem("token"));
-  let url = "http://localhost:8080/api/v1/properties";
+    
+    const getIncomes = async () => {
+        let token = JSON.parse(localStorage.getItem("token"));
+        try {
+            const response = await axios.get(
+                "http://localhost:8080/api/v1/reports/location-base",
+                {
+                    headers: {
+                        Authorization: `Bearer ${token.accessToken}`,
+                    },
+                }
+            );
+            setIncomes([...response.data]);
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
-  url = filterTypeState == "type" ?  "http://localhost:8080/api/v1/properties/filter-property-by-type?type=" + data.propertyType : url;
-
-  url = filterTypeState == "roomNo" ? "http://localhost:8080/api/v1/properties/filter-property-by-roomno?noofroom=" + data.noOfBedRoom : url;
-
-  if (filterTypeState == "address" && data.state != "" && data.city != "")
-    url = "http://localhost:8080/api/v1/properties/filter-property-by-address?state=" + data.state + "&city=" + data.city;
-  else if (filterTypeState == "address" && data.state != null && data.city == "")
-    url = "http://localhost:8080/api/v1/properties/filter-property-by-address?state=" + data.state;
-  else if (filterTypeState == "address" && data.state == "" && data.city != null)
-    url = "http://localhost:8080/api/v1/properties/filter-property-by-address?city=" + data.city;
-console.log(url);
-  const response = await axios.get(url,
-    {
-      headers: {
-        Authorization: `Bearer ${token.accessToken}`,
-      },
-    }
-  );
-  setState([...response.data]);
-
-}
 
     return (
         <div className="content-wrapper">
@@ -92,95 +111,166 @@ console.log(url);
             {/* Main content */}
             <section className="content">
                 <div className="container-fluid">
-                <div className="row">
-            <div className="col-12">
-              <div className="card">
-                <div className="px-4 pt-4 d-flex justify-content-between">
-                  <h3 className="card-title">List of property</h3>
+                    <div className="row">
+                        <div className="col-12">
+                            <div className="card">
+                                <div className="px-4 pt-4 d-flex justify-content-between">
+                                    <h3 className="card-title">List of Property</h3>
+                                </div>
 
-                  <form  method="post" onSubmit={handleSubmit(onSubmit)} >
-
-                  <div className="form-group" style={{display: "flex"}}>
-                    <select 
-                      className="form-control"  
-                      style={{width: 200 + 'px'}}
-                      onChange={handleOnFilterTypeChange}
-                      >
-                      <option value="" disabled>Select Filter Type</option>
-                      <option value="type">Filter By Property Type</option>
-                      <option value="roomNo">Filter By Room No</option>
-                      <option value="address">Filter By Address</option>
-                    </select>
-                    {filterTypeState == "type" ?  <input style={{width: 250 + 'px', margin: 0+"px" + 10+"px"}} 
-                    {...register("propertyType", { required: 'Property Type is required' })}
-                    type="text" class="form-control" placeholder="Property Type" /> : ""
-                    }
-
-                    {filterTypeState == "roomNo" ? <input style={{width: 100 + 'px'}}
-                    {...register("noOfBedRoom", { required: 'Bed room number is required' })} 
-                    type="text" class="form-control" placeholder="Room No" /> : ""}
-                    
-                    {
-                    filterTypeState == "address" ? 
-                    (<><input style={{width: 200 + 'px'}}
-                    {...register("state")}
-                    type="text" class="form-control" placeholder="State" />
-                    <input style={{width: 200 + 'px'}}
-                    {...register("city")}
-                    type="text" class="form-control" placeholder="city" /></>) : ""
-                  }
-
-                  {filterTypeState ? <input type="submit" class="btn btn-primary" value="Search" /> : ""}
-                  
-                  </div>   
-                 
-                    </form>               
-                </div>
-
-
-
-                <div className="card-body">
-                  <table
-                    id="example2"
-                    className="table table-bordered table-hover"
-                  >
-                    <thead>
-                      <tr>
-                        <th>Property Name</th>
-                        <th>Property Type</th>
-                        <th>Bed No</th>
-                        <th>Bath Room No</th>
-                        <th>Rent Amount</th>
-                        <th>Security Deposit Amount</th>
-                        <th>Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-
-                        
-                      {state.map((property) => (
+                                <div className="card-body">
+                                    <table
+                                        id="example2"
+                                        className="table table-bordered table-hover"
+                                    >
+                                        <thead>
+                                            <tr>
+                                                <th>Property Name</th>
+                                                <th>Property Type</th>
+                                                <th>Bed No</th>
+                                                <th>Bath Room No</th>
+                                                <th>Rent Amount</th>
+                                                <th>Security Deposit Amount</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {state.map((property) => (
                                                 <tr key={property.id}>
-                                                <td>{property.propertyName}</td>
-                                                <td>{property.propertyType}</td>
-                                                <td>{property.noOfBedRoom}</td>
-                                                <td>{property.noOfBathRoom}</td>
-                                                <td>{property.rentAmount}</td>
-                                                <td>{property.securityDepositAmount}</td>
-                                                <td>
-                                                <i className='fas fa-info-circle text-primary'></i>
-                                                    <i className='fas fa-edit text-primary ml-2'></i>
-                                                    <i className='fas fa-trash text-danger ml-2'></i>
-                                                </td>
-                                            </tr>)
-                      )}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-          </div>
+                                                    <td>{property.propertyName}</td>
+                                                    <td>{property.propertyType}</td>
+                                                    <td>{property.noOfBedRoom}</td>
+                                                    <td>{property.noOfBathRoom}</td>
+                                                    <td>{property.rentAmount}</td>
+                                                    <td>{property.securityDepositAmount}</td>
+                                                </tr>)
+                                            )}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>{/* /.container-fluid */}
             </section>
+
+            <section className="content">
+                <div className="container-fluid">
+                    <div className="row">
+                        <div className="col-12">
+                            <div className="card">
+                                <div className="px-4 pt-4 d-flex justify-content-between">
+                                    <h3 className="card-title">List of Most Recent Tenant</h3>
+                                </div>
+
+                                <div className="card-body">
+                                    <table
+                                        id="example2"
+                                        className="table table-bordered table-hover"
+                                    >
+                                        <thead>
+                                            <tr>
+                                                <th>First Name</th>
+                                                <th>Last Name</th>
+                                                <th>Email</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {tenants.map((item) => (
+                                                <tr key={item.email}>
+                                                    <td>{item.firstName}</td>
+                                                    <td>{item.lastName}</td>
+                                                    <td>{item.email}</td>
+                                                </tr>)
+                                            )}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>{/* /.container-fluid */}
+            </section>
+
+            <section className="content">
+                <div className="container-fluid">
+                    <div className="row">
+                        <div className="col-12">
+                            <div className="card">
+                                <div className="px-4 pt-4 d-flex justify-content-between">
+                                    <h3 className="card-title">Location Based Income</h3>
+                                </div>
+
+                                <div className="card-body">
+                                    <table
+                                        id="example2"
+                                        className="table table-bordered table-hover"
+                                    >
+                                        <thead>
+                                            <tr>
+                                                <th>State Name</th>
+                                                <th>Total Income</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {incomes.map((item) => (
+                                                <tr key={item.name}>
+                                                    <td>{item.name}</td>
+                                                    <td>{item.value}</td>
+                                                </tr>)
+                                            )}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>{/* /.container-fluid */}
+            </section>
+
+            <section className="content">
+                <div className="container-fluid">
+                    <div className="row">
+                        <div className="col-12">
+                            <div className="card">
+                                <div className="px-4 pt-4 d-flex justify-content-between">
+                                    <h3 className="card-title">List of Properties whose leases end in a month</h3>
+                                </div>
+
+                                <div className="card-body">
+                                    <table
+                                        id="example2"
+                                        className="table table-bordered table-hover"
+                                    >
+                                        <thead>
+                                            <tr>
+                                                <th>Property Name</th>
+                                                <th>Property Type</th>
+                                                <th>Bed No</th>
+                                                <th>Bath Room No</th>
+                                                <th>Rent Amount</th>
+                                                <th>Security Deposit Amount</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {propertiesEnding.map((property) => (
+                                                <tr key={property.id}>
+                                                    <td>{property.propertyName}</td>
+                                                    <td>{property.propertyType}</td>
+                                                    <td>{property.noOfBedRoom}</td>
+                                                    <td>{property.noOfBathRoom}</td>
+                                                    <td>{property.rentAmount}</td>
+                                                    <td>{property.securityDepositAmount}</td>
+                                                </tr>)
+                                            )}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>{/* /.container-fluid */}
+            </section>
+
             {/* /.content */}
         </div>
     )

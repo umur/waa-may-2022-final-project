@@ -16,6 +16,7 @@ import UpdateProperty from './pages/property/UpdateProperty';
 import ProductDetail from './pages/property/ProductDetail';
 import RentProperty from './pages/RentProperty';
 import RentForm from './pages/RentForm';
+import User from './pages/Users';
 
 
 function App() {
@@ -48,6 +49,9 @@ function App() {
           <Route path='add' element={<AddProperty />}></Route>
 
           <Route path="report" element={<Report />}>
+          </Route>
+
+          <Route path="users" element={<User />}>
           </Route>
 
           <Route path="rent-property" element={<RentProperty />}>

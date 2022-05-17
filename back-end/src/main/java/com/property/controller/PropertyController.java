@@ -93,11 +93,6 @@ public class PropertyController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping()
-    public ResponseEntity<List<PropertyDto>> findAllProperty() {
-        return ResponseEntity.ok(propertyService.findAll());
-    }
-
     @GetMapping("/filter-weekly-rented")
     public ResponseEntity<List<DailyCountDto>> findAllByRentedDate(){
         List<DailyCountDto> weeklyRentedCount = propertyService.findWeeklyRentedCount();
