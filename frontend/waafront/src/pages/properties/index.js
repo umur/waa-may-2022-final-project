@@ -88,7 +88,7 @@ function Properties(props) {
 
       const { data } = await api.post("api/v1/properties", propertyState);
       window.alert("Property added");
-      window.location.replace("http://localhost:3000/properties");
+      //window.location.replace("http://localhost:3000/properties");
     } catch (e) {
       console.log(e.message);
     }
