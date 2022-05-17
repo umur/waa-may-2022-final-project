@@ -6,16 +6,17 @@ import pro.manage.entity.Audit;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.UUID;
 
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class LeaseDto  {
-    private Long bookingRecordId;
-    private LocalDate checkInDate;
-    private LocalDate checkOutDate;
-    private Double totalPrice;
+    private UUID id;
+    private  double rent;
+    private LocalDate startDate;
+    private LocalDate endDate;
 
 }
 

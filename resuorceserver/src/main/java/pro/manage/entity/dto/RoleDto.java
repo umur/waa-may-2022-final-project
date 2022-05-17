@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.UUID;
 
 
 @Data
@@ -11,7 +12,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class RoleDto {
 
-    private Long roleId;
+    private UUID id;
     private String  role;
 
 }

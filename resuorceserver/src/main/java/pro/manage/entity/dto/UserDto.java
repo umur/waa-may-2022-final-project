@@ -7,13 +7,14 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.UUID;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserDto {
 
-    private Long userId;
+    private UUID id;
     private String firstName;
     private String lastName;
     private String phoneNo;
