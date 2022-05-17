@@ -13,7 +13,7 @@ import java.util.Set;
 
 public interface PropertyRepository extends CrudRepository<Property, Long> {
 
-    List<Property> findAllByPropertyTypeContains(String name);
+    List<Property> findAllByPropertyTypeContains(@Param("propertyType") String propertyType);
 
     List<Property> findAllByDeleteIsFalse();
 
