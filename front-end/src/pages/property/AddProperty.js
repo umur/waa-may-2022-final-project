@@ -15,6 +15,7 @@ const AddProperty = () => {
     formState: { errors },
   } = useForm({
     defaultValues: {
+      id:"",
       propertyName: "",
       propertyType: "",
       noOfBedRoom: "",
