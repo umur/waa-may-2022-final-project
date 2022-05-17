@@ -11,4 +11,14 @@ public interface PropertyService extends CrudService<PropertyDto,PropertyDto,Lon
     PropertyDto save(PropertyDto propertyDto, List<ImageDto> images);
 
     void rent(Long propertyId, RentDto rentDto);
+
+    List<PropertyDto> get10PropertiesLeaseEndInAMonth();
+
+    List<PropertyDto> getLast10PropertiesRented();
+
+    List<PropertyDto> getPropertyNotOccupied();
+
+    List<PropertyDto> getPropertiesByNoOfBedRoom(int numberOfBedroom);
+
+    List<PropertyDto> getPropertiesByLocation(String state);
 }

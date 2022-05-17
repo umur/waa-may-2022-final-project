@@ -37,6 +37,9 @@ public class Property {
 
     private boolean isOccupied;
 
+    @Column(name = "is_deleted", columnDefinition = "boolean default false")
+    private boolean delete;
+
     @OneToMany
     private List<Image> images;
 

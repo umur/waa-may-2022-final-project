@@ -15,6 +15,7 @@ public class Image {
 
     private boolean isDeleted;
 
+    @Column(length = 2732)
     private String fileContentBase64;
 
     private String fileName;

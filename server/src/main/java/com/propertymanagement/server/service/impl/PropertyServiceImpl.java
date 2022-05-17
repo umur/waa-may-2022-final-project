@@ -9,11 +9,13 @@ import com.propertymanagement.server.dto.RentDto;
 import com.propertymanagement.server.exception.PropertyIsRentedException;
 import com.propertymanagement.server.exception.PropertyNotFoundException;
 import com.propertymanagement.server.repository.PropertyRepository;
+import com.propertymanagement.server.repository.RentalActivityRepository;
 import com.propertymanagement.server.repository.UserRepository;
 import com.propertymanagement.server.service.PropertyService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -117,4 +119,42 @@ public class PropertyServiceImpl implements PropertyService {
         user.addRentedProperties(rentalActivity);
         userRepository.save(user);
     }
+
+    @Override
+    public List<PropertyDto> get10PropertiesLeaseEndInAMonth() {
+        var username = SecurityContextHolder.getContext().getAuthentication().getName();
+        var user = userRepository.findByEmail(username);
+        var properties = propertyRepository.get10PropertiesLeaseEndInAMonth(user.getId(),LocalDate.now(),LocalDate.now().plusMonths(1), PageRequest.of(0,10));
+        Type listType = new TypeToken<List<PropertyDto>>(){}.getType();
+        return modelMapper.map(properties,listType);
+    }
+
+    @Override
+    public List<PropertyDto> getLast10PropertiesRented() {
+        var properties = propertyRepository.getLast10PropertiesRented(LocalDate.now(), PageRequest.of(0,10));
+        Type listType = new TypeToken<List<PropertyDto>>(){}.getType();
+        return modelMapper.map(properties,listType);
+    }
+
+    @Override
+    public List<PropertyDto> getPropertyNotOccupied() {
+        var properties = propertyRepository.findAllByIsOccupiedIsTrue();
+        Type listType = new TypeToken<List<PropertyDto>>(){}.getType();
+        return modelMapper.map(properties,listType);
+    }
+
+    @Override
+    public List<PropertyDto> getPropertiesByNoOfBedRoom(int numberOfBedroom) {
+        var properties = propertyRepository.findAllByNumberOfBedrooms(numberOfBedroom);
+        Type listType = new TypeToken<List<PropertyDto>>(){}.getType();
+        return modelMapper.map(properties,listType);
+    }
+
+    @Override
+    public List<PropertyDto> getPropertiesByLocation(String state) {
+        List<Property> properties = propertyRepository.findAllByState(state);
+        Type listType = new TypeToken<List<PropertyDto>>(){}.getType();
+        return modelMapper.map(properties, listType);
+    }
+
 }

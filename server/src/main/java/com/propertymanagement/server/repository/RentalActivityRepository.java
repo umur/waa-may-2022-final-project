@@ -1,4 +1,4 @@
-package com.propertymanagement.server.service.impl;
+package com.propertymanagement.server.repository;
 
 import com.propertymanagement.server.domain.RentalActivity;
 import org.springframework.data.repository.CrudRepository;

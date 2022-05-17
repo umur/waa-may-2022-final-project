@@ -3,6 +3,7 @@ package com.propertymanagement.server.domain;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.List;
 
 @Data
@@ -21,6 +22,10 @@ public class User {
     private String email;
 
     private String password;
+
+    private boolean active;
+
+    private LocalDate registerTime;
 
     @Enumerated(EnumType.STRING)
     private Role role;
