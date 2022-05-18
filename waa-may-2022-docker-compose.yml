@@ -1,0 +1,63 @@
+version: "3.7"
+
+networks:
+  waa-may-2022:
+    driver: bridge
+
+services:
+  client:
+    container_name: client
+    image: 'node:latest'
+    volumes:
+      - ./client:/app
+    networks:
+      - waa-may-2022
+    ports:
+      - '3000:3000'
+    entrypoint: /bin/sh
+    command: -c "sleep 5 && cd /app/ && npm ci && npm run build && npm run start"
+
+  admin:
+    container_name: admin
+    image: 'node:latest'
+    volumes:
+      - ./admin:/app
+    networks:
+      - waa-may-2022
+    ports:
+      - '8082:8082'
+    entrypoint: /bin/sh
+    command: -c "sleep 5 && cd /app/ && npm ci && npm run build && npm run start"
+
+  keycloak:
+    container_name: keycloak
+    image: 'bitnami/keycloak:latest'
+    networks:
+      - waa-may-2022    
+    ports:
+      - '8080:8080'  
+
+  server:
+    container_name: server
+    image: openjdk:17
+    networks:
+      - waa-may-2022
+    ports:
+      - 8081:8081
+    volumes:
+      - ./server:/usr/src/myapp
+    entrypoint: /bin/bash
+    command: -c "/usr/src/myapp/mvnw clean package -B && java -jar server-0.0.1-0.0.1-SNAPSHOT.jar --spring.config.location=file:application.yml"
+
+  postgresql:
+    image: postgres:latest
+    container_name: postgresql
+    networks:
+      - waa-may-2022
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=postgresuser
+      - POSTGRES_PASSWORD=postgrespw
+      - POSTGRES_DB=postgresdb
+      - PGPASSWORD=postgrespw
