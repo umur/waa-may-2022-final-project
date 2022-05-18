@@ -3,6 +3,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 
@@ -11,6 +12,7 @@ import javax.persistence.*;
 @Getter
 @RequiredArgsConstructor
 @SQLDelete(sql = "UPDATE address SET isdeleted = true WHERE id=?")
+@Where(clause = "isdeleted=false")
 public class Address extends  Audit{
 
     @Column(nullable = false)

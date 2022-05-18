@@ -2,6 +2,7 @@ package pro.manage.entity;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.util.List;
@@ -13,6 +14,7 @@ import javax.validation.constraints.NotEmpty;
 @Getter
 @Table(name = "users")
 @SQLDelete(sql = "UPDATE users SET isdeleted = true WHERE id=?")
+@Where(clause = "isdeleted=false")
 public class User extends  Audit {
 
     private String firstName;
