@@ -55,7 +55,7 @@ public class PropertyServiceImpl implements PropertyService<PropertyDto> {
         Property p = new Property();
         modelMapper.map(property, p);
 
-        p.setSecurityDepositAmount(0);
+       // p.setSecurityDepositAmount(0);
         p.setVisible(true);
         p.setDeleted(false);
         System.out.println("hello");
