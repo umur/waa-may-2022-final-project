@@ -2,10 +2,12 @@ import { useState, useEffect, useCallback, useContext } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { AuthContext } from "context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 export const useAxios = (method, url, param = null) => {
+  const navigate = useNavigate();
   const notify = (msg, method = "error") => toast[method](msg);
-  const { isSignedIn } = useContext(AuthContext);
+  const { isSignedIn, setSignedIn } = useContext(AuthContext);
   console.log(isSignedIn);
   const [data, setData] = useState(null);
   const [error, setError] = useState("");
@@ -30,6 +32,12 @@ export const useAxios = (method, url, param = null) => {
         );
         setData(response.data);
       } catch (e) {
+        if (e.response.status === 401) {
+          setSignedIn(false);
+          localStorage.removeItem("token");
+          localStorage.removeItem("user");
+          navigate("/");
+        }
         notify(e.response.data.message);
         setError(e.response.data.message);
       } finally {

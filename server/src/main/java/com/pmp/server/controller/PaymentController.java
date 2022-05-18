@@ -95,7 +95,7 @@ public class PaymentController {
             // Save transaction
             transaction = transactionService.save(transactionDTO);
             //notify
-            this.template.convertAndSend("/topic/landlords", new NotificationDTO(property.getOwnedBy().getId().toString(),"Your property has been rented!"));
+
         }
 
         // Metadata

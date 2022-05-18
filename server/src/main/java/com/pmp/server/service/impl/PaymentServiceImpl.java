@@ -1,6 +1,7 @@
 package com.pmp.server.service.impl;
 
-import com.pmp.server.domain.Transaction;
+import com.pmp.server.domain.Property;
+import com.pmp.server.dto.NotificationDTO;
 import com.pmp.server.dto.payment.UpdateTransactionDTO;
 import com.pmp.server.service.PaymentService;
 import com.pmp.server.service.TransactionService;
@@ -13,6 +14,7 @@ import com.stripe.model.checkout.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -24,8 +26,13 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Value("${stripe.secret.key}")
     private String stripeSecretKey;
+    private final PropertyServiceImpl propertyService;
 
-    public PaymentServiceImpl(TransactionService transactionService) {
+    private final SimpMessagingTemplate template;
+
+    public PaymentServiceImpl(PropertyServiceImpl propertyService, SimpMessagingTemplate template, TransactionService transactionService) {
+        this.propertyService = propertyService;
+        this.template = template;
         this.transactionService = transactionService;
     }
 
@@ -68,5 +75,9 @@ public class PaymentServiceImpl implements PaymentService {
         dto.setStatus(charge.getStatus());
         dto.setReceiptUrl(charge.getReceiptUrl());
         transactionService.update(dto);
+
+        Property pty = propertyService.getById(propertyId);
+
+        this.template.convertAndSend("/topic/landlords", new NotificationDTO(pty.getOwnedBy().getId().toString(),"Your property has been rented!"));
     }
 }
