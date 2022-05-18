@@ -66,7 +66,7 @@ public class LandlordController {
     @PostMapping("/properties")
     public ResponseMessage addProperties(@RequestBody PropertyDTO data) {
         Property p = propertyService.save(data);
-        this.template.convertAndSend("/topic/tenants", new NotificationDTO("sai","New properties has been added!th"));
+        this.template.convertAndSend("/topic/tenants", new NotificationDTO("sai","New properties has been added!"));
         return new ResponseMessage("success", HttpStatus.CREATED, p);
     }
     @PutMapping("/properties/{id}")
