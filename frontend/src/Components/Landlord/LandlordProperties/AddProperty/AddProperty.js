@@ -60,8 +60,6 @@ const AddProperty = () => {
       method: "GET",
       redirect: "follow",
     };
-    //setPropertyTypes
-
     const res = await fetch(Service.GetPropertyType, requestOptions)
       .then((response) => response.json())
       .then((data) => {
@@ -69,13 +67,7 @@ const AddProperty = () => {
       })
       .catch((error) => console.log(error));
   };
-  // const data = await res.json();
 
-  // fetch(Service.GetPropertyType, requestOptions)
-  //   .then((response) => response.text())
-  //   .then((result) => console.log(result))
-  //   .catch((error) => console.log("error", error));
-  // };
 
   const addProperty = async (e) => {
     e.preventDefault();
@@ -311,15 +303,15 @@ const AddProperty = () => {
               <button onClick={addProperty}>
                 Add */}
           {/* </button> */}
-          // addProperty
-          {/* 
+   
+          
           <Link to="/landlord" className="button-margin">
             <input
               type="button"
               value="Cancel"
               className="btn btn-block button-padding"
             />
-          </Link> */}
+          </Link>
         </div>
       </form>
     </div>

@@ -127,7 +127,7 @@ const Admin = () => {
 
   return (
     <div className="admin ">
-      <SearchBar />
+      <div className="spacing"></div>
       {/* //Total Income : $123456 */}
       <div
         className="total-income"

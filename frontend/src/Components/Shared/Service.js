@@ -13,12 +13,12 @@ const Service = {
   GetPropertyType: "http://172.17.12.80:8080/api/properties/propertyTypes",
   AddProperty: "http://172.17.12.80:8080/api/properties/landlord",
   TenantGetAllProperties: "http://172.17.12.80:8080/api/properties",
-  TenantRentProperty: "http://172.17.12.80:8080/api/properties/tenant"
-  // Get"http://172.19.141.27:8080/api/properties/landlord/leases/john@gmail.com"
-
-  //   getAPIUrl: function () {
-  //     return APIS;
-  //   },
+  TenantRentProperty: "http://172.17.12.80:8080/api/properties/tenant",
+  TenantFilterByCity:
+    "http://172.17.12.80:8080/api/properties/tenant/filterByCity/",
+  LandlordFilterByCity:
+    "http://172.17.12.80:8080/api/properties/landlord/ownedBy/john@gmail.com/Fairfield",
+  SignUp: "http://172.17.12.80:8080/api/users/signup"
 };
 
 export default Service;

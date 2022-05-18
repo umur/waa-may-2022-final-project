@@ -1,3 +1,5 @@
+import Button from "react-bootstrap/Button";
+
 const SearchBar = ({ keyword, setKeyword }) => {
   const BarStyling = {
     width: "20rem",
@@ -7,18 +9,22 @@ const SearchBar = ({ keyword, setKeyword }) => {
   };
   const mainStyle = {
     padding: "10px",
-    margin: "10px"
+    margin: "10px",
   };
   return (
-    <div style={mainStyle}>
-        <label>Search for Property &nbsp;</label>
+    <div className="mainStyle">
+      <label>Search for Property &nbsp;</label>
       <input
         style={BarStyling}
         key="random1"
         value={keyword}
-        placeholder={"state / city / zip code"}
+        placeholder={"City"}
         onChange={(e) => setKeyword(e.target.value)}
       />
+
+      {/* <Button variant="primary" onClick={filterProperties}>
+        Start Search
+      </Button> */}
     </div>
   );
 };

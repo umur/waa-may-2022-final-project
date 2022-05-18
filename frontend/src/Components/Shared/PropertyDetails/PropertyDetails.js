@@ -1,7 +1,8 @@
+import { useState, useEffect } from "react";
 import "./PropertyDetails.css";
+
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
-import { useState } from "react";
 import Rent from "../Rent/Rent";
 
 const PropertyDetails = ({ property }) => {
@@ -9,6 +10,11 @@ const PropertyDetails = ({ property }) => {
   const toggleIsViewDetails = () => {
     setIsViewDetails(!isViewDetails);
   };
+
+  useEffect(() => {
+    console.log("");
+  }, []);
+
   return (
     <div className="container" style={{ width: "22rem", display: "flex" }}>
       <Card style={{ width: "22rem", margin: "10px" }}>

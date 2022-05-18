@@ -9,3 +9,8 @@
     width: 50%;
     text-align: center;
 }
+
+.button-margin {
+    background-color: whitesmoke;
+    border: white 1px solid;
+}

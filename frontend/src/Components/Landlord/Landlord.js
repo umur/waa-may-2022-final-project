@@ -4,16 +4,40 @@ import LandlordProperties from "./LandlordProperties/LandlordProperties";
 import SearchBar from "../Shared/SearchBar/SearchBar";
 import Service from "../Shared/Service";
 import { Link } from "react-router-dom";
-import { Button } from "bootstrap";
+import Button from "react-bootstrap/Button";
+
+import "./Landlord.css";
 
 const Landlord = () => {
   const [isLeaseEnding, setIsLeaseEnding] = useState(false);
 
   const [properties, setProperties] = useState([]);
+  const [keyword, setKeyword] = useState("");
 
   useEffect(() => {
     getProperties();
   }, []);
+
+  const filterProperties = () => {
+    var myHeaders = new Headers();
+    myHeaders.append("email", "hassan@miu.edu");
+
+    var requestOptions = {
+      method: "GET",
+      headers: myHeaders,
+      redirect: "follow",
+    };///`Fairfield/false
+
+    fetch(
+      `${Service.LandlordFilterByCity}${keyword}`,
+      requestOptions
+    )
+      .then((response) => response.json())
+      .then((result) => {
+        setProperties(result);
+      })
+      .catch((error) => console.log("error", error));
+  };
 
   const getProperties = async () => {
     const propertyList = await fetchProperties(Service.GetPropertiesOwnedBy);
@@ -62,7 +86,22 @@ const Landlord = () => {
 
   return (
     <div className="landlord">
-      <SearchBar />
+      <div className="Top-bar"></div>
+      <div className="mainStyle">
+        <label>Search for Property &nbsp;</label>
+        <input
+          className="BarStyling"
+          key="random1"
+          value={keyword}
+          placeholder={"City"}
+          onChange={(e) => setKeyword(e.target.value)}
+        />
+
+        <Button variant="primary" className="button" onClick={filterProperties}>
+          Start Search
+        </Button>
+      </div>
+
       <Link to="/add-property">
         <button>Add Property</button>
       </Link>
@@ -79,11 +118,6 @@ const Landlord = () => {
         </p>
       </div>
       <Properties properties={properties} />
-      {/* {isLeaseEnding ? (
-        <LandlordProperties properties={properties} />
-      ) : (
-        <Properties properties={properties} />
-      )} */}
     </div>
   );
 };

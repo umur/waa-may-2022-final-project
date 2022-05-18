@@ -28,26 +28,6 @@ const Header = () => {
         </Nav>
       </Navbar>
     </>
-
-    // <div>
-    //   <div className="App-header">
-    //     <Link className="header-button" to="/sign-in">
-    //       Sign IN
-    //     </Link>
-    //     <Link className="header-button" to="/sign-up">
-    //       Sign Up
-    //     </Link>
-    //     <Link className="header-button" to="/admin">
-    //       Admin Dashboard
-    //     </Link>
-    //     <Link className="header-button" to="/tenant">
-    //       Tenant Dashboard
-    //     </Link>
-    //     <Link className="header-button" to="/landlord">
-    //       Landlord Dashboard
-    //     </Link>
-    //   </div>
-    // </div>
   );
 };
 
