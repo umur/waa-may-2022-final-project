@@ -120,7 +120,7 @@ const Dashboard = () => {
                         <div className="col-12">
                             <div className="card">
                                 <div className="px-4 pt-4 d-flex justify-content-between">
-                                    <h3 className="card-title">List of Property</h3>
+                                    <h3 className="card-title">List of Last 10 Properties Rented</h3>
                                 </div>
 
                                 <div className="card-body">
@@ -163,7 +163,7 @@ const Dashboard = () => {
                         <div className="col-12">
                             <div className="card">
                                 <div className="px-4 pt-4 d-flex justify-content-between">
-                                    <h3 className="card-title">List of Most Recent Tenant</h3>
+                                    <h3 className="card-title">List of Last 10 Most Recent Tenant</h3>
                                 </div>
 
                                 <div className="card-body">
