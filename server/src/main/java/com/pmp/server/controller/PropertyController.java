@@ -70,7 +70,7 @@ public class PropertyController {
   @PostMapping("/rent/{id}")
   public ResponseMessage rent(@PathVariable UUID id, @RequestBody RentDTO body){
     PropertyRentalHistory hist = propertyService.rent(id,body);
-    this.template.convertAndSend("/topic/landlords", new NotificationDTO("sai","Your property has been rented!"));
+
     return new ResponseMessage("success", HttpStatus.CREATED,hist);
   }
 
@@ -115,19 +115,9 @@ public class PropertyController {
   @GetMapping("/test/noti")
   public ResponseEntity<String> send() throws Exception {
     this.template.convertAndSend("/topic/tenants", new NotificationDTO("sai","testmsg"));
+    this.template.convertAndSend("/topic/landlords", new NotificationDTO("ROLE_LANDLORD","test msg"));
     return ResponseEntity.ok("Success");
   }
 
-  @MessageMapping("/chat")
-  @SendTo("/topic/tenants")
-  public NotificationDTO send(NotificationDTO message) throws Exception {
-    return message;
-  }
-
-  @MessageMapping("/chat2")
-  @SendTo("/topic/landlords")
-  public NotificationDTO sendToLandlord(NotificationDTO message) throws Exception {
-    return message;
-  }
 
 }

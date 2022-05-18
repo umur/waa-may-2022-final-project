@@ -1,36 +1,33 @@
-
-import React, { useEffect } from 'react';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import FormLabel from '@mui/material/FormLabel';
-import RadioGroup from '@mui/material/RadioGroup';
-import Radio from '@mui/material/Radio';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import Select from '@mui/material/Select';
+import React, { useEffect } from "react";
+import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
+import CssBaseline from "@mui/material/CssBaseline";
+import TextField from "@mui/material/TextField";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
+import Link from "@mui/material/Link";
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import Typography from "@mui/material/Typography";
+import Container from "@mui/material/Container";
+import FormLabel from "@mui/material/FormLabel";
+import RadioGroup from "@mui/material/RadioGroup";
+import Radio from "@mui/material/Radio";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import Select from "@mui/material/Select";
 import { useNavigate, Link as RouteLink } from "react-router-dom";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import useAxios from 'axios-hooks';
-import Loading from 'components/Loading';
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import useAxios from "axios-hooks";
+import Loading from "components/Loading";
 
 const Register = () => {
   const notify = (msg) => toast.error(msg);
   const alert = (msg, onClose) => toast.info(msg, { onClose });
 
-  const [{ data, loading, error }, execute] =
-  useAxios(
+  const [{ data, loading, error }, execute] = useAxios(
     {
       url: "/auth/register",
       method: "POST",
@@ -45,17 +42,17 @@ const Register = () => {
     const formData = new FormData(event.currentTarget);
 
     const registerRequest = {
-      email: formData.get('email'),
-      password: formData.get('password'),
-      firstName: formData.get('firstName'),
-      lastName: formData.get('lastName'),
+      email: formData.get("email"),
+      password: formData.get("password"),
+      firstName: formData.get("firstName"),
+      lastName: formData.get("lastName"),
       gender: formData.get("gender"),
-      role: formData.get("role")
+      role: formData.get("role"),
     };
-    
+
     try {
       await execute({
-        data: registerRequest
+        data: registerRequest,
       });
     } catch (error) {
       // console.log('error', error)
@@ -65,32 +62,31 @@ const Register = () => {
 
   useEffect(() => {
     if (error?.message) {
-      notify(error?.message)
+      notify(error?.message);
     }
   }, [error?.message, notify]);
 
   useEffect(() => {
-    if (data) { 
-      alert("User created successfully!!")
+    if (data) {
+      alert("User created successfully!!");
       setTimeout(() => {
-        navigate("/login")
+        navigate("/login");
       }, 2000);
     }
-  }, [data, navigate])
+  }, [data, navigate]);
 
   return (
     <Container component="main" maxWidth="xs">
-      <ToastContainer />
       <CssBaseline />
       <Box
         sx={{
           marginTop: 8,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
         }}
       >
-        <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+        <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
@@ -141,16 +137,29 @@ const Register = () => {
               />
             </Grid>
             <Grid item xs={12}>
-              <FormLabel id="demo-controlled-radio-buttons-group">Gender</FormLabel>
+              <FormLabel id="demo-controlled-radio-buttons-group">
+                Gender
+              </FormLabel>
               <RadioGroup
                 aria-labelledby="demo-controlled-radio-buttons-group"
                 name="gender"
                 row
-
               >
-                <FormControlLabel value="FEMALE" control={<Radio />} label="Female" />
-                <FormControlLabel value="MALE" control={<Radio />} label="Male" />
-                <FormControlLabel value="OTHER" control={<Radio />} label="Other" />
+                <FormControlLabel
+                  value="FEMALE"
+                  control={<Radio />}
+                  label="Female"
+                />
+                <FormControlLabel
+                  value="MALE"
+                  control={<Radio />}
+                  label="Male"
+                />
+                <FormControlLabel
+                  value="OTHER"
+                  control={<Radio />}
+                  label="Other"
+                />
               </RadioGroup>
             </Grid>
             <Grid item xs={12}>
@@ -162,7 +171,7 @@ const Register = () => {
                 defaultValue={""}
                 label="Age"
                 className="register-role"
-              // onChange={handleChange}
+                // onChange={handleChange}
               >
                 <MenuItem value="ROLE_LANDLORD">Landlord</MenuItem>
                 <MenuItem value="ROLE_TENANT">Tenant</MenuItem>
@@ -194,8 +203,7 @@ const Register = () => {
       </Box>
       <Loading loading={loading} />
     </Container>
-
   );
-}
+};
 
 export default Register;

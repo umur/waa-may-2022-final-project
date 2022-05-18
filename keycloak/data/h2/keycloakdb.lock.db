@@ -1,6 +1,6 @@
 #FileLock
-#Tue May 17 17:39:13 CDT 2022
-server=172.17.20.51\:51192
-hostName=172.17.20.51
+#Tue May 17 19:00:02 CDT 2022
+server=localhost\:54303
+hostName=localhost
 method=file
-id=180d42ce2ed40e05a1c08ae806acfaba576efa724ce
+id=180d476e031ac1d4e3f054c56fcce9f9c4d760d60a0

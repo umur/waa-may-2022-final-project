@@ -74,6 +74,7 @@ stripe:
 
 client:
   domain: http://localhost:3000
+  admin: http://localhost:8082
 
 ###########################################################################
 # File upload                                                             #

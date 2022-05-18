@@ -1,13 +1,23 @@
 import * as React from "react";
 
 import { Box, Grid, Paper } from "@mui/material";
-import ReactECharts from 'echarts-for-react';
+import ReactECharts from "echarts-for-react";
 // Import the echarts core module, which provides the necessary interfaces for using echarts.
 import * as echarts from "echarts/core";
 // Import charts, all with Chart suffix
-import { BarChart, PieChart, } from "echarts/charts";
+import { BarChart, PieChart } from "echarts/charts";
 // import components, all suffixed with Component
-import { GridComponent, CalendarComponent, ToolboxComponent, TooltipComponent, TitleComponent, TimelineComponent, LegendComponent, DataZoomComponent, VisualMapComponent } from "echarts/components";
+import {
+  GridComponent,
+  CalendarComponent,
+  ToolboxComponent,
+  TooltipComponent,
+  TitleComponent,
+  TimelineComponent,
+  LegendComponent,
+  DataZoomComponent,
+  VisualMapComponent,
+} from "echarts/components";
 // Import renderer, note that introducing the CanvasRenderer or SVGRenderer is a required step
 import { CanvasRenderer } from "echarts/renderers";
 
@@ -32,9 +42,7 @@ echarts.use([
   BarChart,
 ]);
 
-
 const PieChartComponent = (props) => {
-
   const notify = (msg, method = "error") => toast[method](msg);
 
   const { data, error, loading, execute, queryParam } = useAxios(
@@ -64,7 +72,7 @@ const PieChartComponent = (props) => {
     legend: {
       orient: "vertical",
       left: "left",
-      data: data.data.map(item => item.propertyName),
+      data: data.data.map((item) => item.propertyName),
     },
     series: [
       {
@@ -72,12 +80,12 @@ const PieChartComponent = (props) => {
         type: "pie",
         radius: "55%",
         center: ["50%", "60%"],
-        data: data.data.map(item => {
+        data: data.data.map((item) => {
           return {
             value: item.transactionAmount,
             name: item.propertyName,
-            id: item.id
-          }
+            id: item.id,
+          };
         }),
         itemStyle: {
           emphasis: {
@@ -95,17 +103,16 @@ const PieChartComponent = (props) => {
   };
 
   function onChartReady(echarts) {
-    console.log('echarts is ready', echarts);
+    console.log("echarts is ready", echarts);
   }
 
   function onChartClick(param, echarts) {
     console.log(param, echarts);
-  };
+  }
 
   function onChartLegendselectchanged(param, echarts) {
     console.log(param, echarts);
-  };
-
+  }
 
   return (
     <Paper>
@@ -120,7 +127,6 @@ const PieChartComponent = (props) => {
       />
     </Paper>
   );
-
-}
+};
 
 export default PieChartComponent;

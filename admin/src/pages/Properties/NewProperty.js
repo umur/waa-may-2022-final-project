@@ -12,7 +12,7 @@ import { toast, ToastContainer } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import Photo from "components/Photo";
-import AxiosFormData from 'form-data';
+import AxiosFormData from "form-data";
 
 function NewProperty(props) {
   const { isSignedIn } = useContext(AuthContext);
@@ -53,7 +53,7 @@ function NewProperty(props) {
   /* -------------------------------------------------------------------------- */
   /*                                Upload photos                               */
   /* -------------------------------------------------------------------------- */
-  const [{ data: uploadedFiles, }, uploadFiles] = useAxios(
+  const [{ data: uploadedFiles }, uploadFiles] = useAxios(
     {
       url: "/file/upload",
       method: "post",
@@ -64,20 +64,20 @@ function NewProperty(props) {
       useCache: false,
       manual: true,
     }
-  ); 
+  );
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     const form = new FormData(event.currentTarget);
-    
+
     try {
-      let imageUrls = []
+      let imageUrls = [];
       if (photos.length > 0) {
         const formData = new AxiosFormData();
-        photos.map(p => {
-          formData.append("files", p.file)
-          return ""
-        })
+        photos.map((p) => {
+          formData.append("files", p.file);
+          return "";
+        });
 
         const files = await uploadFiles(
           {
@@ -86,23 +86,22 @@ function NewProperty(props) {
             data: formData,
             headers: {
               ...defaultHeaders(isSignedIn),
-              'Content-Type': 'multipart/form-data',
+              "Content-Type": "multipart/form-data",
             },
           },
           {
             useCache: false,
             manual: true,
           }
-        )
+        );
 
-        
-        imageUrls = files?.data?.data?.map(f => {
+        imageUrls = files?.data?.data?.map((f) => {
           return {
-            "imageUrl": f.fileDownloadUri
-          }
-        })
+            imageUrl: f.fileDownloadUri,
+          };
+        });
 
-        console.log(imageUrls)
+        console.log(imageUrls);
       }
 
       const property = await submitNewProperty(
@@ -131,7 +130,7 @@ function NewProperty(props) {
           manual: true,
         }
       );
-      console.log(property)
+      console.log(property);
     } catch (error) {
       notify(error);
     }
@@ -152,11 +151,8 @@ function NewProperty(props) {
     notify(error);
   }, [error]);
 
-  
-
   return (
     <Layout title="New Property">
-      <ToastContainer />
       <Grid container spacing={1}>
         <Grid item xs={6}>
           <Paper>

@@ -18,20 +18,19 @@ import "react-toastify/dist/ReactToastify.css";
 import useAxios from "axios-hooks";
 import Loading from "components/Loading";
 import ROLE from "auth/Role";
-import axios from 'axios';
+import axios from "axios";
 
 const Login = () => {
   const notify = (msg) => toast.error(msg);
   const { isSignedIn, setSignedIn, setRole } = useContext(AuthContext);
 
-  const [{ data, loading: loginLoading, error }, executeLogin] =
-    useAxios(
-      {
-        url: "/auth/login",
-        method: "POST",
-      },
-      { manual: true }
-    );
+  const [{ data, loading: loginLoading, error }, executeLogin] = useAxios(
+    {
+      url: "/auth/login",
+      method: "POST",
+    },
+    { manual: true }
+  );
 
   const navigate = useNavigate();
 
@@ -49,7 +48,7 @@ const Login = () => {
 
   useEffect(() => {
     if (error?.message) {
-      notify(error?.message)
+      notify(error?.message);
     }
   }, [error?.message, notify]);
 
@@ -59,14 +58,14 @@ const Login = () => {
         tokenResponse: { access_token },
         user: { role },
       } = data.data;
-  
+
       if (role.roleName === ROLE.Landlord || role.roleName === ROLE.Admin) {
         // console.log('roleName', role.roleName)
         setRole(role.roleName);
         setSignedIn(true);
         localStorage.setItem("token", access_token);
         localStorage.setItem("user", JSON.stringify(data.data.user));
-  
+
         navigate("/");
       } else {
         localStorage.removeItem("token");
@@ -74,11 +73,10 @@ const Login = () => {
         notify("You don't have permission to access the website");
       }
     }
-  }, [data, navigate, setRole, setSignedIn])
+  }, [data, navigate, setRole, setSignedIn]);
 
   return (
     <Container component="main" maxWidth="xs">
-      <ToastContainer />
       <CssBaseline />
       <Box
         sx={{

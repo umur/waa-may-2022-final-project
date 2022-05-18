@@ -2,8 +2,8 @@ package com.pmp.server.controller;
 
 import com.google.common.base.CaseFormat;
 import com.pmp.server.domain.Property;
+import com.pmp.server.dto.NotificationDTO;
 import com.pmp.server.dto.PropertyDTO;
-import com.pmp.server.dto.RentDTO;
 import com.pmp.server.dto.Top10PropertyLeaseEndDTO;
 import com.pmp.server.dto.common.PagingResponse;
 import com.pmp.server.dto.common.ResponseMessage;
@@ -13,6 +13,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -23,9 +24,11 @@ import java.util.stream.Collectors;
 @RequestMapping("api/landlord")
 @CrossOrigin
 public class LandlordController {
+    private final SimpMessagingTemplate template;
     private final PropertyServiceImpl propertyService;
 
-    public LandlordController(PropertyServiceImpl propertyService) {
+    public LandlordController(SimpMessagingTemplate template, PropertyServiceImpl propertyService) {
+        this.template = template;
         this.propertyService = propertyService;
     }
 
@@ -52,7 +55,7 @@ public class LandlordController {
     @PostMapping("/properties")
     public ResponseMessage addProperties(@RequestBody PropertyDTO data) {
         Property p = propertyService.save(data);
-        
+        this.template.convertAndSend("/topic/tenants", new NotificationDTO("sai","testmsg"));
         return new ResponseMessage("success", HttpStatus.CREATED, p);
     }
     @PutMapping("/properties/{id}")

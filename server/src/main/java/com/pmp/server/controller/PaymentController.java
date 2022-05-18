@@ -3,6 +3,7 @@ package com.pmp.server.controller;
 import com.pmp.server.domain.Property;
 import com.pmp.server.domain.PropertyRentalHistory;
 import com.pmp.server.domain.Transaction;
+import com.pmp.server.dto.NotificationDTO;
 import com.pmp.server.dto.payment.CheckoutSessionDTO;
 import com.pmp.server.dto.payment.CheckoutSessionResponseDTO;
 import com.pmp.server.dto.payment.TransactionDTO;
@@ -22,6 +23,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;
@@ -32,7 +34,7 @@ import java.util.Map;
 @RequestMapping("/api/payment")
 @CrossOrigin
 public class PaymentController {
-
+    private final SimpMessagingTemplate template;
     private static final Logger log = LoggerFactory.getLogger(PaymentController.class);
 
     @Value("${stripe.secret.key}")
@@ -43,7 +45,8 @@ public class PaymentController {
         Stripe.apiKey = stripeSecretKey;
     }
 
-    public PaymentController(PropertyService propertyService, TransactionService transactionService, PaymentService paymentService, PropertyRentalHistoryService propertyRentalHistoryService) {
+    public PaymentController(SimpMessagingTemplate template, PropertyService propertyService, TransactionService transactionService, PaymentService paymentService, PropertyRentalHistoryService propertyRentalHistoryService) {
+        this.template = template;
         this.propertyService = propertyService;
         this.transactionService = transactionService;
         this.paymentService = paymentService;
@@ -91,6 +94,8 @@ public class PaymentController {
 
             // Save transaction
             transaction = transactionService.save(transactionDTO);
+            //notify
+            this.template.convertAndSend("/topic/landlords", new NotificationDTO(property.getOwnedBy().getId().toString(),"Your property has been rented!"));
         }
 
         // Metadata
@@ -164,6 +169,7 @@ public class PaymentController {
                 paymentService.handleSessionSucceeded(session);
 
                 // TODO: Send email to Landlord
+//                this.template.convertAndSend("/topic/landlords", new NotificationDTO(property.getOwnedBy().getId().toString(),"Your property has been rented!"));
             default:
                 log.error("Unhandled event type: {}", event.getType());
                 break;
