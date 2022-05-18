@@ -50,7 +50,7 @@ function Properties(props) {
       { id: "numberOfBedrooms", label: "Bedrooms" },
       { id: "numberOfBathrooms", label: "Bathrooms" },
       { id: "isOccupied", label: "isOccupied" },
-      { id: "lastRentedBy", label: "Rented By" },
+      // { id: "lastRentedBy.email", label: "Rented By" },
 
       {
         id: "active",
@@ -121,7 +121,7 @@ function Properties(props) {
     }
   );
 
-  const rows = data?.data.map((i) => {
+  let rows = data?.data?.map((i) => {
     return { ...i, actions: [RowActions.activate, RowActions.deactivate, RowActions.delete] };
   });
 
