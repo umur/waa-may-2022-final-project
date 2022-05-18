@@ -54,25 +54,31 @@ const Payment = () => {
     <>
       <Header />
 
-    <Grid container spacing={2} justifyContent="center" alignItems="center" className="payment">
-      <Grid item justifyContent="center" xs={6}>
-        <Item propertyRentalHistory={propertyRentalHistory}>
-          <form onSubmit={handleSubmit} method="POST">
-            <button type="submit">Checkout</button>
-          </form>
-        </Item>
-      </Grid>
+      <Grid
+        container
+        spacing={2}
+        justifyContent="center"
+        alignItems="center"
+        className="payment"
+      >
+        <Grid item justifyContent="center" xs={6}>
+          <Item propertyRentalHistory={propertyRentalHistory}>
+            <form onSubmit={handleSubmit} method="POST">
+              <button type="submit">Continue to payment</button>
+            </form>
+          </Item>
+        </Grid>
 
-      <AlertDialog
-        open={openDialog}
-        handleClose={() => {
-          setOpenDialog(false);
-          navigate("/");
-        }}
-        title={"Your order success"}
-        content={""}
-      />
-    </Grid>
+        <AlertDialog
+          open={openDialog}
+          handleClose={() => {
+            setOpenDialog(false);
+            navigate("/");
+          }}
+          title={"Your order success"}
+          content={""}
+        />
+      </Grid>
     </>
   );
 };

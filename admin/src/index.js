@@ -5,6 +5,7 @@ import App from "./App";
 import { BrowserRouter } from "react-router-dom";
 import reportWebVitals from "./reportWebVitals";
 import axios from "axios";
+import { StompSessionProvider, useSubscription } from "react-stomp-hooks";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -13,7 +14,9 @@ axios.defaults.baseURL = process.env.REACT_APP_API_URL;
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-      <App />
+      <StompSessionProvider url={"http://localhost:8081/chat"}>
+        <App />
+      </StompSessionProvider>
     </BrowserRouter>
   </React.StrictMode>
 );

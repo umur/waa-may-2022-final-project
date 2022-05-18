@@ -10,6 +10,7 @@ export default function Loading() {
         minHeight: "100%",
         justifyContent: "center",
         marginTop: "200px",
+        minHeight: "600px",
       }}
     >
       <CircularProgress />

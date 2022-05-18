@@ -35,7 +35,7 @@ const Tenant = () => {
   const [open, setOpen] = useState(false);
   const [userState, setUserState] = useState({
     firstName: "",
-    lastName: ""
+    lastName: "",
   });
   const notify = (msg, method = "error") => toast[method](msg);
 
@@ -44,16 +44,19 @@ const Tenant = () => {
     "/users/" + id
   );
 
-  const { data: updateData, error: updateError, loading: updateLoading, execute: udpateExecute, queryParam: udpateQueryParam } = useAxios(
-    "post",
-    "/auth/update/" + id
-  );
+  const {
+    data: updateData,
+    error: updateError,
+    loading: updateLoading,
+    execute: udpateExecute,
+    queryParam: udpateQueryParam,
+  } = useAxios("post", "/auth/update/" + id);
 
   useEffect(() => {
     if (data) {
       setUserState({
         firstName: data?.data?.firstName,
-        lastName: data?.data?.lastName
+        lastName: data?.data?.lastName,
       });
     }
   }, [data]);
@@ -65,7 +68,6 @@ const Tenant = () => {
       execute();
     }
   }, [updateData]);
-
 
   if (loading) {
     return (
@@ -86,8 +88,6 @@ const Tenant = () => {
   }
 
   const handleSubmit = (event) => {
-
-
     udpateExecute(userState);
   };
 
@@ -95,19 +95,14 @@ const Tenant = () => {
     if (open) {
       setOpen(false);
     }
-
-  }
+  };
 
   if (updateError) {
     notify(updateError);
   }
 
-
-
-
   return (
     <Layout title="Tenant">
-      <ToastContainer />
       <Paper>
         <div style={{ padding: "20px 20px 0px 20px" }}>
           <Typography component="h1" variant="h5">
@@ -138,7 +133,6 @@ const Tenant = () => {
           <Grid item xs={12}>
             <Typography>Gender: {data.data.gender}</Typography>
           </Grid>
-
         </Grid>
         <div className="edit-btn">
           <Button onClick={() => setOpen(!open)} variant="contained">

@@ -27,7 +27,8 @@ const PropertyDetail = () => {
       <div className="detail-description">
         <div style={{ marginBottom: "20px" }}>
           <h4 className="title">
-            {data?.propertyType} {data?.propertyName} hosted by Puru
+            {data?.propertyType} {data?.propertyName} hosted by{" "}
+            {data?.ownedBy.firstName} {data?.ownedBy.lastName}
           </h4>
         </div>
         <div>

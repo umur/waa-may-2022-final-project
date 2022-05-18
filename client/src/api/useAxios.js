@@ -2,10 +2,12 @@ import { useState, useEffect, useCallback, useContext } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { AuthContext } from "context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
-export const useAxios = (method, url) => {
+export const useAxios = (method, url, param = null) => {
+  const navigate = useNavigate();
   const notify = (msg, method = "error") => toast[method](msg);
-  const { isSignedIn } = useContext(AuthContext);
+  const { isSignedIn, setSignedIn } = useContext(AuthContext);
   console.log(isSignedIn);
   const [data, setData] = useState(null);
   const [error, setError] = useState("");
@@ -30,6 +32,12 @@ export const useAxios = (method, url) => {
         );
         setData(response.data);
       } catch (e) {
+        if (e.response.status === 401) {
+          setSignedIn(false);
+          localStorage.removeItem("token");
+          localStorage.removeItem("user");
+          navigate("/");
+        }
         notify(e.response.data.message);
         setError(e.response.data.message);
       } finally {
@@ -41,21 +49,14 @@ export const useAxios = (method, url) => {
 
   useEffect(() => {
     if (data === null && method === "get") {
-      executeRequest();
+      executeRequest(param);
     }
   }, [data, executeRequest, method]);
-
-  const queryParam = (list) => {
-    let query = "?";
-    list.map((item, index, list) => {
-      query += item.key + "=" + item.value + (list.length > 0 ? "&" : "");
-    });
-    return query;
-  };
 
   return { data, error, loading, execute: executeRequest, queryParam };
 };
 
+//methods
 const customAxios = (axiosmethod, url, headers, data) => {
   console.log("data", data);
   if (axiosmethod === "get" || axiosmethod === "delete") {
@@ -66,4 +67,12 @@ const customAxios = (axiosmethod, url, headers, data) => {
   } else {
     return axios[axiosmethod](url, data, headers);
   }
+};
+
+const queryParam = (list) => {
+  let query = "?";
+  list.map((item, index, list) => {
+    query += item.key + "=" + item.value + (list.length > 0 ? "&" : "");
+  });
+  return query;
 };

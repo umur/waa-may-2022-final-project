@@ -6,13 +6,13 @@ import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import "./index.css";
 import DefaultImage from "../../assets/img/default-house.jpeg";
-import { Box, Typography } from '@mui/material';
-import moment from 'moment';
+import { Box, Typography } from "@mui/material";
+import moment from "moment";
 
 const Item = ({ propertyRentalHistory, children }) => {
-  if (!propertyRentalHistory) return (<></>);
+  if (!propertyRentalHistory) return <></>;
 
-  const { property } = propertyRentalHistory
+  const { property } = propertyRentalHistory;
 
   const {
     id,
@@ -32,14 +32,11 @@ const Item = ({ propertyRentalHistory, children }) => {
   const diff = endDate.diff(startDate);
   const diffDuration = moment.duration(diff);
 
-  console.log(propertyRentalHistory)
+  console.log(propertyRentalHistory);
 
   return (
     <>
-      <Card
-        sx={{ maxWidth: 400, minWidth: 400 }}
-        className="card-item"
-      >
+      <Card className="card-item">
         <CardMedia
           component="img"
           height="240"
@@ -47,21 +44,40 @@ const Item = ({ propertyRentalHistory, children }) => {
           alt="green iguana"
         />
         <CardContent>
-          <h4 className="title">${rentAmount}</h4>
-          <h4 className="sub-title">Security Deposit: ${securityDepositAmount}</h4>
-          <p className="sub-title">
-            {city}, {state}
-          </p>
+          <div style={{ textAlign: "right" }}>
+            <h4 className="title">
+              <span style={{ fontSize: "30px" }}>${rentAmount}</span>
+            </h4>
+            <h4 className="sub-title">
+              {"("}Security Deposit{")"}{" "}
+              <span style={{ fontSize: "30px" }}>${securityDepositAmount}</span>
+            </h4>
+          </div>
+
           <div className="card-body">
             <p>
               {propertyType} {propertyName}
             </p>
+            <h5 className="city" style={{ marginBottom: "10px" }}>
+              {city}, {state}
+            </h5>
             <p>{numberOfBedrooms} bedroom</p>
             <p>{numberOfBathrooms} bathroom</p>
-            <p>Start Date: {moment(startDate).format('MMM DD YYYY')}</p>
-            <p>End Date: {moment(endDate).format('MMM DD YYYY')}</p>
-            <Box sx={{ fontWeight: 'bold', m: 1 }}>
-            Subtotal: ${diffDuration.days() * (rentAmount + securityDepositAmount)}
+            <p
+              style={{ fontWeight: "bold", color: "black", marginTop: "10px" }}
+            >
+              From {moment(startDate).format("MMM DD YYYY")} to{" "}
+              {moment(endDate).format("MMM DD YYYY")} for {diffDuration.days()}{" "}
+              days
+            </p>
+            <Box
+              sx={{ fontWeight: "bold", m: 1 }}
+              style={{ textAlign: "right" }}
+            >
+              Total{" "}
+              <span style={{ fontSize: "30px" }}>
+                ${diffDuration.days() * (rentAmount + securityDepositAmount)}
+              </span>
             </Box>
           </div>
         </CardContent>

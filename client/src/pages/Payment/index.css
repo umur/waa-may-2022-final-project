@@ -32,9 +32,7 @@
 }
 .payment img {
   border-radius: 6px;
-  margin: 10px;
-  width: 54px;
-  height: 57px;
+  width: 100%;
 }
 .payment h3,
 h5 {
@@ -83,8 +81,13 @@ h5 {
   font-size: 15px;
 }
 .payment .card-body p:first-child {
+  margin-top: 20px;
   padding-left: 0px;
 }
 .payment .card-action button {
   width: 100%;
+}
+.payment .city {
+  color: black;
+  opacity: 1;
 }

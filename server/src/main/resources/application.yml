@@ -52,7 +52,7 @@ spring:
   mail:
     host: smtp.gmail.com
     username: pms.waa@gmail.com
-    password: test   #after 2 step verification, app->generate password
+    password: ndljtyuetxexsbjv   #after 2 step verification, app->generate password
     port: 587
     properties:
       mail:

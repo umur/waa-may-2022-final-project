@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Button from "@mui/material/Button";
 import "../assets/css/app/notfound.css";
 import { Link } from "react-router-dom";
@@ -8,6 +8,7 @@ const NotFound = () => {
   return (
     <>
       <Header />
+      <div style={{ marginBottom: "20px", minHeight: "550px" }}></div>
       <div class="notfound container">
         <div class="gif">
           <img src="https://i.postimg.cc/2yrFyxKv/giphy.gif" alt="gif_ing" />

@@ -17,16 +17,16 @@ import ForgotPassword from "pages/ForgotPassword";
 import Properties from "pages/Properties";
 import { SignalWifiStatusbarNullSharp } from "@mui/icons-material";
 import Landlord from "pages/Landlord/Landlord";
-import NotFound from 'pages/404';
-import NewProperty from 'pages/Properties/NewProperty';
-import PropertyDetail from 'pages/Properties/PropertyDetail';
+import NotFound from "pages/404";
+import NewProperty from "pages/Properties/NewProperty";
+import PropertyDetail from "pages/Properties/PropertyDetail";
 import CreateNewPassword from "pages/CreateNewPassword";
-import axios from 'axios';
-import RentHistory from 'pages/RentHistory';
-import { toast, ToastContainer } from 'react-toastify';
+import axios from "axios";
+import RentHistory from "pages/RentHistory";
+import { toast, ToastContainer } from "react-toastify";
+import { StompSessionProvider, useSubscription } from "react-stomp-hooks";
 
 function App() {
-
   const notify = (msg) => toast.error(msg);
 
   const [isSignedIn, setSignedIn] = useState(
@@ -34,7 +34,11 @@ function App() {
   );
 
   const [user, setUser] = useState(null);
-  const [role, setRole] = useState(localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")).role.roleName : "");
+  const [role, setRole] = useState(
+    localStorage.getItem("user")
+      ? JSON.parse(localStorage.getItem("user")).role.roleName
+      : ""
+  );
 
   const fetchData = async () => {
     const data = await localStorage.getItem("user");
@@ -51,17 +55,26 @@ function App() {
 
   const authContext = { isSignedIn, setSignedIn, user, setUser, role, setRole };
 
+  useSubscription("/topic/landlords", (msg) => {
+    let msgdata = JSON.parse(msg.body);
+    if (localStorage.getItem("user")) {
+      let user = JSON.parse(localStorage.getItem("user"));
+      if (msgdata.to === user.id) {
+        toast.success(msgdata.message);
+      }
+    }
+  });
   axios.interceptors.response.use(
     (response) => {
       return response;
     },
     (error) => {
       if (error.response.status === 401) {
-        notify("Token expired")
-        
-        setSignedIn(false)
-        setRole(null)
-        setUser(null)
+        notify("Token expired");
+
+        setSignedIn(false);
+        setRole(null);
+        setUser(null);
         localStorage.removeItem("token");
         localStorage.removeItem("user");
         // navigate to login
@@ -75,6 +88,7 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
+      <ToastContainer />
       <AuthContext.Provider value={authContext}>
         <ToastContainer />
         <Routes>
@@ -178,7 +192,6 @@ function App() {
               </AuthWrapper>
             }
           />
-
         </Routes>
       </AuthContext.Provider>
     </ThemeProvider>

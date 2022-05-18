@@ -1,6 +1,7 @@
 package com.pmp.server.service.impl;
 
 import com.pmp.server.domain.Property;
+import com.pmp.server.dto.NotificationDTO;
 import com.pmp.server.domain.PropertyRentalHistory;
 import com.pmp.server.domain.Transaction;
 import com.pmp.server.domain.User;
@@ -26,6 +27,7 @@ import com.stripe.param.checkout.SessionCreateParams;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -38,20 +40,16 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Value("${stripe.secret.key}")
     private String stripeSecretKey;
-
-    public PaymentServiceImpl(TransactionService transactionService, PropertyService propertyService, EmailService emailService, PropertyRentalHistoryService propertyRentalHistoryService) {
-        this.transactionService = transactionService;
-        this.propertyService = propertyService;
-        this.propertyRentalHistoryService = propertyRentalHistoryService;
-        this.emailService = emailService;
-    }
-
-    @PostConstruct
-    public void init() {
-        Stripe.apiKey = stripeSecretKey;
-    }
-
+    private final PropertyServiceImpl propertyService;
+    private final SimpMessagingTemplate template;
     private static final Logger log = LoggerFactory.getLogger(PaymentServiceImpl.class);
+
+    private final TransactionService transactionService;
+    
+    private final EmailService emailService;
+
+    private final PropertyRentalHistoryService propertyRentalHistoryService;
+    
 
     @Value("${client.admin}")
     private String adminUrl;
@@ -59,12 +57,20 @@ public class PaymentServiceImpl implements PaymentService {
     @Value("${client.domain}")
     private String clientUrl;
 
-    private final TransactionService transactionService;
-    private final PropertyService propertyService;
 
-    private final EmailService emailService;
+    public PaymentServiceImpl(TransactionService transactionService, PropertyServiceImpl propertyService, EmailService emailService, PropertyRentalHistoryService propertyRentalHistoryService,SimpMessagingTemplate template) {
+        this.transactionService = transactionService;
+        this.propertyService = propertyService;
+        this.propertyRentalHistoryService = propertyRentalHistoryService;
+        this.emailService = emailService;
+        this.template = template;
+    }
 
-    private final PropertyRentalHistoryService propertyRentalHistoryService;
+    @PostConstruct
+    public void init() {
+        Stripe.apiKey = stripeSecretKey;
+    }
+
     @Override
     public void handleSessionSucceeded(Session session) throws StripeException {
         // Get payment intent
@@ -98,6 +104,7 @@ public class PaymentServiceImpl implements PaymentService {
 
         // send Email
         Property property = propertyService.getById(propertyId);
+        this.template.convertAndSend("/topic/landlords", new NotificationDTO(property.getOwnedBy().getId().toString(),"Your property has been rented!"));
         User landlord = property.getOwnedBy();
 
         EmailDetails emailData = new EmailDetails();

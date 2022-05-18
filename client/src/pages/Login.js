@@ -19,6 +19,8 @@ import { useNavigate, Link as RouteLink } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ROLE from "auth/Role";
+import { ReactComponent as Logo } from "../assets/img/logo-white.svg";
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 
 const Login = () => {
   const notify = (msg) => toast.error(msg);
@@ -64,70 +66,92 @@ const Login = () => {
   }
 
   return (
-    <Container component="main" maxWidth="xs">
+    <div className="login-container">
       <CssBaseline />
-      <Box
-        sx={{
-          marginTop: 8,
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-        }}
-      >
-        <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-          <LockOutlinedIcon />
-        </Avatar>
-        <Typography component="h1" variant="h5">
-          Login
-        </Typography>
-        <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-          <TextField
-            margin="normal"
-            required
-            fullWidth
-            id="email"
-            label="Email Address"
-            name="email"
-            autoComplete="email"
-            autoFocus
+      <div className="side-container">
+        <Box className="login-left">
+          <img
+            className="login-img"
+            src="https://images.unsplash.com/photo-1623298317883-6b70254edf31?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80"
+            alt="title login "
           />
-          <TextField
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="Password"
-            type="password"
-            id="password"
-            autoComplete="current-password"
-          />
-          <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Remember me"
-          />
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            sx={{ mt: 3, mb: 2 }}
-          >
-            Sign In
-          </Button>
-          <Grid container>
-            <Grid item xs>
-              <Link to="/forgotpassword" component={RouteLink} variant="body2">
-                Forgot password?
-              </Link>
-            </Grid>
-            <Grid item>
-              <Link to="/register" component={RouteLink} variant="body2">
-                {"Don't have an account? Sign Up"}
-              </Link>
-            </Grid>
-          </Grid>
+          <div className="login-img-text">
+            <div className="logo" style={{ marginBottom: "20px" }}>
+              <Logo />
+              <div className="logo-text">GigaBits</div>
+            </div>
+            <div className="logo-text text">Find your next home with us!</div>
+          </div>
         </Box>
-      </Box>
-    </Container>
+        <Box className="login-right" sx={{}}>
+          <Typography
+            component="h1"
+            variant="h5"
+            style={{ fontSize: "20px", fontWeight: "bold" }}
+          >
+            Login
+          </Typography>
+          <Box
+            component="form"
+            onSubmit={handleSubmit}
+            noValidate
+            sx={{ mt: 1 }}
+          >
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="email"
+              label="Email Address"
+              name="email"
+              autoComplete="email"
+              autoFocus
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              name="password"
+              label="Password"
+              type="password"
+              id="password"
+              autoComplete="current-password"
+            />
+
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+            >
+              Sign In
+            </Button>
+            <Grid container>
+              <Grid item xs>
+                <Link
+                  to="/forgotpassword"
+                  component={RouteLink}
+                  variant="body2"
+                >
+                  Forgot password?
+                </Link>
+              </Grid>
+              <Grid item>
+                <Link to="/register" component={RouteLink} variant="body2">
+                  {"Don't have an account? Sign Up"}
+                </Link>
+              </Grid>
+            </Grid>
+            <div style={{ position: "absolute", bottom: "20px" }}>
+              <Button variant="text" onClick={() => navigate("/")}>
+                <ArrowBackIosIcon />
+                Back to Home
+              </Button>
+            </div>
+          </Box>
+        </Box>
+      </div>
+    </div>
   );
 };
 
