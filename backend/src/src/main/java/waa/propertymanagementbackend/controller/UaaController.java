@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import waa.propertymanagementbackend.domain.User;
 import waa.propertymanagementbackend.dto.EmailDataDetailDto;
 import waa.propertymanagementbackend.dto.UserDto;
+import waa.propertymanagementbackend.dto.UserSignupDto;
 import waa.propertymanagementbackend.service.EmailService;
 import waa.propertymanagementbackend.service.UserService;
 
@@ -15,7 +16,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/users")
-//@CrossOrigin
+@CrossOrigin
 public class UaaController {
     @Autowired
     private UserService<UserDto> userService;
@@ -51,7 +52,7 @@ public class UaaController {
         return userService.getUserDtoByRole(roleName);
     }
 
-    @PutMapping("/admin/{email}/{value}")
+    @PutMapping("/admin/activation/{email}/{value}")
     public void activate(@PathVariable String email, @PathVariable boolean value) {
         userService.activate(email, value);
     }
@@ -77,7 +78,7 @@ public class UaaController {
 
 
     @PostMapping("/signup")
-    public void signUp(@RequestBody UserDto user) {
+    public void signUp(@RequestBody UserSignupDto user) {
         System.out.println("Helllllo");
         userService.save(user);
 

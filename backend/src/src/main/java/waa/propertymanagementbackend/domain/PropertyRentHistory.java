@@ -18,7 +18,7 @@ public class PropertyRentHistory {
    private Property property;
     private LocalDate rentedFrom;
     private LocalDate rentedTo;
-
+    private int securityDepositAmount;
     private int rentedAmount;
 
     @OneToOne

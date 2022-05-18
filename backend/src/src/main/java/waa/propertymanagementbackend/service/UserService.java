@@ -4,6 +4,7 @@ package waa.propertymanagementbackend.service;
 import waa.propertymanagementbackend.domain.User;
 import waa.propertymanagementbackend.dto.EmailDataDetailDto;
 import waa.propertymanagementbackend.dto.UserDto;
+import waa.propertymanagementbackend.dto.UserSignupDto;
 
 import java.util.List;
 
@@ -20,7 +21,7 @@ public interface UserService<TDto> {
 
 
 
- void save(TDto dto);
+ void save(UserSignupDto dto);
 
     /*List<TDto> getAll();
 

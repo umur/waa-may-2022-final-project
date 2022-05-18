@@ -4,9 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import waa.propertymanagementbackend.domain.PropertyRentHistory;
+import waa.propertymanagementbackend.domain.PropertyType;
 import waa.propertymanagementbackend.dto.PropertyDto;
 import waa.propertymanagementbackend.dto.PropertyRentingDto;
 import waa.propertymanagementbackend.dto.RentedPropertyDto;
+import waa.propertymanagementbackend.dto.TotalIncomeDto;
 import waa.propertymanagementbackend.service.PropertyService;
 
 
@@ -14,6 +16,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/properties")
+@CrossOrigin
 public class PropertyController {
 
 
@@ -55,6 +58,10 @@ public class PropertyController {
         return service.findByOwnedByEmailAndCity(email, city);
     }
 
+    @GetMapping("/propertyTypes")
+    public List<PropertyType> getPropertyTypes() {
+      return  service.getPropertyTypes();
+    }
     @GetMapping("/landlord/ownedBy/{email}")
     public List<PropertyDto> getOwnedBy(@PathVariable String email) {
         return service.findByOwnedByEmail(email);
@@ -78,7 +85,7 @@ public class PropertyController {
     }
 
     @GetMapping("/landlord/totalIncome/{email}/{city}")
-    public float totalIncomePerLanLordAndCity(@PathVariable String email, @PathVariable String city) {
+    public TotalIncomeDto totalIncomePerLanLordAndCity(@PathVariable String email, @PathVariable String city) {
         return service.totalIncomePerLanLordAndCity(email, city);
     }
 
@@ -140,7 +147,7 @@ public class PropertyController {
     }
 
     @GetMapping("/admin/totalIncome/{city}")
-    public float totalIncome(@PathVariable String city) {
+    public TotalIncomeDto totalIncome(@PathVariable String city) {
         return service.getTotalIncomePerLocation(city);
     }
 

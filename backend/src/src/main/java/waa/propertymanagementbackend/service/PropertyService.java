@@ -1,8 +1,10 @@
 package waa.propertymanagementbackend.service;
 
 
+import waa.propertymanagementbackend.domain.PropertyType;
 import waa.propertymanagementbackend.dto.PropertyRentingDto;
 import waa.propertymanagementbackend.dto.RentedPropertyDto;
+import waa.propertymanagementbackend.dto.TotalIncomeDto;
 
 import java.util.List;
 
@@ -18,12 +20,12 @@ public interface PropertyService <TDto>{
     public List<TDto> findByOwnedByEmailAndCity(String email,String city);
     public List<TDto> findByOwnedByEmail(String email);
     public List<TDto> findByLastRentedByEmail(String email);
-    public  float totalIncomePerLanLordAndCity(String email,String city);
-    public  float getTotalIncomePerLocation(String city);
+    public TotalIncomeDto totalIncomePerLanLordAndCity(String email, String city);
+    public  TotalIncomeDto getTotalIncomePerLocation(String city);
     //  public  List<TDto> findByOwnedByEmailAndRentedToIsLessThanEqual(String email);
     public  List<RentedPropertyDto> getPropertiesLeasesInMonth(String email);
     public  List<TDto> findByAddressCityAndIsOccupied(String city,boolean isOccupied);
-
+    public  List<PropertyType> getPropertyTypes();
     public  List<TDto> getByLandlordAndCityAndRoomsCount(String email,String city,int numberOfBedrooms);
     public  List<TDto> getByLandlordAndRoomsCount(String email,int numberOfBedrooms);
     public  List<TDto> getByLandlordAndIsOccupied(String email, boolean isOccupied);

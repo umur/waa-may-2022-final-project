@@ -10,7 +10,7 @@ public class RentedPropertyDto {
     private LocalDate rentedFrom;
     private LocalDate rentedTo;
     private int rentedAmount;
-
+    private int securityDepositAmount;
 
 
 }

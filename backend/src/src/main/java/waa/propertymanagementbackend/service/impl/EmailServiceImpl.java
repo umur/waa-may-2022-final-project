@@ -51,6 +51,7 @@ public class EmailServiceImpl implements EmailService<EmailDataDetailDto> {
     @Override
     public String sendEmail(EmailDataDetailDto dto) {
         try {
+            System.out.println("helllo");;
             EmailDataDetail em = new EmailDataDetail();
             modelMapper.map(dto, em);
             SimpleMailMessage message = new SimpleMailMessage();

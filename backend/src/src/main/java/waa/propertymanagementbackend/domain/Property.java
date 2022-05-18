@@ -23,7 +23,7 @@ public class Property {
     private int id;
 
     private String propertyName;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Address address;
     @OneToOne
     private PropertyType propertyType;

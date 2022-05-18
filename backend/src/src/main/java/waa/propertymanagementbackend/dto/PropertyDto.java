@@ -31,7 +31,7 @@ public class PropertyDto {
     private Boolean isOccupied;
     private UserDto ownedBy;
     private UserDto lastRentedBy;
-
+    private int securityDepositAmount;
 
 
 }

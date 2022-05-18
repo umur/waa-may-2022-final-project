@@ -13,12 +13,15 @@ import waa.propertymanagementbackend.domain.User;
 import waa.propertymanagementbackend.dto.EmailDataDetailDto;
 import waa.propertymanagementbackend.dto.PropertyDto;
 import waa.propertymanagementbackend.dto.UserDto;
+import waa.propertymanagementbackend.dto.UserSignupDto;
 import waa.propertymanagementbackend.repository.EmailDataDetailRep;
 import waa.propertymanagementbackend.repository.UserRepository;
 import waa.propertymanagementbackend.service.UserService;
 
 
 import java.lang.reflect.Type;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,10 +40,19 @@ public class UserServiceImpl implements UserService<UserDto> {
 
 
   @Override
-    public void save(UserDto user) {
-        User u = new User();
-        modelMapper.map(user, u);
-        userRepository.save(u);
+    public void save(UserSignupDto user) {
+      User u = new User();
+      modelMapper.map(user, u);
+
+
+      u.setLastLoggedInAt(LocalDate.now());
+      u.setActive(true);
+      u.setDeleted(false);
+      u.setCreatedDate(LocalDate.now());
+      System.out.println("hello");
+
+      userRepository.save(u);
+
 
     }
 

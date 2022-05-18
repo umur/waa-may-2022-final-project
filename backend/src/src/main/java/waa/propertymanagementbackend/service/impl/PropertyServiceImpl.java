@@ -6,10 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import waa.propertymanagementbackend.domain.Property;
 import waa.propertymanagementbackend.domain.PropertyRentHistory;
+import waa.propertymanagementbackend.domain.PropertyType;
 import waa.propertymanagementbackend.domain.User;
-import waa.propertymanagementbackend.dto.PropertyDto;
-import waa.propertymanagementbackend.dto.PropertyRentingDto;
-import waa.propertymanagementbackend.dto.RentedPropertyDto;
+import waa.propertymanagementbackend.dto.*;
 import waa.propertymanagementbackend.repository.PropertyPhotosRep;
 import waa.propertymanagementbackend.repository.PropertyRentHistoryRepo;
 import waa.propertymanagementbackend.repository.PropertyRepository;
@@ -17,7 +16,6 @@ import waa.propertymanagementbackend.service.PropertyService;
 
 import java.lang.reflect.Type;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -31,30 +29,25 @@ public class PropertyServiceImpl implements PropertyService<PropertyDto> {
     private ModelMapper modelMapper;
 
 
-
     @Autowired
     PropertyPhotosRep propertyPhotosRep;
+
     List<PropertyDto> convertToPropertyDto(List<Property> properties) {
 
-        Type listType = new TypeToken<List<PropertyDto>>(){}.getType();
-        return modelMapper.map(properties,listType);
+        Type listType = new TypeToken<List<PropertyDto>>() {
+        }.getType();
+        return modelMapper.map(properties, listType);
 
     }
 
     List<RentedPropertyDto> convertToRentedPropertyDto(List<PropertyRentHistory> properties) {
 
+        Type listType = new TypeToken<List<RentedPropertyDto>>() {
+        }.getType();
+        return modelMapper.map(properties, listType);
 
 
-
-        List<RentedPropertyDto> dtos = new ArrayList<>();
-        RentedPropertyDto dto = new RentedPropertyDto();
-        properties.stream().forEach(item -> {
-            modelMapper.map(item, dto);
-            dtos.add(dto);
-        });
-        return dtos;
     }
-
 
 
     @Override
@@ -66,10 +59,10 @@ public class PropertyServiceImpl implements PropertyService<PropertyDto> {
         p.setVisible(true);
         p.setDeleted(false);
         System.out.println("hello");
-       // int id = propertyRepository.getLastId();
+        // int id = propertyRepository.getLastId();
 
-       // p.setId(id + 1);
-     //   System.out.println("id" + p.getId());
+        // p.setId(id + 1);
+        //   System.out.println("id" + p.getId());
         propertyRepository.save(p);
 //      for (int i = 0; i < property.getPropertyPhotos().size(); i++) {
 //           propertyPhotosRep.save(property.getPropertyPhotos().get(i));
@@ -96,8 +89,10 @@ public class PropertyServiceImpl implements PropertyService<PropertyDto> {
 
     /**/
     @Override
-    public float getTotalIncomePerLocation(String city) {
-        return propertyRentHistoryRepo.getTotalIncomePerLocation(city);
+    public TotalIncomeDto getTotalIncomePerLocation(String city) {
+        TotalIncomeDto dto = new TotalIncomeDto();
+        dto.setIncome(propertyRentHistoryRepo.getTotalIncomePerLocation(city));
+        return dto;
     }
 
     @Override
@@ -144,8 +139,11 @@ public class PropertyServiceImpl implements PropertyService<PropertyDto> {
     }
 
     @Override
-    public float totalIncomePerLanLordAndCity(String email, String city) {
-        return propertyRentHistoryRepo.getTotalIncomePerLocationAndLandlord(city, email);
+    public TotalIncomeDto totalIncomePerLanLordAndCity(String email, String city) {
+        TotalIncomeDto dto = new TotalIncomeDto();
+        dto.setIncome(propertyRentHistoryRepo.getTotalIncomePerLocationAndLandlord(city, email));
+        return dto;
+
     }
 
 
@@ -216,6 +214,14 @@ public class PropertyServiceImpl implements PropertyService<PropertyDto> {
 
     }
 
+    @Autowired
+    PropertyTypesRepo propertyTypesRepo;
+
+    @Override
+    public List<PropertyType> getPropertyTypes() {
+        return (List<PropertyType>)propertyTypesRepo.findAll();
+    }
+
     /**
      * Tenant
      */
@@ -223,7 +229,7 @@ public class PropertyServiceImpl implements PropertyService<PropertyDto> {
     public void rentProperty(PropertyRentingDto pDto) {
         Property p = new Property();
         PropertyDto p2 = new PropertyDto();
-       p = propertyRepository.findById(pDto.getProperty().getId()).get();
+        p = propertyRepository.findById(pDto.getProperty().getId()).get();
 
         PropertyRentHistory pH = new PropertyRentHistory();
         modelMapper.map(pDto, pH);

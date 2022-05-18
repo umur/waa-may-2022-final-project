@@ -11,5 +11,6 @@ public class PropertyRentingDto {
     private LocalDate rentedFrom;
     private LocalDate rentedTo;
     private int rentedAmount;
+    private int securityDepositAmount;
 
 }
