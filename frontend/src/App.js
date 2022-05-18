@@ -10,7 +10,7 @@ import Landlord from "./Components/Landlord/Landlord";
 import AddProperty from "./Components/Landlord/LandlordProperties/AddProperty/AddProperty";
 import ForgotPassword from './Components/ForgotPassword/ForgotPassword';
 import EmailSent from './Components/ForgotPassword/EmailSent';
-import ResetPassword from './Components/ResestPassword/ResetPassword';
+// import ResetPassword from './Components/ResestPassword/ResetPassword';
 
 function App() {
   const url = "http://localhost:8080/api/v1/products";
@@ -35,7 +35,7 @@ function App() {
           <Route path="/add-property" element={<AddProperty />} />
           <Route path="/" element={<SignIn />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
-          <Route path="/reset-password" element={<ResetPassword />} />
+          {/* <Route path="/reset-password" element={<ResetPassword />} /> */}
           <Route path="/email-sent" element={<EmailSent />} />
           
         </Routes>
