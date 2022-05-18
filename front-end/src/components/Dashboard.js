@@ -2,19 +2,28 @@ import React, { useEffect, useState } from "react";
 import { useForm } from 'react-hook-form';
 
 import axios from "axios";
-import { getRole } from '../utils/role';
+import { getRole, isTenant } from '../utils/role';
+import { useNavigate } from "react-router-dom";
 
 
 const Dashboard = () => {
 
     let role = getRole();
-
+    const navigate = useNavigate();
+    useEffect(() => {
+        if(isTenant()){
+            navigate("/dashboard/rent-property");
+        }
+    
+      }, []);
+    
 
 
     const [state, setState] = useState([]);
     const [tenants, setTenants] = useState([]);
     const [incomes, setIncomes] = useState([]);
     const [propertiesEnding, setPropertiesEnding] = useState([]);
+    const [landLordProperties, setLandLordPorperties] = useState([]);
 
 
     useEffect(() => {
@@ -22,7 +31,25 @@ const Dashboard = () => {
         getTenants();
         getIncomes()
         getPropertiesEnding();
+        getLandLordProperties();
     }, []);
+
+    const getLandLordProperties = async () => {
+        let token = JSON.parse(localStorage.getItem("token"));
+        try {
+            const response = await axios.get(
+                "http://localhost:8080/api/v1/properties",
+                {
+                    headers: {
+                        Authorization: `Bearer ${token.accessToken}`,
+                    },
+                }
+            );
+            setLandLordPorperties([...response.data]);
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
     const getPropertiesEnding = async () => {
         let token = JSON.parse(localStorage.getItem("token"));
@@ -114,86 +141,140 @@ const Dashboard = () => {
             </div>
             {/* /.content-header */}
             {/* Main content */}
-            <section className="content">
-                <div className="container-fluid">
-                    <div className="row">
-                        <div className="col-12">
-                            <div className="card">
-                                <div className="px-4 pt-4 d-flex justify-content-between">
-                                    <h3 className="card-title">List of Last 10 Properties Rented</h3>
-                                </div>
 
-                                <div className="card-body">
-                                    <table
-                                        id="example2"
-                                        className="table table-bordered table-hover"
-                                    >
-                                        <thead>
-                                            <tr>
-                                                <th>Property Name</th>
-                                                <th>Property Type</th>
-                                                <th>Bed No</th>
-                                                <th>Bath Room No</th>
-                                                <th>Rent Amount</th>
-                                                <th>Security Deposit Amount</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {state.map((property) => (
-                                                <tr key={property.id}>
-                                                    <td>{property.propertyName}</td>
-                                                    <td>{property.propertyType}</td>
-                                                    <td>{property.noOfBedRoom}</td>
-                                                    <td>{property.noOfBathRoom}</td>
-                                                    <td>{property.rentAmount}</td>
-                                                    <td>{property.securityDepositAmount}</td>
-                                                </tr>)
-                                            )}
-                                        </tbody>
-                                    </table>
+            {role == "ADMIN" ?
+
+                <section className="content">
+                    <div className="container-fluid">
+                        <div className="row">
+                            <div className="col-12">
+                                <div className="card">
+                                    <div className="px-4 pt-4 d-flex justify-content-between">
+                                        <h3 className="card-title">List of Last 10 Properties Rented</h3>
+                                    </div>
+
+                                    <div className="card-body">
+                                        <table
+                                            id="example2"
+                                            className="table table-bordered table-hover"
+                                        >
+                                            <thead>
+                                                <tr>
+                                                    <th>Property Name</th>
+                                                    <th>Property Type</th>
+                                                    <th>Bed No</th>
+                                                    <th>Bath Room No</th>
+                                                    <th>Rent Amount</th>
+                                                    <th>Security Deposit Amount</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {state.map((property) => (
+                                                    <tr key={property.id}>
+                                                        <td>{property.propertyName}</td>
+                                                        <td>{property.propertyType}</td>
+                                                        <td>{property.noOfBedRoom}</td>
+                                                        <td>{property.noOfBathRoom}</td>
+                                                        <td>{property.rentAmount}</td>
+                                                        <td>{property.securityDepositAmount}</td>
+                                                    </tr>)
+                                                )}
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>{/* /.container-fluid */}
-            </section>
-            <section className="content">
-                <div className="container-fluid">
-                    <div className="row">
-                        <div className="col-12">
-                            <div className="card">
-                                <div className="px-4 pt-4 d-flex justify-content-between">
-                                    <h3 className="card-title">List of Last 10 Most Recent Tenant</h3>
-                                </div>
+                    </div>{/* /.container-fluid */}
+                </section> : ""
 
-                                <div className="card-body">
-                                    <table
-                                        id="example2"
-                                        className="table table-bordered table-hover"
-                                    >
-                                        <thead>
-                                            <tr>
-                                                <th>First Name</th>
-                                                <th>Last Name</th>
-                                                <th>Email</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {tenants.map((item) => (
-                                                <tr key={item.email}>
-                                                    <td>{item.firstName}</td>
-                                                    <td>{item.lastName}</td>
-                                                    <td>{item.email}</td>
-                                                </tr>)
-                                            )}
-                                        </tbody>
-                                    </table>
+            }
+            {role == "LANDLORD" ?
+
+                <section className="content">
+                    <div className="container-fluid">
+                        <div className="row">
+                            <div className="col-12">
+                                <div className="card">
+                                    <div className="px-4 pt-4 d-flex justify-content-between">
+                                        <h3 className="card-title">List of Properties</h3>
+                                    </div>
+
+                                    <div className="card-body">
+                                        <table
+                                            id="example2"
+                                            className="table table-bordered table-hover"
+                                        >
+                                            <thead>
+                                                <tr>
+                                                    <th>Property Name</th>
+                                                    <th>Property Type</th>
+                                                    <th>Bed No</th>
+                                                    <th>Bath Room No</th>
+                                                    <th>Rent Amount</th>
+                                                    <th>Security Deposit Amount</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {landLordProperties.map((property) => (
+                                                    <tr key={property.id}>
+                                                        <td>{property.propertyName}</td>
+                                                        <td>{property.propertyType}</td>
+                                                        <td>{property.noOfBedRoom}</td>
+                                                        <td>{property.noOfBathRoom}</td>
+                                                        <td>{property.rentAmount}</td>
+                                                        <td>{property.securityDepositAmount}</td>
+                                                    </tr>)
+                                                )}
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>{/* /.container-fluid */}
-            </section>
+                    </div>{/* /.container-fluid */}
+                </section> : ""
+            }
+            {role == "ADMIN" ?
+
+                <section className="content">
+                    <div className="container-fluid">
+                        <div className="row">
+                            <div className="col-12">
+                                <div className="card">
+                                    <div className="px-4 pt-4 d-flex justify-content-between">
+                                        <h3 className="card-title">List of Last 10 Most Recent Tenant</h3>
+                                    </div>
+
+                                    <div className="card-body">
+                                        <table
+                                            id="example2"
+                                            className="table table-bordered table-hover"
+                                        >
+                                            <thead>
+                                                <tr>
+                                                    <th>First Name</th>
+                                                    <th>Last Name</th>
+                                                    <th>Email</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {tenants.map((item) => (
+                                                    <tr key={item.email}>
+                                                        <td>{item.firstName}</td>
+                                                        <td>{item.lastName}</td>
+                                                        <td>{item.email}</td>
+                                                    </tr>)
+                                                )}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>{/* /.container-fluid */}
+                </section> : ""
+            }
 
             <section className="content">
                 <div className="container-fluid">

@@ -34,7 +34,8 @@ const RentProperty = () => {
 
     const propertiesView = () => {
         return (
-            properties.map((item) => {
+           
+            properties.length ? properties.map((item) => {
                 return (
                 <div className="card mr-2" key={item.id} style={{ width: '18rem' }}>
                     {
@@ -56,7 +57,7 @@ const RentProperty = () => {
                 </div>
                 )
 
-            })
+            }) : <h4>No property availbale</h4>
         )
     }
 
@@ -69,7 +70,7 @@ const RentProperty = () => {
                         <div className="col-12">
                             <div className="card">
                                 <div className="card-header">
-                                    <h3 className="card-title">Total Income</h3>
+                                    <h3 className="card-title">List Of Available Properties</h3>
                                 </div>
                                 <div className="card-body d-flex flex-wrap">
                                     {propertiesView()}
