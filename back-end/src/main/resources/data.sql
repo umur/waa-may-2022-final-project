@@ -65,6 +65,9 @@ INSERT INTO property(id, no_of_bath_room,no_of_bed_room,property_name,property_t
     (nextval('property_id_seq'),2,5,'Super House','House',5000,300,2,4,false);
 
 
+
+
+
 /*
 
 PROPERTY FOR WEEKLY REPORT
@@ -86,7 +89,23 @@ INSERT INTO property(id, no_of_bath_room,no_of_bed_room,property_name,property_t
 
 INSERT INTO property(id, no_of_bath_room,no_of_bed_room,property_name,property_type,rent_amount,security_deposit_amount,land_lord_id,address_id,is_available) values
     (nextval('property_id_seq'),2,5,'Pokhara Royal','House',5000,300,2,4,false);
+/*
 
+Dummy available data
+
+*/
+
+INSERT INTO property(id, no_of_bath_room,no_of_bed_room,property_name,property_type,rent_amount,security_deposit_amount,land_lord_id,address_id,is_available) values
+    (nextval('property_id_seq'),2,5,'France Lux','House',5000,300,2,4,true);
+
+INSERT INTO property(id, no_of_bath_room,no_of_bed_room,property_name,property_type,rent_amount,security_deposit_amount,land_lord_id,address_id,is_available) values
+    (nextval('property_id_seq'),1,5,'London House','House',3800,300,2,4,true);
+
+INSERT INTO property(id, no_of_bath_room,no_of_bed_room,property_name,property_type,rent_amount,security_deposit_amount,land_lord_id,address_id,is_available) values
+    (nextval('property_id_seq'),1,5,'Minisota Luxary','House',1000,230,2,4,true);
+
+INSERT INTO property(id, no_of_bath_room,no_of_bed_room,property_name,property_type,rent_amount,security_deposit_amount,land_lord_id,address_id,is_available) values
+    (nextval('property_id_seq'),1,5,'Manchester House','House',1000,230,3,4,true);
 
 
 
@@ -94,6 +113,14 @@ INSERT INTO property(id, no_of_bath_room,no_of_bed_room,property_name,property_t
 truncate table photo restart identity cascade ;
 
 INSERT INTO photo(id,is_deleted,key_name,url,property_id) values (nextval('photo_id_seq'),false,'2yjamkqutym\files','https://property-management-system.s3.amazonaws.com/2yjamkqutym%5Cfiles',1);
+
+INSERT INTO photo(id,is_deleted,key_name,url,property_id) values (nextval('photo_id_seq'),false,'8varfupziqj\files','https://property-management-system.s3.amazonaws.com/8varfupziqjfiles',10);
+
+INSERT INTO photo(id,is_deleted,key_name,url,property_id) values (nextval('photo_id_seq'),false,'3lstsbjtmfb\files','https://property-management-system.s3.amazonaws.com/8varfupziqjfiles',11);
+
+INSERT INTO photo(id,is_deleted,key_name,url,property_id) values (nextval('photo_id_seq'),false,'3qyyomrgzyb\files','https://property-management-system.s3.amazonaws.com/8varfupziqjfiles',12);
+
+INSERT INTO photo(id,is_deleted,key_name,url,property_id) values (nextval('photo_id_seq'),false,'3swisfnsdpb\files','https://property-management-system.s3.amazonaws.com/8varfupziqjfiles',13);
 
 truncate table property_rent restart identity cascade;
 

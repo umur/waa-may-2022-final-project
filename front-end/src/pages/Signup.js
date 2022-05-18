@@ -104,7 +104,7 @@ const Signup = () => {
                                     defaultValue='DEFAULT'
                                 >
                                     <option value="DEFAULT" disabled />
-                                    <option value="TENANT">User</option>
+                                    <option value="TENANT">TENANT</option>
                                     <option value="LANDLORD">Landlord</option>
                                 </select>
                                 <p className='text-danger'>{errors.role?.message}</p>
