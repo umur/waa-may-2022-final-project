@@ -50,7 +50,7 @@ public class PaymentServiceImpl implements PaymentService {
 
     private final PropertyRentalHistoryService propertyRentalHistoryService;
 
-    public PaymentServiceImpl(TransactionService transactionService, PropertyService propertyService, EmailService emailService, PropertyRentalHistoryService propertyRentalHistoryService,SimpMessagingTemplate template) {
+    public PaymentServiceImpl(TransactionService transactionService, PropertyServiceImpl propertyService, EmailService emailService, PropertyRentalHistoryService propertyRentalHistoryService,SimpMessagingTemplate template) {
         this.transactionService = transactionService;
         this.propertyService = propertyService;
         this.propertyRentalHistoryService = propertyRentalHistoryService;
@@ -97,7 +97,7 @@ public class PaymentServiceImpl implements PaymentService {
 
         // send Email
         Property property = propertyService.getById(propertyId);
-        this.template.convertAndSend("/topic/landlords", new NotificationDTO(pty.getOwnedBy().getId().toString(),"Your property has been rented!"));
+        this.template.convertAndSend("/topic/landlords", new NotificationDTO(property.getOwnedBy().getId().toString(),"Your property has been rented!"));
         User landlord = property.getOwnedBy();
 
         EmailDetails emailData = new EmailDetails();
