@@ -53,6 +53,12 @@ public class PaymentServiceImpl implements PaymentService {
 
     private static final Logger log = LoggerFactory.getLogger(PaymentServiceImpl.class);
 
+    @Value("${client.admin}")
+    private String adminUrl;
+
+    @Value("${client.domain}")
+    private String clientUrl;
+
     private final TransactionService transactionService;
     private final PropertyService propertyService;
 
@@ -100,7 +106,7 @@ public class PaymentServiceImpl implements PaymentService {
         String link = "";
         emailData.setMsgBody("Hello, " + landlord.getFirstName() + "\n " +
                 "Your room was rented, please click this link: \n "
-                + "http://localhost:8082/properties" +
+                + adminUrl + "/properties" +
                 "\n Regards, \n PMP Team");
         emailService.sendSimpleMail(emailData);
     }

@@ -30,13 +30,13 @@ const Register = () => {
   const alert = (msg, onClose) => toast.info(msg, { onClose });
 
   const [{ data, loading, error }, execute] =
-  useAxios(
-    {
-      url: "/auth/register",
-      method: "POST",
-    },
-    { manual: true }
-  );
+    useAxios(
+      {
+        url: "/auth/register",
+        method: "POST",
+      },
+      { manual: true }
+    );
 
   const navigate = useNavigate();
 
@@ -52,7 +52,7 @@ const Register = () => {
       gender: formData.get("gender"),
       role: formData.get("role")
     };
-    
+
     try {
       await execute({
         data: registerRequest
@@ -70,7 +70,7 @@ const Register = () => {
   }, [error?.message, notify]);
 
   useEffect(() => {
-    if (data) { 
+    if (data) {
       alert("User created successfully!!")
       setTimeout(() => {
         navigate("/login")
@@ -168,12 +168,12 @@ const Register = () => {
                 <MenuItem value="ROLE_TENANT">Tenant</MenuItem>
               </Select>
             </Grid>
-            <Grid item xs={12}>
+            {/* <Grid item xs={12}>
               <FormControlLabel
                 control={<Checkbox value="allowExtraEmails" color="primary" />}
                 label="I want to receive inspiration, marketing promotions and updates via email."
               />
-            </Grid>
+            </Grid> */}
           </Grid>
           <Button
             type="submit"

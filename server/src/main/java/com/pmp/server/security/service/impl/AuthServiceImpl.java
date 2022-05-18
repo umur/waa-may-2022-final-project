@@ -130,6 +130,24 @@ public class AuthServiceImpl {
 
       userService.saveUser(userRS);
 
+      String url = "";
+      if(userDTO.getRole().equals(ERole.ROLE_ADMIN.getRole()) || userDTO.getRole().equals(ERole.ROLE_LANDLORD.getRole())){
+        url = adminUrl + "/login/";
+      } else {
+        url = clientUrl + "/login/";
+      }
+
+
+
+      EmailDetails emailData = new EmailDetails();
+      emailData.setRecipient(userDTO.getEmail());
+      emailData.setSubject("Reset Password");
+      emailData.setMsgBody("Hello, \n " +
+        "Thank you for registering into Gigabyte Property Management Portal. Please use below url for login \n "
+        + url +
+        "\n Regards, \n PMP Team");
+      emailService.sendSimpleMail(emailData);
+
 
       // create password credential
       CredentialRepresentation passwordCred = new CredentialRepresentation();
@@ -308,6 +326,7 @@ public class AuthServiceImpl {
 
 //    adminUrl
 //    clientUrl
+
 
     String url = "";
     if(user.getRole().getRoleName().equals(ERole.ROLE_ADMIN.getRole()) || user.getRole().getRoleName().equals(ERole.ROLE_LANDLORD.getRole())){
