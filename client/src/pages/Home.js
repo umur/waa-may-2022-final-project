@@ -32,7 +32,7 @@ const Home = () => {
         }}
       />
       <div className="container card-list">
-        {data.data.length > 0 ? (
+        {data?.data?.length > 0 ? (
           data.data.map((item) => (
             <PropertyItem key={item.id} property={item} />
           ))

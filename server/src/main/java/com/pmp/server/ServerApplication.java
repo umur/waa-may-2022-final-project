@@ -11,6 +11,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.http.CacheControl;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -22,7 +24,7 @@ import java.util.concurrent.TimeUnit;
 
 @SpringBootApplication
 @EnableJpaAuditing // so that it will generate code in base entity
-@EnableJpaRepositories(repositoryFactoryBeanClass = DynamicJpaRepositoryFactoryBean.class)
+@EnableJpaRepositories
 public class ServerApplication implements WebMvcConfigurer {
 
 	public static void main(String[] args) {
@@ -35,9 +37,14 @@ public class ServerApplication implements WebMvcConfigurer {
 		return new KeycloakSpringBootConfigResolver();
 	}
 
+	@Bean
+	public PasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
+
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		registry.addResourceHandler("/static/**").addResourceLocations("file:" + System.getProperty("user.dir") + "/target/static/").setCacheControl(CacheControl.noCache());
+		registry.addResourceHandler("/static/**").addResourceLocations("file:" + System.getProperty("user.dir") + "/static/").setCacheControl(CacheControl.noCache());
 
 		WebMvcConfigurer.super.addResourceHandlers(registry);
 	}

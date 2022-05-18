@@ -88,4 +88,18 @@ public class UserServiceImpl implements UserService {
     User user = userRepo.findById(uuid).get();
     return rentalRepo.findAllByRentedBy(user);
   }
+
+  @Override
+  public List<PropertyRentalHistory> getRentalOfOwner() {
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    UUID uuid = null;
+    if (authentication != null) {
+      if (authentication.getPrincipal() instanceof KeycloakPrincipal) {
+        KeycloakPrincipal<KeycloakSecurityContext> kp = (KeycloakPrincipal<KeycloakSecurityContext>) authentication.getPrincipal();
+        uuid = UUID.fromString(kp.getKeycloakSecurityContext().getToken().getSubject());
+      }
+    }
+    User user = userRepo.findById(uuid).get();
+    return rentalRepo.findAllByPropertyOwnedBy(user);
+  }
 }

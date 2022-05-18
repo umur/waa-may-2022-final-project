@@ -24,7 +24,7 @@ public interface PropertyService {
 
  Property save(PropertyDTO p);
 
- Page<Property> search(Pageable page, String s);
+ Page<Property> search(Pageable page, String s, int room);
 
  void delete(UUID s);
 
@@ -37,9 +37,10 @@ public interface PropertyService {
 
  ResponseMessage propertyByIncome(UUID propertyId);
 
+ ResponseMessage top10LeaseEnd();
+
  Page<Property> getAllPaginatedProperties(Pageable pageable);
  Page<Property> getAllRentedProperties(Pageable pageable);
 
  Page<Property> getAllLandlordProperties(Pageable pageable, UUID ownerId);
- ResponseMessage top10LeaseEnd(Top10PropertyLeaseEndDTO dto);
 }

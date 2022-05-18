@@ -37,9 +37,11 @@ public interface PropertyRepo extends PagingAndSortingRepository<Property, UUID>
       "   or lower(p.description) LIKE ?1\n" +
       "   or lower(p.property_type) LIKE ?1\n" +
       "   or lower(p.street_address) LIKE ?1)\n" +
-      "AND p.owned_by_id=?2",
+      "AND p.no_of_bedroom >= ?3\n" +
+      "AND p.owned_by_id=?2 \n" +
+      "AND p.is_deleted = false",
             nativeQuery = true)
-    Page<Property> customSearch(Pageable page,String s, UUID id);
+    Page<Property> customSearch(Pageable page, String s, UUID id, int rooms);
 
 //    @Query(value = "select\n" +
 //      "        p.id,\n" +

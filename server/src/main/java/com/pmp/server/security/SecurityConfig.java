@@ -36,11 +36,16 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
     http.cors().and().csrf().disable().sessionManagement().
 
       sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests()
+
             .antMatchers("/api/properties/test/noti").permitAll()
             .antMatchers("/chat").permitAll()
             .antMatchers("/chat/info").permitAll()
             .antMatchers("/chat/**").permitAll()
        .antMatchers("/api/landlord/*").permitAll()
+
+
+       .antMatchers("/api/landlord/").hasAnyAuthority(ERole.ROLE_ADMIN.getRole(), ERole.ROLE_LANDLORD.getRole())
+
             .antMatchers("/api/landlord/properties/*").permitAll()
       .antMatchers("/api/mail/sendMail").permitAll()
       .antMatchers("/api/auth/login").permitAll()

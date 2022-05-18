@@ -59,68 +59,11 @@ public class PaymentController {
 
     private final PropertyRentalHistoryService propertyRentalHistoryService;
 
-    @Value("${client.domain}")
-    private String clientDomain;
-
     @PostMapping("/create-checkout-session")
     public ResponseEntity<CheckoutSessionResponseDTO> createCheckoutSession(@RequestBody CheckoutSessionDTO body) throws StripeException {
-        Property property = propertyService.getById(body.getPropertyId());
-        String currency = ECurrency.USD.getValue();
 
-        PropertyRentalHistory hist = propertyRentalHistoryService.findById(body.getPropertyRentalHistoryId());
-        // Save payment transaction into database
-        Transaction transaction = transactionService.findByPropertyId(property.getId());
-        if (transaction == null) {
-            // Create a product
-            Map<String, Object> params = new HashMap<>();
-            params.put("name", property.getPropertyName());
-            params.put("description", property.getDescription());
-            com.stripe.model.Product product = com.stripe.model.Product.create(params);
+        var session = paymentService.stripeCheckout(body);
 
-            TransactionDTO transactionDTO = new TransactionDTO();
-            transactionDTO.setProductId(product.getId());
-            transactionDTO.setPropertyRentalHistoryId(body.getPropertyRentalHistoryId());
-
-            // Create price id for product
-            Map<String, Object> priceParams = new HashMap<>();
-
-            priceParams.put("unit_amount", Double.valueOf(hist.getTransactionAmount()).longValue() * 100L);
-            priceParams.put("currency", currency);
-            priceParams.put("product", product.getId());
-            Price price = Price.create(priceParams);
-
-            // Set price id
-            transactionDTO.setPriceId(price.getId());
-
-            // Save transaction
-            transaction = transactionService.save(transactionDTO);
-            //notify
-
-        }
-
-        // Metadata
-        Map<String, String> initialMetadata = new HashMap<>();
-        initialMetadata.put("property_id", property.getId().toString());
-        initialMetadata.put("rental_property_history_id", transaction.getPropertyRentalHistory().getId().toString());
-        initialMetadata.put("transaction_id", transaction.getId().toString());
-
-        String paymentURL = clientDomain + "/payment/" + body.getPropertyRentalHistoryId();
-
-        SessionCreateParams params =
-                SessionCreateParams.builder()
-                        .setMode(SessionCreateParams.Mode.PAYMENT)
-                        .putAllMetadata(initialMetadata)
-                        .setSuccessUrl(paymentURL + "?success=true&session_id={CHECKOUT_SESSION_ID}")
-                        .setCancelUrl(paymentURL + "?canceled=true")
-                        .addLineItem(
-                                SessionCreateParams.LineItem.builder()
-                                        .setQuantity(1L)
-                                        // Set price id
-                                        .setPrice(transaction.getPriceId())
-                                        .build())
-                        .build();
-        Session session = Session.create(params);
-        session.setMetadata(initialMetadata);
 
         CheckoutSessionResponseDTO dto = new CheckoutSessionResponseDTO();
         dto.setSessionId(session.getId());
@@ -168,8 +111,6 @@ public class PaymentController {
                 log.warn("Checkout session: ");
                 paymentService.handleSessionSucceeded(session);
 
-                // TODO: Send email to Landlord
-//                this.template.convertAndSend("/topic/landlords", new NotificationDTO(property.getOwnedBy().getId().toString(),"Your property has been rented!"));
             default:
                 log.error("Unhandled event type: {}", event.getType());
                 break;

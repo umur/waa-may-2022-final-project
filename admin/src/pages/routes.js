@@ -1,6 +1,6 @@
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import PeopleIcon from "@mui/icons-material/People";
-import BarChartIcon from "@mui/icons-material/BarChart";
+import HistoryIcon from '@mui/icons-material/History';
 import ContactMailIcon from "@mui/icons-material/ContactMail";
 import HouseIcon from "@mui/icons-material/House";
 import ROLE from "../auth/Role";
@@ -44,6 +44,11 @@ export const landlordRoute = [
     menu: "Properties",
     icon: <HouseIcon />,
   },
+  {
+    route: "/rent",
+    menu: "Rent History",
+    icon: <HistoryIcon />
+  }
 ];
 
 export function getRoute(role) {

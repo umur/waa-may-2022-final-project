@@ -1,3 +1,9 @@
+#user for custom one
+ckc:
+  realm: pmp-realm
+  auth-server-url: http://localhost:8080
+  resource: pmp-client
+  secret: Bhw120rFFBSVLciCuictWw5wOuSbJmu2
 
 keycloak:
   realm: pmp-realm

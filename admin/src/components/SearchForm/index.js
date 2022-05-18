@@ -23,7 +23,7 @@ function SearchForm({ onSubmit, initialValues }) {
             </InputAdornment>
           }
           disableUnderline
-          sx={{ p: 1 }}
+          sx={{ p: 1.5 }}
           placeholder="Search"
           fullWidth
           onChange={formik.handleChange}

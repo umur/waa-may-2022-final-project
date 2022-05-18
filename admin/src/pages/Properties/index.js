@@ -1,4 +1,4 @@
-import { Box, Button, Grid } from "@mui/material";
+import { Box, Button, Grid, MenuItem, Paper, TextField, Typography } from "@mui/material";
 import React, { useContext, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AddIcon from "@mui/icons-material/Add";
@@ -12,17 +12,43 @@ import { UserStatus } from "common/constant";
 import useAxios from "axios-hooks";
 import { defaultHeaders } from 'api/defaultHeaders';
 import { AuthContext } from 'context/AuthContext';
-import { Image } from '@mui/icons-material';
+import SearchIcon from "@mui/icons-material/Search";
+
+
+const roomSelections = [
+  {
+    value: 0,
+    label: '-',
+  },
+  {
+    value: 1,
+    label: '1',
+  },
+  {
+    value: 2,
+    label: '2',
+  },
+  {
+    value: 3,
+    label: '3',
+  },
+  {
+    value: 4,
+    label: '4',
+  },
+];
 
 function Properties(props) {
   const columns = useMemo(
     () => [
-      { id: "id", label: "ID" },
+      // { id: "id", label: "ID", },
       { id: "propertyName", label: "Property Name" },
       { id: "city", label: "Address" },
       { id: "propertyType", label: "Type" },
       { id: "rentAmount", label: "Amount" },
-      { id: "securityDepositAmount", label: "Secrurity Deposit" },
+      { id: "securityDepositAmount", label: "Security Deposit" },
+      { id: "numberOfBedrooms", label: "Bedrooms" },
+      { id: "numberOfBathrooms", label: "Bathrooms" },
       { id: "isOccupied", label: "isOccupied" },
       { id: "lastRentedBy", label: "Rented By" },
 
@@ -75,6 +101,7 @@ function Properties(props) {
   // const [rows, setRows] = React.useState([]);
   // const [rowCount, setRowCount] = React.useState(34);
   const [keywords, setKeywords] = useState("");
+  const [room, setRoom] = useState(0);
 
   const [{ data, loading, error }, refetch] = useAxios(
     {
@@ -85,6 +112,7 @@ function Properties(props) {
         size: rowsPerPage,
         sort: orderBy ? orderBy + "," + order : undefined,
         search: keywords,
+        room: room,
       },
       headers: defaultHeaders(isSignedIn)
     },
@@ -94,7 +122,7 @@ function Properties(props) {
   );
 
   const rows = data?.data.map((i) => {
-    return { ...i, actions: [RowActions.activate, RowActions.deactivate] };
+    return { ...i, actions: [RowActions.activate, RowActions.deactivate, RowActions.delete] };
   });
 
   const rowCount = data?.total;
@@ -130,6 +158,9 @@ function Properties(props) {
     setKeywords(keywords);
   };
 
+  const searchProperties = () => {
+    refetch()
+  }
   /* -------------------------------------------------------------------------- */
   /*                               New property                                 */
   /* -------------------------------------------------------------------------- */
@@ -155,28 +186,85 @@ function Properties(props) {
     { manual: true }
   );
 
+  const [
+    { data: deleteData, loading: deleteLoading },
+    executeDelete,
+  ] = useAxios(
+    {
+      url: "/landlord/properties/{{user_id}}",
+      method: "DELETE",
+      headers: defaultHeaders(isSignedIn),
+    },
+    { manual: true }
+  );
+
   useEffect(() => {
     refetch();
-  }, [refetch, userUpdated]);
+  }, [refetch, userUpdated, deleteData]);
 
-  const onAction = (action, row) => {
+  const onAction = async (action, row) => {
+    if (action === 'delete') {
+      await executeDelete(
+        {
+          url: `/landlord/properties/${row.id}`,
+          method: "DELETE",
+          headers: defaultHeaders(isSignedIn),
+        }
+      )      
+    } else {
     executePut({
       url: `/landlord/properties/${row.id}/${action}`,
       method: "PUT",
       headers: defaultHeaders(isSignedIn),
     });
+  }
   };
 
   return (
     <Layout title="Properties">
       <Grid container spacing={1}>
-        <Grid item xs={4}>
+        <Grid item xs={3}>
           <SearchForm onSubmit={search} />
         </Grid>
+        <Grid item xs={1}>
+          <Paper>
+            <TextField
+              id="room"
+              select
+              label="Rooms"
+              value={room}
+              onChange={(event) => {
+                setRoom(event.target.value)
+              }}
+              variant="outlined" 
+              fullWidth
+            >
+              {roomSelections.map((option) => (
+                <MenuItem key={option.value} value={option.value}>
+                  {option.label}
+                </MenuItem>
+              ))}
+            </TextField>
+          </Paper>
+        </Grid>
+        {/* <Grid item xs={3}>
+          <TextFieldForm label="Search by rooms" onSubmit={searchByRooms} />
+        </Grid> */}
 
-        <Grid item xs={4}>
+        <Grid item>
+          <Button variant="contained" onClick={searchProperties}>
+            <Box p={1} flexDirection="row" display="flex">
+              <SearchIcon />
+              <Typography ml={1}>Search</Typography>
+            </Box>
+          </Button>
+        </Grid>
+        <Grid item>
           <Button variant="contained" onClick={newProperty}>
-            <AddIcon /> New Property
+            <Box p={1} flexDirection="row" display="flex">
+              <AddIcon /> 
+              <Typography ml={1}>New Property</Typography>
+            </Box>
           </Button>
         </Grid>
 
@@ -197,6 +285,7 @@ function Properties(props) {
           />
         </Grid>
       </Grid>
+      {/* <Loading loading={loading || deleteLoading || putLoading} /> */}
     </Layout>
   );
 }

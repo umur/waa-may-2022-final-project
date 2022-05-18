@@ -24,4 +24,6 @@ public interface UserService {
   Page<User> getAllByRoleIdAndKeywords(Pageable pageable, Role role, String keywords);
 
   List<PropertyRentalHistory> getRental();
+
+  List<PropertyRentalHistory> getRentalOfOwner();
 }

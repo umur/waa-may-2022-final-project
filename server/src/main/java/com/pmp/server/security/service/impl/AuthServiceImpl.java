@@ -15,6 +15,7 @@ import com.pmp.server.repo.PasswordResetTokenRepo;
 import com.pmp.server.repo.RoleRepo;
 import com.pmp.server.repo.UserRepo;
 import com.pmp.server.service.impl.UserServiceImpl;
+import com.pmp.server.utils.enums.ERole;
 import com.pmp.server.utils.mail.EmailDetails;
 import com.pmp.server.utils.mail.service.EmailService;
 import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
@@ -35,9 +36,12 @@ import org.keycloak.representations.idm.RoleRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import static com.pmp.server.utils.constants.ResponseMessageConstants.*;
@@ -52,13 +56,32 @@ public class AuthServiceImpl {
   private final EmailService emailService;
 
   private final PasswordResetTokenRepo passwordResetTokenRepo;
+
+  @Autowired
+  private PasswordEncoder passwordEncoder;
   private static final Logger log = LoggerFactory.getLogger(AuthServiceImpl.class);
+
+//  @Value("${ckc.auth-server-url}")
+//  private static String authServerUrl;
+//  @Value("${ckc.realm}")
+//  private static String realm;
+//  @Value("${ckc.resource}")
+//  private static String clientId;
+//  @Value("${ckc.credentials.secret}")
+//  private static String clientSecret;
 
   private static String authServerUrl = "http://localhost:8080";
   private static String realm = "pmp-realm";
   private static String clientId = "pmp-client";
   //Get client secret from the Keycloak admin console (in the credential tab)
   private static String clientSecret = "Bhw120rFFBSVLciCuictWw5wOuSbJmu2";
+
+
+  @Value("${client.admin}")
+  private String adminUrl;
+
+  @Value("${client.domain}")
+  private String clientUrl;
 
   public AuthServiceImpl(UserServiceImpl userService, UserRepo userRepo, RoleRepo roleRepo, EmailService emailService, PasswordResetTokenRepo passwordResetTokenRepo) {
     this.userService = userService;
@@ -97,7 +120,7 @@ public class AuthServiceImpl {
       userRS.setFirstName(userDTO.getFirstName());
       userRS.setLastName(userDTO.getLastName());
       userRS.setGender(userDTO.getGender());
-      userRS.setPassword(userDTO.getPassword());
+      userRS.setPassword(passwordEncoder.encode(userDTO.getPassword()));
       userRS.setId(UUID.fromString(userId));
       userRS.setActive(true);
 
@@ -168,14 +191,6 @@ public class AuthServiceImpl {
 
 
   public ResponseMessage updateUser(UUID id, UpdateUserDTO updateUserDTO) {
-
-    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-    if (authentication != null) {
-      if (authentication.getPrincipal() instanceof KeycloakPrincipal) {
-        KeycloakPrincipal<KeycloakSecurityContext> kp = (KeycloakPrincipal<KeycloakSecurityContext>) authentication.getPrincipal();
-        String uuid = kp.getKeycloakSecurityContext().getToken().getId();
-      }
-    }
 
     Keycloak keycloak = getKeyCloak();
     Optional<User> user = userRepo.findById(id);
@@ -290,13 +305,23 @@ public class AuthServiceImpl {
     passwordResetTokenRepo.save(pst);
 
     // send Email
+
+//    adminUrl
+//    clientUrl
+
+    String url = "";
+    if(user.getRole().getRoleName().equals(ERole.ROLE_ADMIN.getRole()) || user.getRole().getRoleName().equals(ERole.ROLE_LANDLORD.getRole())){
+      url = adminUrl + "/create-new-password/";
+    } else {
+      url = clientUrl + "/create-new-password/";
+    }
+
     EmailDetails emailData = new EmailDetails();
     emailData.setRecipient(user.getEmail());
     emailData.setSubject("Reset Password");
-    String link = "";
     emailData.setMsgBody("Hello, \n " +
       "To reset your passoword, please click this link: \n "
-      + "http://localhost:3000/create-new-password/" + token +
+      + url + token +
       " \n This link will be expired in 24 hours. Please change your password before it expires. " +
       "\n Regards, \n PMP Team");
     emailService.sendSimpleMail(emailData);
@@ -323,7 +348,7 @@ public class AuthServiceImpl {
         cr.setTemporary(false);
         userResource.resetPassword(cr);
 
-        user.get().setPassword(createNewPasswordDTO.getPassword());
+        user.get().setPassword(passwordEncoder.encode(createNewPasswordDTO.getPassword()));
         userService.saveUser(user.get());
         return new ResponseMessage(SUCCESSFULLY_UPDATED, HttpStatus.OK, "Password updated successfully");
       } catch (Exception e) {
