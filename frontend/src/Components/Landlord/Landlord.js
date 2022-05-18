@@ -3,6 +3,8 @@ import Properties from "../Shared/Properties/Properties";
 import LandlordProperties from "./LandlordProperties/LandlordProperties";
 import SearchBar from "../Shared/SearchBar/SearchBar";
 import Service from "../Shared/Service";
+import { Link } from "react-router-dom";
+import { Button } from "bootstrap";
 
 const Landlord = () => {
   const [isLeaseEnding, setIsLeaseEnding] = useState(false);
@@ -30,9 +32,9 @@ const Landlord = () => {
   const getLeasesInOneMonth = async () => {
     const result = await fetchProperties(Service.LeasesInOneMonth);
     const newPropList = [];
-    result.forEach(e=> {
+    result.forEach((e) => {
       newPropList.push(e.property);
-    })
+    });
     // const propertyList = [...result.property];
     // const propertyList = result.filter((p) => p.property);
     // console.log("result : ", result);
@@ -61,6 +63,10 @@ const Landlord = () => {
   return (
     <div className="landlord">
       <SearchBar />
+      <Link to="/add-property">
+        <button>Add Property</button>
+      </Link>
+
       <div>
         Display Properties with Lease ending in one month
         <p style={{ margin: "4px", display: "inline-block" }}>

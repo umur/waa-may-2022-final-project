@@ -12,14 +12,25 @@ const PropertyDetails = ({ property }) => {
   return (
     <div className="container" style={{ width: "22rem", display: "flex" }}>
       <Card style={{ width: "22rem", margin: "10px" }}>
-        <Card.Img variant="top" src={property.propertyPhotos[0]? property.propertyPhotos[0].photoUrl : "https://waapropertymang052022fr.s3.amazonaws.com/properties/12.png"} />
+        <Card.Img
+          variant="top"
+          src={
+            property.propertyPhotos[0]
+              ? property.propertyPhotos[0].photoUrl
+              : "https://waapropertymang052022fr.s3.amazonaws.com/properties/12.png"
+          }
+        />
         <Card.Body className="center-align">
           <Card.Title>
             <b>{property.propertyName}</b>
           </Card.Title>
           <Card.Text className="left-align">
             <p className="left-container">
-              <b>Type: </b> {property.propertyType.type}
+              {property.propertyType && (
+                <>
+                  <b>Type: </b> {property.propertyType.type}
+                </>
+              )}
             </p>
             <p className="left-container">
               <b>Zip Code: </b> {property.address.zipCode}
@@ -69,7 +80,7 @@ const PropertyDetails = ({ property }) => {
                 <b> Security deposit:</b> ${property.securityDepositAmount}
               </Card.Text>
 
-              <Rent />
+              <Rent property={property} />
             </>
           )}
           {isViewDetails && (
