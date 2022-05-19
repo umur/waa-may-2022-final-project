@@ -1,5 +1,8 @@
 package com.propertymanagement.server.dto;
 
+import lombok.Data;
+
+@Data
 public class ImageDto {
     private String fileContentBase64;
     private String fileName;
