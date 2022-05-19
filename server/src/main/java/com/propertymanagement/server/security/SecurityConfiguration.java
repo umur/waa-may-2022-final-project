@@ -16,7 +16,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 
 @Configuration
-//@EnableWebSecurity
+@EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
@@ -35,7 +35,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/api/auth/*").permitAll()
-                .antMatchers("/api/properties/*").hasAuthority("LANDLORD")
+//                .antMatchers("/api/properties/*").hasAuthority("LANDLORD")
+                .antMatchers("/api/properties/*").permitAll()
                 .antMatchers("/api/reports/*").hasAuthority("ADMIN")
                 .anyRequest()
                 .authenticated()
