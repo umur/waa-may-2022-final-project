@@ -24,7 +24,7 @@ public class PropertyController {
     private final PropertyService propertyService;
 
     @PostMapping()
-    @PreAuthorize("hasRole('LANDLORD')")
+//    @PreAuthorize("hasRole('LANDLORD')")
     public ResponseEntity<PropertyDto> create(@RequestBody PropertyDto propertyDto, @RequestBody List<ImageDto> images) throws Exception {
         propertyDto = propertyService.save(propertyDto, images);
         return ResponseEntity.ok(propertyDto);
@@ -43,21 +43,21 @@ public class PropertyController {
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('LANDLORD')")
+//    @PreAuthorize("hasRole('LANDLORD')")
     public ResponseEntity<PropertyDto> update(@RequestBody PropertyDto propertyDto, @PathVariable Long id) {
         propertyDto = propertyService.update(propertyDto,id);
         return ResponseEntity.ok(propertyDto);
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('LANDLORD')")
+//    @PreAuthorize("hasRole('LANDLORD')")
     public ResponseEntity<PropertyDto> delete(@PathVariable Long id) {
         propertyService.deleteById(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping("/filter-10-properties-leases-end-in-month")
-    @PreAuthorize("hasRole('LANDLORD')")
+//    @PreAuthorize("hasRole('LANDLORD')")
     public ResponseEntity<List<PropertyDto>> get10PropertiesLeaseEndInAMonth() {
         var properties = propertyService.get10PropertiesLeaseEndInAMonth();
         return ResponseEntity.ok(properties);
