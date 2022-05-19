@@ -1,4 +1,5 @@
 const Service = {
+<<<<<<< HEAD
   RentProperty: " http://172.19.141.15:8080/api/properties/tenant",
   TotalIncomePerLocation:
     "http://172.19.141.15:8080/api/properties/admin/totalIncome/Fairfield",
