@@ -20,8 +20,8 @@ spring:
       mode: always
   mail:
     host: smtp.gmail.com
-    username: waaprogectresetpass@gmail.com
-    password: Test@123Waa
+    username:
+    password: 
     port: 587
     properties:
       mail:
@@ -36,8 +36,8 @@ spring:
   server:
     port: 8080
 cloud:
-  aws.credentials.access-key: AKIAZBNRKNRLEK4HJIAZ
-  aws.credentials.secret-key: 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
+  aws.credentials.access-key: 
+  aws.credentials.secret-key: 
   aws.region.static: us-east-1
   aws.stack.auto: false
 
