@@ -67,7 +67,7 @@ public class PropertyController {
         return service.findByOwnedByEmail(email);
     }
 
-
+    @CrossOrigin
     @DeleteMapping("/landlord/{id}/{value}")
     public void delete(@PathVariable int id, @PathVariable Boolean value) {
         service.delete(id, value);
