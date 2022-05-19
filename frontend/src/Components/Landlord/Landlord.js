@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import Properties from "../Shared/Properties/Properties";
 import LandlordProperties from "./LandlordProperties/LandlordProperties";
-import SearchBar from "../Shared/SearchBar/SearchBar";
 import Service from "../Shared/Service";
 import { Link } from "react-router-dom";
 import Button from "react-bootstrap/Button";
@@ -59,9 +58,6 @@ const Landlord = () => {
     result.forEach((e) => {
       newPropList.push(e.property);
     });
-    // const propertyList = [...result.property];
-    // const propertyList = result.filter((p) => p.property);
-    // console.log("result : ", result);
     console.log("propertyList  leases in one month : ", newPropList);
     setProperties(newPropList);
   };
@@ -75,13 +71,6 @@ const Landlord = () => {
     } else {
       getProperties();
     }
-    // if (status) {
-    // const propertyList = await fetchProperties("http://172.19.141.27:8080/api/properties/landlord/leases/john@gmail.com");
-    // console.log("LIST : ", propertyList);
-    // setProperties(propertyList);
-    // } else {
-    //   getProperties();
-    // }
   };
 
   return (
@@ -117,7 +106,7 @@ const Landlord = () => {
           />
         </p>
       </div>
-      <Properties properties={properties} />
+      <LandlordProperties properties={properties} />
     </div>
   );
 };

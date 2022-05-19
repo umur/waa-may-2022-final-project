@@ -1,11 +1,13 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Service from "../../../Shared/Service";
-import "./AddProperty.css";
+import "./EditProperty.css";
 
-const AddProperty = () => {
+const EditProperty = () => {
+  const location = useLocation();
+
   const [propertyName, setPropertyName] = useState("");
-  const [password, setPassword] = useState("");
+  const [propertyId, setPropertyId] = useState("");
   const [selectedProperty, setSelectedProperty] = useState("");
   const [propertyTypes, setPropertyTypes] = useState([]);
   const [numberOfBedrooms, setNumberOfBedrooms] = useState(0);
@@ -54,7 +56,20 @@ const AddProperty = () => {
 
   useEffect(() => {
     getPropertyTypes();
+    console.log("State Here : ", location.state);
+    console.log("State Here : ", location.state.propertyName);
+    updatePropertyForm();
   }, []);
+
+  const updatePropertyForm = () => {
+    setPropertyId(location.state.id);
+    setPropertyName(location.state.propertyName);
+    setSelectedProperty(location.state.selectedProperty);
+    setNumberOfBedrooms(location.state.numberOfBedrooms);
+    setNumberOfBathrooms(location.state.setNumberOfBathrooms);
+    setRentAmount(location.state.setRentAmount);
+    setSecurityDepositAmount(location.state.securityDepositAmount);
+  };
 
   const getPropertyTypes = async () => {
     var requestOptions = {
@@ -70,30 +85,28 @@ const AddProperty = () => {
       .catch((error) => console.log(error));
   };
 
-
-  const addProperty = async (e) => {
+  const editProperty = async (e) => {
     e.preventDefault();
-    const propertyTypesData = await addPropertySend();
+    const propertyTypesData = await editPropertySend();
   };
 
-  const addPropertySend = async () => {
+  const editPropertySend = async () => {
     const propertyTypeSelected = propertyTypes.filter(
       (p) => p.type == selectedProperty
     );
-    console.log("propertyTypeSelected : ", propertyTypeSelected);
 
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
 
     var raw = JSON.stringify({
-      "id": 55,
+      id: propertyId,
       propertyName: propertyName,
       address: {
         street: street,
         city: city,
         zipCode: zipCode,
         state: state
-    },
+      },
       propertyType: propertyTypeSelected[0],
       numberOfBedrooms: parseInt(numberOfBedrooms),
       numberOfBathrooms: parseInt(numberOfBathrooms),
@@ -136,13 +149,13 @@ const AddProperty = () => {
     fetch(Service.AddProperty, requestOptions)
       .then((response) => response.text())
       .then((result) => {
-        window.alert("Property Created!");
+        window.alert("Property Edit Done!");
         navigate("/landlord");
       })
       .catch((error) => {
-        console.log("error", error)
+        console.log("error", error);
         window.alert("An Error Occured !");
-      } );
+      });
   };
 
   const handleDropDown = (value) => {
@@ -153,9 +166,9 @@ const AddProperty = () => {
   return (
     <div className="main-container">
       <div className="center">
-        <h2>Add Property</h2>
+        <h2>Edit Property</h2>
       </div>
-      <form className="add-form" onSubmit={addProperty}>
+      <form className="add-form" onSubmit={editProperty}>
         {/* <form className="add-form" > */}
         <div className="form-control">
           <div className="left">
@@ -180,49 +193,6 @@ const AddProperty = () => {
                 </option>
               ))}
             </select>
-          </div>
-        </div>
-
-        <div className="form-control">
-          <div className="left">
-            <label>Street</label>
-            <input
-              type="text"
-              placeholder="Street"
-              value={street}
-              onChange={(e) => setStreet(e.target.value)}
-            />
-          </div>
-          <div className="right">
-            <label>City</label>
-            <input
-              type="text"
-              placeholder="City"
-              value={city}
-              onChange={(e) => setCity(e.target.value)}
-            />
-          </div>
-        </div>
-
-        <div className="form-control">
-          <div className="left">
-            <label>Zip Code</label>
-            <input
-              type="number"
-              placeholder="Zip Code"
-              value={zipCode}
-              onChange={(e) => setZipCode(e.target.value)}
-            />
-          </div>
-
-          <div className="right">
-            <label>State</label>
-            <input
-              type="text"
-              placeholder="State"
-              value={state}
-              onChange={(e) => setState(e.target.value)}
-            />
           </div>
         </div>
 
@@ -273,15 +243,10 @@ const AddProperty = () => {
         <div className="center">
           <input
             type="submit"
-            value="Add Property"
+            value="Edit Property"
             className="btn btn-block button-padding"
           />
-          {/* 
-              <button onClick={addProperty}>
-                Add */}
-          {/* </button> */}
-   
-          
+
           <Link to="/landlord" className="button-margin">
             <input
               type="button"
@@ -295,4 +260,4 @@ const AddProperty = () => {
   );
 };
 
-export default AddProperty;
+export default EditProperty;

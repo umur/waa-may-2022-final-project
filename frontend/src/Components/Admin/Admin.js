@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import Properties from "../Shared/Properties/Properties";
-import SearchBar from "../Shared/SearchBar/SearchBar";
 import Service from "../Shared/Service";
 import "./Admin.css";
 

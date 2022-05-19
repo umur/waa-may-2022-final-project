@@ -10,6 +10,7 @@ import Landlord from "./Components/Landlord/Landlord";
 import AddProperty from "./Components/Landlord/LandlordProperties/AddProperty/AddProperty";
 import ForgotPassword from './Components/ForgotPassword/ForgotPassword';
 import EmailSent from './Components/ForgotPassword/EmailSent';
+import EditProperty from "./Components/Landlord/LandlordProperties/EditProperty/EditProperty";
 // import ResetPassword from './Components/ResestPassword/ResetPassword';
 
 function App() {
@@ -33,6 +34,7 @@ function App() {
           <Route path="/tenant" element={<Tenant />} />
           <Route path="/landlord" element={<Landlord />} />
           <Route path="/add-property" element={<AddProperty />} />
+          <Route path="/edit-property" element={<EditProperty />} />
           <Route path="/" element={<SignIn />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           {/* <Route path="/reset-password" element={<ResetPassword />} /> */}

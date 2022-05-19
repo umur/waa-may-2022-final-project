@@ -7,7 +7,7 @@ const LandlordProperties = ({ properties }) => {
     <>
       <div className="flex-container wrap">
         {properties.map((property, index) => (
-          <LandlordPropertyDetails p={property} key={index} />
+          <LandlordPropertyDetails property={property} key={index} />
         ))}
       </div>
     </>
