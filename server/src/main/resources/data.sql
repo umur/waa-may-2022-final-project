@@ -3,8 +3,8 @@ ALTER SEQUENCE user_id RESTART WITH 1;
 
 INSERT INTO users (id, email, first_name, last_name, password, role, active, register_time) VALUES (nextval('user_id'), 'admin@miu.edu', 'Johnny', 'Depp', 'qwerty','ADMIN', true, '2022-05-17 12:31:40.000000');
 INSERT INTO users (id, email, first_name, last_name, password, role, active, register_time) VALUES (nextval('user_id'), 'sisikli@miu.edu', 'Serdar', 'Isikli', '123456','TENANT', true, '2022-05-16 12:31:40.000000');
-INSERT INTO users (id, email, first_name, last_name, password, role, active, register_time) VALUES (nextval('user_id'), 'admin@miu.edu', 'Lebap', 'Akmyradov', 'qwerty123','LANDLORD', true, '2022-05-15 12:31:40.000000');
-INSERT INTO users (id, email, first_name, last_name, password, role, active, register_time) VALUES (nextval('user_id'), 'admin@miu.edu', 'Melissa', 'Bill', 'qwerty','TENANT', true, '2022-05-14 12:31:40.000000');
+INSERT INTO users (id, email, first_name, last_name, password, role, active, register_time) VALUES (nextval('user_id'), 'admin2@miu.edu', 'Lebap', 'Akmyradov', 'qwerty123','LANDLORD', true, '2022-05-15 12:31:40.000000');
+INSERT INTO users (id, email, first_name, last_name, password, role, active, register_time) VALUES (nextval('user_id'), 'admin3@miu.edu', 'Melissa', 'Bill', 'qwerty','TENANT', true, '2022-05-14 12:31:40.000000');
 
 truncate table property restart identity cascade;
 ALTER SEQUENCE property_id RESTART WITH 1;

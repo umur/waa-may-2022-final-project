@@ -35,7 +35,8 @@ public class UserServiceImp implements UserService {
     @Override
     public UserRespDto save(UserDto userDto) {
         User user = modelMapper.map(userDto, User.class);
-        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+//        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        user.setPassword(userDto.getPassword());
         user.setRegisterTime(LocalDate.now());
         user = userRepository.save(user);
         return modelMapper.map(user, UserRespDto.class);
