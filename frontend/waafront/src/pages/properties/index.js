@@ -1,5 +1,6 @@
 import React from "react";
 import { useState, useEffect, useRef } from "react";
+import { Checkbox } from "antd";
 import axios from "axios";
 import PropertiesTable from "./propertiesTable";
 import { statesOptions } from "./statesOptions";
@@ -9,6 +10,7 @@ import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import FormSizeDemo from "./formPropertieStyled";
 import formPropertieStyled from "./formPropertieStyled";
 import api from "../../api/posts";
+import { useSelector } from "react-redux";
 
 import {
   Form,
@@ -54,6 +56,12 @@ let propertiesObjectInitialValue = {
 };
 
 function Properties(props) {
+  const user = useSelector((state) => state.user.value); //token, role, email, id
+
+  const config = {
+    headers: { Authorization: `Bearer ${user.token}` },
+  };
+
   const { propertiesObject } = props;
   const [size, setSize] = useState("large");
   const nameRef = useRef(null);
@@ -66,7 +74,7 @@ function Properties(props) {
 
   const fetchProducts = async () => {
     //const result = await axios.get("http://localhost:8080/api/v1/properties");
-    const result = await api.get("api/v1/properties");
+    const result = await api.get("api/v1/properties", config);
     setPropertyListState(result.data);
   };
 
@@ -79,15 +87,17 @@ function Properties(props) {
     setVisible(true);
   };
 
-  const handleOk = async () => {
+  const handleOk = async (e) => {
     try {
-     
-      const { data } = await api.post("api/v1/properties", propertyState);
+      const { data } = await api.post(
+        "api/v1/properties",
+        propertyState,
+        config
+      );
       window.alert("Property added");
-      
+      console.log(propertyState);
       setVisible(false);
       fetchProducts();
-     
     } catch (e) {
       console.log(e.message);
     }
@@ -122,6 +132,18 @@ function Properties(props) {
     copy[event.target.name] = event.target.value;
     setPropertyState(copy);
   };
+
+  function onChange(e) {
+    const occ = e.target.checked;
+    propertyState.occupied = occ;
+    console.log(propertyState.occupied);
+  }
+
+  function onChange2(e) {
+    const list = e.target.checked;
+    propertyState.listed = list;
+    console.log(propertyState.listed);
+  }
 
   return (
     <>
@@ -207,7 +229,7 @@ function Properties(props) {
           </Form.Item>
 
           <Form.Item label="Number of Bedrooms">
-            <InputNumber
+            <Input
               name="numberOfBedrooms"
               style={{ width: "30%" }}
               value={propertyState.numberOfBedrooms}
@@ -215,7 +237,7 @@ function Properties(props) {
             />
           </Form.Item>
           <Form.Item label="Number of Bathrooms">
-            <InputNumber
+            <Input
               name="numberOfBathrooms"
               style={{ width: "30%" }}
               value={propertyState.numberOfBathrooms}
@@ -240,11 +262,21 @@ function Properties(props) {
             />
           </Form.Item>
 
-          <Form.Item label="Occupied" valuePropName="checked">
-            <Switch value={propertyState.occupied} onChange={onFieldsChanged} />
+          <Form.Item label="Is Occupied" valuePropName="checked">
+            {/* <Switch
+              name="occupied"
+              checked={propertyState.occupied}
+              // onChange={onFieldsChanged}
+            /> */}
+            <Checkbox onChange={onChange}></Checkbox>
           </Form.Item>
           <Form.Item label="Listed" valuePropName="checked">
-            <Switch value={propertyState.listed} onChange={onFieldsChanged} />
+            <Checkbox onChange={onChange2}></Checkbox>
+            {/* <Switch
+              name="listed"
+              checked={propertyState.listed}
+              // onChange={onFieldsChanged}
+            /> */}
           </Form.Item>
           {/* <Form.Item label="Button">
             <Button onClick={myteste()}>Button</Button>

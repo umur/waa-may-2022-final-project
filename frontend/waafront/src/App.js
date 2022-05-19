@@ -22,6 +22,8 @@ import SignupForm from "./pages/users/signup-form";
 import ForgotPassword from "./pages/login/forgotpassword";
 import ResetPassword from "./pages/login/resetpassword";
 
+import RentConfirmation from "./others/rent-confirmation";
+
 import { useSelector } from "react-redux";
 
 const { Header, Content, Sider } = Layout;
@@ -90,6 +92,10 @@ function App() {
               <Route
                 path="/reset-password"
                 element={<ResetPassword></ResetPassword>}
+              />
+               <Route
+                path="/rent-confirmation"
+                element={<RentConfirmation></RentConfirmation>}
               />
               <Route path="/properties" element={<Properties></Properties>} />
 

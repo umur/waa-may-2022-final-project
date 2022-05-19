@@ -11,6 +11,8 @@ import { PlusOutlined } from "@ant-design/icons";
 
 
 import api from '../../api/posts'
+import { useSelector } from 'react-redux'
+
 
 import {
   Form,
@@ -43,6 +45,13 @@ let userObjectRender = {
   };
 
 function User() {
+
+  const user = useSelector((state) => state.user.value); //token, role, email, id
+
+  const config = {
+    headers: { Authorization: `Bearer ${user.token}` }
+  };
+
   const [size, setSize] = useState("large");
   
 
@@ -54,7 +63,7 @@ function User() {
 
   const fetchUsers = async () => {
     //const result = await axios.get("http://localhost:8080/api/v1/properties");
-    const result = await api.get('api/v1/users');
+    const result = await api.get('api/v1/users', config);
     setUserListState(result.data);
     console.log(result.data);
   };
@@ -70,20 +79,14 @@ function User() {
 
   const handleOk = async () => {
     try {
-      // const { data } = await axios.post(
-      //   "http://localhost:8080/api/v1/properties",
-      //   propertyState
-      // );
-
-      const { data } = await api.post('api/v1/users/admin', userState);
+     
+      const { data } = await api.post('api/v1/users/admin', userState, config);
       window.alert("User added");
       fetchUsers();
       setVisible(false);
     } catch (e) {
       console.log(e.message);
     }
-
-
    
   };
 

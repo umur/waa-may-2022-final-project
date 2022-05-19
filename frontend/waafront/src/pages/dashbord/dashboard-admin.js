@@ -1,26 +1,28 @@
-import React, { useState, useEffect } from 'react'
-import { useSelector } from 'react-redux'
-import api from '../../api/posts'
-import UsersTable from '../users/usersTable';
-import PropertiesTable from '../properties/propertiesTable';
-import { Row, Col } from 'antd';
-import ReactECharts from 'echarts-for-react';
-import {BarChart, } from 'echarts/charts';
+import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
+import api from "../../api/posts";
+import UsersTable from "../users/usersTable";
+import PropertiesTable from "../properties/propertiesTable";
+import { Row, Col } from "antd";
+import ReactECharts from "echarts-for-react";
+import { BarChart } from "echarts/charts";
 
-import ReactEChartsCore from 'echarts-for-react/lib/core';
-import * as echarts from 'echarts/core';
+import ReactEChartsCore from "echarts-for-react/lib/core";
+import * as echarts from "echarts/core";
 import {
   GridComponent,
   TooltipComponent,
   TitleComponent,
   DatasetComponent,
-} from 'echarts/components';
-import {
+} from "echarts/components";
+import { CanvasRenderer } from "echarts/renderers";
+echarts.use([
+  TitleComponent,
+  TooltipComponent,
+  GridComponent,
+  BarChart,
   CanvasRenderer,
-} from 'echarts/renderers';
-echarts.use(
-  [TitleComponent, TooltipComponent, GridComponent, BarChart, CanvasRenderer]
-);
+]);
 
 let propertiesObject = {
   id: 0,
@@ -36,33 +38,31 @@ let propertiesObject = {
   occupied: false,
   listed: true,
   photos: [],
-  propertyType: {
-  },
-  user: {
-    
-  },
+  propertyType: {},
+  user: {},
   rent: [],
 };
 
 const DashboardAdmin = () => {
-
   const user = useSelector((state) => state.user.value); //token, role, email, id
 
   const config = {
-    headers: { Authorization: `Bearer ${user.token}` }
+    headers: { Authorization: `Bearer ${user.token}` },
   };
 
-  const [tenants, setTenants] = useState([{
-    id:0,
-    email: '',
-    password: '',
-    lastname: '',
-    active:'',
-    LastLoggedInAt:'',
-    role:'',
-    rents:{},
-    property:{}
-  }]);
+  const [tenants, setTenants] = useState([
+    {
+      id: 0,
+      email: "",
+      password: "",
+      lastname: "",
+      active: "",
+      LastLoggedInAt: "",
+      role: "",
+      rents: {},
+      property: {},
+    },
+  ]);
   const [properties, setProperties] = useState([propertiesObject]);
 
   async function getLastTenTenants() {
@@ -80,22 +80,20 @@ const DashboardAdmin = () => {
     getLastTenTenants();
     getLastTenRentedProperty();
     forceUpdate({});
-  }, [])
-  
+  }, []);
+
   return (
     <>
-
       <Row>
         <Col span={11}>
           <h4>Last 10 Recent Tenant</h4>
-          <UsersTable userList = {tenants}></UsersTable>
+          <UsersTable userList={tenants}></UsersTable>
         </Col>
         <Col span={11} offset={2}>
           <h4>Last 10 Properties Rented</h4>
-          <PropertiesTable propertyList = {properties}></PropertiesTable>
+          <PropertiesTable propertyList={properties}></PropertiesTable>
         </Col>
       </Row>
-      
 
       <Row>
         <Col span={11}>
@@ -123,7 +121,6 @@ const DashboardAdmin = () => {
           />
         </Col>
       </Row>
-
 
       <ReactEChartsCore
         echarts={echarts}
@@ -134,29 +131,27 @@ const DashboardAdmin = () => {
         // onChartReady={this.onChartReadyCallback}
         // onEvents={EventsDict}
       />
-
     </>
-  )
-}
+  );
+};
 
 function getOption() {
   return {
     xAxis: {
-      type: 'category',
-      data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+      type: "category",
+      data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
     },
     yAxis: {
-      type: 'value'
+      type: "value",
     },
     series: [
       {
         data: [150, 230, 224, 218, 135, 147, 260],
-        type: 'line'
-      }
-    ]
+        type: "line",
+      },
+    ],
   };
 }
-
 
 function getOption2() {
   return {
@@ -179,6 +174,3 @@ function getOption2() {
     ]
   };}
 export default DashboardAdmin;
-
-
-
