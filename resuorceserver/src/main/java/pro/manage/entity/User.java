@@ -5,6 +5,8 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -22,17 +24,20 @@ public class User extends  Audit {
     private String phoneno;
     @NotEmpty(message = "username is required")
     @Email
-    private String username;
+    private String email;
     private String password;
+    private String resetPasswordToken;
+    private boolean active = true;
+    private LocalDate deletedAt;
+    private LocalDateTime LastLoggedInAt;
 
+    private String role;
 
-    @ManyToOne
-    private Role role;
-    @OneToOne(mappedBy = "user")
-    private Tenant tenant;
+    @OneToMany(mappedBy = "owner")
+    private List<Property> properties;
 
-    @OneToOne(mappedBy = "user")
-    private Landlord landlord;
+    @OneToOne(cascade = CascadeType.ALL)
+    private Address address;
 
 
 

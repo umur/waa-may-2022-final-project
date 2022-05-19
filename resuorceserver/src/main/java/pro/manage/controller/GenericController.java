@@ -5,7 +5,7 @@ import pro.manage.service.GenericService;
 
 import java.util.List;
 import java.util.Optional;
-
+@CrossOrigin
 public interface GenericController <TO,ID,S extends GenericService>{
 
     S getService();

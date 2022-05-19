@@ -22,10 +22,7 @@ public class Address extends  Audit{
     private String city;
     private String  state;
     @OneToOne(mappedBy = "address")
-    private Tenant tenant;
-
-    @OneToOne(mappedBy = "address")
-    private Landlord landlord;
+    private User user;
 
     @OneToOne(mappedBy = "address")
     private Property property;

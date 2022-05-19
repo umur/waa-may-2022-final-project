@@ -11,6 +11,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.UUID;
@@ -34,11 +35,11 @@ public class Audit {
 
     @CreatedDate
     @Column(name = "createdat", nullable = false, updatable = false)
-    private Date createdAt;
+    private LocalDate createdAt;
 
     @LastModifiedDate
     @Column(name = "updatedat")
-    private LocalDateTime updated_at;
+    private LocalDate updated_at;
 
     @Column(name = "isdeleted")
     private boolean isDeleted = Boolean.FALSE;
