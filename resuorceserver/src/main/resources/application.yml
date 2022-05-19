@@ -21,5 +21,16 @@ spring:
     init:
       mode: always
 server:
-  port: 8081
+  port: 8085
+  mail:
+    host: localhost
+    username: george@email.com
+    password: password
+    port: 1025
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 

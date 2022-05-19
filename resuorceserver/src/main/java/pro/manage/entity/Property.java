@@ -1,5 +1,5 @@
 package pro.manage.entity;
-import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import lombok.Data;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -29,31 +29,26 @@ public class Property extends  Audit{
     private boolean islisted;
     private boolean isOccupied;
     private int deposit;
+    private String type;
+
 
 
 
     @OneToOne(cascade = CascadeType.PERSIST)
     private Address address;
 
-    @ManyToOne
-    private PropertyType type;
+
 
     @ManyToOne(cascade = CascadeType.ALL)
-    private  Landlord owner;
+    private  User owner;
 
     @OneToOne
-    private Tenant lastTenant; //last Tenant rent this property
+    private User lastTenant; //last Tenant rent this property
 
     @OneToMany(mappedBy = "property" ,cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @Fetch(FetchMode.JOIN)
-    @JsonBackReference
+
     private List<PropertyPicture> photos;
 
-    public List<PropertyPicture> getPhotos() {
-        return photos;
-    }
 
-    public void setPhotos(List<PropertyPicture> photos) {
-        this.photos = photos;
-    }
 }

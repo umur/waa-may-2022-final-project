@@ -10,8 +10,9 @@ import pro.manage.service.LeaseService;
 import java.util.UUID;
 
 @RestController
-@RequestMapping(value = "/lease")
-@AllArgsConstructor
+@RequestMapping("/api/v1/lease")
+@CrossOrigin(origins = "*")
+@RequiredArgsConstructor
 public class LeaseController implements GenericController<LeaseDto, UUID, LeaseService>{
 
 

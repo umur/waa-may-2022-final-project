@@ -27,6 +27,6 @@ public class Lease extends  Audit{
     private Property property;
 
     @OneToOne
-    private Tenant tenant;
+    private User user;
 
 }
