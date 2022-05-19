@@ -12,6 +12,7 @@ import { autoPlay } from "react-swipeable-views-utils";
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
 function ListImages(props) {
+  console.log(props.images);
   const theme = useTheme();
   const [activeStep, setActiveStep] = React.useState(0);
   const maxSteps = props.images.length;
@@ -48,20 +49,18 @@ function ListImages(props) {
       >
         {props.images.map((step, index) => (
           <div key={step}>
-            {Math.abs(activeStep - index) <= 2 ? (
-              <Box
-                component="img"
-                sx={{
-                  height: 600,
-                  display: "block",
-                  maxwidth: 600,
-                  overflow: "hidden",
-                  width: "100%",
-                  alignItems: "center",
-                }}
-                src={step}
-              />
-            ) : null}
+            <Box
+              component="img"
+              sx={{
+                height: 600,
+                display: "block",
+                maxwidth: 600,
+                overflow: "hidden",
+                width: "100%",
+                alignItems: "center",
+              }}
+              src={step}
+            />
           </div>
         ))}
       </AutoPlaySwipeableViews>

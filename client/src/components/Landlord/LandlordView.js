@@ -1,11 +1,11 @@
-import "./PropertyStyle.css";
+import "../PropertyStyle.css";
 import PropertyCard from "./Property-card";
 import React from "react";
 import { useEffect, useState } from "react";
 
 import axios from "axios";
 
-const Property = (props) => {
+const LandlordPage = (props) => {
   const [propertiesState, setProertiesState] = useState([]);
 
   const fetchProerties = () => {
@@ -43,4 +43,4 @@ const Property = (props) => {
   );
 };
 
-export default Property;
+export default LandlordPage;

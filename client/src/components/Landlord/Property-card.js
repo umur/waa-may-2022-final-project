@@ -1,6 +1,7 @@
-import "./PropertyStyle.css";
+import "../PropertyStyle.css";
 import React from "react";
 import { NavLink } from "react-router-dom";
+import { Button } from "@mui/material";
 
 const PropertyCard = (props) => {
   return (
@@ -10,12 +11,10 @@ const PropertyCard = (props) => {
       <div className="details">
         <p>{props.description}</p>
         <div className="prop-btns">
-          <NavLink to={`/properties/${props.id}`}  className="btn">
+          <NavLink to={`/properties/${props.id}`} className="btn">
             View
           </NavLink>
-          <NavLink to={`/properties/${props.id}/lease`} className="btn">
-            Rent
-          </NavLink>
+          <Button className="btn">Delete</Button>
         </div>
       </div>
     </div>

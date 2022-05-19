@@ -6,6 +6,7 @@ import Lease from "./routes/Lease";
 import PropertyRoute from "./routes/PropertyRouter";
 import Register from "./routes/Register";
 import Login from "./routes/Login";
+import LandlordPage from "./components/Landlord/LandlordView";
 //redux or context(wrap the whole app with auth context)
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
           <Route path="/properties" element={<Properties />} />
           <Route path="/properties/:id/lease" element={<Lease />} />
           <Route path="/properties/:id" element={<PropertyRoute />} />
+          <Route path="/landlord/properties" element={<LandlordPage />} />
         </Routes>
       </div>
     </div>
