@@ -1,0 +1,36 @@
+spring:
+  application:
+    name: Property Management
+  datasource:
+    password: 1
+    url: jdbc:postgresql://localhost:5432/proManage
+    username: postgres
+  jpa:
+    hibernate:
+      naming:
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+      show-sql: true
+    defer-datasource-initialization: true
+  sql:
+    init:
+      mode: always
+server:
+  port: 8085
+  mail:
+    host: localhost
+    username: george@email.com
+    password: password
+    port: 1025
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
