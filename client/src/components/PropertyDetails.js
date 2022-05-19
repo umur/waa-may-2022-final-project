@@ -2,6 +2,7 @@ import React from 'react'
 import { useState } from 'react'
 import { useNavigate } from 'react-router';
 import axios from 'axios';
+import Axios from 'axios'
 
 const PropertyDetails = () => {
     ///begin
@@ -32,10 +33,11 @@ const PropertyDetails = () => {
     }
     const [property, setProperty] = useState({
         propertyName: "", streetAddress: "", city: "", state: "", zipCode: 0, propertyType: "",
-        numberOfBedrooms: 0, numberOfBathrooms: 0, rentAmount: 0.0, securityDepositAmount: 0.0, image: [""]
+        numberOfBedrooms: 0, numberOfBathrooms: 0, rentAmount: 0.0, securityDepositAmount: 0.0
     })
 
     const addProperty = () => {
+        Axios.post('http://localhost:8080/api/properties/', property);
         alert("Saved successfully");
         routeChange();
 
@@ -111,7 +113,7 @@ const PropertyDetails = () => {
                 })
             }} /><br></br>
             <p>Upload pictures  </p>
-            <input type="file" label="Image" name="myFile" accept=".jpeg, .png, .jpg" onChange={(e) => handleFileUpload(e)} /> <br></br>
+            <input type="file" label="Image" name="myFile" accept=".jpeg, .png, .jpg"  /> <br></br>
             <button className='btn' style={{ backgroundColor: "green" }} onClick={addProperty}>Add</button>
 
         </div>

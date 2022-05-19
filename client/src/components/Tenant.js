@@ -6,16 +6,18 @@ import { Link } from 'react-router-dom';
 const Tenant = () => {
   const [properties, setProperties] = useState([]);
 
-  const deleteProperty = (id) => {
-    Axios.delete(`http://localhost:8080/property/${id}`).then((response) => {
-      setProperties(properties.filter((val) => {
-        return val.id != id
-      }))
-    })
-  }
+  // const deleteProperty =  (id) => {
+  //    Axios.delete(`http://localhost:8080/api/properties/${id}`);
+  //     // setProperties(properties.filter((val) => {
+  //     //   return val.id != id;
+  //     // }))
+  //     setProperties(properties);
+  //     getProperties();
+    
+  // }
 
   const getProperties = () => {
-    Axios.get("http://localhost:8080/properties").then((response) => {
+    Axios.get("http://localhost:8080/api/properties/").then((response) => {
       setProperties(response.data);
     })
   }
@@ -43,9 +45,9 @@ const Tenant = () => {
 
             </div>
             <div>
-              <button className='btn' style={{color:"red"}} onClick={() =>{
+              {/* <button className='btn' style={{color:"red"}} onClick={() =>{
                 deleteProperty(val.id)
-              }}>Delete</button>
+              }}>Delete</button> */}
             </div>
 
           </div>

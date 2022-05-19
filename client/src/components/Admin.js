@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 
 const Admin = () => {
   const deleteUser = (id) => {
-    Axios.delete(`http://localhost:8080/deleteUser/${id}`).then((response) => {
+    Axios.delete(`http://localhost:8080/api/users/${id}`).then((response) => {
       setUserList(userList.filter((val) => {
         return val.id != id
       }))
@@ -13,7 +13,7 @@ const Admin = () => {
   }
   const [userList, setUserList] = useState([]);
   const getUserList = () => {
-    Axios.get("http://localhost:8080/getUserList").then((response) => {
+    Axios.get("http://localhost:8080/api/users/").then((response) => {
       setUserList(response.data);
     })
   }
@@ -29,11 +29,10 @@ const Admin = () => {
               <h3>First Name: {val.firstName}</h3>
               <h3>Last Name: {val.lastName}</h3>
               <h3>Email: {val.email}</h3>
-              <h3>Password: {val.password}</h3>
               <h3>Role: {val.role}</h3>
             </div>
             <div>
-              <button className='btn' style={{color:"red"}} onClick={() =>{
+              <button className='btn' style={{color:"red"}} onClick={(val) =>{
                 deleteUser(val.id)
               }}>Delete</button>
             </div>

@@ -2,11 +2,16 @@ import React, { useState } from 'react'
 import { useNavigate} from 'react-router';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import Axios from 'axios';
 
 const Landlord = () => {
-//  import React, { useState } from "react";
+const [myProperties, setMyProperties] = useState({})
 
-
+  const getMyProperties = () => {
+    Axios.get("http://localhost:8080/api/users/").then((response) => {
+      setMyProperties(response.data);
+    })
+  }
 
 ///
 
@@ -22,7 +27,7 @@ const Landlord = () => {
       <br/> <br/>
       
       <button className='btn' style={{backgroundColor:"green"}} onClick={routeChange}>Add properties</button>
-      <button className='btn' style={{backgroundColor:"green"}}>My properties</button>
+      <button className='btn' style={{backgroundColor:"green"}} onClick={getMyProperties}>My properties</button>
 
     </div>
   )
