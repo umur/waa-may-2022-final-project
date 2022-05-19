@@ -33,6 +33,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/api/v1/login").permitAll()
                 .antMatchers(HttpMethod.POST,"/api/v1/users").permitAll()
+                .antMatchers("/api/v1/password/forgot-password").permitAll()
+                .antMatchers("/api/v1/password/reset-password").permitAll()
                 .antMatchers(HttpMethod.PUT,"/api/v1/properties").hasAuthority("LANDLORD")
                 .antMatchers(HttpMethod.POST,"/api/v1/properties").hasAuthority("LANDLORD")
                 .antMatchers(HttpMethod.POST,"/api/v1/users/admin").hasAuthority("ADMIN")
@@ -56,3 +58,4 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 }
+
