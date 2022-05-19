@@ -19,7 +19,7 @@ const DashboardTenant = () => {
     propertiesObject,
   ]);
 
-  const handleRent = async (rentInfo)=>{
+  const handleRent =  (rentInfo)=>{
 
    
     try {
@@ -32,12 +32,12 @@ const DashboardTenant = () => {
 
     let c = new Date(year + 1, month, day);
 
-      const rentObj = {startDate:"2012-01-01", endDate: "2012-01-01", user:{id:window.sessionStorage.getItem('id')},  property:{id:rentInfo.id} }
+      //const rentObj = {startDate:"2012-01-01", endDate: "2012-01-01", user:{id:window.sessionStorage.getItem('id')},  property:{id:rentInfo.id} }
 
-      console.log(rentObj.property.id)
-    //  await api.post('api/v1/rents', rentObj);
+      // console.log(rentObj.property.id)
+     //await api.post('api/v1/rents', rentObj);
      
-     console.log(rentInfo);
+     //console.log(rentInfo);
      navigate(`/rent-confirmation`);
     } catch (e) {
       console.log(e.message);
