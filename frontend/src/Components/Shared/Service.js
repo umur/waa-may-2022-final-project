@@ -17,7 +17,7 @@ const Service = {
   TenantFilterByCity:
     "http://172.19.141.15:8080/api/properties/tenant/filterByCity/",
   LandlordFilterByCity:
-    "http://172.19.141.15:8080/api/properties/landlord/ownedBy/john@gmail.com/Fairfield",
+    "http://172.19.141.15:8080/api/properties/landlord/ownedBy/john@gmail.com/",
   SignUp: "http://172.19.141.15:8080/api/users/signup",
   DeleteProperty: "http://172.19.141.15:8080/api/properties/landlord/"
 };
