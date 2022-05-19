@@ -5,7 +5,7 @@ const PropertyRoute = () => {
   return (
     <div>
       <Navbar />
-      <h1> PropertyDetails Form</h1>
+      <h1> Property Details Page</h1>
       <PropertyDetails />
     </div>
   );

@@ -1,9 +1,14 @@
+import "./Login.css";
+
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 
 const Login = () => {
   const [errorMessages, setErrorMessages] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [role, setRole] = useState('admin');
+
+  const navigate = useNavigate();
 
   // User Login info
   const database = [
@@ -64,6 +69,11 @@ const Login = () => {
           <label>Password </label>
           <input type="password" name="pass" required />
           {renderErrorMessage("pass")}
+        </div>
+        <div className="radiobtn">
+          <input type="radio" value="Admin" name="role" /> Admin
+          <input type="radio" value="Tenant" name="role" /> Tenant
+          <input type="radio" value="Landlord" name="role" /> Landlord
         </div>
         <div className="button-container">
           <input type="submit" />

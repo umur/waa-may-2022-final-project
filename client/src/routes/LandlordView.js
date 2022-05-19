@@ -5,8 +5,7 @@ const Lease = () => {
   return (
     <div>
       <Navbar />
-      <h1> Lease Form</h1>
-      <LandlordPage />
+      <LandlordPage head="Your listed properties" />
     </div>
   );
 };
