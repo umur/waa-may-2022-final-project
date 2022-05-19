@@ -58,7 +58,7 @@ public class PropertyServiceImpl implements PropertyService<PropertyDto> {
        // p.setSecurityDepositAmount(0);
         p.setVisible(true);
         p.setDeleted(false);
-        System.out.println("hello");
+       // System.out.println("hello");
         // int id = propertyRepository.getLastId();
 
         // p.setId(id + 1);
