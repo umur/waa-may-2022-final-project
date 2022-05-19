@@ -71,14 +71,14 @@ public class PropertyController {
     }
 
     @GetMapping("/filter-last-10-properties-rented")
-    @PreAuthorize("hasRole('ADMIN')")
+//    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<PropertyDto>> getLast10PropertiesRented() {
         var properties = propertyService.getLast10PropertiesRented();
         return ResponseEntity.ok(properties);
     }
 
     @PostMapping("/{id}/rents")
-    @PreAuthorize("hasRole('TENANT')")
+//    @PreAuthorize("hasRole('TENANT')")
     public ResponseEntity<Void> rent(@PathVariable Long id, @RequestBody RentDto rent) throws Exception {
         propertyService.rent(id,rent);
         return new ResponseEntity<>(HttpStatus.OK);
