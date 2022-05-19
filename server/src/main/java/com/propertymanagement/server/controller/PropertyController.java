@@ -23,10 +23,17 @@ public class PropertyController {
 
     private final PropertyService propertyService;
 
+//    @PostMapping()
+////    @PreAuthorize("hasRole('LANDLORD')")
+//    public ResponseEntity<PropertyDto> create(@RequestBody PropertyDto propertyDto, @RequestBody List<ImageDto> images) throws Exception {
+//        propertyDto = propertyService.save(propertyDto, images);
+//        return ResponseEntity.ok(propertyDto);
+//    }
+
     @PostMapping()
 //    @PreAuthorize("hasRole('LANDLORD')")
-    public ResponseEntity<PropertyDto> create(@RequestBody PropertyDto propertyDto, @RequestBody List<ImageDto> images) throws Exception {
-        propertyDto = propertyService.save(propertyDto, images);
+    public ResponseEntity<PropertyDto> create(@RequestBody PropertyDto propertyDto) throws Exception {
+        propertyDto = propertyService.save(propertyDto);
         return ResponseEntity.ok(propertyDto);
     }
 

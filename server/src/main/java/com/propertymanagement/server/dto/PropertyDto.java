@@ -29,6 +29,6 @@ public class PropertyDto {
 
     private double securityDepositAmount;
 
-    private List<ImageDto> images;
+//    private List<ImageDto> images;
 
 }
