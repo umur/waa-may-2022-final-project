@@ -1,0 +1,16 @@
+.left {
+    display: inline-block;
+    width: 50%;
+    text-align: center;
+}
+
+.right {
+    display: inline-block;
+    width: 50%;
+    text-align: center;
+}
+
+.button-margin {
+    background-color: whitesmoke;
+    border: white 1px solid;
+}

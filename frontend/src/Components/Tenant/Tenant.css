@@ -1,0 +1,19 @@
+.BarStyling {
+  width: 20rem;
+  background-color: "#F2F1F9";
+  border: 1px solid;
+  padding: 0.5rem;
+}
+
+.mainStyle {
+  padding: 10px;
+  margin: 10px;
+}
+
+.Top-bar {
+    height: 10px;
+}
+
+.button {
+    margin-left: 10px;
+}
