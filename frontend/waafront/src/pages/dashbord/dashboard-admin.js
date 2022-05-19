@@ -66,7 +66,7 @@ const DashboardAdmin = () => {
   const [properties, setProperties] = useState([propertiesObject]);
 
   async function getLastTenTenants() {
-    let res = await api.get(`api/v1/users/get-by-role?role=ADMIN`, config);
+    let res = await api.get(`api/v1/users/get-by-role?role=TENANT`, config);
     setTenants(res.data);
   }
 

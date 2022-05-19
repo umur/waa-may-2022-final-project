@@ -49,6 +49,7 @@ function getMenu(role) {
             className="nav-text"
             onClick={() => {
               window.sessionStorage.clear();
+              // window.location.assign("http://localhost:3000");
             }}
           >
             Logout
@@ -68,7 +69,11 @@ function getMenu(role) {
           <Link
             to="/"
             className="nav-text"
-            onClick={() => window.sessionStorage.clear()}
+            onClick={() => {
+              window.sessionStorage.clear();
+              // window.location.assign("http://localhost:3000");
+            } }
+            
           >
             Logout
           </Link>
@@ -87,7 +92,10 @@ function getMenu(role) {
           </Link>
         </Nav>
         <Nav>
-          <Link to="/" className="nav-text">
+          <Link to="/" className="nav-text"  onClick={() => {
+              window.sessionStorage.clear();
+              // window.location.assign("http://localhost:3000");
+            } }>
             Logout
           </Link>
         </Nav>
