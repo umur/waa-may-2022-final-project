@@ -34,13 +34,13 @@ public class AuthController {
     }
 
     @PutMapping("/user-active/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+//    @PreAuthorize("hasRole('ADMIN')")
     public void userActivate(@PathVariable long id) {
         userService.activateUser(id);
     }
 
     @PutMapping("/user-deactive/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+//    @PreAuthorize("hasRole('ADMIN')")
     public void userDectivate(@PathVariable long id) {
         userService.deActivateUser(id);
     }
