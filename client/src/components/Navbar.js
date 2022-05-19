@@ -18,10 +18,10 @@ const Navbar = () => {
           </Link>
         </li>
         <li>
-          <Link to="/about"> About </Link>
+          <Link to="/register"> Register </Link>
         </li>
         <li>
-          <Link to="/contact"> Contact </Link>
+          <Link to="/login"> Login </Link>
         </li>
       </ul>
     </div>
