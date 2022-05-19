@@ -4,16 +4,18 @@ import ReactDOM from 'react-dom/client';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from "react-router-dom";
 import App from './App';
-import { configureStore } from '@reduxjs/toolkit';
+// import { configureStore } from '@reduxjs/toolkit';
 import { Provider } from 'react-redux';
-import useReducer from './features/user-slice';
-const store = configureStore({
-  reducer: {
-    user:useReducer,
-    
-  }
+// import useReducer from './features/user-slice';
+import { store } from './store/store';
 
-});
+// const store = configureStore({
+//   reducer: {
+//     user:useReducer,
+    
+//   }
+
+// });
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>

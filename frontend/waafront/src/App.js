@@ -11,6 +11,7 @@ import User from "./pages/users/index";
 import { Routes, Route } from "react-router-dom";
 import { Layout, Menu } from "antd";
 import Properties from "./pages/properties/index";
+import PropertiesType from "./pages/property-type/index";
 import Login from "./pages/login/login";
 import "bootstrap/dist/css/bootstrap.min.css";
 import DashboardAdmin from "./pages/dashbord/dashboard-admin";
@@ -91,6 +92,8 @@ function App() {
                 element={<ResetPassword></ResetPassword>}
               />
               <Route path="/properties" element={<Properties></Properties>} />
+
+              <Route path="/property-type" element={<PropertiesType></PropertiesType>} />
             </Routes>
           </Content>
         </Layout>
