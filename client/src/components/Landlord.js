@@ -14,6 +14,7 @@ const [myProperties, setMyProperties] = useState({})
   }
 
 ///
+//chhek
 
   let navigate = useNavigate(); 
     const routeChange = () =>{ 

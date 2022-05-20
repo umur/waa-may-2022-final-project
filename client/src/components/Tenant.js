@@ -16,6 +16,8 @@ const Tenant = () => {
     
   // }
 
+  //check
+
   const getProperties = () => {
     Axios.get("http://localhost:8080/api/properties/").then((response) => {
       setProperties(response.data);
