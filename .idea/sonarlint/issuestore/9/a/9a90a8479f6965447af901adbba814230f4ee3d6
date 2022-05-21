@@ -1,0 +1,5 @@
+
+Fjavascript:S1128"%Remove this unused import of 'axios'.(ÒÁæÅúÿÿÿÿ
+@javascript:S3863"'axios' import is duplicated.(ú«ü«8¡‚”ï0
+ejavascript:S1481"=Remove the declaration of the unused 'myProperties' variable.(±Î•œÿÿÿÿÿ8¢‚”ï0
+bjavascript:S1854":Remove this useless assignment to variable "myProperties".(±Î•œÿÿÿÿÿ8£‚”ï0
