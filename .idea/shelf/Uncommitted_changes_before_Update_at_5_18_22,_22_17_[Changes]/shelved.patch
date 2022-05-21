@@ -1,0 +1,18 @@
+Index: server/src/main/java/com/propertymanagement/server/dto/UserRespDto.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.propertymanagement.server.dto;\n\nimport com.propertymanagement.server.domain.Role;\n\npublic class UserRespDto {\n    private String firstName;\n\n    private String lastName;\n\n    private String email;\n\n    private Role role;\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/server/src/main/java/com/propertymanagement/server/dto/UserRespDto.java b/server/src/main/java/com/propertymanagement/server/dto/UserRespDto.java
+--- a/server/src/main/java/com/propertymanagement/server/dto/UserRespDto.java	
++++ b/server/src/main/java/com/propertymanagement/server/dto/UserRespDto.java	
+@@ -2,6 +2,7 @@
+ 
+ import com.propertymanagement.server.domain.Role;
+ 
++
+ public class UserRespDto {
+     private String firstName;
+ 

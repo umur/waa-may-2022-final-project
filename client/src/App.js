@@ -8,7 +8,7 @@ import Landlord from "./components/Landlord";
 import PropertyDetails from "./components/PropertyDetails";
 
 function App() {
-
+//check also
   return (
     <div className="container">
       <h1>Welcome to FireBNB</h1>
