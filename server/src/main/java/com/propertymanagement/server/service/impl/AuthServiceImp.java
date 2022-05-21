@@ -63,23 +63,6 @@ public class AuthServiceImp implements AuthService {
     }
 
     @Override
-    public LoginRespDto logins(LoginDto loginDto) {
-        User user = null;
-        try {
-            user = userRepository.findByEmailAndPassword(loginDto.getEmail(), loginDto.getPassword());
-        } catch (BadCredentialsException e) {
-            throw new UserNotFoundException("Username or password is incorrect");
-        }
-
-        String accessToken = "error";
-        if(user != null) {
-            accessToken = "";
-        }
-        var loginResponse = new LoginRespDto(accessToken);
-        return loginResponse;
-    }
-
-    @Override
     public UserRespDto resetPassword(PasswordDto passwordDto, String token) {
         PasswordResetToken passwordResetToken = passwordResetTokenRepository.findByToken(token);
         User user = passwordResetToken.getUser();

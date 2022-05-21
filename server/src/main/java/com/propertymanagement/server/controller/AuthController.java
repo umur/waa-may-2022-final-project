@@ -29,18 +29,18 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginDto loginDto) {
-        var loginResponse = authService.logins(loginDto);
+        var loginResponse = authService.login(loginDto);
         return ResponseEntity.ok().body(loginResponse);
     }
 
     @PutMapping("/user-active/{id}")
-//    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public void userActivate(@PathVariable long id) {
         userService.activateUser(id);
     }
 
     @PutMapping("/user-deactive/{id}")
-//    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public void userDectivate(@PathVariable long id) {
         userService.deActivateUser(id);
     }
